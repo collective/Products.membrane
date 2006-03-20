@@ -1,0 +1,57 @@
+- Reference (and other missing AT field types) as type in property
+  schema. Check PlonePAS/sheet.py
+
+- Change the mechanism for storing / looking up interfaces:
+
+  The current method of indexing the interfaces on each object is
+  insufficient.  Since interfaces are declared either programmatically
+  or via ZCML, at every Zope restart it is possible that they have
+  changed and the catalog has become out of date.  This problem needs
+  to be solved and the results need to be provided as a utility
+  available within the Plone core.
+
+- Prevent indexable object wrapper proliferation
+
+  There are a number of data points that need to be indexed that do
+  not actually exist on the objects themselves, but only after the
+  objects have been adapted to a specific interface.  Currently this
+  is being handled with the addition of an indexable object wrapper
+  attribute for each data point; this is quite repetitive and will
+  only get worse.  This problem also is something that is quite
+  general, and needs to be solved for portal_catalog as well as for
+  the member related catalog.
+
+- Improve reference lookup performance
+
+  In several areas 'getRefs' or 'getBRefs' calls are used to compute
+  relationships btn related auth, group, property, etc. providers.
+  AT's current implementation of this is not very efficient; these
+  should be rewritten to use the reference catalog directly, avoiding
+  actual object unpickling unless absolutely necessary.
+
+- Provide group management plug-in
+
+  Currently the only group management plug-in (implementing
+  IGroupManagement) is the GroupManager class provided by PlonePAS.
+  When using the Plone interface to add members to a Membrane-provided
+  group, this will fail b/c the group will not be found in the ZODB
+  storage that this manager uses.  A Membrane-specific group
+  management plug-in which has priority over the default should
+  suffice.
+
+- Support 'active' workflow states
+
+  The auth plugin should be improved to allow for the idea of 'active'
+  workflow states, so authentication doesn't succeed unless the member
+  auth provider is in one of the active states.  There should also be
+  an interface (both API and UI) for specifying which of the
+  associated workflow states are considered active, for each member
+  auth provider type.
+
+  UPDATE: The infrastructure for this is now done, see the
+  ICategoryMapper interface and the factory.statusmapper module.
+  Needs a bit more test coverage (there are no tests verifying that
+  inactive states are in fact disallowed) and a ZMI interface for the
+  tool.
+
+- Switch to GenericSetup-based installation

@@ -1,0 +1,46 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:five="http://namespaces.zope.org/five"
+           xmlns:i18n="http://namespaces.zope.org/i18n"
+           i18n_domain="membrane">
+
+  <include package="zope.app.annotation" />
+
+  <adapter for=".interfaces.IUserAuthProvider"
+           provides=".interfaces.IMembraneUserAuth"
+           factory=".factories.authentication.Authentication"
+           />
+
+  <adapter for=".interfaces.IPropertiesProvider"
+           provides=".interfaces.IMembraneUserProperties"
+           factory=".factories.properties.Properties"
+           />
+
+  <adapter for=".interfaces.ISchemataPropertiesProvider"
+           provides=".interfaces.IMembraneUserProperties"
+           factory=".factories.properties.SchemataProperties"
+           />
+
+  <adapter for="Products.Archetypes.interfaces.IReferenceable"
+           provides=".interfaces.IMembraneUserGroups"
+           factory=".factories.groups.Groups"
+           />
+
+  <adapter for=".interfaces.IUseSelectedGroups"
+           provides=".interfaces.IMembraneUserGroups"
+           factory=".factories.groups.SelectedGroups"
+           />
+
+  <adapter for="zope.app.annotation.interfaces.IAnnotatable"
+           provides=".interfaces.ICategoryMapper"
+           factory=".factories.categorymapper.CategoryMapper"
+           />
+
+  <subscriber for=".interfaces.IMembraneTypeRegisteredEvent"
+              factory=".factories.statusmapper.initializeStatusCategories"
+              />
+
+  <subscriber for=".interfaces.IMembraneTypeUnregisteredEvent"
+              factory=".factories.statusmapper.removeStatusCategories"
+              />
+
+</configure>
