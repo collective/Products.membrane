@@ -1,8 +1,10 @@
 from AccessControl import ClassSecurityInfo
+from persistent.mapping import PersistentMapping
 from zope.interface import implements
 from zope.app.annotation.interfaces import IAnnotations
 
 from Products.membrane.interfaces import ICategoryMapper
+from Products.membrane.config import CATEGORY_ANNOTATIONS_KEY
 
 class CategoryMapper(object):
     """
@@ -17,9 +19,9 @@ class CategoryMapper(object):
     def __init__(self, context):
         self.context = context
         annotations = IAnnotations(context)
-        if not annotations.has_key('category_map'):
-            annotations['category_map'] = {}
-        self.storage = annotations['category_map']
+        if not annotations.has_key(CATEGORY_ANNOTATIONS_KEY):
+            annotations[CATEGORY_ANNOTATIONS_KEY] = PersistentMapping()
+        self.storage = annotations[CATEGORY_ANNOTATIONS_KEY]
 
     def _getCatSet(self, category_set_id):
         """
@@ -47,7 +49,8 @@ class CategoryMapper(object):
     #
     def addCategorySet(self, category_set_id):
         if not self.storage.has_key(category_set_id):
-            self.storage[category_set_id] = {}
+            self.storage[category_set_id] = PersistentMapping()
+            self.context._p_changed = True
 
     def delCategorySet(self, category_set_id):
         self.storage.pop(category_set_id, None)
@@ -61,7 +64,7 @@ class CategoryMapper(object):
     def addCategory(self, category_set_id, category_id):
         cat_set = self._getCatSet(category_set_id)
         if not cat_set.has_key(category_id):
-            cat_set[category_id] = {}
+            cat_set[category_id] = PersistentMapping()
 
     def delCategory(self, category_set_id, category_id):
         cat_set = self._getCatSet(category_set_id)
@@ -83,7 +86,13 @@ class CategoryMapper(object):
         category = self._getCategory(category_set_id, category_id)
         category.pop(datum, None)
 
-    def getCategoryValues(self, category_set_id, category_id):
+    def replaceCategoryValues(self, category_set_id, category_id, data):
+        cat_set = self._getCatSet(category_set_id)
+        category = cat_set[category_id] = PersistentMapping()
+        for datum in data:
+            category.update({datum: 1})
+
+    def listCategoryValues(self, category_set_id, category_id):
         category = self._getCategory(category_set_id, category_id)
         return category.keys()
 

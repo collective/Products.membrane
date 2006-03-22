@@ -3,6 +3,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.membrane.interfaces import ICategoryMapper
 from Products.membrane.config import ACTIVE_STATUS_CATEGORY
 from Products.membrane.utils import generateCategorySetIdForType
+from Products.membrane.utils import getAllWFStatesForType
 
 def initializeStatusCategories(event):
     """
@@ -16,14 +17,10 @@ def initializeStatusCategories(event):
     cat_map.addCategorySet(cat_set)
     cat_map.addCategory(cat_set, ACTIVE_STATUS_CATEGORY)
 
-    wftool = getToolByName(event.tool, 'portal_workflow')
-    chain = wftool.getChainForPortalType(event.portal_type)
-    for wfid in chain:
-        wf = getattr(wftool, wfid)
-        states = wf.states.objectIds()
-        for state in states:
-            cat_map.addToCategory(cat_set, ACTIVE_STATUS_CATEGORY,
-                                  state)
+    states = getAllWFStatesForType(event.tool, event.portal_type)
+    for state in states:
+        cat_map.addToCategory(cat_set, ACTIVE_STATUS_CATEGORY,
+                              state)
 
 def removeStatusCategories(event):
     """

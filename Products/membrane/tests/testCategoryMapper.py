@@ -81,7 +81,7 @@ class TestCategoryMapper(ZopeTestCase.ZopeTestCase):
         self.failUnless(self.cat_map.isInCategory(cat_set, cat1, datum1))
         self.failUnless(self.cat_map.isInCategory(cat_set, cat1, datum2))
         self.failUnless(set([datum1, datum2]) == \
-                        set(self.cat_map.getCategoryValues(cat_set, cat1)))
+                        set(self.cat_map.listCategoryValues(cat_set, cat1)))
 
     def testRemoveFromCategory(self):
         cat_set = 'category_set'
@@ -93,13 +93,13 @@ class TestCategoryMapper(ZopeTestCase.ZopeTestCase):
         self.cat_map.addToCategory(cat_set, cat, datum1)
         self.cat_map.addToCategory(cat_set, cat, datum2)
         self.failUnless(set([datum1, datum2]) == \
-                        set(self.cat_map.getCategoryValues(cat_set, cat)))
+                        set(self.cat_map.listCategoryValues(cat_set, cat)))
 
         self.cat_map.removeFromCategory(cat_set, cat, datum1)
         self.failIf(self.cat_map.isInCategory(cat_set, cat, datum1))
         self.failUnless(self.cat_map.isInCategory(cat_set, cat, datum2))
         self.failUnless(set([datum2]) == \
-                        set(self.cat_map.getCategoryValues(cat_set, cat)))
+                        set(self.cat_map.listCategoryValues(cat_set, cat)))
 
 def test_suite():
     from unittest import TestSuite, makeSuite

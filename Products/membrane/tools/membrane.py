@@ -104,6 +104,11 @@ class MembraneTool(BaseTool):
 
     implements(IMembraneTool, IAttributeAnnotatable)
 
+    manage_options=(
+        {'label': 'Types', 'action': 'manage_membranetypes'},
+        {'label': 'Status Map', 'action': 'manage_statusmap'},
+        ) + BaseTool.manage_options
+
     security = ClassSecurityInfo()
 
     def __init__(self, *args, **kwargs):

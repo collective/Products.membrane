@@ -57,7 +57,15 @@ class ICategoryMapper(Interface):
         the category.
         """
 
-    def getCategoryValues(category_set_id, category_id):
+    def replaceCategoryValues(category_set_id, category_id, data):
+        """
+        Destructively replaces all of the category values in the category
+        with the passed in data.
+
+        o data: a sequence of data points, must be iterable
+        """
+
+    def listCategoryValues(category_set_id, category_id):
         """
         Returns all of the data points in the specified category.
         """
