@@ -74,12 +74,12 @@ class MembraneGroupManager(BasePlugin, Cacheable):
     def getGroupsForPrincipal(self, principal, request=None):
         mbtool = getToolByName(self, TOOLNAME)
         uSR = mbtool.unrestrictedSearchResults
-        principals = uSR(getUserId=principal.getId(),
-                         object_implements=IMembraneUserGroups.__identifier__)
+        providers = uSR(getUserId=principal.getId(),
+                        object_implements=IMembraneUserGroups.__identifier__)
         groups = {}
-        for p in principals:
-            principal = IMembraneUserGroups(p._unrestrictedGetObject())
-            groups.update(dict.fromkeys(principal.getGroupsForPrincipal(principal)))
+        for p in providers:
+            provider = IMembraneUserGroups(p._unrestrictedGetObject())
+            groups.update(dict.fromkeys(provider.getGroupsForPrincipal(principal)))
         return tuple(groups.keys())
 
     #
