@@ -24,14 +24,24 @@
            factory=".factories.properties.SchemataProperties"
            />
 
-  <adapter for="Products.Archetypes.interfaces.IReferenceable"
+  <adapter for=".interfaces.IGroupsProvider"
            provides=".interfaces.IMembraneUserGroups"
            factory=".factories.groups.Groups"
            />
 
-  <adapter for=".interfaces.IUseSelectedGroups"
+  <adapter for=".interfaces.ISelectedGroupsProvider"
            provides=".interfaces.IMembraneUserGroups"
            factory=".factories.groups.SelectedGroups"
+           />
+
+  <adapter for=".interfaces.IRolesProvider"
+           provides=".interfaces.IMembraneUserRoles"
+           factory=".factories.roles.Roles"
+           />
+
+  <adapter for=".interfaces.IGroupAwareRolesProvider"
+           provides=".interfaces.IMembraneUserRoles"
+           factory=".factories.roles.GroupAwareRoles"
            />
 
   <adapter for="zope.app.annotation.interfaces.IAnnotatable"
