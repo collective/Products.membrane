@@ -178,6 +178,7 @@ class MembraneTool(BaseTool):
                 , ('review_state'   , 'FieldIndex',     None)
                 , ('meta_type'      , 'FieldIndex',     None)
                 , ('getId'          , 'FieldIndex',     None)
+                , ('exact_getGroupId', 'FieldIndex',    'getGroupId')
                 , ('path'           , 'ExtendedPathIndex' , None)
                 , ('portal_type'    , 'FieldIndex',     None)
                 , ('startendrange'  , 'DateRangeIndex', {'since_field':'start', 'until_field':'end'})
@@ -203,6 +204,7 @@ class MembraneTool(BaseTool):
                , 'ModificationDate'
                , 'portal_type'
                , 'getId'
+               , 'exact_getGroupId'
                )
 
 
