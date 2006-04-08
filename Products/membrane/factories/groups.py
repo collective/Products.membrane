@@ -26,7 +26,6 @@ class Groups(UserRelated):
     #
     security.declarePrivate('getGroupsForPrincipal')
     def getGroupsForPrincipal(self, principal, request=None):
-        assert(principal == self)
         groups = {}
         # Get all BRefs that implement IGroup - slightly expensive
         for obj in self.context.getBRefs():
@@ -55,7 +54,6 @@ class SelectedGroups(UserRelated):
     #
     security.declarePrivate('getGroupsForPrincipal')
     def getGroupsForPrincipal(self, principal, request=None):
-        assert(principal == self)
         groups = {}
         for relationship in self.context.getGroupRelationships():
             groups.update(dict.fromkeys([g.getUserId() for g in
