@@ -10,6 +10,11 @@
   <include package=".browser" />
 
   <adapter for=".interfaces.IUserAuthProvider"
+           provides=".interfaces.IUserRelated"
+           factory=".factories.useridprovider.UserIdProvider"
+           />
+
+  <adapter for=".interfaces.IUserAuthProvider"
            provides=".interfaces.IMembraneUserAuth"
            factory=".factories.authentication.Authentication"
            />

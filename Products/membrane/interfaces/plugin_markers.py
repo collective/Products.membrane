@@ -11,6 +11,7 @@ class IUserAuthProvider(IReferenceable):
     """
     Extends IReferenceable to include add'l authentication related methods.
     """
+
     def getUserName():
         """
         Return the name used for login.
