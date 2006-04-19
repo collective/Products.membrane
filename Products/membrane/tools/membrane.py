@@ -115,6 +115,9 @@ class MembraneTool(BaseTool):
         BaseTool.__init__(self, *args, **kwargs)
         self._initIndexes()
 
+    def manage_afterAdd(self, item, container):
+        self._createTextIndexes(item, container)
+
     security.declareProtected(permissions.ManagePortal, 'registerMembraneType')
     def registerMembraneType(self, portal_type):
         attool = getToolByName(self, 'archetype_tool')
