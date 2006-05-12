@@ -1,0 +1,13 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:five="http://namespaces.zope.org/five"
+   >
+
+  <adapter
+      factory=".membranetool.MembraneToolXMLAdapter"
+      provides="Products.GenericSetup.interfaces.IBody"
+      for="Products.membrane.interfaces.IMembraneTool
+           Products.GenericSetup.interfaces.ISetupEnviron"
+      />
+
+</configure>

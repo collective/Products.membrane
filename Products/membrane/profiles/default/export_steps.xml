@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<export-steps>
+  <export-step id="membranetool"
+    handler="Products.membrane.exportimport.membranetool.exportMembraneTool"
+    title="Membrane Tool">
+    Export membrane type specific configuration.
+  </export-step>
+</export-steps>

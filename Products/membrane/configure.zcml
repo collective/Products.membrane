@@ -8,6 +8,7 @@
   <include package="zope.app.annotation" />
   <include file="permissions.zcml" />
   <include package=".browser" />
+  <include package=".exportimport" />
 
   <adapter for=".interfaces.IUserAuthProvider"
            provides=".interfaces.IUserRelated"

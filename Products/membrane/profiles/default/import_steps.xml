@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<import-steps>
+  <import-step id="membranetool"
+    version="20060512-01"
+    handler="Products.membrane.exportimport.membranetool.importMembraneTool"
+    title="Membrane Tool">
+    <dependency step="toolset"/>
+    Import membrane type specific configuration.
+  </import-step>
+</import-steps>
