@@ -24,8 +24,7 @@ registerMultiPlugin(userfactory.MembraneUserFactory.meta_type)
 
 def initialize(context):
 
-    if config.INSTALL_TEST_TYPES:
-        import examples
+    import examples
 
     content_types, constructors, ftis = process_types(listTypes(config.PROJECTNAME), config.PROJECTNAME)
 
@@ -79,10 +78,18 @@ def initialize(context):
              icon = 'tool.gif'
              ).initialize(context)
 
-    profile_registry.registerProfile('membrane',
+    profile_registry.registerProfile('default',
                                      'membrane',
                                      'Extension profile for membrane',
                                      'profiles/default',
+                                     'membrane',
+                                     EXTENSION,
+                                     for_=IPloneSiteRoot)
+
+    profile_registry.registerProfile('examples',
+                                     'membrane sample content types',
+                                     'Sample types extension profile for membrane',
+                                     'profiles/examples',
                                      'membrane',
                                      EXTENSION,
                                      for_=IPloneSiteRoot)

@@ -1,20 +1,22 @@
 from Products.membrane.interfaces import IMembraneTool
-from Products.GenericSetup.utils import XMLAdapterBase
+from Products.GenericSetup.ZCatalog.exportimport import ZCatalogXMLAdapter
 from Products.GenericSetup.utils import exportObjects
 from Products.GenericSetup.utils import importObjects
 from Products.CMFCore.utils import getToolByName
 
-class MembraneToolXMLAdapter(XMLAdapterBase):
+class MembraneToolXMLAdapter(ZCatalogXMLAdapter):
     """
     Mode im- and exporter for MembraneTool.
     """
     __used_for__ = IMembraneTool
 
+    name = 'membrane_tool'
+
     def _exportNode(self):
         """
         Export the settings as a DOM node.
         """
-        node = self._getObjectNode('object')
+        node = ZCatalogXMLAdapter._exportNode(self)
         node.appendChild(self._extractMembraneTypes())
 
         self._logger.info('MembraneTool settings exported.')
@@ -24,6 +26,8 @@ class MembraneToolXMLAdapter(XMLAdapterBase):
         """
         Import the settings from the DOM node.
         """
+        ZCatalogXMLAdapter._importNode(self, node)
+        
         if self.environ.shouldPurge():
             self._purgeMembraneTypes()
 

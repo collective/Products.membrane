@@ -7,4 +7,11 @@
     <dependency step="toolset"/>
     Import membrane type specific configuration.
   </import-step>
+
+  <import-step id="plugins"
+    version="20060512-01"
+    handler="Products.membrane.setuphandlers.setupPlugins"
+    title="Membrane plugins">
+    Install membrane PAS plug-ins
+  </import-step>
 </import-steps>

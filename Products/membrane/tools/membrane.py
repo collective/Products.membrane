@@ -11,6 +11,8 @@ from zope.app.apidoc.component import getRequiredAdapters
 from zope.app.annotation.interfaces import IAttributeAnnotatable
 from zope.event import notify
 
+from Products.ZCatalog.ZCatalog import ZCatalog
+
 from Products.CMFCore.utils import getToolByName
 
 from Products.CMFPlone.CatalogTool import CatalogTool as BaseTool
@@ -112,11 +114,7 @@ class MembraneTool(BaseTool):
     security = ClassSecurityInfo()
 
     def __init__(self, *args, **kwargs):
-        BaseTool.__init__(self, *args, **kwargs)
-        self._initIndexes()
-
-    def manage_afterAdd(self, item, container):
-        self._createTextIndexes(item, container)
+        ZCatalog.__init__(self, self.getId())
 
     security.declareProtected(permissions.ManagePortal, 'registerMembraneType')
     def registerMembraneType(self, portal_type):
@@ -164,81 +162,6 @@ class MembraneTool(BaseTool):
         assert len(members) == 1
         member = members[0]._unrestrictedGetObject()
         return member
-
-
-    # ###################################################################
-    # INSTALLATION OF INDEXES STUFF
-
-    security.declarePublic( 'enumerateIndexes' )
-    def enumerateIndexes( self ):
-    #   Return a list of ( index_name, type ) pairs for the initial index set.
-        return  ( ('UID'            , 'FieldIndex',     None)
-                , ('object_implements', 'KeywordIndex', None)
-                , ('SearchableText' , 'TextIndex',      None) # To be used for not exact match
-                , ('created'        , 'DateIndex',      None)
-                , ('modified'       , 'DateIndex',      None)
-                , ('allowedRolesAndUsers', 'KeywordIndex', None)
-                , ('review_state'   , 'FieldIndex',     None)
-                , ('meta_type'      , 'FieldIndex',     None)
-                , ('getId'          , 'FieldIndex',     None)
-                , ('exact_getGroupId', 'FieldIndex',    'getGroupId')
-                , ('path'           , 'ExtendedPathIndex' , None)
-                , ('portal_type'    , 'FieldIndex',     None)
-                , ('startendrange'  , 'DateRangeIndex', {'since_field':'start', 'until_field':'end'})
-                )
-
-    security.declarePublic( 'enumerateColumns' )
-    def enumerateColumns( self ):
-        #   Return a sequence of schema names to be cached.
-        return ( 'UID'
-               , 'getUserName'
-               , 'getUserId'
-               , 'getGroupId'
-               , 'Title'
-               , 'review_state'
-               , 'getIcon'
-               , 'created'
-               , 'effective'
-               , 'expires'
-               , 'modified'
-               , 'CreationDate'
-               , 'EffectiveDate'
-               , 'ExpiresDate'
-               , 'ModificationDate'
-               , 'portal_type'
-               , 'getId'
-               , 'exact_getGroupId'
-               )
-
-
-    def _initIndexes(self):
-        """Set up indexes and metadata, as enumared by enumerateIndexes() and
-        enumerateColumns (). Subclasses can override these to inject additional
-        indexes and columns.
-        """
-        base = aq_base(self)
-        addIndex = self.addIndex
-        addColumn = self.addColumn
-
-        # Content indexes
-        self._catalog.indexes.clear()
-        for (index_name, index_type, extra) in self.enumerateIndexes():
-            if extra is None:
-               addIndex( index_name, index_type)
-            else:
-                if isinstance(extra, basestring):
-                    p = Record(indexed_attrs=extra)
-                elif isinstance(extra, dict):
-                    p = Record(**extra)
-                else:
-                    p = Record()
-                addIndex( index_name, index_type, extra=p )
-
-        # Cached metadata
-        self._catalog.names = ()
-        self._catalog.schema.clear()
-        for column_name in self.enumerateColumns():
-            addColumn( column_name )
 
     def _createTextIndexes(self, item, container):
         """Create getUserName, getUserId, getGroupId text indexes."""

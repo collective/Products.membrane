@@ -8,15 +8,12 @@ if __name__ == '__main__':
 
 from Testing import ZopeTestCase
 from Products.membrane.tests import base
-from Products.membrane.config import TOOLNAME, INSTALL_TEST_TYPES
+from Products.membrane.config import TOOLNAME
 from AccessControl import getSecurityManager
 from AccessControl.SecurityManagement import setSecurityManager
 
-# To catch syntax errors in Install
-from Products.membrane.Extensions import Install
 
-
-class TestFailing(base.MembraneTestCase):
+class TestSiteRename(base.MembraneTestCase):
 
     def afterSetUp(self):
         pass
@@ -41,7 +38,7 @@ class TestFailing(base.MembraneTestCase):
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
-    suite.addTest(makeSuite(TestFailing))
+    suite.addTest(makeSuite(TestSiteRename))
     return suite
 
 if __name__ == '__main__':
