@@ -50,9 +50,9 @@ How to test the development version
   
   Dependencies:
   
-  - Zope 2.9.1
+  - Zope 2.9.3 or greater
 
-  - Plone 2.5.X
+  - Plone 2.5 or greater
 
 Quick Notes:
 
