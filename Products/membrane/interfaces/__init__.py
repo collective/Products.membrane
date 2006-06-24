@@ -2,6 +2,7 @@
 
 from membrane_tool import IMembraneTool
 
+from user import IMembraneUser
 from user import IUserRelated
 from user import IMembraneUserAuth
 from user import IMembraneUserProperties
