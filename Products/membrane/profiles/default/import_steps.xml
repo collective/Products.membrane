@@ -5,6 +5,7 @@
     handler="Products.membrane.exportimport.membranetool.importMembraneTool"
     title="Membrane Tool">
     <dependency step="toolset"/>
+    <dependency step="workflow" />
     Import membrane type specific configuration.
   </import-step>
 
