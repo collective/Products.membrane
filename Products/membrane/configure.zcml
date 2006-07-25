@@ -56,11 +56,11 @@
            />
 
   <subscriber for=".interfaces.IMembraneTypeRegisteredEvent"
-              factory=".factories.statusmapper.initializeStatusCategories"
+              handler=".factories.statusmapper.initializeStatusCategories"
               />
 
   <subscriber for=".interfaces.IMembraneTypeUnregisteredEvent"
-              factory=".factories.statusmapper.removeStatusCategories"
+              handler=".factories.statusmapper.removeStatusCategories"
               />
 
 </configure>
