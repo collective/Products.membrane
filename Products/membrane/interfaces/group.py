@@ -1,10 +1,8 @@
 """ 
 Group interface
 """
-try:
-    from zope.interface import Interface
-except ImportError:
-    from Interface import Interface
+
+from zope.interface import Interface
 
 class IGroup(Interface):
 

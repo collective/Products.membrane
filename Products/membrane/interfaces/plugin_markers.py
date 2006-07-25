@@ -7,6 +7,38 @@ from zope.interface import Interface
 from Products.Archetypes.interfaces import IBaseObject
 from Products.Archetypes.interfaces import IReferenceable
 
+# XXX [optilude] - Ideally, we'd like to make it possible to write
+# AT objects that don't implement anything beyond what AT requires, using
+# adapters for any membrane-specific functionality. 
+# 
+# However, the object_implements index and various adapter lookups assume that 
+# we are "one step" away from the basic content object. For example, 
+# IMembraneUserAuth is used extensively, and is registered as an adapter
+# from IUserAuthProvider. To function, therefore, the member object must
+# directly implement IUserAuthProvider (and its two methods). 
+#
+# A better pattern would be to only assume marker interfaces for the object. 
+# For example, IAuthenticationProvider could be a marker interface for 
+# content objects supporting authentication. The content object would also
+# need an additional marker interface, e.g. IMyMember. A general adapter
+# in membrane could adapt from IAuthenticationProvider to IMembraneUserAuth.
+# Inside this adapter, the context could be adapted to IUserAuthProvider to
+# get the verifyCredentials() method. The adapter from IMyMember (which would
+# be a marker on the same context object as the one that was obtained by
+# adapting from IAuthenticationProvider, our new fictional interface) to 
+# IUserAuthProvider would be provided by the product where IMyMember was
+# defined.
+#
+# This pattern would apply to all non-marker interfaces below and in 
+# plugin_markers that were used in a 'for' attribute for any adapter
+# registration: 
+#  - IUserRelated
+#  - IUserAuthProvider
+#  - IRolesProvider
+#  - ISelectedGroupsProvider (but this would need to be divorced from
+#       IReferenceable in the process)
+
+
 class IUserAuthProvider(IReferenceable):
     """
     Extends IReferenceable to include add'l authentication related methods.
