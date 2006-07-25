@@ -29,11 +29,13 @@ class Groups(UserRelated):
         groups = {}
         # Get all BRefs that implement IGroup - slightly expensive
         for obj in self.context.getBRefs():
-            if IGroup.providedBy(obj):
-                groups[obj.getGroupId()] = 1
+            group = IGroup(obj, None)
+            if group is not None:
+                groups[group.getGroupId()] = 1
         for parent in aq_chain(aq_inner(self.context)):
-            if IGroup.providedBy(parent):
-                groups[parent.getGroupId()] = 1
+            group = IGroup(parent, None)
+            if group is not None:
+                groups[group.getGroupId()] = 1
         return tuple(groups.keys())
 
 
@@ -59,6 +61,7 @@ class SelectedGroups(UserRelated):
             groups.update(dict.fromkeys([g.getUserId() for g in
                                          self.context.getBRefs(relationship)]))
         for parent in aq_chain(aq_inner(self.context)):
-            if IGroup.providedBy(parent):
-                groups[parent.getGroupId()] = 1
+            group = IGroup(parent, None)
+            if group is not None:
+                groups[group.getGroupId()] = 1
         return tuple(groups.keys())

@@ -42,7 +42,7 @@ class GroupAwareRoles(UserRelated):
     def getRolesForPrincipal(self, principal, request=None):
         roles = dict.fromkeys(self.context.getRoles())
 
-        getGroups = getattr(principal, 'getGroups', lambda x: tuple())
+        getGroups = getattr(principal, 'getGroups', lambda: tuple())
         group_ids = getGroups()
         if group_ids:
             mbtool = getToolByName(self.context, TOOLNAME)
@@ -50,7 +50,7 @@ class GroupAwareRoles(UserRelated):
             groups = uSR(exact_getGroupId=group_ids,
                          object_implements=IGroup.__identifier__)
             for g in groups:
-                group = g._unrestrictedGetObject()
+                group = IGroup(g._unrestrictedGetObject())
                 roles.update(dict.fromkeys(group.getRoles()))
 
         return roles.keys()
