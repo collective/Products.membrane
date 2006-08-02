@@ -1,7 +1,7 @@
 from AccessControl.Permissions import add_user_folders
 
 from Products.CMFCore.utils import ContentInit, ToolInit
-from Products.CMFCore.CMFCorePermissions import AddPortalContent as ADD_CONTENT_PERMISSION
+from Products.CMFCore.permissions import AddPortalContent as ADD_CONTENT_PERMISSION
 
 from Products.Archetypes import process_types
 from Products.Archetypes.public import listTypes

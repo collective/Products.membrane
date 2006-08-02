@@ -18,11 +18,13 @@ from Products.Archetypes.public import registerType
 from Products.Archetypes.public import DisplayList
 
 from Products.membrane.interfaces import IUserAuthProvider
+from Products.membrane.interfaces import IUserAuthentication
 from Products.membrane.interfaces import IPropertiesProvider
 from Products.membrane.interfaces import ISchemataPropertiesProvider
 from Products.membrane.interfaces import IGroupsProvider
 from Products.membrane.interfaces import ISelectedGroupsProvider
 from Products.membrane.interfaces import IGroupAwareRolesProvider
+from Products.membrane.interfaces import IUserRoles
 from Products.membrane.interfaces import IMembraneUserAuth
 from Products.membrane.interfaces import IGroup
 from Products.membrane.factories.authentication import Authentication
@@ -142,8 +144,9 @@ class BaseMember:
 
 class TestMember(BaseMember, BaseContent):
     """A member archetype for testing"""
-    implements(IUserAuthProvider, IPropertiesProvider,
-               IGroupsProvider, IGroupAwareRolesProvider)
+    implements(IUserAuthProvider, IUserAuthentication, 
+               IPropertiesProvider, IGroupsProvider, 
+               IGroupAwareRolesProvider, IUserRoles)
 
 registerType(TestMember, PROJECTNAME)
 
@@ -153,8 +156,8 @@ class AlternativeTestMember(BaseMember, BaseContent):
 
     security = ClassSecurityInfo()
 
-    implements(IUserAuthProvider, ISchemataPropertiesProvider,
-               ISelectedGroupsProvider)
+    implements(IUserAuthProvider, IUserAuthentication, 
+               ISchemataPropertiesProvider, ISelectedGroupsProvider)
 
     # For IPropertiesPlugin implementation/Property mixin
     security.declarePrivate('getUserPropertySchematas')

@@ -5,6 +5,7 @@ from Products.CMFCore.utils import getToolByName
 
 from Products.membrane.interfaces import IMembraneUserRoles
 from Products.membrane.interfaces import IGroup
+from Products.membrane.interfaces import IUserRoles
 from Products.membrane.config import TOOLNAME
 from userrelated import UserRelated
 
@@ -23,7 +24,7 @@ class Roles(UserRelated):
     #
     security.declarePrivate('getRolesForPrincipal')
     def getRolesForPrincipal(self, principal, request=None):
-        return self.context.getRoles()
+        return IUserRoles(self.context).getRoles()
 
 class GroupAwareRoles(UserRelated):
     """
@@ -40,7 +41,7 @@ class GroupAwareRoles(UserRelated):
     #
     security.declarePrivate('getRolesForPrincipal')
     def getRolesForPrincipal(self, principal, request=None):
-        roles = dict.fromkeys(self.context.getRoles())
+        roles = dict.fromkeys(IUserRoles(self.context).getRoles())
 
         getGroups = getattr(principal, 'getGroups', lambda: tuple())
         group_ids = getGroups()

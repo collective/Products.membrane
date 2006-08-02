@@ -26,6 +26,7 @@ from Products.membrane.config import ACTIVE_STATUS_CATEGORY
 from Products.membrane.interfaces import IMembraneUserAuth
 from Products.membrane.interfaces import IUserAuthProvider
 from Products.membrane.interfaces import ICategoryMapper
+from Products.membrane.interfaces import IUserAuthentication
 from Products.membrane.utils import generateCategorySetIdForType
 
 manage_addMembraneUserManagerForm = PageTemplateFile(
@@ -157,7 +158,8 @@ class MembraneUserManager(BasePlugin, Cacheable):
                 query['sort_on'] = 'getUserId'
 
         query['object_implements'] = {'query': (IMembraneUserAuth.__identifier__,
-                                                IUserAuthProvider.__identifier__),
+                                                IUserAuthProvider.__identifier__,
+                                                IUserAuthentication.__identifier__),
                                       'operator': 'and'}
 
         members = mbtool.unrestrictedSearchResults(**query)
@@ -167,8 +169,9 @@ class MembraneUserManager(BasePlugin, Cacheable):
 
         for m in members:
             member = m._unrestrictedGetObject()
+            authentication = IUserAuthentication(member)
+            username = authentication.getUserName()
             authprovider = IUserAuthProvider(member)
-            username = authprovider.getUserName()
             uid = authprovider.UID()
             userid = IMembraneUserAuth(member).getUserId()
             # XXX need to ask object for the edit URL, must adhere to an

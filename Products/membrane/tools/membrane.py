@@ -19,7 +19,7 @@ from Products.CMFPlone.CatalogTool import CatalogTool as BaseTool
 from Products.CMFPlone.CatalogTool import registerIndexableAttribute
 
 from Products.membrane.interfaces import IMembraneTool
-from Products.membrane.interfaces import IUserAuthProvider
+from Products.membrane.interfaces import IUserAuthentication
 from Products.membrane.interfaces import IMembraneUserAuth
 from Products.membrane.interfaces import IUserRelated
 from Products.membrane.interfaces import IGroup
@@ -44,8 +44,7 @@ def object_implements(object, portal, **kw):
     for iface in direct:
         for adapter_reg in getRequiredAdapters(iface):
             adaptable_iface = adapter_reg.provided
-            adapting_from = [i for i in adapter_reg.required
-                             if i is not None]
+            adapting_from = [i for i in adapter_reg.required if i is not None]
             skip = False
             if len(adapting_from) > 1:
                 # only support multiadapters that this object can satisfy alone
@@ -61,7 +60,7 @@ registerIndexableAttribute('object_implements', object_implements)
 
 def getUserName(object, portal, **kw):
     try:
-        object = IUserAuthProvider(object)
+        object = IUserAuthentication(object)
     except TypeError:
         return None
     return object.getUserName()

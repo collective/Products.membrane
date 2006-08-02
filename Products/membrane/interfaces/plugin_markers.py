@@ -7,41 +7,17 @@ from zope.interface import Interface
 from Products.Archetypes.interfaces import IBaseObject
 from Products.Archetypes.interfaces import IReferenceable
 
-# XXX [optilude] - Ideally, we'd like to make it possible to write
-# AT objects that don't implement anything beyond what AT requires, using
-# adapters for any membrane-specific functionality. 
-# 
-# However, the object_implements index and various adapter lookups assume that 
-# we are "one step" away from the basic content object. For example, 
-# IMembraneUserAuth is used extensively, and is registered as an adapter
-# from IUserAuthProvider. To function, therefore, the member object must
-# directly implement IUserAuthProvider (and its two methods). 
-#
-# A better pattern would be to only assume marker interfaces for the object. 
-# For example, IAuthenticationProvider could be a marker interface for 
-# content objects supporting authentication. The content object would also
-# need an additional marker interface, e.g. IMyMember. A general adapter
-# in membrane could adapt from IAuthenticationProvider to IMembraneUserAuth.
-# Inside this adapter, the context could be adapted to IUserAuthProvider to
-# get the verifyCredentials() method. The adapter from IMyMember (which would
-# be a marker on the same context object as the one that was obtained by
-# adapting from IAuthenticationProvider, our new fictional interface) to 
-# IUserAuthProvider would be provided by the product where IMyMember was
-# defined.
-#
-# This pattern would apply to all non-marker interfaces below and in 
-# plugin_markers that were used in a 'for' attribute for any adapter
-# registration: 
-#  - IUserRelated
-#  - IUserAuthProvider
-#  - IRolesProvider
-#  - ISelectedGroupsProvider (but this would need to be divorced from
-#       IReferenceable in the process)
-
-
 class IUserAuthProvider(IReferenceable):
     """
-    Extends IReferenceable to include add'l authentication related methods.
+    Marks the object as a Membrane user authentication provider. Objects must
+    also provide or adapt to IUserAuthentication to perform the actual
+    authentication.
+    """
+
+class IUserAuthentication(Interface):
+    """
+    Provides authentication against an object. Typically, an IUserAuthProvider
+    will either be adaptable to this or provide this interface itself.
     """
 
     def getUserName():
@@ -73,15 +49,24 @@ class ISchemataPropertiesProvider(IReferenceable, IBaseObject):
         user properties.
         """
 
-class IRolesProvider(Interface):
+class IUserRoles(Interface):
     """
-    Marks the object as a Membrane roles provider using the default
-    roles computation mechanism defined in the Roles adapter.
+    Obtains roles for a given user. Typically, a member object would provide
+    this or adapt to this, and also provide one of IRolesProvider and
+    IGroupAwareRolesProvider.
     """
+    
     def getRoles():
         """
         Returns a sequence of the user's roles.
         """
+
+class IRolesProvider(Interface):
+    """
+    Marks the object as a Membrane roles provider using the default
+    roles computation mechanism defined in the Roles adapter. Objects must
+    also provide or adapt to IUserRoles.
+    """
 
 class IGroupAwareRolesProvider(IRolesProvider):
     """
