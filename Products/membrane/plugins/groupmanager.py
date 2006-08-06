@@ -1,6 +1,7 @@
 # Copyright 2005 Plone Solutions
 # info@plonesolutions.com
 
+import logging
 import copy
 from AccessControl import ClassSecurityInfo
 from AccessControl.SecurityManagement import getSecurityManager
@@ -14,6 +15,8 @@ from Products.CMFCore.utils import getToolByName
 
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from Products.PluggableAuthService.utils import createViewName
+from Products.PluggableAuthService.PluggableAuthService \
+    import _SWALLOWABLE_PLUGIN_EXCEPTIONS
 
 from Products.PluggableAuthService.interfaces.plugins \
     import IGroupsPlugin
@@ -130,8 +133,8 @@ class MembraneGroupManager(BasePlugin, Cacheable):
 
         i = 0
         for g in groups:
-            group = g._unrestrictedGetObject()
-            group = IGroup(group)
+            obj = g._unrestrictedGetObject()
+            group = IGroup(obj)
             if max_results is not None and i >= max_results:
                 break
             i += 1
@@ -139,8 +142,8 @@ class MembraneGroupManager(BasePlugin, Cacheable):
             # SCREENS ARE
             info = { 'id': group.getGroupId()
                      , 'pluginid': plugin_id
-                     , 'properties_url': '%s/base_edit' % group.absolute_url()
-                     , 'members_url': '%s/base_edit' % group.absolute_url()
+                     , 'properties_url': '%s/base_edit' % obj.absolute_url()
+                     , 'members_url': '%s/base_edit' % obj.absolute_url()
                      }
 
             group_info.append(info)
@@ -181,6 +184,11 @@ class MembraneGroupManager(BasePlugin, Cacheable):
         return tuple(groupmembers.keys())
 
     # XXXXXXXXXXXXXXXXXXXXXXXXXX REMOVE FROM HERE IF POSSIBLE
+    
+    # [optilude] svn.plone.org/svn/collective/borg/tests/test_department.py
+    # exercises (and found NameErrors in) this, coming from 
+    # portal_groups.getGroupById()
+    
     #################################
     # group wrapping mechanics
 
@@ -298,9 +306,9 @@ class MembraneGroupManager(BasePlugin, Cacheable):
                         return id
 
                 except _SWALLOWABLE_PLUGIN_EXCEPTIONS:
-                    LOG('PluggableAuthService', BLATHER,
-                        'GroupEnumerationPlugin %s error' % enumerator_id,
-                        error=sys.exc_info())
+                    logger = logging.getLogger('membrane')
+                    logger.debug('GroupEnumerationPlugin %s error' % enumerator_id,
+                                 exc_info=True)
 
         return 0
     # XXXXXXXXXXXXXXXXXXXXXXXXXX REMOVE TO HERE
