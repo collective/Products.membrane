@@ -183,7 +183,7 @@ class TestMembraneUserManagerIntrospection( base.MembraneTestCase
                                            'testuser2')
         self.member2.setUserName('testuser2')
         self.member2.setPassword('testpassword2')
-        self.member2.setFullname('full name 2')
+        self.member2.setTitle('full name 2')
         self.member2.reindexObject()
 
     def afterSetUp(self):

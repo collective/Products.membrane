@@ -53,7 +53,10 @@ class MembraneTestCase(PlonePASTestCase):
         self.member = _createObjectByType('TestMember', obj, 'testuser')
         self.member.setUserName('testuser')
         self.member.setPassword('testpassword')
-        self.member.setFullname('full name')
+        # Title is mapped to the user property fullname using
+        # user_property='fullname'
+        self.member.setTitle('full name')
+        self.member.setMobilePhone('555-1212')
         self.member.reindexObject()
         self.userid = IMembraneUserAuth(self.member).getUserId()
 

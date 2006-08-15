@@ -41,7 +41,7 @@ class MembraneGroupManagerTestBase:
         self.member2 = _createObjectByType('TestMember', self.portal, 'testmember')
         self.member2.setUserName('testmember')
         self.member2.setPassword('testpassword')
-        self.member2.setFullname('Member 2')
+        self.member2.setTitle('Member 2')
         self.member2.reindexObject()
 
 
@@ -91,7 +91,7 @@ class TestMembraneGroupManagerSelectedGroups(base.MembraneTestCase,
                                           obj, 'testuser')
         self.member.setUserName('testuser')
         self.member.setPassword('testpassword')
-        self.member.setFullname('full name')
+        self.member.setTitle('full name')
         self.member.reindexObject()
 
     def afterSetUp(self):

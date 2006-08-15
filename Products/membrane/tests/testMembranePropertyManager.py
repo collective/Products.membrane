@@ -84,6 +84,11 @@ class TestMembranePropertyManager( base.MembraneTestCase
     def testGetPropertiesForUserFromPropertyManager(self):
         properties = self.portal.pmm.getPropertiesForUser(User(self.member))
         self.failIf(properties.has_key('id'))
+        self.failUnless(properties.has_key('mobilePhone'))
+
+    def testGetMappedPropertyForUserFromPropertyManager(self):
+        # The 'title' field should be mapped to the 'fullname' property
+        properties = self.portal.pmm.getPropertiesForUser(User(self.member))
         self.failUnless(properties.has_key('fullname'))
 
     def testGetPropertiesForGroupFromPropertyManager(self):
@@ -135,7 +140,9 @@ class TestMembraneSchemataPropertyManager(base.MembraneTestCase,
                                           'testuser')
         self.member.setUserName('testuser')
         self.member.setPassword('testpassword')
-        self.member.setFullname('full name')
+        self.member.setTitle('full name')
+        # A property that will be obtained via schemata
+        self.member.setHomePhone('555-1212')
         self.member.reindexObject()
 
     def afterSetUp(self):
@@ -145,21 +152,21 @@ class TestMembraneSchemataPropertyManager(base.MembraneTestCase,
     def testGetPropertiesForUserOnUser(self):
         mem_props = IMembraneUserProperties(self.member)
         properties = mem_props.getPropertiesForUser(None)
-        self.failUnless(properties.has_key('fullname'))
+        self.failUnless(properties.has_key('homePhone'))
 
     def testGetPropertiesForUserFromPropertyManager(self):
         properties = self.portal.pmm.getPropertiesForUser(User(self.member))
         self.failIf(properties.has_key('id'))
-        self.failUnless(properties.has_key('fullname'))
+        self.failUnless(properties.has_key('homePhone'))
 
     def testGetPropertiesForUser(self):
         userid = IMembraneUserAuth(self.member).getUserId()
         user = self.portal.acl_users.getUserById(userid)
         sheets = user.getOrderedPropertySheets()
-        self.failUnless([x.getProperty('fullname') for x in sheets
-                         if x.getProperty('fullname') == 'full name'])
+        self.failUnless([x.getProperty('homePhone') for x in sheets
+                         if x.getProperty('homePhone') == '555-1212'])
         member = self.portal.portal_membership.getMemberById(userid)
-        self.failUnlessEqual(member.getProperty('fullname'), 'full name')
+        self.failUnlessEqual(member.getProperty('homePhone'), '555-1212')
 
     def testGetPropertiesFromExternalProvider(self):
         wrongvalue = 'foo'
