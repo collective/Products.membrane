@@ -98,5 +98,6 @@
   <column value="portal_type"/>
   <column value="getId"/>
   <column value="exact_getGroupId"/>
+  <column value="parent_path"/>
 
 </object>

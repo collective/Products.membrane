@@ -87,6 +87,16 @@ def getGroupId(object, portal, **kw):
 
 registerIndexableAttribute('getGroupId', getGroupId)
 
+
+def getParentPath(object, portal, **kw):
+    """
+    Returns the physical path of the parent object.
+    """
+    return '/'.join(object.aq_parent.getPhysicalPath())
+
+registerIndexableAttribute('parent_path', getParentPath)
+
+
 class Record:
     """ A simple helper class for carrying the 'extra'-payload to
     index constructors.
