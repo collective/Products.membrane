@@ -82,7 +82,8 @@ class MembraneGroupManager(BasePlugin, Cacheable):
         groups = {}
         for p in providers:
             provider = IMembraneUserGroups(p._unrestrictedGetObject())
-            groups.update(dict.fromkeys(provider.getGroupsForPrincipal(principal)))
+            pgroups = dict.fromkeys(provider.getGroupsForPrincipal(principal))
+            groups.update(pgroups)
         return tuple(groups.keys())
 
     #
