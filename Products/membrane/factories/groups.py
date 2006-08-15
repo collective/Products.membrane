@@ -18,9 +18,6 @@ class Groups(UserRelated):
 
     implements(IMembraneUserGroups)
 
-    def __init__(self, context):
-        self.context = context
-
     #
     #   IGroupsPlugin implementation
     #
