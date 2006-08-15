@@ -66,7 +66,8 @@ class MembraneUser(PloneUser):
     #
     security.declarePrivate("getProperty")
     def getProperty(self, name, default=_marker):
-        """getProperty(self, name) => return property value or raise AttributeError
+        """getProperty(self, name) => return property value or
+        raise AttributeError
         """
         for sheet in self.getOrderedPropertySheets():
             if sheet.hasProperty(name):
