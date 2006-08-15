@@ -35,7 +35,7 @@ from Products.membrane.config import PROJECTNAME, TOOLNAME
 
 GROUP_RELATIONSHIP = 'participatesInProject'
 
-group = BaseSchema + Schema((
+group = BaseSchema.copy() + Schema((
     ReferenceField(
         name='manager',
         relationship='managesProject',
@@ -56,6 +56,9 @@ group = BaseSchema + Schema((
         ),
     ))
 
+# Make the group title and description user properties
+group['title'].user_property = True
+group['description'].user_property = True
 
 class TestGroup(BaseFolder):
     """A group archetype for testing"""
@@ -63,7 +66,7 @@ class TestGroup(BaseFolder):
 
     security = ClassSecurityInfo()
 
-    implements(IGroup)
+    implements(IGroup, IPropertiesProvider)
 
     def getGroupName(self):
         return self.getId()

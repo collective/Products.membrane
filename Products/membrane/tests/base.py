@@ -62,4 +62,5 @@ class MembraneTestCase(PlonePASTestCase):
             obj = self.portal
         self.group = _createObjectByType('TestGroup', obj, 'testgroup')
         self.group.setTitle('Test group')
+        self.group.setDescription('A test group')
         self.group.reindexObject()
