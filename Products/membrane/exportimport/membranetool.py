@@ -31,7 +31,7 @@ class MembraneToolXMLAdapter(ZCatalogXMLAdapter):
         Import the settings from the DOM node.
         """
         ZCatalogXMLAdapter._importNode(self, node)
-        
+
         if self.environ.shouldPurge():
             self._purgeMembraneTypes()
 
@@ -52,9 +52,10 @@ class MembraneToolXMLAdapter(ZCatalogXMLAdapter):
             states = cat_map.listCategoryValues(cat_set,
                                                 ACTIVE_STATUS_CATEGORY)
             for state in states:
-                sub = child.createElement('active-workflow-state')
+                sub = self._doc.createElement('active-workflow-state')
                 sub.setAttribute('name', state)
-            
+                child.appendChild(sub)
+
             fragment.appendChild(child)
         return fragment
 
