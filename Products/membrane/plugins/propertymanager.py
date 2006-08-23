@@ -18,11 +18,14 @@ from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from Products.PluggableAuthService.interfaces.plugins \
     import IPropertiesPlugin
 
+from Products.PlonePAS.interfaces.plugins import IMutablePropertiesPlugin
+from Products.PlonePAS.sheet import MutablePropertySheet
 from Products.membrane.config import TOOLNAME
 from Products.membrane.interfaces import IMembraneUserProperties
 
 manage_addMembranePropertyManagerForm = PageTemplateFile(
-    '../www/MembranePropertyManagerForm', globals(), __name__='manage_addMembranePropertyManagerForm' )
+    '../www/MembranePropertyManagerForm',
+    globals(), __name__='manage_addMembranePropertyManagerForm' )
 
 def addMembranePropertyManager( dispatcher, id, title=None, REQUEST=None ):
     """ Add a MembranePropertyManager to a Pluggable Auth Service. """
@@ -47,25 +50,15 @@ class MembranePropertyManager(BasePlugin, Cacheable):
 
     security = ClassSecurityInfo()
 
-    implements(IPropertiesPlugin)
+    implements(IPropertiesPlugin, IMutablePropertiesPlugin)
 
     def __init__(self, id, title=None):
 
         self._id = self.id = id
         self.title = title
 
-    #
-    #   IPropertiesPlugin implementation
-    #
-    security.declarePrivate('getPropertiesForUser')
-    def getPropertiesForUser(self, user, request=None):
-        properties = {}
+    def _getPropertyProviders(self, user):
         mbtool = getToolByName(self, TOOLNAME)
-        # first get the auth provider to get the uid property
-        member = mbtool.getUserAuthProvider(user.getUserName())
-        if member is not None:
-            # XXX do we want a 'uid' property for groups?
-            properties['uid'] = IReferenceable(member).UID()
         ob_imp_query = {'query': (IMembraneUserProperties.__identifier__,
                                   IReferenceable.__identifier__),
                         'operator': 'and'}
@@ -78,13 +71,54 @@ class MembranePropertyManager(BasePlugin, Cacheable):
             prop_providers = uSR(getGroupId=user.getId(),
                                  object_implements=ob_imp_query)
         for pp in prop_providers:
-            prop_provider = pp._unrestrictedGetObject()
-            mem_props = IMembraneUserProperties(prop_provider)
-            properties.update(mem_props.getPropertiesForUser(user, request))
+            yield pp._unrestrictedGetObject()
+
+    #
+    #   IMutablePropertiesPlugin implementation
+    #   IPropertiesPlugin implementation
+    #
+    security.declarePrivate('getPropertiesForUser')
+    def getPropertiesForUser(self, user, request=None):
+        """
+        Retrieve all the IMembraneUserProperties property providers
+        and delegate to them.
+        """
+        properties = {}
+        mbtool = getToolByName(self, TOOLNAME)
+        # first get the auth provider to get the uid property
+        member = mbtool.getUserAuthProvider(user.getUserName())
+        if member is not None:
+            # XXX do we want a 'uid' property for groups?
+            properties['uid'] = IReferenceable(member).UID()
+
+        prop_providers = self._getPropertyProviders(user)
+        for pp in prop_providers:
+            mem_props = IMembraneUserProperties(pp)
+            psheet = mem_props.getPropertiesForUser(user, request)
+            for prop, value in psheet.propertyItems():
+                properties[prop] = value
         if properties.has_key('id'):
             # When instantiating sheet(id, **props) is used - two ids is bad
             del properties['id']
-        return properties
+        return MutablePropertySheet(self.id,
+                                    **properties)
 
+    security.declarePrivate('setPropertiesForUser')
+    def setPropertiesForUser(self, user, propertysheet):
+        """
+        Retrieve all of the IMembraneUserProperties property providers
+        and delegate to them.
+        """
+        prop_providers = self._getPropertyProviders(user)
+        for pp in prop_providers:
+            mem_props = IMembraneUserProperties(pp)
+            mem_props.setPropertiesForUser(user, propertysheet)
+            
+    security.declarePrivate('deleteUser')
+    def deleteUser(self, user_id):
+        """
+        XXX: TODO
+        """
+        pass
 
 InitializeClass(MembranePropertyManager)

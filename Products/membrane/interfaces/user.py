@@ -3,12 +3,13 @@ User interface
 """
 from zope.interface import Interface
 
+from Products.Archetypes.interfaces import IReferenceable
+
 from Products.PluggableAuthService.interfaces.plugins import IAuthenticationPlugin
-from Products.PluggableAuthService.interfaces.plugins import IPropertiesPlugin
 from Products.PluggableAuthService.interfaces.plugins import IGroupsPlugin
 from Products.PluggableAuthService.interfaces.plugins import IRolesPlugin
 
-from Products.Archetypes.interfaces import IReferenceable
+from Products.PlonePAS.interfaces.plugins import IMutablePropertiesPlugin
 
 class IMembraneUser(Interface):
     """
@@ -32,7 +33,7 @@ class IMembraneUserAuth(IUserRelated, IAuthenticationPlugin):
     Used for objects that can handle user authentication.
     """
 
-class IMembraneUserProperties(IUserRelated, IPropertiesPlugin):
+class IMembraneUserProperties(IUserRelated, IMutablePropertiesPlugin):
     """
     Used for objects that can provide user properties.
     """
