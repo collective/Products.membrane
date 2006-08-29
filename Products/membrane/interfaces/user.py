@@ -8,6 +8,7 @@ from Products.Archetypes.interfaces import IReferenceable
 from Products.PluggableAuthService.interfaces.plugins import IAuthenticationPlugin
 from Products.PluggableAuthService.interfaces.plugins import IGroupsPlugin
 from Products.PluggableAuthService.interfaces.plugins import IRolesPlugin
+from Products.PlonePAS.interfaces.plugins import IUserManagement
 
 from Products.PlonePAS.interfaces.plugins import IMutablePropertiesPlugin
 
@@ -46,4 +47,10 @@ class IMembraneUserGroups(IUserRelated, IGroupsPlugin):
 class IMembraneUserRoles(IUserRelated, IRolesPlugin):
     """
     Used for objects that can provide user roles.
+    """
+
+
+class IMembraneUserManagement(IUserRelated, IUserManagement):
+    """
+    Used to change the password and delete objects.
     """

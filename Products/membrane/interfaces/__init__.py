@@ -8,6 +8,7 @@ from user import IMembraneUserAuth
 from user import IMembraneUserProperties
 from user import IMembraneUserRoles
 from user import IMembraneUserGroups
+from user import IMembraneUserManagement
 
 from group import IGroup
 

@@ -1,0 +1,30 @@
+Changelog for Membrane
+
+   (name of developer listed in brackets)
+
+Membrane 0.3 (unreleased)
+
+    - Added a IUserManagement interface (from PlonePAS) to the usermanager.
+      It will be available to implementations that provide the corresponding 
+      IMembraneUserManagement interface directly or through adaptation.  This
+      allows thing like PasswordResetTool to work.
+
+    - Major refactoring to use Zope 3 component engine to glue together
+      all the pieces.  Mix-ins have been converted to adapters, providers
+      are defined by implementation of specific interfaces. [rafrombrc]
+
+Membrane 0.1 (unreleased)
+
+    - Made Title in membrane_tool a ZCTextIndex too, so that
+      enumerateGroups() of membrane_groups works without exact_match.
+
+    - getUserName and getUserId indexes in membrane_tool are now of
+      type ZCTextIndex, allowing us to do exact_match=False queries in
+      MembraneUserManager.enumerateUsers.
+
+      PluggableAuthService.enumerateUsers recommends treating id and
+      login as "contains" search tokens, but with our text index we
+      can only do "starts with" searches.  However, that's much better
+      than returning () for every call that has "exact_match=False".
+      [dpunktnpunkt]
+

@@ -20,10 +20,12 @@ from Products.PluggableAuthService.interfaces.plugins \
     import IUserEnumerationPlugin
 
 from Products.PlonePAS.interfaces.plugins import IUserIntrospection
+from Products.PlonePAS.interfaces.plugins import IUserManagement
 
 from Products.membrane.config import TOOLNAME
 from Products.membrane.config import ACTIVE_STATUS_CATEGORY
 from Products.membrane.interfaces import IMembraneUserAuth
+from Products.membrane.interfaces import IMembraneUserManagement
 from Products.membrane.interfaces import IUserAuthProvider
 from Products.membrane.interfaces import ICategoryMapper
 from Products.membrane.interfaces import IUserAuthentication
@@ -57,6 +59,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
     implements(IAuthenticationPlugin,
                IUserEnumerationPlugin,
                IUserIntrospection,
+               IUserManagement
                )
 
     def __init__(self, id, title=None):
@@ -222,6 +225,37 @@ class MembraneUserManager(BasePlugin, Cacheable):
         """
         uf = getToolByName(self, 'acl_users')
         return tuple([uf.getUserById(x) for x in self.getUserIds()])
+
+    #
+    # IUserManagement implementation
+    #
+    def doChangeUser(self, login, password, **kwargs):
+        mbtool = getToolByName(self, TOOLNAME)
+        uSR = mbtool.unrestrictedSearchResults
+        users = uSR(object_implements=IMembraneUserManagement.__identifier__,
+                    getUserName=login)
+        if users:
+            user = users[0]._unrestrictedGetObject()
+            IMembraneUserManagement(user).doChangeUser(login, password,
+                                                       **kwargs)
+        else:
+            raise RuntimeError, 'User does not exist: %s'%login
+
+    def doDeleteUser(self, login):
+        mbtool = getToolByName(self, TOOLNAME)
+        uSR = mbtool.unrestrictedSearchResults
+        users = uSR(object_implements=IMembraneUserManagement.__identifier__,
+                    getUserName=login)
+        if users:
+            user = users[0]._unrestrictedGetObject()
+            IMembraneUserManagement(user).doDeleteUser(login)
+        else:
+            raise RuntimeError, 'User does not exist: %s'%login
+
+    def doAddUser(self, login, password):
+        """This is highly usecase dependent and will need to be implemented
+        independently"""
+        raise NotImplementedError
 
 
 InitializeClass( MembraneUserManager )

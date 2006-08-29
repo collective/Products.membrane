@@ -19,6 +19,7 @@ from Products.PluggableAuthService.tests.conformance \
 
 from Products.membrane.tests.utils import sortTuple
 from Products.membrane.interfaces import IMembraneUserAuth
+from Products.membrane.interfaces import IMembraneUserManagement
 from Products.membrane.interfaces import ICategoryMapper
 from Products.membrane.config import TOOLNAME
 from Products.membrane.config import ACTIVE_STATUS_CATEGORY
@@ -239,6 +240,67 @@ class TestMembraneUserManagerIntrospection( base.MembraneTestCase
                                         IMembraneUserAuth(self.member2).getUserId())))
 
 
+class TestMembraneUserManagerManagement(base.MembraneTestCase,
+                                            MembraneUserManagerTestBase):
+    def afterSetUp(self):
+        self.portal.pmm = self._makeOne('pmm')
+        self.addUser()
+
+    def testUserChangePassword(self):
+        usermanager = IMembraneUserManagement(self.member)
+        userauth = IMembraneUserAuth(self.member)
+        authcred = userauth.authenticateCredentials
+        # Verify the current credentials
+        credentials = {'login':'testuser', 'password':'testpassword'}
+        self.failUnlessEqual(authcred(credentials), (userauth.getUserId(),
+                                                     self.member.getUserName()))
+        usermanager.doChangeUser('testuser', 'pass2')
+        credentials = {'login':'testuser', 'password':'pass2'}
+        self.failUnlessEqual(authcred(credentials), (userauth.getUserId(),
+                                                     self.member.getUserName()))
+
+    def testUserChangeOtherData(self):
+        usermanager = IMembraneUserManagement(self.member)
+        usermanager.doChangeUser('testuser', 'pass2', mobilePhone='555-1212')
+        self.failUnlessEqual(self.member.getMobilePhone(), '555-1212')
+
+    def testUserDeleteUser(self):
+        usermanager = IMembraneUserManagement(self.member)
+        self.failUnless('testuser' in self.portal.objectIds())
+        usermanager.doDeleteUser('testuser')
+        self.failIf('testuser' in self.portal.objectIds())
+        # login as the new user should fail now
+        self.logout()
+        self.assertRaises(AttributeError, self.login, 'testuser')
+
+    def testChangePassword(self):
+        pmm = self.portal.pmm
+        userauth = IMembraneUserAuth(self.member)
+        authcred = pmm.authenticateCredentials
+        # Verify the current credentials
+        credentials = {'login':'testuser', 'password':'testpassword'}
+        self.failUnlessEqual(authcred(credentials), (userauth.getUserId(),
+                                                     self.member.getUserName()))
+        pmm.doChangeUser('testuser', 'pass2')
+        credentials = {'login':'testuser', 'password':'pass2'}
+        self.failUnlessEqual(authcred(credentials), (userauth.getUserId(),
+                                                     self.member.getUserName()))
+
+    def testChangeOtherData(self):
+        pmm = self.portal.pmm
+        pmm.doChangeUser('testuser', 'pass2', mobilePhone='555-1212')
+        self.failUnlessEqual(self.member.getMobilePhone(), '555-1212')
+
+    def testDeleteUser(self):
+        pmm = self.portal.pmm
+        self.failUnless('testuser' in self.portal.objectIds())
+        pmm.doDeleteUser('testuser')
+        self.failIf('testuser' in self.portal.objectIds())
+        # login as the new user should fail now
+        self.logout()
+        self.assertRaises(AttributeError, self.login, 'testuser')
+
+
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
@@ -247,6 +309,7 @@ def test_suite():
     suite.addTest(makeSuite(TestMembraneUserManagerAuthentication))
     suite.addTest(makeSuite(TestMembraneUserManagerAuthenticationPermissions))
     suite.addTest(makeSuite(TestMembraneUserManagerIntrospection))
+    suite.addTest(makeSuite(TestMembraneUserManagerManagement))
     return suite
 
 if __name__ == '__main__':
