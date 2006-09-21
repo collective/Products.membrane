@@ -48,7 +48,12 @@ class Properties(UserRelated):
         properties = {}
         schema = self.context.Schema()
         for field in schema.filterFields(self._isPropertyField):
-            value = field.get(self.context)
+            # use the accessor if available:
+            accessor = field.getAccessor(self.context)
+            if accessor is not None:
+                value = accessor()
+            else:
+                value = field.get(self.context)
             user_prop = field.user_property
             prop_name = (isinstance(user_prop, str) and user_prop) or \
                         field.getName()
