@@ -92,7 +92,7 @@ def getParentPath(object, portal, **kw):
     """
     Returns the physical path of the parent object.
     """
-    return '/'.join(object.aq_parent.getPhysicalPath())
+    return '/'.join(object.aq_inner.aq_parent.getPhysicalPath())
 
 registerIndexableAttribute('parent_path', getParentPath)
 
