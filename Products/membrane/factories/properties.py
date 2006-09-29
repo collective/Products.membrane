@@ -54,6 +54,8 @@ class Properties(UserRelated):
                 value = accessor()
             else:
                 value = field.get(self.context)
+            if field.type == 'image' and not isinstance(value, str):
+                value = value.data
             user_prop = field.user_property
             prop_name = (isinstance(user_prop, str) and user_prop) or \
                         field.getName()
