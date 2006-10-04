@@ -27,6 +27,7 @@ from Products.membrane.interfaces import IGroupAwareRolesProvider
 from Products.membrane.interfaces import IUserRoles
 from Products.membrane.interfaces import IMembraneUserAuth
 from Products.membrane.interfaces import IMembraneUserManagement
+from Products.membrane.interfaces import IMembraneUserChanger
 from Products.membrane.interfaces import IGroup
 from Products.membrane.factories.authentication import Authentication
 from Products.membrane.factories.properties import Properties
@@ -173,7 +174,7 @@ class TestMember(BaseMember, BaseContent):
     implements(IUserAuthProvider, IUserAuthentication, 
                IPropertiesProvider, IGroupsProvider, 
                IGroupAwareRolesProvider, IUserRoles,
-               IMembraneUserManagement)
+               IMembraneUserChanger, IMembraneUserManagement)
 
 registerType(TestMember, PROJECTNAME)
 

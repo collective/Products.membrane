@@ -55,6 +55,11 @@
            factory=".factories.categorymapper.CategoryMapper"
            />
 
+  <adapter for=".interfaces.IUserChanger"
+           provides=".interfaces.IMembraneUserChanger"
+           factory=".factories.userchanger.UserChanger"
+           />
+
   <subscriber for=".interfaces.IMembraneTypeRegisteredEvent"
               handler=".factories.statusmapper.initializeStatusCategories"
               />

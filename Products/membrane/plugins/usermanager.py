@@ -26,6 +26,7 @@ from Products.membrane.config import TOOLNAME
 from Products.membrane.config import ACTIVE_STATUS_CATEGORY
 from Products.membrane.interfaces import IMembraneUserAuth
 from Products.membrane.interfaces import IMembraneUserManagement
+from Products.membrane.interfaces import IMembraneUserChanger
 from Products.membrane.interfaces import IUserAuthProvider
 from Products.membrane.interfaces import ICategoryMapper
 from Products.membrane.interfaces import IUserAuthentication
@@ -227,20 +228,23 @@ class MembraneUserManager(BasePlugin, Cacheable):
         return tuple([uf.getUserById(x) for x in self.getUserIds()])
 
     #
-    # IUserManagement implementation
+    # IMembraneUserChanger implementation
     #
     def doChangeUser(self, login, password, **kwargs):
         mbtool = getToolByName(self, TOOLNAME)
         uSR = mbtool.unrestrictedSearchResults
-        users = uSR(object_implements=IMembraneUserManagement.__identifier__,
+        users = uSR(object_implements=IMembraneUserChanger.__identifier__,
                     getUserName=login)
         if users:
             user = users[0]._unrestrictedGetObject()
-            IMembraneUserManagement(user).doChangeUser(login, password,
+            IMembraneUserChanger(user).doChangeUser(login, password,
                                                        **kwargs)
         else:
             raise RuntimeError, 'User does not exist: %s'%login
 
+    #
+    # IUserManagement implementation
+    #
     def doDeleteUser(self, login):
         mbtool = getToolByName(self, TOOLNAME)
         uSR = mbtool.unrestrictedSearchResults

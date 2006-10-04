@@ -49,8 +49,14 @@ class IMembraneUserRoles(IUserRelated, IRolesPlugin):
     Used for objects that can provide user roles.
     """
 
-
 class IMembraneUserManagement(IUserRelated, IUserManagement):
     """
     Used to change the password and delete objects.
     """
+
+class IMembraneUserChanger(IUserRelated):
+    """
+    Provide a method to change a user
+    """
+    def doChangeUser(login, password, **kwargs):
+        """change the password for a given user"""

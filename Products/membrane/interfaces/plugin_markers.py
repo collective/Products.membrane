@@ -91,3 +91,10 @@ class ISelectedGroupsProvider(IReferenceable):
         Return a sequence of strings that are the relationship names
         to use when looking up the group references.
         """
+
+class IUserChanger(IReferenceable):
+    """
+    Change the password for a user
+    """
+    def setPassword(password):
+        """change the password for a user"""

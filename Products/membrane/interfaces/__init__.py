@@ -8,6 +8,8 @@ from user import IMembraneUserAuth
 from user import IMembraneUserProperties
 from user import IMembraneUserRoles
 from user import IMembraneUserGroups
+from plugin_markers import IUserChanger
+from user import IMembraneUserChanger
 from user import IMembraneUserManagement
 
 from group import IGroup
