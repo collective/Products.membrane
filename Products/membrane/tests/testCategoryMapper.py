@@ -1,17 +1,26 @@
-
 import os, sys
-if __name__ == '__main__':
-    execfile(os.path.join(sys.path[0], 'framework.py'))
 
 from zope.interface import implements
 from zope.app.annotation.interfaces import IAttributeAnnotatable
 
 from Testing import ZopeTestCase
 
+import Products.Five
+from Products.Five import zcml
+
+import Products.membrane
 from Products.membrane.interfaces import ICategoryMapper
 
-#ZopeTestCase.installProduct('Five')
-#ZopeTestCase.installProduct('membrane')
+class ZCMLLayer:
+    """ initialize requisite parts of the component architecture """
+    @classmethod
+    def setUp(cls):
+        zcml.load_config('configure.zcml', package=Products.Five)
+        zcml.load_config('configure.zcml', package=Products.membrane)
+
+    @classmethod
+    def tearDown(cls):
+        pass
 
 class Foo(object):
     """
@@ -20,6 +29,8 @@ class Foo(object):
     implements(IAttributeAnnotatable)
     
 class TestCategoryMapper(ZopeTestCase.ZopeTestCase):
+
+    layer = ZCMLLayer
 
     def afterSetUp(self):
         self.obj = Foo()
@@ -106,7 +117,3 @@ def test_suite():
     suite = TestSuite()
     suite.addTest(makeSuite(TestCategoryMapper))
     return suite
-
-if __name__ == '__main__':
-    framework()
-

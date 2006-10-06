@@ -1,5 +1,4 @@
 from Testing import ZopeTestCase
-#from Products.membrane import examples
 from Products.membrane.tests import dummy
 from Products.membrane.config import TOOLNAME
 

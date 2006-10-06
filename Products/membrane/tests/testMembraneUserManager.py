@@ -3,9 +3,6 @@
 #
 
 import os, sys
-if __name__ == '__main__':
-    execfile(os.path.join(sys.path[0], 'framework.py'))
-
 import unittest
 
 from Testing import ZopeTestCase
@@ -311,6 +308,3 @@ def test_suite():
     suite.addTest(makeSuite(TestMembraneUserManagerIntrospection))
     suite.addTest(makeSuite(TestMembraneUserManagerManagement))
     return suite
-
-if __name__ == '__main__':
-    framework()
