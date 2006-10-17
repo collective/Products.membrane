@@ -113,6 +113,8 @@ class MembraneTool(BaseTool):
     meta_type = 'MembraneTool'
     archetype_name = 'MembraneTool'
 
+    user_adder = ''
+
     implements(IMembraneTool, IAttributeAnnotatable)
 
     manage_options=(

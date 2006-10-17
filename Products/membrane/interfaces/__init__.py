@@ -28,3 +28,5 @@ from categorymapper import ICategoryMapper
 
 from events import IMembraneTypeRegisteredEvent
 from events import IMembraneTypeUnregisteredEvent
+
+from utilities import IUserAdder

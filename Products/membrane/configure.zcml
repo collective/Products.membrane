@@ -4,6 +4,7 @@
            i18n_domain="membrane">
 
   <five:traversable class=".tools.membrane.MembraneTool" />
+  <five:localsite class="Products.CMFPlone.Portal.PloneSite" />
 
   <include package="zope.app.annotation" />
   <include file="permissions.zcml" />

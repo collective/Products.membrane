@@ -1,11 +1,15 @@
+from zope.component import getUtilitiesFor
+
 from Products.CMFCore.utils import getToolByName
+
 from Products.Five import BrowserView
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
 from Products.membrane.interfaces import ICategoryMapper
+from Products.membrane.interfaces import IUserAdder
 from Products.membrane.config import ACTIVE_STATUS_CATEGORY
 from Products.membrane.utils import generateCategorySetIdForType
 from Products.membrane.utils import getAllWFStatesForType
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
 
 class FormControllerView(BrowserView):
@@ -88,4 +92,13 @@ class MembraneTypesView(FormControllerView):
             self.context.unregisterMembraneType(portal_type)
         for portal_type in new_mem_types.difference(old_mem_types):
             self.context.registerMembraneType(portal_type)
-            
+
+        user_adder = self.request.get('user_adder', self.context.user_adder)
+        self.context.user_adder = user_adder
+
+    def availableAdders(self):
+        """
+        Return the set of available IUserAdder utilities.
+        """
+        adders = getUtilitiesFor(IUserAdder)
+        return [adder[0] for adder in adders]

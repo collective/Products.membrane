@@ -1,6 +1,9 @@
 # Copyright 2005 Plone Solutions
 # info@plonesolutions.com
 
+# Copyright 2006 The Open Planning Project
+# robm <at> openplans -dot- org
+
 import copy
 from AccessControl import ClassSecurityInfo
 from AccessControl.SecurityManagement import getSecurityManager
@@ -9,6 +12,8 @@ from OFS.Cache import Cacheable
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 
 from zope.interface import implements
+from zope.component import queryUtility
+from zope.component import getUtilitiesFor
 
 from Products.CMFCore.utils import getToolByName
 
@@ -30,10 +35,12 @@ from Products.membrane.interfaces import IMembraneUserChanger
 from Products.membrane.interfaces import IUserAuthProvider
 from Products.membrane.interfaces import ICategoryMapper
 from Products.membrane.interfaces import IUserAuthentication
+from Products.membrane.interfaces import IUserAdder
 from Products.membrane.utils import generateCategorySetIdForType
 
 manage_addMembraneUserManagerForm = PageTemplateFile(
-    '../www/MembraneUserManagerForm', globals(), __name__='manage_addMembraneUserManagerForm' )
+    '../www/MembraneUserManagerForm',
+    globals(), __name__='manage_addMembraneUserManagerForm' )
 
 
 def addMembraneUserManager( dispatcher, id, title=None, REQUEST=None ):
@@ -228,7 +235,8 @@ class MembraneUserManager(BasePlugin, Cacheable):
         return tuple([uf.getUserById(x) for x in self.getUserIds()])
 
     #
-    # IMembraneUserChanger implementation
+    # IUserManagement implementation
+    # (including IMembraneUserChanger implementation)
     #
     def doChangeUser(self, login, password, **kwargs):
         mbtool = getToolByName(self, TOOLNAME)
@@ -238,13 +246,10 @@ class MembraneUserManager(BasePlugin, Cacheable):
         if users:
             user = users[0]._unrestrictedGetObject()
             IMembraneUserChanger(user).doChangeUser(login, password,
-                                                       **kwargs)
+                                                    **kwargs)
         else:
             raise RuntimeError, 'User does not exist: %s'%login
 
-    #
-    # IUserManagement implementation
-    #
     def doDeleteUser(self, login):
         mbtool = getToolByName(self, TOOLNAME)
         uSR = mbtool.unrestrictedSearchResults
@@ -257,9 +262,30 @@ class MembraneUserManager(BasePlugin, Cacheable):
             raise RuntimeError, 'User does not exist: %s'%login
 
     def doAddUser(self, login, password):
-        """This is highly usecase dependent and will need to be implemented
-        independently"""
-        raise NotImplementedError
+        """
+        This is highly usecase dependent, so it delegates to a local
+        utility
+        """
+        portal = getToolByName(self, 'portal_url').getPortalObject()
+        mbtool = getToolByName(self, TOOLNAME)
+
+        sm = portal.getSiteManager()
+
+        adder_name = mbtool.user_adder
+        if adder_name:
+            adder = sm.queryUtility(IUserAdder, name=adder_name)
+            if adder is None:
+                msg = "IUserAdder utility '%s' is not registered" \
+                      % adder_name
+                raise(NotImplementedError, msg)
+        else:
+            adders = sm.getUtilitiesFor(IUserAdder)
+            try:
+                adder = adders.next()
+            except StopIteration:
+                msg = "There is no IUserAdder utility registered."
+                raise(NotImplementedError, msg)
+        adder.addUser(login, password)
 
 
 InitializeClass( MembraneUserManager )

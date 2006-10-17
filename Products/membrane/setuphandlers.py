@@ -1,5 +1,8 @@
 from StringIO import StringIO
 
+from Products.Five.site.localsite import ISite
+from Products.Five.site.localsite import enableLocalSiteHook
+
 from Products.CMFCore.utils import getToolByName
 
 from Products.PluggableAuthService.interfaces.plugins \
@@ -8,6 +11,44 @@ from Products.PluggableAuthService.interfaces.plugins \
      import IUserFactoryPlugin
 
 from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
+
+from interfaces import IUserAdder
+from config import TOOLNAME
+
+PROFILE_ID = "profile-membrane:default"
+
+
+def _doRegisterUserAdderUtility(context, step_name, profile_id,
+                                utility_name, utility):
+    """ registers utility for adding ExampleMembers """
+    portal = context.getSite()
+    if not _membraneProfileActive(portal, profile_id):
+        return # do nothing
+    
+    sm = portal.getSiteManager()
+    logger = context.getLogger(step_name)
+    if sm.queryUtility(IUserAdder, name=utility_name) is None:
+        sm.registerUtility(IUserAdder, utility,
+                           name=utility_name)
+        logger.info("Registered IUserAdder utility: %s" %
+                    utility_name)
+        mbtool = getToolByName(portal, TOOLNAME)
+        if not mbtool.user_adder:
+            # we become the default if one isn't already specified
+            mbtool.user_adder = utility_name
+    else:
+        logger.info("IUserAdder utility '%s' already registered" %
+                    utility_name)
+
+
+def _membraneProfileActive(portal, profile_id=PROFILE_ID):
+    """
+    Returns True if the membrane default profile is currently active
+    in the setup tool, False otherwise.
+    """
+    setup_tool = getToolByName(portal, 'portal_setup')
+    return setup_tool.getImportContextID() == profile_id
+
 
 def _setupPlugins(portal, out):
     """
@@ -51,8 +92,24 @@ def _setupPlugins(portal, out):
 
 
 def setupPlugins(context):
-    out = StringIO()
+    """ initialize membrane plugins """
     portal = context.getSite()
+    if not _membraneProfileActive(portal):
+        return # do nothing
+
+    out = StringIO()
     _setupPlugins(portal, out)
     logger = context.getLogger("plugins")
     logger.info(out.getvalue())
+
+
+def initSiteManager(context):
+    """ init portal object as a site manager if not already done """
+    portal = context.getSite()
+    if not _membraneProfileActive(portal):
+        return # do nothing
+
+    if not ISite.providedBy(portal):
+        enableLocalSiteHook(portal)
+        logger = context.getLogger("membrane-sitemanager")
+        logger.info("Portal initialized as local site.")

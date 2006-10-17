@@ -1,14 +1,10 @@
 #
 # MembraneTestCase Membrane
 #
+from Products.Five.site.localsite import ISite
 
-import os, sys
-
-from Testing import ZopeTestCase
-from Products.membrane.tests import base
 from Products.membrane.config import TOOLNAME
-from AccessControl import getSecurityManager
-from AccessControl.SecurityManagement import setSecurityManager
+import base
 
 class TestProductInstall(base.MembraneTestCase):
 
@@ -32,6 +28,9 @@ class TestProductInstall(base.MembraneTestCase):
 
     def testToolInstall(self):
         self.failUnless(TOOLNAME in self.portal.objectIds())
+
+    def testSiteManagerInstall(self):
+        self.failUnless(ISite.providedBy(self.portal))
 
 
 def test_suite():
