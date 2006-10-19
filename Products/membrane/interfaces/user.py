@@ -5,7 +5,8 @@ from zope.interface import Interface
 
 from Products.Archetypes.interfaces import IReferenceable
 
-from Products.PluggableAuthService.interfaces.plugins import IAuthenticationPlugin
+from Products.PluggableAuthService.interfaces.plugins import \
+     IAuthenticationPlugin
 from Products.PluggableAuthService.interfaces.plugins import IGroupsPlugin
 from Products.PluggableAuthService.interfaces.plugins import IRolesPlugin
 from Products.PlonePAS.interfaces.plugins import IUserManagement
@@ -25,8 +26,8 @@ class IUserRelated(Interface):
     """
     def getUserId():
         """
-        Return the unique identifier for the user that this piece of content
-        relates to.
+        Return the unique identifier for the user that this piece of
+        content relates to.
         """
 
 class IMembraneUserAuth(IUserRelated, IAuthenticationPlugin):
