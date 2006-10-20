@@ -35,8 +35,9 @@ from Products.membrane.interfaces import IMembraneUserChanger
 from Products.membrane.interfaces import IUserAuthProvider
 from Products.membrane.interfaces import ICategoryMapper
 from Products.membrane.interfaces import IUserAuthentication
-from Products.membrane.interfaces import IUserAdder
 from Products.membrane.utils import generateCategorySetIdForType
+from Products.membrane.utils import getCurrentUserAdder
+
 
 manage_addMembraneUserManagerForm = PageTemplateFile(
     '../www/MembraneUserManagerForm',
@@ -266,26 +267,11 @@ class MembraneUserManager(BasePlugin, Cacheable):
         This is highly usecase dependent, so it delegates to a local
         utility
         """
-        portal = getToolByName(self, 'portal_url').getPortalObject()
-        mbtool = getToolByName(self, TOOLNAME)
-
-        sm = portal.getSiteManager()
-
-        adder_name = mbtool.user_adder
-        if adder_name:
-            adder = sm.queryUtility(IUserAdder, name=adder_name)
-            if adder is None:
-                msg = "IUserAdder utility '%s' is not registered" \
-                      % adder_name
-                raise(NotImplementedError, msg)
+        adder = getCurrentUserAdder(self)
+        if adder is not None:
+            adder.addUser(login, password)
         else:
-            adders = sm.getUtilitiesFor(IUserAdder)
-            try:
-                adder = adders.next()
-            except StopIteration:
-                msg = "There is no IUserAdder utility registered."
-                raise(NotImplementedError, msg)
-        adder.addUser(login, password)
+            raise(NotImplemented, "IUserAdder utility not available")
 
 
 InitializeClass( MembraneUserManager )
