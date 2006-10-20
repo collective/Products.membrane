@@ -1,10 +1,10 @@
 from AccessControl import ClassSecurityInfo
 
 from zope.interface import implements
+from zope.component import implementedBy
 
 from Products.PluggableAuthService.utils import createViewName
 from Products.PluggableAuthService.utils import classImplements
-from Products.PluggableAuthService.utils import implementedBy
 
 from Products.CMFCore.utils import getToolByName
 from Products.Archetypes.public import BaseSchema
