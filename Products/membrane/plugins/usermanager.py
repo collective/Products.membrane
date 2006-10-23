@@ -26,6 +26,7 @@ from Products.PluggableAuthService.interfaces.plugins \
 
 from Products.PlonePAS.interfaces.plugins import IUserIntrospection
 from Products.PlonePAS.interfaces.plugins import IUserManagement
+from Products.PlonePAS.interfaces.capabilities import IPasswordSetCapability
 
 from Products.membrane.config import TOOLNAME
 from Products.membrane.config import ACTIVE_STATUS_CATEGORY
@@ -68,7 +69,8 @@ class MembraneUserManager(BasePlugin, Cacheable):
     implements(IAuthenticationPlugin,
                IUserEnumerationPlugin,
                IUserIntrospection,
-               IUserManagement
+               IUserManagement,
+               IPasswordSetCapability,
                )
 
     def __init__(self, id, title=None):
@@ -273,5 +275,15 @@ class MembraneUserManager(BasePlugin, Cacheable):
         else:
             raise(NotImplemented, "IUserAdder utility not available")
 
+    def allowPasswordSet(self, login):
+        """
+        Check if we have access to set the password.
+        We can verify this by checking if we can adapt to an IUserChanger
+        """
+        mbtool = getToolByName(self, TOOLNAME)
+        uSR = mbtool.unrestrictedSearchResults
+        users = uSR(object_implements=IMembraneUserChanger.__identifier__,
+                    getUserName=login)
+        return bool(users)
 
 InitializeClass( MembraneUserManager )
