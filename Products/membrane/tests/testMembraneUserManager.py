@@ -9,6 +9,8 @@ from Testing import ZopeTestCase
 from Products.membrane.tests import base
 from Products.CMFPlone.utils import _createObjectByType
 
+from Products.PlonePAS.interfaces.capabilities import IPasswordSetCapability
+
 from Products.PluggableAuthService.tests.conformance \
     import IAuthenticationPlugin_conformance
 from Products.PluggableAuthService.tests.conformance \
@@ -282,6 +284,9 @@ class TestMembraneUserManagerManagement(base.MembraneTestCase,
         credentials = {'login':'testuser', 'password':'pass2'}
         self.failUnlessEqual(authcred(credentials), (userauth.getUserId(),
                                                      self.member.getUserName()))
+
+    def testAllowChangePassword(self):
+        self.failUnless(IPasswordSetCapability.providedBy(self.portal.pmm))
 
     def testChangeOtherData(self):
         pmm = self.portal.pmm
