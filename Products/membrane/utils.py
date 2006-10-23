@@ -46,3 +46,13 @@ def getCurrentUserAdder(context):
             adder = None
 
     return adder
+
+def queryMembraneTool(context, **query):
+    mbtool = getToolByName(context, TOOLNAME)
+    uSR = mbtool.unrestrictedSearchResults
+    return uSR(**query)
+
+def findImplementations(context, iname):
+    return queryMembraneTool(context, 
+                             object_implements=iname.__identifier__)
+    

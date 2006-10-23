@@ -38,6 +38,8 @@ from Products.membrane.interfaces import ICategoryMapper
 from Products.membrane.interfaces import IUserAuthentication
 from Products.membrane.utils import generateCategorySetIdForType
 from Products.membrane.utils import getCurrentUserAdder
+from Products.membrane.utils import queryMembraneTool
+from Products.membrane.utils import findImplementations
 
 
 manage_addMembraneUserManagerForm = PageTemplateFile(
@@ -212,9 +214,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
         """
         Return a list of user ids
         """
-        mbtool = getToolByName(self, TOOLNAME)
-        uSR = mbtool.unrestrictedSearchResults
-        users = uSR(object_implements=IMembraneUserAuth.__identifier__)
+        users = findImplementations(self, IMembraneUserAuth)
         return tuple([u.getUserId for u in users])
 
     security.declarePrivate('getUserNames')
@@ -222,9 +222,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
         """
         Return a list of usernames
         """
-        mbtool = getToolByName(self, TOOLNAME)
-        uSR = mbtool.unrestrictedSearchResults
-        users = uSR(object_implements=IUserAuthProvider.__identifier__)
+        users = findImplementations(self, IUserAuthProvider)
         return tuple([u.getUserName for u in users])
 
     security.declarePrivate('getUsers')
@@ -237,15 +235,18 @@ class MembraneUserManager(BasePlugin, Cacheable):
         uf = getToolByName(self, 'acl_users')
         return tuple([uf.getUserById(x) for x in self.getUserIds()])
 
+    def _getUserChanger(self, login):
+        return queryMembraneTool(
+            self,
+            object_implements=IMembraneUserChanger.__identifier__,
+            getUserName=login)
+
     #
     # IUserManagement implementation
     # (including IMembraneUserChanger implementation)
     #
     def doChangeUser(self, login, password, **kwargs):
-        mbtool = getToolByName(self, TOOLNAME)
-        uSR = mbtool.unrestrictedSearchResults
-        users = uSR(object_implements=IMembraneUserChanger.__identifier__,
-                    getUserName=login)
+        users = self._getUserChanger(login)
         if users:
             user = users[0]._unrestrictedGetObject()
             IMembraneUserChanger(user).doChangeUser(login, password,
@@ -254,10 +255,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
             raise RuntimeError, 'User does not exist: %s'%login
 
     def doDeleteUser(self, login):
-        mbtool = getToolByName(self, TOOLNAME)
-        uSR = mbtool.unrestrictedSearchResults
-        users = uSR(object_implements=IMembraneUserManagement.__identifier__,
-                    getUserName=login)
+        users = self._getUserChanger(login)
         if users:
             user = users[0]._unrestrictedGetObject()
             IMembraneUserManagement(user).doDeleteUser(login)
@@ -280,10 +278,6 @@ class MembraneUserManager(BasePlugin, Cacheable):
         Check if we have access to set the password.
         We can verify this by checking if we can adapt to an IUserChanger
         """
-        mbtool = getToolByName(self, TOOLNAME)
-        uSR = mbtool.unrestrictedSearchResults
-        users = uSR(object_implements=IMembraneUserChanger.__identifier__,
-                    getUserName=login)
-        return bool(users)
+        return bool(self._getUserChanger(login))
 
 InitializeClass( MembraneUserManager )
