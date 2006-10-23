@@ -255,7 +255,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
             raise RuntimeError, 'User does not exist: %s'%login
 
     def doDeleteUser(self, login):
-        users = self._getUserChanger(login)
+        users = findImplementations(self, IMembraneUserManagement)
         if users:
             user = users[0]._unrestrictedGetObject()
             IMembraneUserManagement(user).doDeleteUser(login)
