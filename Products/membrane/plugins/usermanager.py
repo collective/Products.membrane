@@ -27,6 +27,7 @@ from Products.PluggableAuthService.interfaces.plugins \
 from Products.PlonePAS.interfaces.plugins import IUserIntrospection
 from Products.PlonePAS.interfaces.plugins import IUserManagement
 from Products.PlonePAS.interfaces.capabilities import IPasswordSetCapability
+from Products.PlonePAS.interfaces.capabilities import IDeleteCapability
 
 from Products.membrane.config import TOOLNAME
 from Products.membrane.config import ACTIVE_STATUS_CATEGORY
@@ -75,6 +76,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
                IUserIntrospection,
                IUserManagement,
                IPasswordSetCapability,
+               IDeleteCapability,
                )
 
     def __init__(self, id, title=None):
@@ -283,5 +285,16 @@ class MembraneUserManager(BasePlugin, Cacheable):
         We can verify this by checking if we can adapt to an IUserChanger
         """
         return bool(self._getUserChanger(login))
+
+    def allowDeletePrincipal(self, login):
+        """
+        Check to see if the user can be deleted by trying to adapt
+        to an IMembraneUserDeleter
+        """
+        import pdb; pdb.set_trace()
+        return bool(queryMembraneTool(self,
+                                      object_implements=IMembraneUserDeleter.__identifier__,
+                                      getUserName=login))
+        
 
 InitializeClass( MembraneUserManager )
