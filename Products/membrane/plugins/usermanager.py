@@ -291,7 +291,6 @@ class MembraneUserManager(BasePlugin, Cacheable):
         Check to see if the user can be deleted by trying to adapt
         to an IMembraneUserDeleter
         """
-        import pdb; pdb.set_trace()
         return bool(queryMembraneTool(self,
                                       object_implements=IMembraneUserDeleter.__identifier__,
                                       getUserName=login))
