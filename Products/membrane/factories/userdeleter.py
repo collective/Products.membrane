@@ -1,3 +1,5 @@
+from zope.interface import implements
+
 from Products.membrane.interfaces import IUserDeleter
 from Products.membrane.interfaces import IMembraneUserDeleter
 

@@ -61,6 +61,11 @@
            factory=".factories.userchanger.UserChanger"
            />
 
+  <adapter for=".interfaces.IUserDeleter"
+	   provides=".interfaces.IMembraneUserDeleter"
+	   factory=".factories.userdeleter.UserDeleter"
+	   />
+
   <subscriber for=".interfaces.IMembraneTypeRegisteredEvent"
               handler=".factories.statusmapper.initializeStatusCategories"
               />
