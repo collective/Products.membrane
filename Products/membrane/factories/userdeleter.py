@@ -14,6 +14,6 @@ class UserDeleter(object):
 
     def doDeleteUser(self, login):
         """
-        adapt to the IMembraneUserDeleter by setting a password
+        adapt to the IMembraneUserDeleter by calling delete on the IUserDeleter
         """
         IUserDeleter(self.context).delete(login)
