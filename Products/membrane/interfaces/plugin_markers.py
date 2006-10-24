@@ -98,3 +98,10 @@ class IUserChanger(IReferenceable):
     """
     def setPassword(password):
         """change the password for a user"""
+
+class IUserDeleter(IReferenceable):
+    """
+    delete a user
+    """
+    def delete(login):
+        """delete the user with name login"""

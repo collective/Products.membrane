@@ -8,8 +8,8 @@ from user import IMembraneUserAuth
 from user import IMembraneUserProperties
 from user import IMembraneUserRoles
 from user import IMembraneUserGroups
-from plugin_markers import IUserChanger
 from user import IMembraneUserChanger
+from user import IMembraneUserDeleter
 from user import IMembraneUserManagement
 
 from group import IGroup
@@ -23,6 +23,8 @@ from plugin_markers import IUserRoles
 from plugin_markers import IRolesProvider
 from plugin_markers import IGroupAwareRolesProvider
 from plugin_markers import ISelectedGroupsProvider
+from plugin_markers import IUserChanger
+from plugin_markers import IUserDeleter
 
 from categorymapper import ICategoryMapper
 

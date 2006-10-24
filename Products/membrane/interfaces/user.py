@@ -61,3 +61,10 @@ class IMembraneUserChanger(IUserRelated):
     """
     def doChangeUser(login, password, **kwargs):
         """change the password for a given user"""
+
+class IMembraneUserDeleter(IUserRelated):
+    """
+    Used to delete member objects
+    """
+    def doDeleteUser(login):
+        """remove the user with the id login"""

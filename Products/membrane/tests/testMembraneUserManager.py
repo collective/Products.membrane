@@ -18,6 +18,7 @@ from Products.PluggableAuthService.tests.conformance \
 
 from Products.membrane.tests.utils import sortTuple
 from Products.membrane.interfaces import IMembraneUserAuth
+from Products.membrane.interfaces import IMembraneUserDeleter
 from Products.membrane.interfaces import IMembraneUserManagement
 from Products.membrane.interfaces import ICategoryMapper
 from Products.membrane.config import TOOLNAME

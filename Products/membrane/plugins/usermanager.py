@@ -33,9 +33,11 @@ from Products.membrane.config import ACTIVE_STATUS_CATEGORY
 from Products.membrane.interfaces import IMembraneUserAuth
 from Products.membrane.interfaces import IMembraneUserManagement
 from Products.membrane.interfaces import IMembraneUserChanger
+from Products.membrane.interfaces import IMembraneUserDeleter
 from Products.membrane.interfaces import IUserAuthProvider
 from Products.membrane.interfaces import ICategoryMapper
 from Products.membrane.interfaces import IUserAuthentication
+from Products.membrane.interfaces import IUserDeleter
 from Products.membrane.utils import generateCategorySetIdForType
 from Products.membrane.utils import getCurrentUserAdder
 from Products.membrane.utils import queryMembraneTool
@@ -252,15 +254,17 @@ class MembraneUserManager(BasePlugin, Cacheable):
             IMembraneUserChanger(user).doChangeUser(login, password,
                                                     **kwargs)
         else:
-            raise RuntimeError, 'User does not exist: %s'%login
+            raise RuntimeError, 'No adapter found for user: %s'%login
 
     def doDeleteUser(self, login):
-        users = findImplementations(self, IMembraneUserManagement)
+        users = queryMembraneTool(self,
+                                  object_implements=IMembraneUserDeleter.__identifier__,
+                                  getUserName=login)
         if users:
             user = users[0]._unrestrictedGetObject()
-            IMembraneUserManagement(user).doDeleteUser(login)
+            IMembraneUserDeleter(user).doDeleteUser(login)
         else:
-            raise RuntimeError, 'User does not exist: %s'%login
+            raise RuntimeError, 'No adapter found for user: %s'%login
 
     def doAddUser(self, login, password):
         """

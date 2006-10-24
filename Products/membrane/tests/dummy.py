@@ -28,6 +28,8 @@ from Products.membrane.interfaces import IUserRoles
 from Products.membrane.interfaces import IMembraneUserAuth
 from Products.membrane.interfaces import IMembraneUserManagement
 from Products.membrane.interfaces import IMembraneUserChanger
+from Products.membrane.interfaces import IMembraneUserDeleter
+from Products.membrane.interfaces import IUserDeleter
 from Products.membrane.interfaces import IGroup
 from Products.membrane.factories.authentication import Authentication
 from Products.membrane.factories.properties import Properties
@@ -164,6 +166,8 @@ class BaseMember:
         if kwargs:
             self.edit(**kwargs)
 
+    # IMembraneUserDeleter method
+
     def doDeleteUser(self, login):
         parent = self.aq_inner.aq_parent
         parent.manage_delObjects([self.getId()])
@@ -174,7 +178,8 @@ class TestMember(BaseMember, BaseContent):
     implements(IUserAuthProvider, IUserAuthentication, 
                IPropertiesProvider, IGroupsProvider, 
                IGroupAwareRolesProvider, IUserRoles,
-               IMembraneUserChanger, IMembraneUserManagement)
+               IMembraneUserChanger, IMembraneUserManagement,
+               IMembraneUserDeleter)
 
 registerType(TestMember, PROJECTNAME)
 
