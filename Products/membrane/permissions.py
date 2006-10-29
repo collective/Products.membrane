@@ -1,4 +1,4 @@
-from Products.CMFCore.CMFCorePermissions import ManagePortal
+from Products.CMFCore.permissions import ManagePortal
 
 from Products.CMFCore import permissions as cmfcore_permissions
 
