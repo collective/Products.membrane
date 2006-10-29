@@ -11,7 +11,7 @@ from Products.PluggableAuthService import registerMultiPlugin
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.GenericSetup import EXTENSION, profile_registry
 
-from Products.membrane import config
+from Products.membrane.config import PROJECTNAME
 from Products.membrane.plugins import usermanager, groupmanager, \
      propertymanager, rolemanager, userfactory
 
@@ -26,10 +26,10 @@ def initialize(context):
 
     import examples
 
-    content_types, constructors, ftis = process_types(listTypes(config.PROJECTNAME), config.PROJECTNAME)
+    content_types, constructors, ftis = process_types(listTypes(PROJECTNAME), PROJECTNAME)
 
     ContentInit(
-        config.PROJECTNAME + ' Content',
+        PROJECTNAME + ' Content',
         content_types = content_types,
         permission = ADD_CONTENT_PERMISSION,
         extra_constructors = constructors,
@@ -72,9 +72,9 @@ def initialize(context):
                           )
 
     from Products.membrane.tools import membrane
-    ToolInit(config.PROJECTNAME+ ' Tool',
+    ToolInit(PROJECTNAME+ ' Tool',
              tools = (membrane.MembraneTool, ),
-             product_name = config.PROJECTNAME,
+             product_name = PROJECTNAME,
              icon = 'tool.gif'
              ).initialize(context)
 
