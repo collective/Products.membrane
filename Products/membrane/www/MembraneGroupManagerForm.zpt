@@ -1,13 +1,13 @@
 <h1 tal:replace="structure here/manage_page_header">Header</h1>
 
-<h2 tal:define="form_title string:Add Membrane Member Manager"
+<h2 tal:define="form_title string:Add Membrane Group Manager"
     tal:replace="structure here/manage_form_title">Form Title</h2>
 
 <p class="form-help">
-  Membrane Member Managers use AT based content objects.
+  Membrane Group Managers use AT based content objects.
 </p>
 
-<form action="addMembraneUserManager">
+<form action="addMembraneGroupManager">
 <table cellspacing="0" cellpadding="2" border="0">
   <tr>
     <td align="left" valign="top">
