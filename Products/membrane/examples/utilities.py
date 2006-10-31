@@ -17,4 +17,4 @@ class UserAdder(SimpleItem):
         Adds a SimpleMember object at the root of the Plone site.
         """
         portal = getToolByName(self, 'portal_url').getPortalObject()
-        portal.invokeFactory('SimpleMember', login, password=password)
+        portal.invokeFactory('SimpleMember', login, userName=login, password=password)
