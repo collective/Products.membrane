@@ -276,6 +276,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
         adder = getCurrentUserAdder(self)
         if adder is not None:
             adder.addUser(login, password)
+            return True
         else:
             raise(NotImplemented, "IUserAdder utility not available")
 
