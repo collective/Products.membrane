@@ -43,9 +43,12 @@ def object_implements(object, portal, **kw):
     direct = res.values()
     for iface in direct:
         for adapter_reg in getRequiredAdapters(iface):
-            # avoid checking 'named' adapters
-            if adapter_reg.name:
-              continue
+            # XXX - the following, was added in an attempt to support Plone 3.0
+            # in the meantime, however, it's causing tests to break on the Plone 2.5
+            # development bundle within the RememberProfileLayer, which is our primary target
+            ## avoid checking 'named' adapters
+            ## if adapter_reg.name:
+            ##  continue
             adaptable_iface = adapter_reg.provided
             adapting_from = [i for i in adapter_reg.required if i is not None]
             skip = False
