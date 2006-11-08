@@ -3,7 +3,7 @@
 
   <import-step 
      id="membranetool"
-     version="20060512-01"
+     version="20061108-01"
      handler="Products.membrane.exportimport.membranetool.importMembraneTool"
      title="Membrane Tool">
     <dependency step="toolset"/>
