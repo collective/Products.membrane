@@ -5,8 +5,8 @@
 import os, sys
 import unittest
 
+import transaction as txn
 from Testing import ZopeTestCase
-from Products.membrane.tests import base
 from Products.CMFPlone.utils import _createObjectByType
 
 from Products.PlonePAS.interfaces.capabilities import IPasswordSetCapability
@@ -25,33 +25,58 @@ from Products.membrane.config import TOOLNAME
 from Products.membrane.config import ACTIVE_STATUS_CATEGORY
 from Products.membrane.utils import generateCategorySetIdForType
 from Products.membrane.utils import getAllWFStatesForType
+from Products.membrane.plugins.usermanager import MembraneUserManager
+from Products.membrane.tests import base
+
+
+class MembraneUserManagerLayer(base.AddUserLayer):
+    @classmethod
+    def setUp(cls):
+        portal = cls.getPortal()
+        portal.pmm = MembraneUserManager(id='pmm')
+        txn.commit()
+
+    @classmethod
+    def tearDown(cls):
+        pass
+
+
+class MembraneUserManagerTwoUsersLayer(MembraneUserManagerLayer):
+    @classmethod
+    def setUp(cls):
+        portal = cls.getPortal()
+        member = _createObjectByType('TestMember', portal,
+                                     'testuser2')
+        member.setUserName('testuser2')
+        member.setPassword('testpassword2')
+        member.setTitle('full name 2')
+        member.reindexObject()
+        txn.commit()
+
+    @classmethod
+    def tearDown(cls):
+        pass
+
 
 class MembraneUserManagerTestBase:
-
-    def _getTargetClass( self ):
-        from Products.membrane.plugins.usermanager \
-            import MembraneUserManager
+    def _getTargetClass(self):
         return MembraneUserManager
 
-    def _makeOne( self, id='test', *args, **kw ):
-        return self._getTargetClass()( id=id, *args, **kw )
+    def _makeOne(self, id='test', *args, **kw):
+        return self._getTargetClass()(id=id, *args, **kw)
 
 
-class TestMembraneUserManagerBasics( unittest.TestCase
-                             , MembraneUserManagerTestBase
-                             , IAuthenticationPlugin_conformance
-                             , IUserEnumerationPlugin_conformance
-                             ):
+class TestMembraneUserManagerBasics(base.MembraneTestCase,
+                                    MembraneUserManagerTestBase,
+                                    IAuthenticationPlugin_conformance,
+                                    IUserEnumerationPlugin_conformance):
     # Run the conformance tests
-    pass
+    layer = MembraneUserManagerLayer
 
 
-class TestMembraneUserManagerEnumeration( base.MembraneTestCase
-                                        , MembraneUserManagerTestBase):
+class TestMembraneUserManagerEnumeration(base.MembraneUserTestCase):
 
-    def afterSetUp(self):
-        self.portal.pmm = self._makeOne('pmm')
-        self.addUser()
+    layer = MembraneUserManagerLayer
 
     def testEnumerateUsersNoArgs(self):
         self.failUnlessEqual(len(self.portal.pmm.enumerateUsers()), 1)        
@@ -100,11 +125,9 @@ class TestMembraneUserManagerEnumeration( base.MembraneTestCase
                                            exact_match=True, max_results=0)), 0)
 
 
-class TestMembraneUserManagerAuthentication(base.MembraneTestCase,
-                                            MembraneUserManagerTestBase):
-    def afterSetUp(self):
-        self.portal.pmm = self._makeOne('pmm')
-        self.addUser()
+class TestMembraneUserManagerAuthentication(base.MembraneUserTestCase):
+
+    layer = MembraneUserManagerLayer
 
     def testAuthenticateOnMember(self):
         credentials = {'login':'norealuser', 'password':'norealpassword'}
@@ -149,14 +172,30 @@ class TestMembraneUserManagerAuthentication(base.MembraneTestCase,
     def testLogin(self):
         self.login(IMembraneUserAuth(self.member).getUserId())
 
+    def testLoginCaseSensitive(self):
+        member2 = _createObjectByType('TestMember', self.portal,
+                                     'TestUser') # different case
+        member2.setUserName('TestUser')
+        member2.setPassword('testpassword2')
+        member2.reindexObject()
+        authcred = self.portal.pmm.authenticateCredentials
+        credentials = {'login': 'testuser', 'password': 'testpassword'}
+        self.failUnlessEqual(authcred(credentials),
+                             (IMembraneUserAuth(self.member).getUserId(),
+                              self.member.getUserName()))
+        credentials = {'login': 'TestUser', 'password': 'testpassword2'}
+        self.failUnlessEqual(authcred(credentials),
+                             (IMembraneUserAuth(member2).getUserId(),
+                              member2.getUserName()))
 
-class TestMembraneUserManagerAuthenticationPermissions( base.MembraneTestCase
-                                                      , MembraneUserManagerTestBase):
+
+class TestMembraneUserManagerAuthenticationPermissions(base.MembraneUserTestCase):
     """Check if everything works when the user object is private"""
 
+    layer = MembraneUserManagerLayer
+    
     def afterSetUp(self):
-        self.portal.pmm = self._makeOne('pmm')
-        self.addUser()
+        base.MembraneUserTestCase.afterSetUp(self)
         self.portal.portal_workflow.doActionFor(self.member, 'hide')
 
     def testAuthenticate(self):
@@ -176,75 +215,74 @@ class TestMembraneUserManagerAuthenticationPermissions( base.MembraneTestCase
         self.login(IMembraneUserAuth(self.member).getUserId())
 
 
-class TestMembraneUserManagerIntrospection( base.MembraneTestCase
-                                          , MembraneUserManagerTestBase):
 
-    def createSecondUser(self):
-        self.member2 = _createObjectByType('TestMember', self.portal,
-                                           'testuser2')
-        self.member2.setUserName('testuser2')
-        self.member2.setPassword('testpassword2')
-        self.member2.setTitle('full name 2')
-        self.member2.reindexObject()
+class TestUserManagerIntrospectionNoUsers(base.MembraneTestCase):
 
     def afterSetUp(self):
-        self.portal.pmm = self._makeOne('pmm')
+        self.portal.pmm = MembraneUserManager(id='pmm')
 
     def testGetUserIdsNoUsers(self):
         self.failIf(self.portal.pmm.getUserIds())
 
-    def testGetUserIdsOneUser(self):
-        self.addUser()
-        self.failUnlessEqual(self.portal.pmm.getUserIds(),
-                             (IMembraneUserAuth(self.member).getUserId(),))
-
-    def testGetUserIds(self):
-        self.addUser()
-        self.createSecondUser()
-        userids = sortTuple(self.portal.pmm.getUserIds())
-        self.failUnlessEqual(userids,
-                             sortTuple((IMembraneUserAuth(self.member).getUserId(),
-                                        IMembraneUserAuth(self.member2).getUserId())))
-
     def getUserNamesNoUsers(self):
         self.failIf(self.portal.pmm.getUserNames())
 
+    def testGetUsersNoUsers(self):
+        self.failIf(self.portal.pmm.getUsers())
+
+
+class TestUserManagerIntrospectionOneUser(base.MembraneUserTestCase):
+
+    layer = MembraneUserManagerLayer
+
+    def testGetUserIdsOneUser(self):
+        self.failUnlessEqual(self.portal.pmm.getUserIds(),
+                             (IMembraneUserAuth(self.member).getUserId(),))
+
     def getUserNamesOneUser(self):
-        self.addUser()
         self.failUnlessEqual(self.portal.pmm.getUserNames(),
                              (self.member.getUserName(),))
 
+    def testGetUsersOneUser(self):
+        users = self.portal.pmm.getUsers()
+        self.failUnlessEqual([x.getId() for x in users],
+                             [IMembraneUserAuth(self.member).getUserId()])
+
+
+class TestUserManagerIntrospectionTwoUsers(base.MembraneUserTestCase):
+
+    layer = MembraneUserManagerTwoUsersLayer
+
+    def afterSetUp(self):
+        base.MembraneUserTestCase.afterSetUp(self)
+        self.member2 = self.portal.testuser2
+        
+    def testGetUserIds(self):
+        userids = sortTuple(self.portal.pmm.getUserIds())
+        correct = sortTuple(
+            (IMembraneUserAuth(self.member).getUserId(),
+             IMembraneUserAuth(self.member2).getUserId())
+            )
+        self.failUnlessEqual(userids, correct)
+
     def getUserNames(self):
-        self.addUser()
-        self.createSecondUser()
         usernames = sortTuple(self.portal.pmm.getUserIds())
         self.failUnlessEqual(userids,
                              sortTuple((self.member.getUserName(),
                                         self.member2.getUserName())))
 
-    def testGetUsersNoUsers(self):
-        self.failIf(self.portal.pmm.getUsers())
-
-    def testGetUsersOneUser(self):
-        self.addUser()
-        users = self.portal.pmm.getUsers()
-        self.failUnlessEqual([x.getId() for x in users],
-                             [IMembraneUserAuth(self.member).getUserId()])
-
     def testGetUsers(self):
-        self.addUser()
-        self.createSecondUser()
         userids = sortTuple(self.portal.pmm.getUserIds())
-        self.failUnlessEqual(userids,
-                             sortTuple((IMembraneUserAuth(self.member).getUserId(),
-                                        IMembraneUserAuth(self.member2).getUserId())))
+        correct = sortTuple(
+            (IMembraneUserAuth(self.member).getUserId(),
+             IMembraneUserAuth(self.member2).getUserId())
+            )
+        self.failUnlessEqual(userids, correct)
 
 
-class TestMembraneUserManagerManagement(base.MembraneTestCase,
-                                            MembraneUserManagerTestBase):
-    def afterSetUp(self):
-        self.portal.pmm = self._makeOne('pmm')
-        self.addUser()
+class TestMembraneUserManagerManagement(base.MembraneUserTestCase):
+
+    layer = MembraneUserManagerLayer
 
     def testUserChangePassword(self):
         usermanager = IMembraneUserManagement(self.member)
@@ -311,6 +349,8 @@ def test_suite():
     suite.addTest(makeSuite(TestMembraneUserManagerEnumeration))
     suite.addTest(makeSuite(TestMembraneUserManagerAuthentication))
     suite.addTest(makeSuite(TestMembraneUserManagerAuthenticationPermissions))
-    suite.addTest(makeSuite(TestMembraneUserManagerIntrospection))
+    suite.addTest(makeSuite(TestUserManagerIntrospectionNoUsers))
+    suite.addTest(makeSuite(TestUserManagerIntrospectionOneUser))
+    suite.addTest(makeSuite(TestUserManagerIntrospectionTwoUsers))
     suite.addTest(makeSuite(TestMembraneUserManagerManagement))
     return suite
