@@ -26,7 +26,8 @@ def initialize(context):
 
     import examples
 
-    content_types, constructors, ftis = process_types(listTypes(PROJECTNAME), PROJECTNAME)
+    content_types, constructors, ftis = process_types(listTypes(PROJECTNAME),
+                                                      PROJECTNAME)
 
     ContentInit(
         PROJECTNAME + ' Content',
