@@ -170,8 +170,14 @@ class MembraneTool(BaseTool):
         for the provided login.
         """
         uSR = self.unrestrictedSearchResults
-        members = uSR(getUserName=login,
-                      object_implements=IMembraneUserAuth.__identifier__)
+        # BBB unfortunately req'd or else migration to new index is
+        #     impossible
+        idxname = 'getUserName'
+        if 'exact_getUserName' in self._catalog.indexes:
+            idxname = 'exact_getUserName'
+        query = {idxname: login,
+                 'object_implements': IMembraneUserAuth.__identifier__}
+        members = uSR(**query)
 
         if not members:
             return None
