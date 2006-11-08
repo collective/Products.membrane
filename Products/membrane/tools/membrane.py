@@ -170,7 +170,7 @@ class MembraneTool(BaseTool):
         for the provided login.
         """
         uSR = self.unrestrictedSearchResults
-        members = uSR(getUserName=login,
+        members = uSR(exact_getUserName=login,
                       object_implements=IMembraneUserAuth.__identifier__)
 
         if not members:
