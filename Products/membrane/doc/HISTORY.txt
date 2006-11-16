@@ -2,7 +2,19 @@ Changelog for Membrane
 
    (name of developer listed in brackets)
 
-Membrane 0.3 (unreleased)
+membrane 1.0 (unreleased)
+
+
+membrane 1.0b1
+
+    - Introduced IUserChanger interface to separate the password
+      changing from the user addition and deletion portions of
+      IUserManagement. [rafrombrc]
+
+    - Completed general implementation of roles, groups, properties
+      plugins. [rafrombrc, jhammel, rmarianski]
+
+membrane 0.3
 
     - Added a IUserManagement interface (from PlonePAS) to the
       usermanager.  It will be available to implementations that
@@ -10,12 +22,15 @@ Membrane 0.3 (unreleased)
       directly or through adaptation.  This allows thing like
       PasswordResetTool to work.
 
+    - Renamed package to 'membrane' from 'Membrane' to reflect current
+      standard python naming conventions. [rafrombrc]
+
     - Major refactoring to use Zope 3 component engine to glue
       together all the pieces.  Mix-ins have been converted to
       adapters, providers are defined by implementation of specific
       interfaces. [rafrombrc]
 
-Membrane 0.1 (unreleased)
+Membrane 0.2-alpha
 
     - Made Title in membrane_tool a ZCTextIndex too, so that
       enumerateGroups() of membrane_groups works without exact_match.

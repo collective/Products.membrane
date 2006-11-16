@@ -31,15 +31,3 @@ WARNING!!
   interfaces implemented on any membrane related type or object, you
   may need to explicitly reindex the 'object_implements' interface on
   the membrane_tool.
-
-
-Credits
-
-  membrane was originally created by Plone Solutions.
-
-  Contact "Plone Solutions":http://www.plonesolutions.com/ for support
-  options or sponsoring further development.
-
-  Significant refactoring, componentization, and ongoing maintenance
-  has been taken over by Rob Miller of The Open Planning Project (robm
-  -at- openplans <dot> org).
