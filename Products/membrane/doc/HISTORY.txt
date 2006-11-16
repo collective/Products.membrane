@@ -4,14 +4,16 @@ Changelog for Membrane
 
 Membrane 0.3 (unreleased)
 
-    - Added a IUserManagement interface (from PlonePAS) to the usermanager.
-      It will be available to implementations that provide the corresponding 
-      IMembraneUserManagement interface directly or through adaptation.  This
-      allows thing like PasswordResetTool to work.
+    - Added a IUserManagement interface (from PlonePAS) to the
+      usermanager.  It will be available to implementations that
+      provide the corresponding IMembraneUserManagement interface
+      directly or through adaptation.  This allows thing like
+      PasswordResetTool to work.
 
-    - Major refactoring to use Zope 3 component engine to glue together
-      all the pieces.  Mix-ins have been converted to adapters, providers
-      are defined by implementation of specific interfaces. [rafrombrc]
+    - Major refactoring to use Zope 3 component engine to glue
+      together all the pieces.  Mix-ins have been converted to
+      adapters, providers are defined by implementation of specific
+      interfaces. [rafrombrc]
 
 Membrane 0.1 (unreleased)
 
