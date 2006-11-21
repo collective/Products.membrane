@@ -51,9 +51,9 @@ class ISchemataPropertiesProvider(IReferenceable, IBaseObject):
 
 class IUserRoles(Interface):
     """
-    Obtains roles for a given user. Typically, a member object would provide
-    this or adapt to this, and also provide one of IRolesProvider and
-    IGroupAwareRolesProvider.
+    Obtains roles for a given user. Typically, a member object would
+    provide this or adapt to this, and also provide one of
+    IRolesProvider and IGroupAwareRolesProvider.
     """
     
     def getRoles():
@@ -64,8 +64,8 @@ class IUserRoles(Interface):
 class IRolesProvider(Interface):
     """
     Marks the object as a Membrane roles provider using the default
-    roles computation mechanism defined in the Roles adapter. Objects must
-    also provide or adapt to IUserRoles.
+    roles computation mechanism defined in the Roles adapter. Objects
+    must also provide or adapt to IUserRoles.
     """
 
 class IGroupAwareRolesProvider(IRolesProvider):
