@@ -29,12 +29,20 @@
     <extra name="lexicon_id" value="lexicon"/>
   </index>
   
+  <index name="exact_getUserId" meta_type="FieldIndex">
+    <indexed_attr value="getUserId"/>
+  </index>
+
   <index name="getGroupId" meta_type="ZCTextIndex">
     <indexed_attr value="getGroupId"/>
     <extra name="index_type" value="Cosine Measure"/>
     <extra name="lexicon_id" value="lexicon"/>
   </index>
   
+  <index name="exact_getGroupId" meta_type="FieldIndex">
+    <indexed_attr value="getGroupId"/>
+  </index>
+
   <index name="UID" meta_type="FieldIndex">
     <indexed_attr value="UID"/>
   </index>
@@ -69,10 +77,6 @@
 
   <index name="getId" meta_type="FieldIndex">
     <indexed_attr value="getId"/>
-  </index>
-
-  <index name="exact_getGroupId" meta_type="FieldIndex">
-    <indexed_attr value="getGroupId"/>
   </index>
 
   <index name="path" meta_type="ExtendedPathIndex"/>
