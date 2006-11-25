@@ -18,6 +18,18 @@ membrane
   For information about the "why?" of membrane, and some policies for
   helping out, please see 'MANIFESTO.txt'.
 
+
+REQUIREMENTS:
+
+- Zope 2.9.5 or greater
+
+- Plone 2.5.2 (as yet unreleased, please use the Plone 2.5 bundle
+  until 2.5.2 is out)
+
+
+Please see docs/INSTALL.txt for installation instructions.
+
+
 ---------
 WARNING!!
 ---------

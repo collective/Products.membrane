@@ -1,4 +1,0 @@
-- Zope 2.9.5 or greater
-
-- Plone 2.5.2 (as yet unreleased, please use the Plone 2.5 bundle
-  until 2.5.2 is out)
