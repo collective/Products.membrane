@@ -13,8 +13,12 @@ from Products.CMFPlone.interfaces import IPloneSiteRoot
 ZopeTestCase.installProduct('membrane')
 
 from Products.PloneTestCase.setup import portal_name
-from Products.PloneTestCase.utils import safe_load_site
-from Products.PloneTestCase.utils import cleanUp
+from Products.PloneTestCase.setup import USELAYER
+from Products.PloneTestCase.five import safe_load_site
+from Products.PloneTestCase.five import cleanUp
+from Products.PloneTestCase import layer
+
+SiteLayer = layer.PloneSite
 
 try:
     from Products.PlonePAS.tests.PlonePASTestCase import PlonePASTestCase
@@ -46,7 +50,7 @@ def addUser(obj):
     return member
     
 
-class MembraneProfilesLayer:
+class MembraneProfilesLayer(SiteLayer):
     @classmethod
     def getPortal(cls):
         app = ZopeTestCase.app()
@@ -90,7 +94,8 @@ class AddUserLayer(MembraneProfilesLayer):
 
 class MembraneTestCase(PlonePASTestCase):
 
-    layer = MembraneProfilesLayer
+    if USERLAYER:
+        layer = MembraneProfilesLayer
 
     class Session(dict):
         def set(self, key, value):
