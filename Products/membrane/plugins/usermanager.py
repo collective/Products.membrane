@@ -10,6 +10,7 @@ from AccessControl.SecurityManagement import getSecurityManager
 from App.class_init import default__class_init__ as InitializeClass
 from OFS.Cache import Cacheable
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
+from Products.ZCTextIndex.ZCTextIndex import ZCTextIndex
 
 from zope.interface import implements
 from zope.component import queryUtility
@@ -152,7 +153,16 @@ class MembraneUserManager(BasePlugin, Cacheable):
         if query_index_map is not None:
             for keyword in kw.keys():
                 if keyword in query_index_map:
-                    query[query_index_map[keyword]] = kw[keyword]
+                    index_name = query_index_map[keyword]
+                    search_term= kw[keyword]
+                    if not exact_match:
+                        index = mbtool.Indexes[index_name]
+                        if type(index) = ZCTextIndex:
+                            # split, glob, join
+                            sep = search_term.strip().split()
+                            sep = ["%s*" % val for val in sep]
+                            search_term = ' '.join(sep)
+                    query[index_name] = search_term
 
         # Look in the cache first...
         keywords = copy.deepcopy(kw)
