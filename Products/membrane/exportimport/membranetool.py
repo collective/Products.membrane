@@ -1,3 +1,7 @@
+from persistent.mapping import PersistentMapping
+
+from zope.app.annotation.interfaces import IAnnotations
+
 from Products.CMFCore.utils import getToolByName
 from Products.GenericSetup.ZCatalog.exportimport import ZCatalogXMLAdapter
 from Products.GenericSetup.utils import exportObjects
@@ -6,6 +10,7 @@ from Products.GenericSetup.utils import importObjects
 from Products.membrane.interfaces import IMembraneTool
 from Products.membrane.interfaces import ICategoryMapper
 from Products.membrane.config import ACTIVE_STATUS_CATEGORY
+from Products.membrane.config import QIM_ANNOT_KEY
 from Products.membrane.utils import generateCategorySetIdForType
 
 class MembraneToolXMLAdapter(ZCatalogXMLAdapter):
@@ -22,6 +27,7 @@ class MembraneToolXMLAdapter(ZCatalogXMLAdapter):
         """
         node = ZCatalogXMLAdapter._exportNode(self)
         node.appendChild(self._extractMembraneTypes())
+        node.appendChild(self._extractQueryIndexMap())
 
         self._logger.info('MembraneTool settings exported.')
         return node
@@ -34,8 +40,10 @@ class MembraneToolXMLAdapter(ZCatalogXMLAdapter):
 
         if self.environ.shouldPurge():
             self._purgeMembraneTypes()
+            self._purgeQueryIndexMap()
 
         self._initMembraneTypes(node)
+        self._initQueryIndexMap(node)
         self._logger.info('MembraneTool settings imported.')
 
     def _extractMembraneTypes(self):
@@ -54,6 +62,23 @@ class MembraneToolXMLAdapter(ZCatalogXMLAdapter):
             for state in states:
                 sub = self._doc.createElement('active-workflow-state')
                 sub.setAttribute('name', state)
+                child.appendChild(sub)
+
+            fragment.appendChild(child)
+        return fragment
+
+    def _extractQueryIndexMap(self):
+        fragment = self._doc.createDocumentFragment()
+        annots = IAnnotations(self.context)
+        query_index_map = annots.get(QIM_ANNOT_KEY)
+        if query_index_map is not None:
+            child = self._doc.createElement('query_index_map')
+            
+            for key, value in query_index_map.items():
+                sub = self._doc.createElement('index')
+                sub.setAttribute('name', key)
+                inner = self._doc.createTextNode(value)
+                sub.appendChild(inner)
                 child.appendChild(sub)
 
             fragment.appendChild(child)
@@ -84,10 +109,36 @@ class MembraneToolXMLAdapter(ZCatalogXMLAdapter):
                                               ACTIVE_STATUS_CATEGORY,
                                               states)
 
+    def _initQueryIndexMap(self, node):
+        for child in node.childNodes:
+            if child.nodeName != 'query_index_map':
+                continue
+
+            annots = IAnnotations(self.context)
+            query_index_map = annots.get(QIM_ANNOT_KEY)
+            if query_index_map is None:
+                query_index_map = annots[QIM_ANNOT_KEY] = PersistentMapping()
+
+            for sub in child.childNodes:
+                if sub.nodeName != 'index':
+                    continue
+                key = str(sub.getAttribute('name'))
+                value = ''
+                for inner in sub.childNodes:
+                    if inner.nodeType == inner.TEXT_NODE:
+                        value = str(inner.nodeValue)
+                        break
+                if value:
+                    query_index_map[key] = value
+
     def _purgeMembraneTypes(self):
         for mtype in self.context.listMembraneTypes():
             self.context.unregisterMembraneType(mtype)
 
+    def _purgeQueryIndexMap(self):
+        annots = IAnnotations(self.context)
+        if annots.get(QIM_ANNOT_KEY) is not None:
+            del annots[QIM_ANNOT_KEY]
 
 def importMembraneTool(context):
     """

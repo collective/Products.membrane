@@ -14,6 +14,7 @@ from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 from zope.interface import implements
 from zope.component import queryUtility
 from zope.component import getUtilitiesFor
+from zope.app.annotation.interfaces import IAnnotations
 
 from Products.CMFCore.utils import getToolByName
 
@@ -31,6 +32,7 @@ from Products.PlonePAS.interfaces.capabilities import IDeleteCapability
 
 from Products.membrane.config import TOOLNAME
 from Products.membrane.config import ACTIVE_STATUS_CATEGORY
+from Products.membrane.config import QIM_ANNOT_KEY
 from Products.membrane.interfaces import IMembraneUserAuth
 from Products.membrane.interfaces import IMembraneUserManagement
 from Products.membrane.interfaces import IMembraneUserChanger
@@ -142,6 +144,16 @@ class MembraneUserManager(BasePlugin, Cacheable):
         if isinstance( login, str ):
             login = [ login ]
 
+        mbtool = getToolByName(self, TOOLNAME)
+        query = {}
+
+        # allow arbitrary indexes to be passed in to the catalog query
+        query_index_map = IAnnotations(mbtool).get(QIM_ANNOT_KEY)
+        if query_index_map is not None:
+            for keyword in kw.keys():
+                if keyword in query_index_map:
+                    query[query_index_map[keyword]] = kw[keyword]
+
         # Look in the cache first...
         keywords = copy.deepcopy(kw)
         keywords.update( { 'id' : id
@@ -157,9 +169,6 @@ class MembraneUserManager(BasePlugin, Cacheable):
                                          )
         if cached_info is not None:
             return tuple(cached_info)
-
-        mbtool = getToolByName(self, TOOLNAME)
-        query = {}
 
         # Note: ZCTextIndex doesn't allow 'contains' searches AFAICT,
         #       so we use 'starts with'.

@@ -8,3 +8,5 @@ STATUS_CATEGORY_SET = 'membrane_workflow_states'
 ACTIVE_STATUS_CATEGORY = 'active'
 
 FILTERED_ROLES = ('Anonymous', 'Authenticated')
+
+QIM_ANNOT_KEY = 'Products.membrane.query_index_map'
