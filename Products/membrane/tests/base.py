@@ -94,7 +94,7 @@ class AddUserLayer(MembraneProfilesLayer):
 
 class MembraneTestCase(PlonePASTestCase):
 
-    if USERLAYER:
+    if USELAYER:
         layer = MembraneProfilesLayer
 
     class Session(dict):
