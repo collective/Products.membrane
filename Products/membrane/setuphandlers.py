@@ -15,15 +15,10 @@ from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
 from interfaces import IUserAdder
 from config import TOOLNAME
 
-PROFILE_ID = "profile-membrane:default"
-
-
 def _doRegisterUserAdderUtility(context, step_name, profile_id,
                                 utility_name, utility):
     """ registers utility for adding ExampleMembers """
     portal = context.getSite()
-    if not _membraneProfileActive(portal, profile_id):
-        return # do nothing
     
     sm = portal.getSiteManager()
     logger = context.getLogger(step_name)
@@ -39,16 +34,6 @@ def _doRegisterUserAdderUtility(context, step_name, profile_id,
     else:
         logger.info("IUserAdder utility '%s' already registered" %
                     utility_name)
-
-
-def _membraneProfileActive(portal, profile_id=PROFILE_ID):
-    """
-    Returns True if the membrane default profile is currently active
-    in the setup tool, False otherwise.
-    """
-    setup_tool = getToolByName(portal, 'portal_setup')
-    return setup_tool.getImportContextID() == profile_id
-
 
 def _setupPlugins(portal, out):
     """
@@ -90,25 +75,23 @@ def _setupPlugins(portal, out):
         plugins = uf.plugins
         plugins.movePluginsUp(IUserFactoryPlugin, ['membrane_user_factory'])
 
-
 def setupPlugins(context):
     """ initialize membrane plugins """
-    portal = context.getSite()
-    if not _membraneProfileActive(portal):
-        return # do nothing
+    if context.readDataFile('membrane-setup-plugins.txt') is None:
+        return
 
+    portal = context.getSite()
     out = StringIO()
     _setupPlugins(portal, out)
     logger = context.getLogger("plugins")
     logger.info(out.getvalue())
 
-
 def initSiteManager(context):
     """ init portal object as a site manager if not already done """
-    portal = context.getSite()
-    if not _membraneProfileActive(portal):
-        return # do nothing
+    if context.readDataFile('membrane-init-site-manager.txt') is None:
+        return
 
+    portal = context.getSite()
     if not ISite.providedBy(portal):
         enableLocalSiteHook(portal)
         logger = context.getLogger("membrane-sitemanager")

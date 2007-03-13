@@ -1,4 +1,3 @@
-from Products.membrane.setuphandlers import _membraneProfileActive
 from Products.membrane.setuphandlers import _doRegisterUserAdderUtility
 
 from utilities import UserAdder

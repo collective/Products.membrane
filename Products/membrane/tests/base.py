@@ -38,7 +38,7 @@ profile_registry.registerProfile('test',
                                  EXTENSION,
                                  for_=IPloneSiteRoot)
 
-def addUser(obj, username, title):
+def addUser(obj, username='testuser', title='full name'):
     member = _createObjectByType('TestMember', obj, username)
     member.setUserName(username)
     member.setPassword('testpassword')
