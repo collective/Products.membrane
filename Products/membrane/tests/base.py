@@ -38,13 +38,13 @@ profile_registry.registerProfile('test',
                                  EXTENSION,
                                  for_=IPloneSiteRoot)
 
-def addUser(obj):
-    member = _createObjectByType('TestMember', obj, 'testuser')
-    member.setUserName('testuser')
+def addUser(obj, username, title):
+    member = _createObjectByType('TestMember', obj, username)
+    member.setUserName(username)
     member.setPassword('testpassword')
     # Title is mapped to the user property fullname using
     # user_property='fullname'
-    member.setTitle('full name')
+    member.setTitle(title)
     member.setMobilePhone('555-1212')
     member.reindexObject()
     return member
@@ -113,10 +113,10 @@ class MembraneTestCase(PlonePASTestCase):
         self.group.setDescription('A test group')
         self.group.reindexObject()
 
-    def addUser(self, obj=None):
+    def addUser(self, obj=None, username='testuser', title='full name'):
         if obj is None:
             obj = self.portal
-        self.member = addUser(obj)
+        self.member = addUser(obj, username, title)
         self.userid = self.member.getId()
 
 

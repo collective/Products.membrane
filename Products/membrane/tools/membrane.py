@@ -169,6 +169,8 @@ class MembraneTool(BaseTool):
         Return the unique object that is the authentication provider
         for the provided login.
         """
+        if login == '':
+            return None
         uSR = self.unrestrictedSearchResults
         # BBB unfortunately req'd or else migration to new index is
         #     impossible

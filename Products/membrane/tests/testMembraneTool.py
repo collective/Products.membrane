@@ -75,6 +75,14 @@ class TestMembraneTool(base.MembraneTestCase):
         mt.unregisterMembraneType(pt)
         self.failIf(cat_map.hasCategorySet(cat_set))
 
+    def testGetUserAuthProviderForEmptyString(self):
+        # see http://plone.org/products/membrane/issues/7
+        mt = getattr(self.portal, TOOLNAME)
+        self.addUser()
+        self.addUser(username='testuser2')
+        mt.getUserAuthProvider('')
+        # test passes if above call doesn't raise AssertionError
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite
