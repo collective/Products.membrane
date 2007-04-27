@@ -21,11 +21,8 @@ membrane
 
 REQUIREMENTS:
 
-- Zope 2.9.5 or greater
-
-- Plone 2.5.2 (as yet unreleased, please use the Plone 2.5 bundle
-  until 2.5.2 is out)
-
+- Zope 2.9.6
+- Plone 2.5.2
 
 Please see docs/INSTALL.txt for installation instructions.
 
