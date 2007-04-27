@@ -11,7 +11,9 @@
   <five:localsite class="Products.CMFPlone.Portal.PloneSite" />
   <five:localsite class="OFS.Application.Application" />
 
-  <include package="zope.app.annotation" />
+  <!-- BBB support Zope2.9/Five 1.4 -->
+  <include package=".config.annotation" />
+
   <include file="permissions.zcml" />
   <include package=".browser" />
   <include package=".exportimport" />

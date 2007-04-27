@@ -12,11 +12,10 @@ from Products.CMFPlone.interfaces import IPloneSiteRoot
 # Make the boring stuff load quietly
 ZopeTestCase.installProduct('membrane')
 
-from Products.PloneTestCase.setup import portal_name
-from Products.PloneTestCase.setup import USELAYER
-from Products.PloneTestCase.five import safe_load_site
-from Products.PloneTestCase.five import cleanUp
+from Products.PloneTestCase.setup import (portal_name, USELAYER,
+                                          _placefulSetUp)
 from Products.PloneTestCase import layer
+from Products.PloneTestCase.ptc import setupPloneSite
 
 SiteLayer = layer.PloneSite
 
@@ -54,26 +53,21 @@ class MembraneProfilesLayer(SiteLayer):
     @classmethod
     def getPortal(cls):
         app = ZopeTestCase.app()
-        return app._getOb(portal_name)
+        portal = app._getOb(portal_name)
+        _placefulSetUp(portal)
+        return portal
 
     @classmethod
     def setUp(cls):
-        safe_load_site()
+        setupPloneSite(extension_profiles=('membrane:default',
+                                           'membrane:test'))
+        SiteLayer.setUp()
         portal = cls.getPortal()
-        setup_tool = portal.portal_setup
-        setup_tool.setImportContext('profile-membrane:default')
-        setup_tool.runAllImportSteps()
-        setup_tool.setImportContext('profile-membrane:test')
-        setup_tool.runAllImportSteps()
         mbtool = getattr(portal, TOOLNAME)
         mbtool.registerMembraneType(dummy.TestMember.portal_type)
         mbtool.registerMembraneType(dummy.AlternativeTestMember.portal_type)
         mbtool.registerMembraneType(dummy.TestGroup.portal_type)
         txn.commit()
-
-    @classmethod
-    def tearDown(cls):
-        cleanUp()
 
 
 class AddUserLayer(MembraneProfilesLayer):

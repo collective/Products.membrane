@@ -17,11 +17,11 @@ class TestMembraneSearch(base.MembraneTestCase,
         self.addUser()
 
     def testSimpleMemberSearch(self):
-        mtool = self.portal.portal_membership
-        mems = mtool.searchForMembers(login=self.member.getUserName())
+        uf = self.portal.acl_users
+        mems = uf.searchUsers(login=self.member.getUserName())
         user_auth = IMembraneUserAuth(self.member)
-        self.failUnless(len(mems) == 1 and mems[0] ==
-                        mtool.getMemberById(user_auth.getUserId()))
+        self.failUnless(len(mems) == 1 and
+                        mems[0]['userid'] == user_auth.getUserId())
 
 def test_suite():
     from unittest import TestSuite, makeSuite

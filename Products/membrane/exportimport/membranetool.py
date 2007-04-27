@@ -89,13 +89,17 @@ class MembraneToolXMLAdapter(ZCatalogXMLAdapter):
             if child.nodeName != 'membrane-type':
                 continue
 
-            # register membrane types
+            # register membrane types if they're not listed in the
+            # catalog map or in the status map
             mtype = str(child.getAttribute('name'))
-            if mtype and mtype not in self.context.listMembraneTypes():
+            cat_map = ICategoryMapper(self.context)
+            cat_set = generateCategorySetIdForType('Member')
+            if mtype and not (
+                mtype in self.context.listMembraneTypes() and
+                cat_map.hasCategorySet(cat_set)):
                 self.context.registerMembraneType(mtype)
 
             # register "active" workflow states
-            cat_map = ICategoryMapper(self.context)
             states = []
             for sub in child.childNodes:
                 if sub.nodeName != 'active-workflow-state':
