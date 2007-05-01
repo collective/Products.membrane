@@ -69,6 +69,10 @@ class MembraneProfilesLayer(SiteLayer):
         mbtool.registerMembraneType(dummy.TestGroup.portal_type)
         txn.commit()
 
+    @classmethod
+    def tearDown(cls):
+        pass
+
 
 class AddUserLayer(MembraneProfilesLayer):
     @classmethod
