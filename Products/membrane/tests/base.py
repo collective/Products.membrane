@@ -12,10 +12,11 @@ from Products.CMFPlone.interfaces import IPloneSiteRoot
 # Make the boring stuff load quietly
 ZopeTestCase.installProduct('membrane')
 
-from Products.PloneTestCase.setup import (portal_name, USELAYER,
-                                          _placefulSetUp)
+from Products.PloneTestCase.setup import _placefulSetUp
 from Products.PloneTestCase import layer
-from Products.PloneTestCase.ptc import setupPloneSite
+from Products.CMFPlone.tests.PloneTestCase import (portal_name,
+                                                   USELAYER,
+                                                   setupPloneSite)
 
 SiteLayer = layer.PloneSite
 
@@ -73,6 +74,14 @@ class MembraneProfilesLayer(SiteLayer):
     def tearDown(cls):
         pass
 
+    @classmethod
+    def testSetUp(cls):
+        pass
+
+    @classmethod
+    def testTearDown(cls):
+        pass
+
 
 class AddUserLayer(MembraneProfilesLayer):
     @classmethod
@@ -87,6 +96,14 @@ class AddUserLayer(MembraneProfilesLayer):
 
     @classmethod
     def tearDown(cls):
+        pass
+
+    @classmethod
+    def testSetUp(cls):
+        pass
+
+    @classmethod
+    def testTearDown(cls):
         pass
         
 

@@ -40,6 +40,14 @@ class MembraneUserManagerLayer(base.AddUserLayer):
     def tearDown(cls):
         pass
 
+    @classmethod
+    def testSetUp(cls):
+        pass
+
+    @classmethod
+    def testTearDown(cls):
+        pass
+
 
 class MembraneUserManagerTwoUsersLayer(MembraneUserManagerLayer):
     @classmethod
@@ -55,6 +63,14 @@ class MembraneUserManagerTwoUsersLayer(MembraneUserManagerLayer):
 
     @classmethod
     def tearDown(cls):
+        pass
+
+    @classmethod
+    def testSetUp(cls):
+        pass
+
+    @classmethod
+    def testTearDown(cls):
         pass
 
 

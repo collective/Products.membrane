@@ -22,6 +22,15 @@ class ZCMLLayer:
     def tearDown(cls):
         pass
 
+    @classmethod
+    def testSetUp(cls):
+        pass
+
+    @classmethod
+    def testTearDown(cls):
+        pass
+
+
 class Foo(object):
     """
     Dummy class for testing category mapper.
