@@ -1,3 +1,5 @@
+from Acquisition import aq_base
+
 from Products.CMFCore.utils import getToolByName
 
 from config import STATUS_CATEGORY_SET
@@ -45,7 +47,7 @@ def getCurrentUserAdder(context):
         except StopIteration:
             adder = None
 
-    return adder
+    return aq_base(adder).__of__(context)
 
 def queryMembraneTool(context, **query):
     mbtool = getToolByName(context, TOOLNAME)

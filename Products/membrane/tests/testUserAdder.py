@@ -1,5 +1,9 @@
+from Acquisition import aq_parent, aq_inner
+
 from Products.PluggableAuthService.interfaces.plugins import \
      IUserAdderPlugin
+
+from Products.membrane.utils import getCurrentUserAdder
 
 import base
 
@@ -25,6 +29,13 @@ class TestUserAdder(base.MembraneTestCase):
         req = self.portal.REQUEST
         self.failIf(uf.authenticate(userid, pwd, req) is None)
 
+    def testAcquisition(self):
+        plugin = self.portal.acl_users.membrane_users
+        adder = getCurrentUserAdder(plugin)
+        # We should have request
+        self.failIf(getattr(aq_inner(adder), 'REQUEST', None) is None)
+        # Our parent should be the plugin
+        self.failUnless(aq_parent(adder) is plugin)
 
 def test_suite():
     from unittest import TestSuite, makeSuite
