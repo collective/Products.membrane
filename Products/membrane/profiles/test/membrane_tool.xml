@@ -8,4 +8,11 @@
   <membrane-type name="TestGroup"/>
   <membrane-type name="TestPropertyProvider"/>
   <membrane-type name="TestAlternatePropertyProvider"/>
+
+  <object name="lexicon" meta_type="ZCTextIndex Lexicon">
+    <element name="Case Normalizer" group="Case Normalizer" />
+    <!--element name=" Don't remove stop words" group="Stop Words" /-->
+    <element name="Unicode Whitespace splitter" group="Word Splitter" />
+  </object>
+
 </object>

@@ -13,6 +13,7 @@ from Products.Archetypes.config import REFERENCE_CATALOG, UUID_ATTR
 from Products.CMFCore.utils import getToolByName
 
 from Products.membrane.interfaces import IMembraneUser
+from Products.membrane.config import TOOLNAME
 
 from zope.interface import implements
 
@@ -44,6 +45,9 @@ class MembraneUserFactory(PloneUserFactory):
 
     security.declarePrivate('createUser')
     def createUser(self, user_id, name):
+        mbtool = getToolByName(self, TOOLNAME)
+        if not mbtool.case_sensitive_auth:
+            user_id = mbtool.getOriginalUserIdCase(user_id)
         return MembraneUser(user_id, name)
 
 classImplements(MembraneUserFactory,

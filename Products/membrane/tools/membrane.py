@@ -117,6 +117,7 @@ class MembraneTool(BaseTool):
     archetype_name = 'MembraneTool'
 
     user_adder = ''
+    case_sensitive_auth = True
 
     implements(IMembraneTool, IAttributeAnnotatable)
 
@@ -171,10 +172,9 @@ class MembraneTool(BaseTool):
         if login == '':
             return None
         uSR = self.unrestrictedSearchResults
-        # BBB unfortunately req'd or else migration to new index is
-        #     impossible
         idxname = 'getUserName'
-        if 'exact_getUserName' in self._catalog.indexes:
+        if self.case_sensitive_auth and \
+               ('exact_getUserName' in self._catalog.indexes):
             idxname = 'exact_getUserName'
         query = {idxname: login,
                  'object_implements': IMembraneUserAuth.__identifier__}
@@ -186,6 +186,24 @@ class MembraneTool(BaseTool):
         assert len(members) == 1
         member = members[0]._unrestrictedGetObject()
         return member
+
+    def getOriginalUserIdCase(self, userid):
+        """
+        Used to get the original case spelling of a given user id.
+        """
+        if userid == '':
+            return None
+        uSR = self.unrestrictedSearchResults
+        query = {'getUserId': userid,
+                 'object_implements': IMembraneUserAuth.__identifier__}
+        members = uSR(**query)
+
+        if not members:
+            return None
+
+        assert len(members) == 1
+        return members[0].getUserId
+        
 
     def _createTextIndexes(self, item, container):
         """Create getUserName, getUserId, getGroupId text indexes."""

@@ -12,6 +12,10 @@ class IMembraneTool(Interface):
     user_adder = Attribute('user_adder',
                            'Name of the IUserAdder utility to use when '
                            'adding new users.')
+    case_sensitive_auth = Attribute('case_sensitive_logins',
+                                    'Boolean value specifying whether '
+                                    'or not auth provider lookup should be '
+                                    'case sensitive.')
 
     def registerMembraneType(portal_type):
         """Register a member type,
@@ -23,3 +27,16 @@ class IMembraneTool(Interface):
 
     def listMembraneTypes():
         """Lists all currently registered member types"""
+
+    def getUserAuthProvider(login):
+        """
+        Returns the unique object that is the authentication provider
+        for the provided login.
+        """
+
+    def getOriginalUserIdCase(userid):
+        """
+        Given any casing of a specific userid, returns the canonical
+        casing of the same userid.  Facilitates consistent behaviour
+        in sites that allow case-insensitive logins.
+        """

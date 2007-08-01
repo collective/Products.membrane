@@ -26,10 +26,10 @@ def resolveInterface(dotted_name):
 class TestMembraneTool(base.MembraneTestCase):
 
     def afterSetUp(self):
-        pass
+        self.mbtool = getattr(self.portal, TOOLNAME)
 
     def testMembraneTypeRegistration(self):
-        mt = getattr(self.portal, TOOLNAME)
+        mt = self.mbtool
         pt = 'TestMember'
         self.failUnless(pt in mt.listMembraneTypes())
         mt.unregisterMembraneType(pt)
@@ -39,7 +39,7 @@ class TestMembraneTool(base.MembraneTestCase):
 
     def testObjectImplements(self):
         from Products.membrane.tools.membrane import object_implements
-        mt = getattr(self.portal, TOOLNAME)
+        mt = self.mbtool
         interface_ids = object_implements(mt, self.portal)
         for iid in interface_ids:
             iface = resolveInterface(str(iid))
@@ -49,7 +49,7 @@ class TestMembraneTool(base.MembraneTestCase):
                 self.fail("Can't adapt to %s" % iid)
 
     def testStatusCategoriesAreInitialized(self):
-        mt = getattr(self.portal, TOOLNAME)
+        mt = self.mbtool
         cat_map = ICategoryMapper(mt)
         for pt in ['TestMember', 'TestGroup']:
             cat_set = generateCategorySetIdForType(pt)
@@ -67,7 +67,7 @@ class TestMembraneTool(base.MembraneTestCase):
                                                          state))
 
     def testStatusCategoriesGetCleared(self):
-        mt = getattr(self.portal, TOOLNAME)
+        mt = self.mbtool
         pt = 'TestMember'
         cat_map = ICategoryMapper(mt)
         cat_set = generateCategorySetIdForType(pt)
@@ -77,12 +77,28 @@ class TestMembraneTool(base.MembraneTestCase):
 
     def testGetUserAuthProviderForEmptyString(self):
         # see http://plone.org/products/membrane/issues/7
-        mt = getattr(self.portal, TOOLNAME)
+        mt = self.mbtool
         self.addUser()
         self.addUser(username='testuser2')
         mt.getUserAuthProvider('')
         # test passes if above call doesn't raise AssertionError
 
+    def testCaseSensitivityIsHonored(self):
+        mt = self.mbtool
+        self.addUser()
+        self.failUnless(mt.getUserAuthProvider('TESTUSER') is None)
+        self.failIf(mt.getUserAuthProvider('testuser') is None)
+
+        mt.case_sensitive_auth = False
+        self.failIf(mt.getUserAuthProvider('TESTUSER') is None)
+        self.failIf(mt.getUserAuthProvider('testuser') is None)
+
+    def testGetOriginalUserIdCase(self):
+        mt = self.mbtool
+        self.addUser()
+        case_test = 'TeStUsEr'
+        orig_id = mt.getOriginalUserIdCase(case_test)
+        self.failUnless(orig_id == case_test.lower())
 
 def test_suite():
     from unittest import TestSuite, makeSuite
