@@ -75,7 +75,6 @@ def initialize(context):
     from Products.membrane.tools import membrane
     ToolInit(PROJECTNAME+ ' Tool',
              tools = (membrane.MembraneTool, ),
-             product_name = PROJECTNAME,
              icon = 'tool.gif'
              ).initialize(context)
 
