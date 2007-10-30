@@ -2,6 +2,13 @@ Changelog for Membrane
 
    (name of developer listed in brackets)
 
+membrane 1.1 (unreleased)
+
+    - removed deprecation messages in Plone 3.0 (Zope 2.10): Import of
+      zope.app.annotation turned into zope.annotation 
+      [jensens]
+    
+
 membrane 1.0 (unreleased)
 
 
