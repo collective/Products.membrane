@@ -1,7 +1,7 @@
 import os, sys
 
 from zope.interface import implements
-from zope.app.annotation.interfaces import IAttributeAnnotatable
+from zope.annotation.interfaces import IAttributeAnnotatable
 
 from Testing import ZopeTestCase
 

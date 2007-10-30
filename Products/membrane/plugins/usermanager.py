@@ -15,7 +15,7 @@ from Products.ZCTextIndex.ZCTextIndex import ZCTextIndex
 from zope.interface import implements
 from zope.component import queryUtility
 from zope.component import getUtilitiesFor
-from zope.app.annotation.interfaces import IAnnotations
+from zope.annotation.interfaces import IAnnotations
 
 from Products.CMFCore.utils import getToolByName
 

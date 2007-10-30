@@ -7,10 +7,11 @@
 
   <!-- XXX: this isn't really the right place to be setting these,
             but we need them to be set and there's no better place
-            to put them, just yet -->
+            to put them, just yet 
+       No longer needed in Plone 3.0+
   <five:localsite class="Products.CMFPlone.Portal.PloneSite" />
   <five:localsite class="OFS.Application.Application" />
-
+  -->
   <!-- BBB support Zope2.9/Five 1.4 -->
   <include package=".config.annotation" />
 
@@ -59,7 +60,7 @@
            factory=".factories.roles.GroupAwareRoles"
            />
 
-  <adapter for="zope.app.annotation.interfaces.IAnnotatable"
+  <adapter for="zope.annotation.interfaces.IAnnotatable"
            provides=".interfaces.ICategoryMapper"
            factory=".factories.categorymapper.CategoryMapper"
            />

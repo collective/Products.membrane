@@ -8,7 +8,7 @@ from ComputedAttribute import ComputedAttribute
 from zope.interface import implements
 from zope.interface import providedBy
 from zope.app.apidoc.component import getRequiredAdapters
-from zope.app.annotation.interfaces import IAttributeAnnotatable
+from zope.annotation.interfaces import IAttributeAnnotatable
 from zope.event import notify
 
 from Products.ZCatalog.ZCatalog import ZCatalog

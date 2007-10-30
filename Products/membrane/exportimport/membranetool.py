@@ -1,6 +1,6 @@
 from persistent.mapping import PersistentMapping
 
-from zope.app.annotation.interfaces import IAnnotations
+from zope.annotation.interfaces import IAnnotations
 
 from Products.CMFCore.utils import getToolByName
 from Products.GenericSetup.ZCatalog.exportimport import ZCatalogXMLAdapter
