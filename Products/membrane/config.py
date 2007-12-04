@@ -10,9 +10,3 @@ ACTIVE_STATUS_CATEGORY = 'active'
 FILTERED_ROLES = ('Anonymous', 'Authenticated')
 
 QIM_ANNOT_KEY = 'Products.membrane.query_index_map'
-
-try: 
-    from zope import annotation 
-except ImportError: 
-    # BBB support Zope2.9/Five 1.4 
-    from zope.app import annotation 
