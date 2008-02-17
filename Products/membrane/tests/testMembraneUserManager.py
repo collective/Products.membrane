@@ -139,7 +139,24 @@ class TestMembraneUserManagerEnumeration(base.MembraneUserTestCase):
                                            exact_match=True, max_results=1)), 1)
         self.failUnlessEqual(len(enumusers(id=userid,
                                            exact_match=True, max_results=0)), 0)
-
+        
+    def testEnumerateUsersExactMatchCaseInsensitive(self):
+        enumusers = self.portal.pmm.enumerateUsers
+        member1 = _createObjectByType('TestMember', self.portal, 'Ann')
+        member1.setUserName('Ann')
+        member1.setPassword('password')
+        member1.reindexObject()
+        member1_id = IMembraneUserAuth(member1).getUserId()
+        member2 = _createObjectByType('TestMember', self.portal, 'ann')
+        member2.setUserName('ann')
+        member2.setPassword('password')
+        member2.reindexObject()
+        member2_id = IMembraneUserAuth(member2).getUserId()
+        queryMember1 = enumusers(id=member1_id, exact_match=True)[0]
+        self.failUnlessEqual(queryMember1['uid'], member1.UID())
+        queryMember2 = enumusers(id=member2_id, exact_match=True)[0]
+        self.failUnlessEqual(queryMember2['uid'], member2.UID())
+        
 
 class TestMembraneUserManagerAuthentication(base.MembraneUserTestCase):
 

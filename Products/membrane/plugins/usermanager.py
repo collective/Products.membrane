@@ -186,12 +186,16 @@ class MembraneUserManager(BasePlugin, Cacheable):
         # Note: ZCTextIndex doesn't allow 'contains' searches AFAICT,
         #       so we use 'starts with'.
         if login:
-            query['getUserName'] = exact_match and login or \
-                                   ['%s*' % l for l in login]
+            if exact_match:
+                query['exact_getUserName'] = login
+            else:
+                query['getUserName'] = ['%s*' % l for l in login]
 
         elif id:
-            query['getUserId'] = exact_match and id or \
-                                 ['%s*' % i for i in id]
+            if exact_match:
+                query['exact_getUserId'] = id
+            else:
+                query['getUserId'] = ['%s*' % i for i in id]
 
         if sort_by is not None:
             if sort_by == 'login':
