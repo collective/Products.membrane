@@ -34,7 +34,6 @@ from Products.membrane.events import MembraneTypeUnregisteredEvent
 
 from zope.component import getGlobalSiteManager
 # Use extensible object wrapper to always list the interfaces
-error = ['Products.membrane.interfaces.user.IMembraneUserChanger', 'Products.membrane.interfaces.user.IMembraneUserDeleter', 'Products.membrane.interfaces.user.IMembraneUserRoles']
 def object_implements(object, portal, **kw):
 
     def getDottedName(iface):
