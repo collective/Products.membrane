@@ -3,6 +3,7 @@ from Globals import InitializeClass
 from Acquisition import aq_base, aq_chain
 from AccessControl import ClassSecurityInfo
 from AccessControl import getSecurityManager
+from AccessControl.Permissions import search_zcatalog 
 from ComputedAttribute import ComputedAttribute
 
 from zope.interface import implements
@@ -17,6 +18,9 @@ from zope.event import notify
 from Products.ZCatalog.ZCatalog import ZCatalog
 
 from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.utils import _getAuthenticatedUser
+from Products.CMFCore.utils import _checkPermission
+from Products.CMFCore.permissions import AccessInactivePortalContent
 
 from Products.CMFPlone.CatalogTool import CatalogTool as BaseTool
 from Products.CMFPlone.CatalogTool import registerIndexableAttribute
@@ -263,6 +267,25 @@ class MembraneTool(BaseTool):
                                  'ZCTextIndex',
                                  Record(lexicon_id='lexicon',
                                         index_type='Cosine Measure'))
+            
+    # we need to revert the LinguaPlone catalog patch if LP is in the way
+    # omg, is that ugly :-( 
+    security.declareProtected(search_zcatalog, 'searchResults')    
+    def searchResults(self, REQUEST=None, **kw):
+        """Copied from BaseTool code, see docstring over there."""
+        kw = kw.copy()
+        show_inactive = kw.get('show_inactive', False)
+
+        user = _getAuthenticatedUser(self)
+        kw['allowedRolesAndUsers'] = self._listAllowedRolesAndUsers(user)
+
+        if not show_inactive and \
+           not _checkPermission(AccessInactivePortalContent, self):
+            kw['effectiveRange'] = DateTime()
+
+        return ZCatalog.searchResults(self, REQUEST, **kw)        
+        
+    __call__ = searchResults    
 
 
 InitializeClass(MembraneTool)
