@@ -65,10 +65,10 @@ class MembranePropertyManager(BasePlugin, Cacheable):
         uSR = mbtool.unrestrictedSearchResults
         isGroup = getattr(user, 'isGroup', lambda:None)()
         if not isGroup:
-            prop_providers = uSR(getUserId=user.getId(),
+            prop_providers = uSR(exact_getUserId=user.getId(),
                                  object_implements=ob_imp_query)
         else:
-            prop_providers = uSR(getGroupId=user.getId(),
+            prop_providers = uSR(exact_getGroupId=user.getId(),
                                  object_implements=ob_imp_query)
         for pp in prop_providers:
             yield pp._unrestrictedGetObject()
