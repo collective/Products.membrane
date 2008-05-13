@@ -65,7 +65,9 @@ class Properties(UserRelated):
     def setPropertiesForUser(self, user, propertysheet):
         """
         Find any user property schema fields that match with properties
-        on the property sheet and set the field values accordingly.
+        on the property sheet and set the field values accordingly.  Have
+        to work around impedance diffs btn AT fields and property sheet
+        properties.
         """
         properties = dict(propertysheet.propertyItems())
         schema = self.context.Schema()
@@ -76,7 +78,9 @@ class Properties(UserRelated):
             if properties.has_key(prop_name):
                 value = properties[prop_name]
                 try:
-                    field.getMutator(self.context)(value)
+                    mutator = field.getMutator(self.context)
+                    if mutator is not None: # skip ComputedFields
+                        mutator(value)
                 except: # XXX: investigate which exceptions we care about
                     # relatively safe b/c we're still raising the exception
                     e, m = sys.exc_info()[0:2]
