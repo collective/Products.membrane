@@ -1,0 +1,3 @@
+"""
+membrane browser package
+"""

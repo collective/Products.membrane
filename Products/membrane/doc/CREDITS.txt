@@ -1,0 +1,10 @@
+Credits
+
+  membrane was originally created by Plone Solutions.
+
+  Contact "Plone Solutions":http://www.plonesolutions.com/ for support
+  options or sponsoring further development.
+
+  Significant refactoring, componentization, and ongoing maintenance
+  has been taken over by Rob Miller of The Open Planning Project (robm
+  -at- openplans <dot> org).

@@ -1,0 +1,98 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:five="http://namespaces.zope.org/five"
+           xmlns:zcml="http://namespaces.zope.org/zcml"
+           xmlns:i18n="http://namespaces.zope.org/i18n"
+           i18n_domain="membrane">
+
+  <five:traversable class=".tools.membrane.MembraneTool" />
+
+  <!-- XXX: this isn't really the right place to be setting these,
+            but we need them to be set and there's no better place
+            to put them, just yet 
+       No longer needed in Plone 3.0+
+  <five:localsite class="Products.CMFPlone.Portal.PloneSite" />
+  <five:localsite class="OFS.Application.Application" />
+  -->
+  <!-- BBB support Zope2.9/Five 1.4 -->
+  <include file="permissions.zcml" />
+  <include package=".browser" />
+  <include package=".exportimport" />
+  <include package=".examples" />
+
+  <adapter for=".interfaces.IUserAuthProvider"
+           provides=".interfaces.IUserRelated"
+           factory=".factories.useridprovider.UserIdProvider"
+           />
+
+  <adapter for=".interfaces.IUserAuthProvider"
+           provides=".interfaces.IMembraneUserAuth"
+           factory=".factories.authentication.Authentication"
+           />
+
+  <adapter for=".interfaces.IPropertiesProvider"
+           provides=".interfaces.IMembraneUserProperties"
+           factory=".factories.properties.Properties"
+           />
+
+  <adapter for=".interfaces.ISchemataPropertiesProvider"
+           provides=".interfaces.IMembraneUserProperties"
+           factory=".factories.properties.SchemataProperties"
+           />
+
+  <adapter for=".interfaces.IGroupsProvider"
+           provides=".interfaces.IMembraneUserGroups"
+           factory=".factories.groups.Groups"
+           />
+
+  <adapter for=".interfaces.ISelectedGroupsProvider"
+           provides=".interfaces.IMembraneUserGroups"
+           factory=".factories.groups.SelectedGroups"
+           />
+
+  <adapter for=".interfaces.IRolesProvider"
+           provides=".interfaces.IMembraneUserRoles"
+           factory=".factories.roles.Roles"
+           />
+
+  <adapter for=".interfaces.IGroupAwareRolesProvider"
+           provides=".interfaces.IMembraneUserRoles"
+           factory=".factories.roles.GroupAwareRoles"
+           />
+
+    <!-- Zope 2.9 / 3.2 support -->
+    <configure zcml:condition="installed zope.app.annotation.tests">
+        <include package="zope.app.annotation" />
+        <adapter for="zope.app.annotation.interfaces.IAnnotatable"
+               provides=".interfaces.ICategoryMapper"
+               factory=".factories.categorymapper.CategoryMapper"
+               />
+    </configure>
+
+    <!-- Zope 2.10 / 3.3 support -->
+    <configure zcml:condition="installed zope.annotation">
+        <include package="zope.annotation" />
+        <adapter for="zope.annotation.interfaces.IAnnotatable"
+               provides=".interfaces.ICategoryMapper"
+               factory=".factories.categorymapper.CategoryMapper"
+               />
+    </configure>
+
+  <adapter for=".interfaces.IUserChanger"
+           provides=".interfaces.IMembraneUserChanger"
+           factory=".factories.userchanger.UserChanger"
+           />
+
+  <adapter for=".interfaces.IUserDeleter"
+	   provides=".interfaces.IMembraneUserDeleter"
+	   factory=".factories.userdeleter.UserDeleter"
+	   />
+
+  <subscriber for=".interfaces.IMembraneTypeRegisteredEvent"
+              handler=".factories.statusmapper.initializeStatusCategories"
+              />
+
+  <subscriber for=".interfaces.IMembraneTypeUnregisteredEvent"
+              handler=".factories.statusmapper.removeStatusCategories"
+              />
+
+</configure>

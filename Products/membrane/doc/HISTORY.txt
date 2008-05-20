@@ -1,0 +1,54 @@
+Changelog for Membrane
+
+   (name of developer listed in brackets)
+
+membrane 1.1 (unreleased)
+
+    - removed deprecation messages in Plone 3.0 (Zope 2.10): Import of
+      zope.app.annotation turned into zope.annotation 
+      [jensens]
+    
+
+membrane 1.0 (unreleased)
+
+
+membrane 1.0b1
+
+    - Introduced IUserChanger interface to separate the password
+      changing from the user addition and deletion portions of
+      IUserManagement. [rafrombrc]
+
+    - Completed general implementation of roles, groups, properties
+      plugins. [rafrombrc, jhammel, rmarianski]
+
+membrane 0.3
+
+    - Added a IUserManagement interface (from PlonePAS) to the
+      usermanager.  It will be available to implementations that
+      provide the corresponding IMembraneUserManagement interface
+      directly or through adaptation.  This allows thing like
+      PasswordResetTool to work.
+
+    - Renamed package to 'membrane' from 'Membrane' to reflect current
+      standard python naming conventions. [rafrombrc]
+
+    - Major refactoring to use Zope 3 component engine to glue
+      together all the pieces.  Mix-ins have been converted to
+      adapters, providers are defined by implementation of specific
+      interfaces. [rafrombrc]
+
+Membrane 0.2-alpha
+
+    - Made Title in membrane_tool a ZCTextIndex too, so that
+      enumerateGroups() of membrane_groups works without exact_match.
+
+    - getUserName and getUserId indexes in membrane_tool are now of
+      type ZCTextIndex, allowing us to do exact_match=False queries in
+      MembraneUserManager.enumerateUsers.
+
+      PluggableAuthService.enumerateUsers recommends treating id and
+      login as "contains" search tokens, but with our text index we
+      can only do "starts with" searches.  However, that's much better
+      than returning () for every call that has "exact_match=False".
+      [dpunktnpunkt]
+

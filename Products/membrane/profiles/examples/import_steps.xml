@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<import-steps>
+
+  <import-step
+     id="membrane-examples-useradder"
+     version="20061016-01"
+     handler="Products.membrane.examples.setuphandlers.registerUserAdderUtility"
+     title="Membrane examples: User Adder utility">
+    Register the membrane example user adder utility.
+  </import-step>
+
+</import-steps>

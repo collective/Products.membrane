@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<object name="membrane_tool" meta_type="MembraneTool">
+
+  <object name="lexicon" meta_type="ZCTextIndex Lexicon">
+    <!--element name="Case Normalizer" group="Case Normalizer" /-->
+    <!--element name=" Don't remove stop words" group="Stop Words" /-->
+    <element name="Unicode Whitespace splitter" group="Word Splitter" />
+  </object>
+
+  <index name="Title" meta_type="ZCTextIndex">
+    <indexed_attr value="Title"/>
+    <extra name="index_type" value="Cosine Measure"/>
+    <extra name="lexicon_id" value="lexicon"/>
+  </index>
+
+  <index name="getUserName" meta_type="ZCTextIndex">
+    <indexed_attr value="getUserName"/>
+    <extra name="index_type" value="Cosine Measure"/>
+    <extra name="lexicon_id" value="lexicon"/>
+  </index>
+
+  <index name="exact_getUserName" meta_type="FieldIndex">
+    <indexed_attr value="getUserName"/>
+  </index>
+  
+  <index name="getUserId" meta_type="ZCTextIndex">
+    <indexed_attr value="getUserId"/>
+    <extra name="index_type" value="Cosine Measure"/>
+    <extra name="lexicon_id" value="lexicon"/>
+  </index>
+  
+  <index name="exact_getUserId" meta_type="FieldIndex">
+    <indexed_attr value="getUserId"/>
+  </index>
+
+  <index name="getGroupId" meta_type="ZCTextIndex">
+    <indexed_attr value="getGroupId"/>
+    <extra name="index_type" value="Cosine Measure"/>
+    <extra name="lexicon_id" value="lexicon"/>
+  </index>
+  
+  <index name="exact_getGroupId" meta_type="FieldIndex">
+    <indexed_attr value="getGroupId"/>
+  </index>
+
+  <index name="UID" meta_type="FieldIndex">
+    <indexed_attr value="UID"/>
+  </index>
+
+  <index name="object_implements" meta_type="KeywordIndex">
+    <indexed_attr value="object_implements"/>
+  </index>
+
+  <index name="SearchableText" meta_type="TextIndex">
+    <indexed_attr value="SearchableText"/>
+  </index>
+
+  <index name="created" meta_type="DateIndex">
+    <property name="index_naive_time_as_local">True</property>
+  </index>
+
+  <index name="modified" meta_type="DateIndex">
+    <property name="index_naive_time_as_local">True</property>
+  </index>
+
+  <index name="allowedRolesAndUsers" meta_type="KeywordIndex">
+    <indexed_attr value="allowedRolesAndUsers"/>
+  </index>
+
+  <index name="review_state" meta_type="FieldIndex">
+    <indexed_attr value="review_state"/>
+  </index>
+
+  <index name="meta_type" meta_type="FieldIndex">
+    <indexed_attr value="meta_type"/>
+  </index>
+
+  <index name="getId" meta_type="FieldIndex">
+    <indexed_attr value="getId"/>
+  </index>
+
+  <index name="path" meta_type="ExtendedPathIndex"/>
+
+  <index name="portal_type" meta_type="FieldIndex">
+    <indexed_attr value="portal_type"/>
+  </index>
+
+  <index name="startendrange" meta_type="DateRangeIndex"
+         since_field="start" until_field="end"/>
+
+  <column value="UID"/>
+  <column value="getUserName"/>
+  <column value="getUserId"/>
+  <column value="getGroupId"/>
+  <column value="Title"/>
+  <column value="review_state"/>
+  <column value="getIcon"/>
+  <column value="created"/>
+  <column value="effective"/>
+  <column value="expires"/>
+  <column value="modified"/>
+  <column value="CreationDate"/>
+  <column value="EffectiveDate"/>
+  <column value="ExpiresDate"/>
+  <column value="ModificationDate"/>
+  <column value="portal_type"/>
+  <column value="getId"/>
+  <column value="exact_getGroupId"/>
+  <column value="parent_path"/>
+
+</object>

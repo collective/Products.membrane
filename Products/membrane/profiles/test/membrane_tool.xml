@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<object name="membrane_tool" meta_type="MembraneTool">
+  <membrane-type name="TestMember">
+    <active-workflow-state name="public" />
+    <active-workflow-state name="private" />
+  </membrane-type>
+  <membrane-type name="AlternativeTestMember"/>
+  <membrane-type name="TestGroup"/>
+  <membrane-type name="TestPropertyProvider"/>
+  <membrane-type name="TestAlternatePropertyProvider"/>
+
+  <object name="lexicon" meta_type="ZCTextIndex Lexicon">
+    <element name="Case Normalizer" group="Case Normalizer" />
+    <!--element name=" Don't remove stop words" group="Stop Words" /-->
+    <element name="Unicode Whitespace splitter" group="Word Splitter" />
+  </object>
+
+</object>

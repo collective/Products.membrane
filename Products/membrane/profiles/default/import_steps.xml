@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<import-steps>
+
+  <import-step 
+     id="membranetool"
+     version="20061108-01"
+     handler="Products.membrane.exportimport.membranetool.importMembraneTool"
+     title="Membrane Tool">
+    <dependency step="toolset"/>
+    <dependency step="workflow" />
+    Import membrane type specific configuration.
+  </import-step>
+
+  <import-step
+     id="plugins"
+     version="20060512-01"
+     handler="Products.membrane.setuphandlers.setupPlugins"
+     title="Membrane plugins">
+    Install membrane PAS plug-ins
+  </import-step>
+
+  <import-step
+     id="membrane-sitemanager"
+     version="20061016-01"
+     handler="Products.membrane.setuphandlers.initSiteManager"
+     title="Membrane: initialize site manager">
+    Initialize site as a site manager.
+  </import-step>
+
+</import-steps>

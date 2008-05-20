@@ -1,0 +1,36 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      i18n:domain="membrane">
+<body>
+
+<span tal:replace="structure here/manage_tabs" />
+
+<div>
+  <h3 i18n:translate="">Define active workflow states for membrane types</h3>
+
+  <form action="" method="POST"
+        tal:attributes="action request/ACTUAL_URL">
+
+    <input type="hidden" name="submitted" value="1" />
+
+    <div tal:repeat="type here/listMembraneTypes">
+      <h4 tal:content="type" />
+      <input type="hidden" name="types:list" value="TYPE"
+             tal:attributes="value type" />
+      <select name="TYPE_active_states:list" multiple size="6"
+              tal:attributes="name string:${type}_active_states:list"
+              tal:define="active_states python:view.activeStatesForType(type)">
+        <option tal:repeat="state python:view.allStatesForType(type)"
+                tal:attributes="selected python:state in active_states"
+                tal:content="state" />
+      </select>
+    </div>
+
+    <input type="submit" value="submit" />
+
+  </form>
+
+</div>
+
+</body>
+</html>

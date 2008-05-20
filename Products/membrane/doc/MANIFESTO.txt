@@ -1,0 +1,76 @@
+membrane manifesto
+
+Vision
+
+  membrane is a product to enable users as content in Plone sites, in
+  collaboration with PlonePAS. The name gives you an idea of the
+  intended complexity and amount of code.
+
+  membrane won't be the only member handling product in your site,
+  instead it should enable us to easily plug in products that enable
+  default Plone member policy, or more exotic setups in corporate
+  intranets. This means that to get the default Plone behaviour you
+  will need something else in addition to membrane.
+
+Comparisons to CMFMember
+
+  CMFMember provides three features:
+
+    - Site members as Archetypes content: members can have schemas,
+      and Plone's member preferences allow easy members to update
+      these properties. CMFMember ships with a rich member object
+      (including all the Plone 2.1 stuff, like portrait, location,
+      etc.)
+
+    - Members can undergo workflow; there can be stages where the
+      member-content-object exists, but there is no corresponding
+      actual user. This is useful for sites where people require
+      approval/payment/etc before being able to log in. CMFMember
+      ships with 2 different workflows, for auto-approval and
+      requires-approval.
+
+    - There are out-of-the-box registration forms/processes, so
+      that people can register and have their content objects added
+      to a contentish folder (portal_memberdata).
+
+  membrane is a bit similar and a bit different:
+
+    - Site members are still Archetypes content; they still have
+      custom schemas. membrane ships with a simple, not-very-rich
+      sample member object.
+
+    - membrane members can undergo workflow (since they are AT content
+      objects), but does not include logic for creating user objects
+      as part of this process. Instead, since membrane works on top of
+      PlonePAS, it will be easy for site customizers to write a custom
+      authentication method that only allows people to authenticate if
+      they are in a particular workflow state. membrane does not ship
+      with sample code for this, nor provide sample workflows.
+      membrane DOES provide support for the idea of "active" workflow
+      states, which the default authentication plug-in will check when
+      deciding whether or not to validate a login attempt.
+
+    - membrane content objects can live anywhere in a site; they don't
+      have to live in a certain place (like CMFMember's
+      portal_memberdata folder). While many sites may put all the
+      member objects in one root folder, others may put them in
+      different places throughout the site. For this reason, there is
+      no clear way for there to be a single registration system, since
+      it wouldn't be clear where the member objects "should" live.
+
+      membrane does introduce an IUserAdder local utility, however,
+      which the user management plug-in delegates to.  Systems built
+      on top of membrane can provide their own implementation of this
+      utility in order to implement a custom registration policy.
+
+Rules
+
+  Do bigger changes on branches.
+
+  Make tests for any changes.
+
+  Run all tests before you check in.
+  
+  If you fork it, don't use the name.
+
+  Run all tests before you check in.

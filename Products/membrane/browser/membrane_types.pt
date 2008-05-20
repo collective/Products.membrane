@@ -1,0 +1,41 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      i18n:domain="membrane">
+<body>
+
+<span tal:replace="structure here/manage_tabs" />
+
+<div>
+  <h3 i18n:translate="">Specify membrane types</h3>
+
+  <form action="" method="POST"
+        tal:attributes="action request/ACTUAL_URL">
+
+    <input type="hidden" name="submitted" value="1" />
+
+    <h4>Membrane types:</h4>
+    <select name="membrane_types:list" multiple size="10"
+            tal:define="membrane_types here/listMembraneTypes">
+      <option tal:repeat="portal_type here/portal_types/listContentTypes"
+              tal:attributes="selected python:portal_type in membrane_types"
+              tal:content="portal_type" />
+    </select>
+
+    <h4>User Adder utility:</h4>
+    <select name="user_adder"
+            tal:define="available_adders view/availableAdders">
+      <option tal:repeat="adder available_adders"
+              tal:attributes="selected python:here.user_adder==adder"
+              tal:content="adder" />
+    </select>
+
+    <br /><br />
+
+    <input type="submit" value="submit" />
+
+  </form>
+
+</div>
+
+</body>
+</html>
