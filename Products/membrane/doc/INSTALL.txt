@@ -1,35 +1,20 @@
 
 REQUIREMENTS:
 
-- Zope 2.9.5 or greater
+- Zope 2.10.x
 
-- Plone 2.5.2 (as yet unreleased, please use the Plone 2.5 bundle
-  until 2.5.2 is out)
+- Plone 3.0 or greater
 
 
 =====================================
        membrane installation
 =====================================
 
-In order to install membrane into your Zope instance, simply place
-the membrane source code in a directory named 'membrane' in your
-Products directory and restart Zope.
+There are 2 ways to install membrane into your Zope instance.  The first is to
+copy the "membrane" directory from the distribution's "Products" folder into
+one of you Zope instance's "Products" folders.  The second is to use setuptools
+to install membrane into your python environment.  In either case, you'll need
+to restart Zope for the installation to take effect.
 
-membrane is installed into a Plone site via the use of a GenericSetup
-extension profile.  You can either choose the membrane profile to be
-installed at site creation time, or you can use the portal_setup
-interface.  If using portal_setup, you'd browse to the properties tab
-and make the 'membrane' profile the active configuration.  Then you
-click on the 'import' tab and click the 'import all steps' button.
-
-If you wish to install the basic sample content types, you'll need to
-also install the 'membrane sample content types' extension profile.
-These types are not intended to be used in production, as the use of
-cleartext passwords should clearly indicate.
-
-Go to a folder somewhere, or simply the root of your Plone site, and
-add a SimpleMember. Enter the username and password, and preferably a
-full name to see that the decorator plugin works.
-
-Now, try to log in as the user you just added. The full name should
-also show up wherever Plone usually displays full name.
+Once membrane is installed into Zope, you can use the portal_quickinstaller
+to install the membrane product into your Plone site.
