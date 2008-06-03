@@ -1,3 +1,4 @@
+from Acquisition import aq_base
 from persistent.mapping import PersistentMapping
 
 try:
@@ -31,6 +32,7 @@ class MembraneToolXMLAdapter(ZCatalogXMLAdapter):
         node = ZCatalogXMLAdapter._exportNode(self)
         node.appendChild(self._extractMembraneTypes())
         node.appendChild(self._extractQueryIndexMap())
+        node.appendChild(self._extractUserAdder())
 
         self._logger.info('MembraneTool settings exported.')
         return node
@@ -47,6 +49,7 @@ class MembraneToolXMLAdapter(ZCatalogXMLAdapter):
 
         self._initMembraneTypes(node)
         self._initQueryIndexMap(node)
+        self._initUserAdder(node)
         self._logger.info('MembraneTool settings imported.')
 
     def _extractMembraneTypes(self):
@@ -84,6 +87,15 @@ class MembraneToolXMLAdapter(ZCatalogXMLAdapter):
                 sub.appendChild(inner)
                 child.appendChild(sub)
 
+            fragment.appendChild(child)
+        return fragment
+
+    def _extractUserAdder(self):
+        fragment = self._doc.createDocumentFragment()
+        user_adder = getattr(aq_base(self.context), 'user_adder', None)
+        if user_adder:
+            child = self._doc.createElement('user-adder')
+            child.setAttribute('name', user_adder)
             fragment.appendChild(child)
         return fragment
 
@@ -137,6 +149,13 @@ class MembraneToolXMLAdapter(ZCatalogXMLAdapter):
                         break
                 if value:
                     query_index_map[key] = value
+
+    def _initUserAdder(self, node):
+        for child in node.childNodes:
+            if child.nodeName != 'user-adder':
+                continue
+            user_adder = child.getAttribute('name')
+            self.context.user_adder = user_adder
 
     def _purgeMembraneTypes(self):
         for mtype in self.context.listMembraneTypes():

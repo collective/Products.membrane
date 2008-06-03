@@ -1,10 +1,5 @@
 from Acquisition import aq_parent, aq_inner
-
-from Products.PluggableAuthService.interfaces.plugins import \
-     IUserAdderPlugin
-
 from Products.membrane.utils import getCurrentUserAdder
-
 import base
 
 class TestUserAdder(base.MembraneTestCase):
@@ -12,12 +7,7 @@ class TestUserAdder(base.MembraneTestCase):
     Tests the IUserAdder utility that is included in the 'example'
     profile.
     """
-    def afterSetUp(self):
-        setup_tool = self.portal.portal_setup
-        setup_tool.setImportContext('profile-membrane:examples')
-        setup_tool.runAllImportSteps()
-        plugins = self.portal.acl_users.plugins
-        plugins.movePluginsUp(IUserAdderPlugin, ['membrane_users'])
+    layer = base.MembraneExamplesLayer
 
     def testUserFolderCreatesUser(self):
         uf = self.portal.acl_users

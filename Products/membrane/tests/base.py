@@ -1,6 +1,4 @@
 from AccessControl.SecurityManagement import newSecurityManager
-from AccessControl.Permissions import access_contents_information
-from AccessControl.Permissions import view
 import transaction as txn
 from Testing import ZopeTestCase
 
@@ -26,7 +24,8 @@ except ImportError:
     from Products.PlonePAS.tests.PloneTestCase \
             import PloneTestCase as PlonePASTestCase
 
-from Products.membrane.interfaces import IMembraneUserAuth
+from Products.PluggableAuthService.interfaces.plugins import \
+     IUserAdderPlugin
 from Products.membrane.tests import dummy
 from Products.membrane.config import TOOLNAME
 
@@ -82,6 +81,19 @@ class MembraneProfilesLayer(SiteLayer):
     def testTearDown(cls):
         pass
 
+class MembraneExamplesLayer(MembraneProfilesLayer):
+    @classmethod
+    def setUp(cls):
+        portal = cls.getPortal()
+        setup_tool = portal.portal_setup
+        setup_tool.runAllImportStepsFromProfile('profile-membrane:examples')
+        plugins = portal.acl_users.plugins
+        plugins.movePluginsUp(IUserAdderPlugin, ['membrane_users'])
+        txn.commit()
+
+    @classmethod
+    def tearDown(cls):
+        pass
 
 class AddUserLayer(MembraneProfilesLayer):
     @classmethod

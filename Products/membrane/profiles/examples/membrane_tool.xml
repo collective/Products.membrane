@@ -2,4 +2,6 @@
 <object name="membrane_tool" meta_type="MembraneTool">
   <membrane-type name="SimpleMember"/>
   <membrane-type name="SimpleGroup"/>
+
+  <user-adder name="membrane_example"/>
 </object>

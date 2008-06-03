@@ -2,10 +2,7 @@
 
 from unittest import main, makeSuite
 
-from zope.component import getUtility
-
 from Products.CMFCore.utils import getToolByName
-from Products.GenericSetup.interfaces import ISetupTool
 
 from Products.membrane.interfaces import ICategoryMapper
 from Products.membrane.utils import generateCategorySetIdForType
@@ -36,7 +33,7 @@ class TestProfile(MembraneTestCase):
         catalog_map = getattr(attool, 'catalog_map', {})
         if 'TestMember' not in catalog_map:
             catalog_map['TestMember'] = ('portal_catalog',
-                                     'membrane_tool')
+                                         'membrane_tool')
         cat_set = generateCategorySetIdForType('TestMember')
         mapper = ICategoryMapper(self.portal.membrane_tool)
         if mapper.hasCategorySet(cat_set):
