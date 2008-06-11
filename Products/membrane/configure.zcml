@@ -15,6 +15,7 @@
   -->
   <!-- BBB support Zope2.9/Five 1.4 -->
   <include file="permissions.zcml" />
+  <include file="exportimport.zcml" />
   <include package=".browser" />
   <include package=".exportimport" />
   <include package=".examples" />

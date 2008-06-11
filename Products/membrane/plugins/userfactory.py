@@ -2,17 +2,13 @@ from AccessControl import ClassSecurityInfo
 from Globals import InitializeClass
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 
-from Products.PluggableAuthService.utils import classImplements
-from Products.PluggableAuthService.interfaces.plugins import IUserFactoryPlugin
-from Products.PluggableAuthService.interfaces.plugins import IPropertiesPlugin
-
 from Products.PlonePAS.plugins.ufactory import PloneUserFactory, PloneUser
-from Products.PlonePAS.utils import unique
 
 from Products.Archetypes.config import REFERENCE_CATALOG, UUID_ATTR
 from Products.CMFCore.utils import getToolByName
 
 from Products.membrane.interfaces import IMembraneUser
+from Products.membrane.interfaces import IMembraneUserFactoryPlugin
 from Products.membrane.config import TOOLNAME
 
 from zope.interface import implements
@@ -39,6 +35,8 @@ class MembraneUserFactory(PloneUserFactory):
     security = ClassSecurityInfo()
     meta_type = 'Membrane User Factory'
 
+    implements(IMembraneUserFactoryPlugin)
+
     def __init__(self, id, title=''):
         self.id = id
         self.title = title or self.meta_type
@@ -49,9 +47,6 @@ class MembraneUserFactory(PloneUserFactory):
         if not mbtool.case_sensitive_auth:
             user_id = mbtool.getOriginalUserIdCase(user_id)
         return MembraneUser(user_id, name)
-
-classImplements(MembraneUserFactory,
-                IUserFactoryPlugin)
 
 InitializeClass(MembraneUserFactory)
 
@@ -149,7 +144,7 @@ class MembraneUser(PloneUser):
         """delete all references from this object"""
         return self._getMembraneObject().deleteReferences(relationship)
 
-    def getRelationships():
+    def getRelationships(self):
         """list all the relationship types this object has refs for"""
         return self._getMembraneObject().getRelationships()
 

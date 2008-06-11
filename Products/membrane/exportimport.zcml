@@ -1,0 +1,55 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <!-- Membrane User Manager -->
+  <adapter
+     factory="Products.PluggableAuthService.plugins.exportimport.TitleOnlyExportImport"
+     provides="Products.GenericSetup.interfaces.IFilesystemExporter"
+     for="Products.membrane.interfaces.IMembraneUserManagerPlugin"
+     />
+
+  <adapter
+     factory="Products.PluggableAuthService.plugins.exportimport.TitleOnlyExportImport"
+     provides="Products.GenericSetup.interfaces.IFilesystemImporter"
+     for="Products.membrane.interfaces.IMembraneUserManagerPlugin"
+     />
+     
+  <!-- Membrane User Factory -->
+  <adapter
+     factory="Products.PluggableAuthService.plugins.exportimport.TitleOnlyExportImport"
+     provides="Products.GenericSetup.interfaces.IFilesystemExporter"
+     for="Products.membrane.interfaces.IMembraneUserFactoryPlugin"
+     />
+     
+  <adapter
+     factory="Products.PluggableAuthService.plugins.exportimport.TitleOnlyExportImport"
+     provides="Products.GenericSetup.interfaces.IFilesystemImporter"
+     for="Products.membrane.interfaces.IMembraneUserFactoryPlugin"
+     />
+
+  <!-- Membrane Group Manager -->
+  <adapter
+     factory="Products.PluggableAuthService.plugins.exportimport.TitleOnlyExportImport"
+     provides="Products.GenericSetup.interfaces.IFilesystemExporter"
+     for="Products.membrane.interfaces.IMembraneGroupManagerPlugin"
+     />
+
+  <adapter
+     factory="Products.PluggableAuthService.plugins.exportimport.TitleOnlyExportImport"
+     provides="Products.GenericSetup.interfaces.IFilesystemImporter"
+     for="Products.membrane.interfaces.IMembraneGroupManagerPlugin"
+     />
+
+  <!-- Membrane Role Manager -->
+  <adapter
+     factory="Products.PluggableAuthService.plugins.exportimport.TitleOnlyExportImport"
+     provides="Products.GenericSetup.interfaces.IFilesystemExporter"
+     for="Products.membrane.interfaces.IMembraneRoleManagerPlugin"
+     />
+
+  <adapter
+     factory="Products.PluggableAuthService.plugins.exportimport.TitleOnlyExportImport"
+     provides="Products.GenericSetup.interfaces.IFilesystemImporter"
+     for="Products.membrane.interfaces.IMembraneRoleManagerPlugin"
+     />
+
+</configure>

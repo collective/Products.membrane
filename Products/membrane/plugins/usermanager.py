@@ -6,15 +6,12 @@
 
 import copy
 from AccessControl import ClassSecurityInfo
-from AccessControl.SecurityManagement import getSecurityManager
 from App.class_init import default__class_init__ as InitializeClass
 from OFS.Cache import Cacheable
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 from Products.ZCTextIndex.ZCTextIndex import ZCTextIndex
 
 from zope.interface import implements
-from zope.component import queryUtility
-from zope.component import getUtilitiesFor
 try:
     from zope.annotation.interfaces import IAnnotations
 except:
@@ -24,27 +21,17 @@ from Products.CMFCore.utils import getToolByName
 
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from Products.PluggableAuthService.utils import createViewName
-from Products.PluggableAuthService.interfaces.plugins \
-    import IAuthenticationPlugin
-from Products.PluggableAuthService.interfaces.plugins \
-    import IUserEnumerationPlugin
-
-from Products.PlonePAS.interfaces.plugins import IUserIntrospection
-from Products.PlonePAS.interfaces.plugins import IUserManagement
-from Products.PlonePAS.interfaces.capabilities import IPasswordSetCapability
-from Products.PlonePAS.interfaces.capabilities import IDeleteCapability
 
 from Products.membrane.config import TOOLNAME
 from Products.membrane.config import ACTIVE_STATUS_CATEGORY
 from Products.membrane.config import QIM_ANNOT_KEY
+from Products.membrane.interfaces import IMembraneUserManagerPlugin
 from Products.membrane.interfaces import IMembraneUserAuth
-from Products.membrane.interfaces import IMembraneUserManagement
 from Products.membrane.interfaces import IMembraneUserChanger
 from Products.membrane.interfaces import IMembraneUserDeleter
 from Products.membrane.interfaces import IUserAuthProvider
 from Products.membrane.interfaces import ICategoryMapper
 from Products.membrane.interfaces import IUserAuthentication
-from Products.membrane.interfaces import IUserDeleter
 from Products.membrane.utils import generateCategorySetIdForType
 from Products.membrane.utils import getCurrentUserAdder
 from Products.membrane.utils import queryMembraneTool
@@ -77,13 +64,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
 
     security = ClassSecurityInfo()
 
-    implements(IAuthenticationPlugin,
-               IUserEnumerationPlugin,
-               IUserIntrospection,
-               IUserManagement,
-               IPasswordSetCapability,
-               IDeleteCapability,
-               )
+    implements(IMembraneUserManagerPlugin)
 
     def __init__(self, id, title=None):
         self._id = self.id = id

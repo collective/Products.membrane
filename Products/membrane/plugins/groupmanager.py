@@ -2,9 +2,7 @@
 # info@plonesolutions.com
 
 import logging
-import copy
 from AccessControl import ClassSecurityInfo
-from AccessControl.SecurityManagement import getSecurityManager
 from App.class_init import default__class_init__ as InitializeClass
 from OFS.Cache import Cacheable
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
@@ -19,18 +17,15 @@ from Products.PluggableAuthService.PluggableAuthService \
     import _SWALLOWABLE_PLUGIN_EXCEPTIONS
 
 from Products.PluggableAuthService.interfaces.plugins \
-    import IGroupsPlugin
-from Products.PluggableAuthService.interfaces.plugins \
-    import IGroupEnumerationPlugin
+     import IGroupEnumerationPlugin
 from Products.PluggableAuthService.interfaces.plugins \
     import IPropertiesPlugin
 from Products.PluggableAuthService.interfaces.plugins \
     import IRolesPlugin
 
-from Products.PlonePAS.interfaces.group import IGroupIntrospection
-
 from Products.membrane.interfaces import IGroup
 from Products.membrane.interfaces import IMembraneUserGroups
+from Products.membrane.interfaces import IMembraneGroupManagerPlugin
 from Products.membrane.config import TOOLNAME
 
 # XXX REMOVE WHEN REFACTORING
@@ -61,10 +56,7 @@ class MembraneGroupManager(BasePlugin, Cacheable):
 
     security = ClassSecurityInfo()
 
-    implements(IGroupsPlugin,
-               IGroupEnumerationPlugin,
-               IGroupIntrospection,
-               )
+    implements(IMembraneGroupManagerPlugin)
 
     def __init__(self, id, title=None):
         self._id = self.id = id

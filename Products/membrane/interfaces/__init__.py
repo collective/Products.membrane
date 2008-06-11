@@ -12,6 +12,11 @@ from user import IMembraneUserChanger
 from user import IMembraneUserDeleter
 from user import IMembraneUserManagement
 
+from plugins import IMembraneGroupManagerPlugin
+from plugins import IMembraneRoleManagerPlugin
+from plugins import IMembraneUserManagerPlugin
+from plugins import IMembraneUserFactoryPlugin
+
 from group import IGroup
 
 from plugin_markers import IUserAuthProvider

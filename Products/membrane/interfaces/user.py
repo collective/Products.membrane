@@ -3,8 +3,6 @@ User interface
 """
 from zope.interface import Interface
 
-from Products.Archetypes.interfaces import IReferenceable
-
 from Products.PluggableAuthService.interfaces.plugins import \
      IAuthenticationPlugin
 from Products.PluggableAuthService.interfaces.plugins import IGroupsPlugin
@@ -68,3 +66,4 @@ class IMembraneUserDeleter(IUserRelated):
     """
     def doDeleteUser(login):
         """remove the user with the id login"""
+
