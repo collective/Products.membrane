@@ -211,7 +211,7 @@ class MembraneTool(BaseTool):
         Return the unique object that is the authentication provider
         for the provided login.
         """
-        if login == '':
+        if not login: # could be either '' or None
             return None
         uSR = self.unrestrictedSearchResults
         idxname = 'getUserName'
