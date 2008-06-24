@@ -108,7 +108,7 @@ class MembraneToolXMLAdapter(ZCatalogXMLAdapter):
             # catalog map or in the status map
             mtype = str(child.getAttribute('name'))
             cat_map = ICategoryMapper(self.context)
-            cat_set = generateCategorySetIdForType('Member')
+            cat_set = generateCategorySetIdForType(mtype)
             if mtype and not (
                 mtype in self.context.listMembraneTypes() and
                 cat_map.hasCategorySet(cat_set)):
