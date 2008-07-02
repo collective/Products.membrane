@@ -52,7 +52,7 @@ class MembraneRoleManager(BasePlugin, Cacheable):
     def getRolesForPrincipal(self, principal, request=None):
         mbtool = getToolByName(self, TOOLNAME)
         uSR = mbtool.unrestrictedSearchResults
-        providers = uSR(getUserId=principal.getId(),
+        providers = uSR(exact_getUserId=principal.getId(),
                          object_implements=IMembraneUserRoles.__identifier__)
         roles = {}
         for p in providers:

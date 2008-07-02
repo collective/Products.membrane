@@ -69,7 +69,7 @@ class MembraneGroupManager(BasePlugin, Cacheable):
     def getGroupsForPrincipal(self, principal, request=None):
         mbtool = getToolByName(self, TOOLNAME)
         uSR = mbtool.unrestrictedSearchResults
-        providers = uSR(getUserId=principal.getId(),
+        providers = uSR(exact_getUserId=principal.getId(),
                         object_implements=IMembraneUserGroups.__identifier__)
         groups = {}
         for p in providers:
