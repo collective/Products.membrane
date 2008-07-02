@@ -1,8 +1,14 @@
 Changelog
 =========
 
-1.1b1 - Unreleased
-----------------
+1.1b2 - (Unreleased)
+--------------------
+
+* Have rolemanager and groupmanager search for exact userids.
+  [mj]
+
+1.1b1 - 2008-05-22
+------------------
 
 * Initial release
 
