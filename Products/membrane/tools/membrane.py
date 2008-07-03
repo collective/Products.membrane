@@ -1,10 +1,6 @@
-from ZODB.PersistentMapping import PersistentMapping
 from Globals import InitializeClass
-from Acquisition import aq_base, aq_chain
+from Acquisition import aq_base
 from AccessControl import ClassSecurityInfo
-from AccessControl import getSecurityManager
-from AccessControl.Permissions import search_zcatalog 
-from ComputedAttribute import ComputedAttribute
 
 from zope.interface import implements
 from zope.interface import providedBy
@@ -225,6 +221,21 @@ class MembraneTool(BaseTool):
         if not members:
             return None
 
+        if len(members) == 2:
+            # Usually this is an error case, but when importing or
+            # pasting a copy of a Plone site, the catalog can have
+            # duplicate entries.  If there are exactly 2 entries, and
+            # one has a path that is not inside this Plone site, then
+            # we assume this is what's happened and we clear out the
+            # bogus entry.
+            site = getToolByName(self, 'portal_url').getPortalObject()
+            site_path = '/'.join(site.getPhysicalPath())
+            bogus = [b.getPath() for b in members if site_path not in b.getPath()]
+            if len(bogus) == 1:
+                # yup, clear it out and move on
+                self._catalog.uncatalogObject(bogus[0])
+                members = uSR(**query)
+        
         assert len(members) == 1
         member = members[0]._unrestrictedGetObject()
         return member
