@@ -1,9 +1,21 @@
-from Products.CMFCore.utils import getToolByName
-
 from Products.membrane.interfaces import ICategoryMapper
 from Products.membrane.config import ACTIVE_STATUS_CATEGORY
 from Products.membrane.utils import generateCategorySetIdForType
 from Products.membrane.utils import getAllWFStatesForType
+
+def doInitializeStatusCategories(tool, portal_type):
+    """
+    Perform the initialization
+    """
+    cat_map = ICategoryMapper(tool)
+    cat_set = generateCategorySetIdForType(portal_type)
+    cat_map.addCategorySet(cat_set)
+    cat_map.addCategory(cat_set, ACTIVE_STATUS_CATEGORY)
+
+    states = getAllWFStatesForType(tool, portal_type)
+    for state in states:
+        cat_map.addToCategory(cat_set, ACTIVE_STATUS_CATEGORY,
+                              state)
 
 def initializeStatusCategories(event):
     """
@@ -12,15 +24,7 @@ def initializeStatusCategories(event):
     Triggered when a new membrane type is registered.  Defaults to all
     workflow states being active.
     """
-    cat_map = ICategoryMapper(event.tool)
-    cat_set = generateCategorySetIdForType(event.portal_type)
-    cat_map.addCategorySet(cat_set)
-    cat_map.addCategory(cat_set, ACTIVE_STATUS_CATEGORY)
-
-    states = getAllWFStatesForType(event.tool, event.portal_type)
-    for state in states:
-        cat_map.addToCategory(cat_set, ACTIVE_STATUS_CATEGORY,
-                              state)
+    doInitializeStatusCategories(event.tool, event.portal_type)
 
 def removeStatusCategories(event):
     """

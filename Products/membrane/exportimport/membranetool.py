@@ -11,6 +11,7 @@ from Products.GenericSetup.ZCatalog.exportimport import ZCatalogXMLAdapter
 from Products.GenericSetup.utils import exportObjects
 from Products.GenericSetup.utils import importObjects
 
+from Products.membrane.factories.statusmapper import doInitializeStatusCategories
 from Products.membrane.interfaces import IMembraneTool
 from Products.membrane.interfaces import ICategoryMapper
 from Products.membrane.config import ACTIVE_STATUS_CATEGORY
@@ -109,10 +110,14 @@ class MembraneToolXMLAdapter(ZCatalogXMLAdapter):
             mtype = str(child.getAttribute('name'))
             cat_map = ICategoryMapper(self.context)
             cat_set = generateCategorySetIdForType(mtype)
-            if mtype and not (
-                mtype in self.context.listMembraneTypes() and
-                cat_map.hasCategorySet(cat_set)):
+            if mtype and \
+                   mtype not in self.context.listMembraneTypes() and \
+                   not cat_map.hasCategorySet(cat_set):
                 self.context.registerMembraneType(mtype)
+            elif not cat_map.hasCategorySet(cat_set):
+                # handle edge case where type is registered but status
+                # map isn't initialized
+                doInitializeStatusCategories(self.context, mtype)
 
             # register "active" workflow states
             states = []
