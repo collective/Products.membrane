@@ -2,22 +2,7 @@
 # MembraneTestCase Membrane
 #
 
-import os, sys
-
-import unittest
-
-from Testing import ZopeTestCase
-
 from Products.CMFPlone.utils import _createObjectByType
-
-from Products.PluggableAuthService.tests.conformance \
-    import IAuthenticationPlugin_conformance
-from Products.PluggableAuthService.tests.conformance \
-    import IUserEnumerationPlugin_conformance
-from Products.PluggableAuthService.tests.conformance \
-    import IGroupsPlugin_conformance
-from Products.PluggableAuthService.tests.conformance \
-    import IGroupEnumerationPlugin_conformance
 
 from Products.membrane.interfaces import IMembraneUserAuth
 from Products.membrane.interfaces import IMembraneUserProperties
@@ -26,8 +11,6 @@ from Products.membrane.relations import UserRelatedRelation
 import base
 from dummy import TestPropertyProvider
 from dummy import TestAlternatePropertyProvider
-
-from zope.component import getMultiAdapter
 
 class MembranePropertyManagerTestBase:
 

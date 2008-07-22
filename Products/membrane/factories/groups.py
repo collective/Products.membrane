@@ -2,8 +2,6 @@ from Acquisition import aq_chain, aq_inner
 from AccessControl import ClassSecurityInfo
 from zope.interface import implements
 
-from Products.CMFCore.utils import getToolByName
-
 from Products.membrane.interfaces import IMembraneUserGroups
 from Products.membrane.interfaces import IGroup
 from userrelated import UserRelated

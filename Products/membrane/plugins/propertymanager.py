@@ -1,15 +1,12 @@
 # Copyright 2005 Plone Solutions
 # info@plonesolutions.com
 
-import copy
 from AccessControl import ClassSecurityInfo
-from AccessControl.SecurityManagement import getSecurityManager
 from App.class_init import default__class_init__ as InitializeClass
 from OFS.Cache import Cacheable
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 
 from zope.interface import implements
-from zope.component import getMultiAdapter
 
 from Products.CMFCore.utils import getToolByName
 from Products.Archetypes.interfaces import IReferenceable

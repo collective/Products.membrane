@@ -2,13 +2,6 @@
 # MembraneTestCase Membrane
 #
 
-import os, sys
-
-import unittest
-
-from Testing import ZopeTestCase
-from Products.CMFPlone.utils import _createObjectByType
-
 from Products.membrane.tests import base
 
 class MembraneRoleManagerTestBase:

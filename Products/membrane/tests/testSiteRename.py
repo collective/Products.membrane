@@ -2,11 +2,7 @@
 # MembraneTestCase Membrane
 #
 
-import os, sys
-
-from Testing import ZopeTestCase
 from Products.membrane.tests import base
-from Products.membrane.config import TOOLNAME
 from AccessControl import getSecurityManager
 from AccessControl.SecurityManagement import setSecurityManager
 

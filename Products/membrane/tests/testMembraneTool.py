@@ -2,11 +2,8 @@
 # MembraneTestCase Membrane
 #
 
-import os, sys
-
 from zope.interface import Interface
 
-from Testing import ZopeTestCase
 from Products.membrane.tests import base
 from Products.membrane.interfaces import ICategoryMapper
 from Products.membrane.config import TOOLNAME

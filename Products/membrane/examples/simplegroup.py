@@ -1,11 +1,11 @@
-from AccessControl import ClassSecurityInfo, AuthEncoding
+from AccessControl import ClassSecurityInfo
 
 from zope.interface import implements
 
 from Products.CMFCore.utils import getToolByName
 from Products.Archetypes.public import BaseSchema, Schema, BaseFolder
-from Products.Archetypes.public import ReferenceField, ReferenceWidget, \
-     StringField, StringWidget, LinesField, MultiSelectionWidget
+from Products.Archetypes.public import ReferenceField, ReferenceWidget
+from Products.Archetypes.public import LinesField, MultiSelectionWidget
 from Products.Archetypes.public import registerType
 from Products.Archetypes.public import DisplayList
 

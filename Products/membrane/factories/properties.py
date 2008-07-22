@@ -3,8 +3,6 @@ import sys
 from AccessControl import ClassSecurityInfo
 from zope.interface import implements
 
-from Products.CMFCore.utils import getToolByName
-
 from Products.PlonePAS.sheet import MutablePropertySheet
 
 from Products.membrane.interfaces import IMembraneUserProperties
@@ -147,7 +145,7 @@ class SchemataProperties(UserRelated):
                         msg = """
                         Exception raised when writing %s property:
                         %s: %s
-                        """ % (prop_name, e, m)
+                        """ % (fieldname, e, m)
                         raise ValueError, msg
 
     def deleteUser(self, user_id):

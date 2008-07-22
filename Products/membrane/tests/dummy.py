@@ -1,10 +1,6 @@
 from AccessControl import ClassSecurityInfo
 
 from zope.interface import implements
-from zope.component import implementedBy
-
-from Products.PluggableAuthService.utils import createViewName
-from Products.PluggableAuthService.utils import classImplements
 
 from Products.CMFCore.utils import getToolByName
 from Products.Archetypes.public import BaseSchema
@@ -29,11 +25,7 @@ from Products.membrane.interfaces import IMembraneUserAuth
 from Products.membrane.interfaces import IMembraneUserManagement
 from Products.membrane.interfaces import IMembraneUserChanger
 from Products.membrane.interfaces import IMembraneUserDeleter
-from Products.membrane.interfaces import IUserDeleter
 from Products.membrane.interfaces import IGroup
-from Products.membrane.factories.authentication import Authentication
-from Products.membrane.factories.properties import Properties
-from Products.membrane.factories.properties import SchemataProperties
 from Products.membrane.config import PROJECTNAME, TOOLNAME
 
 
@@ -96,7 +88,7 @@ class TestGroup(BaseFolder):
         Return a DisplayList of users
         """
         catalog = getToolByName(self, TOOLNAME)
-        results = catalog(object_implements=IMemberUserAuth.__identifier__)
+        results = catalog(object_implements=IMembraneUserAuth.__identifier__)
 
         value = []
         for r in results:

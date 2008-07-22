@@ -1,15 +1,12 @@
-from AccessControl import ClassSecurityInfo, AuthEncoding
-from Acquisition import aq_chain, aq_inner
+from AccessControl import ClassSecurityInfo
 
 from zope.interface import implements
-
-from Products.CMFCore.utils import getToolByName
 
 from Products.Archetypes.public import BaseSchema, Schema, BaseContent, \
      StringField, StringWidget, registerType, LinesField, \
      MultiSelectionWidget
 
-from Products.membrane.config import PROJECTNAME, TOOLNAME
+from Products.membrane.config import PROJECTNAME
 from Products.membrane.interfaces import IUserAuthProvider
 from Products.membrane.interfaces import IUserAuthentication
 from Products.membrane.interfaces import IPropertiesProvider

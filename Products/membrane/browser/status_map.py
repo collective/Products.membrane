@@ -1,4 +1,3 @@
-from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 
 from Products.membrane.interfaces import ICategoryMapper

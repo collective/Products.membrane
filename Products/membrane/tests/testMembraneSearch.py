@@ -1,11 +1,4 @@
-import os, sys
-import unittest
-
-from Testing import ZopeTestCase
 from Products.membrane.tests import base
-from Products.CMFPlone.utils import _createObjectByType
-
-from Products.membrane.tests.utils import sortTuple
 from Products.membrane.tests import testMembraneUserManager
 from Products.membrane.interfaces import IMembraneUserAuth
 

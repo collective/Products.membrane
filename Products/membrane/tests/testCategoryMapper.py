@@ -1,5 +1,3 @@
-import os, sys
-
 from zope.interface import implements
 try: 
     from zope.annotation.interfaces import IAttributeAnnotatable
@@ -11,7 +9,7 @@ from Testing import ZopeTestCase
 import Products.Five
 from Products.Five import zcml
 
-import Products.membrane
+# import Products.membrane
 from Products.membrane.interfaces import ICategoryMapper
 
 class ZCMLLayer:

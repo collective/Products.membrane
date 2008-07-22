@@ -2,15 +2,11 @@
 # MembraneTestCase Membrane
 #
 
-import os, sys
-import unittest
-
-from Testing import ZopeTestCase
 from Products.membrane.tests import base
 from Products.CMFPlone.utils import _createObjectByType
 
 from Products.membrane.plugins.userfactory import MembraneUser
-from Products.membrane.interfaces import IMembraneUserAuth
+
 
 class MembraneUserFactoryTestBase:
 
@@ -24,7 +20,7 @@ class MembraneUserFactoryTestBase:
     def _makeOne( self, id='test', *args, **kw ):
 
         return self._getTargetClass()( id=id, *args, **kw )
-        
+
 
 class TestMembraneUserFactory( base.MembraneTestCase
                              , MembraneUserFactoryTestBase):

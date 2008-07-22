@@ -1,7 +1,5 @@
 from zope.component import getUtilitiesFor
 
-from Products.CMFCore.utils import getToolByName
-
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 

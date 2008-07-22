@@ -1,8 +1,6 @@
 from AccessControl import ClassSecurityInfo
 from zope.interface import implements
 
-from Products.CMFCore.utils import getToolByName
-
 from Products.membrane.interfaces import IUserRelated
 from Products.membrane.interfaces import IUserAuthProvider
 from Products.membrane.relations import UserRelatedRelation
