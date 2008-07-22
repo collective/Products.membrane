@@ -1,5 +1,3 @@
-from Products.CMFCore.permissions import ManagePortal
-
 from Products.CMFCore import permissions as cmfcore_permissions
 
 # Add a new member

@@ -12,6 +12,7 @@ from zope.event import notify
 from Products.ZCatalog.ZCatalog import ZCatalog
 
 from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.permissions import ManagePortal
 
 from Products.CMFPlone.CatalogTool import CatalogTool as BaseTool
 from Products.CMFPlone.CatalogTool import registerIndexableAttribute
@@ -169,7 +170,7 @@ class MembraneTool(BaseTool):
     def __init__(self, *args, **kwargs):
         ZCatalog.__init__(self, self.getId())
 
-    security.declareProtected(permissions.ManagePortal, 'registerMembraneType')
+    security.declareProtected(ManagePortal, 'registerMembraneType')
     def registerMembraneType(self, portal_type):
         attool = getToolByName(self, 'archetype_tool')
         catalogs = [x.getId() for x in attool.getCatalogsByType(portal_type)]
@@ -180,7 +181,7 @@ class MembraneTool(BaseTool):
         # with the archetypes tool
         notify(MembraneTypeRegisteredEvent(self, portal_type))
 
-    security.declareProtected(permissions.ManagePortal, 'unregisterMembraneType')
+    security.declareProtected(ManagePortal, 'unregisterMembraneType')
     def unregisterMembraneType(self, portal_type):
         attool = getToolByName(self, 'archetype_tool')
         catalogs = [x.getId() for x in attool.getCatalogsByType(portal_type)]
