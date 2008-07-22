@@ -1,10 +1,7 @@
 from Acquisition import aq_base
 from persistent.mapping import PersistentMapping
 
-try:
-    from zope.annotation.interfaces import IAnnotations
-except:
-    from zope.app.annotation.interfaces import IAnnotations
+from zope.annotation.interfaces import IAnnotations
 
 from Products.CMFCore.utils import getToolByName
 from Products.GenericSetup.ZCatalog.exportimport import ZCatalogXMLAdapter

@@ -12,10 +12,7 @@ from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 from Products.ZCTextIndex.ZCTextIndex import ZCTextIndex
 
 from zope.interface import implements
-try:
-    from zope.annotation.interfaces import IAnnotations
-except:
-    from zope.app.annotation.interfaces import IAnnotations
+from zope.annotation.interfaces import IAnnotations
 
 from Products.CMFCore.utils import getToolByName
 

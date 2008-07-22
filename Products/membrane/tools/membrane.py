@@ -6,10 +6,7 @@ from AccessControl import ClassSecurityInfo
 from zope.interface import implements
 from zope.interface import providedBy
 from zope.app.apidoc.component import getRequiredAdapters
-try:
-    from zope.annotation.interfaces import IAttributeAnnotatable
-except:
-    from zope.app.annotation.interfaces import IAttributeAnnotatable
+from zope.annotation.interfaces import IAttributeAnnotatable
 from zope.event import notify
 
 from Products.ZCatalog.ZCatalog import ZCatalog
