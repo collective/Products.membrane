@@ -4,7 +4,8 @@ Changelog for Products.membrane
 
 Products.membrane - 1.1b2 Unreleased
 
-    - Add a counter to the membrane tool which can be used as a cache key.
+    - Add a counter to the membrane tool which can be used as a cache key as
+      well as a convenience helper for quickly memoizing adapters and tools.
       [witsch]
 
     - Have rolemanager and groupmanager search for exact userids.
