@@ -1,17 +1,21 @@
-Changelog
-=========
+Changelog for Products.membrane
 
-1.1b2 - (Unreleased)
---------------------
+    (name of developer listed in brackets)
 
-* Add a counter to the membrane tool which can be used as a cache key.
-  [witsch]
+Products.membrane - 1.1b2 Unreleased
 
-* Have rolemanager and groupmanager search for exact userids.
-  [mj]
+    - Add a counter to the membrane tool which can be used as a cache key.
+      [witsch]
 
-1.1b1 - 2008-05-22
-------------------
+    - Have rolemanager and groupmanager search for exact userids.
+      [mj]
 
-* Initial release
+Products.membrane - 1.1b1 Released May 22, 2008
+
+    - Initial egg release.
+      [rafrombrc]
+
+
+Please see ``Products/membrane/doc/HISTORY.txt`` for the changelog of
+previous, non-eggified versions.
 
