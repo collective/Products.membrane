@@ -1,7 +1,6 @@
 from Globals import InitializeClass
 from Acquisition import aq_base
 from AccessControl import ClassSecurityInfo
-from logger import getLogger
 
 from zope.interface import implements
 from zope.interface import providedBy
