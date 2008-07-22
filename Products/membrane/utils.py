@@ -57,4 +57,9 @@ def queryMembraneTool(context, **query):
 def findImplementations(context, iname):
     return queryMembraneTool(context, 
                              object_implements=iname.__identifier__)
-    
+
+# convenience cache key for use in adapters (i.e. views) and tools
+def membraneCacheKey(method, self, *args, **kw):
+    mbtool = getToolByName(self.context, TOOLNAME)
+    return '/'.join(mbtool.getPhysicalPath()), mbtool.getCatalogCount()
+

@@ -12,6 +12,7 @@ from Products.membrane.interfaces import ICategoryMapper
 from Products.membrane.config import TOOLNAME
 from Products.membrane.config import ACTIVE_STATUS_CATEGORY
 from Products.membrane.utils import generateCategorySetIdForType
+from Products.membrane.utils import membraneCacheKey
 
 def resolveInterface(dotted_name):
     parts = dotted_name.split('.')
@@ -99,6 +100,38 @@ class TestMembraneTool(base.MembraneTestCase):
         case_test = 'TeStUsEr'
         orig_id = mt.getOriginalUserIdCase(case_test)
         self.failUnless(orig_id == case_test.lower())
+
+    def testCatalogCounter(self):
+        mt = self.mbtool
+        self.assertEqual(mt.getCatalogCount(), 0)
+        last = mt.getCatalogCount()
+        self.addUser()
+        self.failUnless(mt.getCatalogCount() > last)
+        last = mt.getCatalogCount()
+        self.addUser(username='testuser2')
+        self.failUnless(mt.getCatalogCount() > last)
+        last = mt.getCatalogCount()
+        self.portal.manage_delObjects('testuser2')
+        self.failUnless(mt.getCatalogCount() > last)
+
+    def testCacheKey(self):
+        method = lambda: 42
+        class MockAdapter:
+            pass
+        adapter = MockAdapter()
+        adapter.context = self.mbtool
+        path = '/'.join(self.mbtool.getPhysicalPath())
+        self.assertEqual(membraneCacheKey(method, adapter), (path, 0))
+        last = membraneCacheKey(method, adapter)
+        self.addUser()
+        self.failUnless(membraneCacheKey(method, adapter) > last)
+        last = membraneCacheKey(method, adapter)
+        self.addUser(username='testuser2')
+        self.failUnless(membraneCacheKey(method, adapter) > last)
+        last = membraneCacheKey(method, adapter)
+        self.portal.manage_delObjects('testuser2')
+        self.failUnless(membraneCacheKey(method, adapter) > last)
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite

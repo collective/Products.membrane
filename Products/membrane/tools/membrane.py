@@ -1,4 +1,5 @@
 from Globals import InitializeClass
+from BTrees import Length
 from Acquisition import aq_base
 from AccessControl import ClassSecurityInfo
 
@@ -157,6 +158,8 @@ class MembraneTool(BaseTool):
     user_adder = ''
     case_sensitive_auth = True
 
+    _catalog_count = None
+
     implements(IMembraneTool, IAttributeAnnotatable)
 
     manage_options=(
@@ -275,7 +278,34 @@ class MembraneTool(BaseTool):
                                  'ZCTextIndex',
                                  Record(lexicon_id='lexicon',
                                         index_type='Cosine Measure'))
-            
+
+    # indexing wrappers updating the counter used for cache keys (see below)
+
+    def catalog_object(self, *args, **kw):
+        """ ZCatalog.catalog_object """
+        self.incrementCatalogCount()
+        return super(MembraneTool, self).catalog_object(*args, **kw)
+
+    def uncatalog_object(self, *args, **kw):
+        """ ZCatalog.uncatalog_object """
+        self.incrementCatalogCount()
+        return super(MembraneTool, self).uncatalog_object(*args, **kw)
+
+    # helpers for building cache keys, for example for memoize
+
+    def incrementCatalogCount(self):
+        # catalog_count is a minimal counter object that we will increment 
+        # every time an object is indexed/reindexed/unindexed -- it can
+        # then be used as a cache key
+        if self._catalog_count is None:
+            self._catalog_count = Length.Length()
+        self._catalog_count.change(1)
+
+    def getCatalogCount(self):
+        if self._catalog_count is not None:
+            return self._catalog_count()
+        else:
+            return 0
 
 
 InitializeClass(MembraneTool)
