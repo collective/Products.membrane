@@ -292,12 +292,6 @@ class TestUserManagerIntrospectionTwoUsers(base.MembraneUserTestCase):
             )
         self.failUnlessEqual(userids, correct)
 
-    def getUserNames(self):
-        usernames = sortTuple(self.portal.pmm.getUserIds())
-        self.failUnlessEqual(userids,
-                             sortTuple((self.member.getUserName(),
-                                        self.member2.getUserName())))
-
     def testGetUsers(self):
         userids = sortTuple(self.portal.pmm.getUserIds())
         correct = sortTuple(
