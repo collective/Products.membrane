@@ -61,5 +61,5 @@ def findImplementations(context, iname):
 # convenience cache key for use in adapters (i.e. views) and tools
 def membraneCacheKey(method, self, *args, **kw):
     mbtool = getToolByName(self.context, TOOLNAME)
-    return '/'.join(mbtool.getPhysicalPath()), mbtool.getCatalogCount()
+    return '/'.join(mbtool.getPhysicalPath()), mbtool.getCounter()
 

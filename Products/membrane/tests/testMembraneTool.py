@@ -100,16 +100,16 @@ class TestMembraneTool(base.MembraneTestCase):
 
     def testCatalogCounter(self):
         mt = self.mbtool
-        self.assertEqual(mt.getCatalogCount(), 0)
-        last = mt.getCatalogCount()
+        self.assertEqual(mt.getCounter(), 0)
+        last = mt.getCounter()
         self.addUser()
-        self.failUnless(mt.getCatalogCount() > last)
-        last = mt.getCatalogCount()
+        self.failUnless(mt.getCounter() > last)
+        last = mt.getCounter()
         self.addUser(username='testuser2')
-        self.failUnless(mt.getCatalogCount() > last)
-        last = mt.getCatalogCount()
+        self.failUnless(mt.getCounter() > last)
+        last = mt.getCounter()
         self.portal.manage_delObjects('testuser2')
-        self.failUnless(mt.getCatalogCount() > last)
+        self.failUnless(mt.getCounter() > last)
 
     def testCacheKey(self):
         method = lambda: 42
