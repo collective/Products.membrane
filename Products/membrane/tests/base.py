@@ -20,6 +20,7 @@ SiteLayer = layer.PloneSite
 
 try:
     from Products.PlonePAS.tests.PlonePASTestCase import PlonePASTestCase
+    PlonePASTestCase        # make pyflakes happy
 except ImportError:
     from Products.PlonePAS.tests.PloneTestCase \
             import PloneTestCase as PlonePASTestCase

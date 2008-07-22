@@ -25,6 +25,7 @@ registerMultiPlugin(userfactory.MembraneUserFactory.meta_type)
 def initialize(context):
 
     import examples
+    examples            # make pyflakes happy
 
     content_types, constructors, ftis = process_types(listTypes(PROJECTNAME),
                                                       PROJECTNAME)
