@@ -4,6 +4,13 @@ Changelog for Products.membrane
 
 Products.membrane - 1.1b3 Unreleased
 
+    - Fix issue with retrieving unnamed user adders.
+      [witsch]
+
+    - Remove counter again as the membrane tool inherits from Plone's
+      catalog tool, which already has support for a counter.  Keep the
+      test and caching helper, though. :)
+      [witsch]
 
 Products.membrane - 1.1b2 Released July 22, 2008
 
