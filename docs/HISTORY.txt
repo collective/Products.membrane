@@ -2,7 +2,10 @@ Changelog for Products.membrane
 
     (name of developer listed in brackets)
 
-Products.membrane - 1.1b3 Unreleased
+Products.membrane - 1.1b4 Unreleased
+
+
+Products.membrane - 1.1b3 Released July 23, 2008
 
     - Fix issue with retrieving unnamed user adders.
       [witsch]
