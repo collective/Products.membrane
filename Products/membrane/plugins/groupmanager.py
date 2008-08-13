@@ -108,8 +108,11 @@ class MembraneGroupManager(BasePlugin, Cacheable):
         query = {}
 
         if id:
-            query['getGroupId'] = exact_match and id or \
-                                 ['%s*' % i for i in id]
+            if exact_match:
+                query['exact_getGroupId'] = id
+            else:
+                query['getGroupId'] = ['%s*' % i for i in id]
+                
         elif title:
             query['Title'] = exact_match and title or \
                              ['%s*' % t for t in title]

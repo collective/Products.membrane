@@ -166,6 +166,24 @@ class TestMembraneGroupManagerEnumeration( base.MembraneTestCase
                                           exact_match=True, max_results=1)), 1)
         self.failUnlessEqual(len(enumgrps(id=self.group.getGroupName(),
                                           exact_match=True, max_results=0)), 0)
+                                          
+    def testEnumerateGroupsWithSimilarIds(self):
+        """ ensure that enumerating groups while exact_match==True returns only
+            exact matches for a given id
+        """
+        # add a new group with a similar id
+        self.newgroup = _createObjectByType('TestGroup', self.portal, 'testgroup-2')
+        self.newgroup.setTitle('New Test group')
+        self.newgroup.setDescription('A test group')
+        self.newgroup.reindexObject()
+        
+        enumgrps = self.portal.pmm.enumerateGroups
+        # only an exact match should be found when exact_match==True
+        self.failUnlessEqual(len(enumgrps(id=self.group.getGroupName(),
+                                          exact_match=True)), 1)
+        self.failUnlessEqual(len(enumgrps(id=self.group.getGroupName(),
+                                          exact_match=False)), 2)
+    
 
 
 class TestMembraneGroupIntrospection( base.MembraneTestCase
