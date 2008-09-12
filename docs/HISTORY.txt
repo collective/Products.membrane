@@ -4,6 +4,9 @@ Changelog for Products.membrane
 
 Products.membrane - 1.1b4 Unreleased
 
+    - Only use the membrane user factory plug-in for users for whom
+      membrane provides authentication.
+      [rafrombrc]
 
 Products.membrane - 1.1b3 Released July 23, 2008
 
