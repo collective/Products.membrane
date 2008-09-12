@@ -202,7 +202,7 @@ class MembraneTool(BaseTool):
 
     security.declareProtected(permissions.VIEW_PUBLIC_PERMISSION,
                               'getUserAuthProvider')
-    def getUserAuthProvider(self, login):
+    def getUserAuthProvider(self, login, brain=False):
         """
         Return the unique object that is the authentication provider
         for the provided login.
@@ -237,6 +237,9 @@ class MembraneTool(BaseTool):
                 members = uSR(**query)
         
         assert len(members) == 1
+        if brain:
+            return members[0]
+
         member = members[0]._unrestrictedGetObject()
         return member
 
