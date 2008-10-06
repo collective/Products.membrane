@@ -217,6 +217,11 @@ class MembraneTool(BaseTool):
         query = {idxname: login,
                  'object_implements': IMembraneUserAuth.__identifier__}
         members = uSR(**query)
+        # filter out inadvertent ZCTextIndex matches by only keeping
+        # records with the same number of characters
+        if idxname == 'getUserName':
+            members = [mem for mem in members
+                       if len(mem.getUserName) == len(login)]
 
         if not members:
             return None
@@ -253,6 +258,10 @@ class MembraneTool(BaseTool):
         query = {'getUserId': userid,
                  'object_implements': IMembraneUserAuth.__identifier__}
         members = uSR(**query)
+        # filter out inadvertent ZCTextIndex matches by only keeping
+        # records with the same number of characters
+        members = [mem for mem in members
+                   if len(mem.getUserId) == len(userid)]
 
         if not members:
             return None
