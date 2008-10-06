@@ -4,6 +4,10 @@ Changelog for Products.membrane
 
 Products.membrane - 1.1b4 Unreleased
 
+    - Distinguish btn substring matches and case-insensitive matches
+      for userid and username when supporting case-insensitive logins
+      [rafrombrc]
+
     - Only use the membrane user factory plug-in for users for whom
       membrane provides authentication.
       [rafrombrc]
