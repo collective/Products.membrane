@@ -135,15 +135,16 @@ class MembraneUserManager(BasePlugin, Cacheable):
             for keyword in kw.keys():
                 if keyword in query_index_map:
                     index_name = query_index_map[keyword]
-                    search_term= kw[keyword]
-                    if not exact_match:
-                        index = mbtool.Indexes[index_name]
-                        if type(index) == ZCTextIndex:
-                            # split, glob, join
-                            sep = search_term.strip().split()
-                            sep = ["%s*" % val for val in sep]
-                            search_term = ' '.join(sep)
-                    query[index_name] = search_term
+                    search_term = kw[keyword]
+                    if search_term is not None:
+                        if not exact_match:
+                            index = mbtool.Indexes[index_name]
+                            if type(index) == ZCTextIndex:
+                                # split, glob, join
+                                sep = search_term.strip().split()
+                                sep = ["%s*" % val for val in sep]
+                                search_term = ' '.join(sep)
+                        query[index_name] = search_term
 
         # Look in the cache first...
         keywords = copy.deepcopy(kw)
