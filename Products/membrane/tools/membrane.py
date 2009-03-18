@@ -241,7 +241,7 @@ class MembraneTool(BaseTool):
                 self._catalog.uncatalogObject(bogus[0])
                 members = uSR(**query)
         
-        assert len(members) == 1
+        assert len(members) == 1, 'more than one member found for login "%s"' % login
         if brain:
             return members[0]
 
