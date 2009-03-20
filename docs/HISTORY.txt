@@ -2,12 +2,26 @@ Changelog for Products.membrane
 
     (name of developer listed in brackets)
 
-Products.membrane - 1.1b4 Unreleased
+Products.membrane - 1.1b4 Released March 20, 2009
+
+    - Tested with Plone 3.0-3.2 [rossp]
+
+    - Add a warning about upcoming changes to object_implements
+      [rossp]
+
+    - Deprecate the category mapper support [rossp]
+
+    - Deprecate AT assumptions [rossp]
+
+    - Provide the offending login name when more than one match
+      [witsch]
+
+    - Fix AttributeError bug when the search term is None [claytron]
 
     - Distinguish btn substring matches and case-insensitive matches
       for userid and username when supporting case-insensitive logins
       [rafrombrc]
-
+      
     - Only use the membrane user factory plug-in for users for whom
       membrane provides authentication.
       [rafrombrc]
