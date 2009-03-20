@@ -56,7 +56,7 @@ Because its top level Python namespace package is called ``Products``, this
 package can also be installed in Zope 2 as an old style **Zope 2 Product**.
 
 For that, move (or symlink) the ``membrane`` folder of this project
-(``Products.membrane/Products/membrane``) into the ``Products`` directory of
+(``Products.membrane/products/products-membrane``) into the ``Products`` directory of
 the Zope instance it has to be installed for, and restart the server.
 
 You can also skip the ZCML slug if you install this package the **Zope 2
