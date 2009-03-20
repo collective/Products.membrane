@@ -1,12 +1,14 @@
-from Globals import InitializeClass
-from Acquisition import aq_base
-from AccessControl import ClassSecurityInfo
+import warnings
 
 from zope.interface import implements
 from zope.interface import providedBy
 from zope.app.apidoc.component import getRequiredAdapters
 from zope.annotation.interfaces import IAttributeAnnotatable
 from zope.event import notify
+
+from Globals import InitializeClass
+from Acquisition import aq_base
+from AccessControl import ClassSecurityInfo
 
 from Products.ZCatalog.ZCatalog import ZCatalog
 
@@ -28,6 +30,11 @@ from Products.membrane.events import MembraneTypeRegisteredEvent
 from Products.membrane.events import MembraneTypeUnregisteredEvent
 
 from zope.component import getGlobalSiteManager
+
+warnings.warn(
+    'Products.membrane - The object_implements index will only '
+    'include registered interfaces in version 1.2',
+    DeprecationWarning)
 # Use extensible object wrapper to always list the interfaces
 def object_implements(object, portal, **kw):
 
