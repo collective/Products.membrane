@@ -41,7 +41,6 @@ def object_implements(object, portal, **kw):
         extendors = gsm.adapters._v_lookup._extendors
 
         def lookup(components, req, result, i, l):
-            tmp = {}
             if i < l:
                 for required in req.keys():
                     comps = components.get(required)
@@ -51,7 +50,6 @@ def object_implements(object, portal, **kw):
                 for iface,a in components.items():
                     if [x for x in a.keys() if not x]: # Filter named adapters, unnamed got u''
                         result[iface] = None
-            result.update(tmp)
 
         res = {}
         for iface in providedBy(object).flattened():
