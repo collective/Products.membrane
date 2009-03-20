@@ -1,3 +1,9 @@
+import warnings
+
+warnings.warn(
+    'Products.membrane - The CategoryMapper support will be removed '
+    'in version 1.2', DeprecationWarning)
+
 from zope.interface import Interface
 
 class ICategoryMapper(Interface):
