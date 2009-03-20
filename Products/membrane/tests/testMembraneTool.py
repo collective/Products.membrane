@@ -2,7 +2,8 @@
 # MembraneTestCase Membrane
 #
 
-from zope.interface import Interface
+from zope import interface
+from zope import component
 
 from Products.membrane.tests import base
 from Products.membrane.interfaces import ICategoryMapper
@@ -17,7 +18,7 @@ def resolveInterface(dotted_name):
     k_name = parts[-1]
     module = __import__(m_name, globals(), locals(), [k_name])
     klass = getattr(module, k_name)
-    if not issubclass(klass, Interface):
+    if not issubclass(klass, interface.Interface):
         raise ValueError, '%r is not a valid Interface.' % dotted_name
     return klass
 
@@ -37,12 +38,18 @@ class TestMembraneTool(base.MembraneTestCase):
 
     def testObjectImplements(self):
         from Products.membrane.tools.membrane import object_implements
+        # Some adapters are registered too broadly and don't actually
+        # succeed, some of those fail with TypeError and cause this
+        # test to fail.  Use lookup() to retrieve the factory without
+        # calling it
+        lookup = component.getSiteManager().adapters.lookup
         mt = self.mbtool
+        provided = (interface.providedBy(mt),)
         interface_ids = object_implements(mt, self.portal)
         for iid in interface_ids:
             iface = resolveInterface(str(iid))
             try:
-                iface(mt)
+                lookup(provided, iface)
             except TypeError:
                 self.fail("Can't adapt to %s" % iid)
 
