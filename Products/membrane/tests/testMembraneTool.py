@@ -81,7 +81,7 @@ class TestMembraneTool(base.MembraneTestCase):
         self.failIf(cat_map.hasCategorySet(cat_set))
 
     def testGetUserAuthProviderForEmptyString(self):
-        # see http://plone.org/products/products-membrane/issues/7
+        # see http://plone.org/products/membrane/issues/7
         mt = self.mbtool
         self.addUser()
         self.addUser(username='testuser2')
