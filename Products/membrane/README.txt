@@ -1,5 +1,5 @@
 Overview
---------
+========
 
 membrane is a set of PluggableAuthService (PAS) plug-ins that allow
 for the user-related behaviour and data (authentication, properties,
@@ -16,17 +16,27 @@ Plone membership-handling. We have tried to make it as simple as
 possible, so that grasping and extending it is simple. Hopefully,
 simplicity should also make it easier to make sure it is secure.
 
-For information about the "why?" of membrane, and some policies for
-helping out, please see 'MANIFESTO.txt'.
+
+Vision
+======
+
+membrane is a product to enable users as content in Plone sites, in
+collaboration with PlonePAS. The name gives you an idea of the intended
+complexity and amount of code.
+
+membrane won't be the only member handling product in your site, instead it
+should enable us to easily plug in products that enable default Plone member
+policy, or more exotic setups in corporate intranets. This means that to get
+the default Plone behaviour you will need something else in addition to
+membrane.
 
 
 Requirements
-------------
+============
 
 - Zope 2.9.6
 - Plone 2.5.2
 
-Please see docs/INSTALL.txt for installation instructions.
 
 
 ---------

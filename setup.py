@@ -9,11 +9,9 @@ history = open(join('docs', 'HISTORY.txt')).read().replace(name + ' - ', '')
 
 setup(name = name,
       version = version,
-      description = 'PluggableAuthService (PAS) plug-ins allowing for the '
-                    'user-related behaviour and data to be obtained from '
-                    'content within a Plone site.',
+      description = "Content-based users and groups for Plone",
       long_description = readme[readme.find('\n\n'):] + '\n' + history,
-      keywords = 'plone membrane member content',
+      keywords = 'plone membrane member content remember',
       author = 'Rob Miller',
       author_email = 'robm@openplans.org',
       url = 'http://plone.org/products/membrane',
@@ -26,7 +24,7 @@ setup(name = name,
       zip_safe = False,
       install_requires = [
           "setuptools",
-          "Products.GenericSetup >=1.5",
+          "Products.GenericSetup >=1.4",
       ],
       classifiers = [
         'Environment :: Web Environment',
