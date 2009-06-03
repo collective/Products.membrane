@@ -6,16 +6,8 @@
 
   <five:traversable class=".tools.membrane.MembraneTool" />
 
-  <!-- XXX: this isn't really the right place to be setting these,
-            but we need them to be set and there's no better place
-            to put them, just yet 
-       No longer needed in Plone 3.0+
-  <five:localsite class="Products.CMFPlone.Portal.PloneSite" />
-  <five:localsite class="OFS.Application.Application" />
-  -->
   <!-- BBB support Zope2.9/Five 1.4 -->
   <include file="permissions.zcml" />
-  <include file="exportimport.zcml" />
   <include package=".browser" />
   <include package=".exportimport" />
   <include package=".examples" />
