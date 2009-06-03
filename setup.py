@@ -25,11 +25,10 @@ setup(name = name,
       platforms = 'Any',
       zip_safe = False,
       install_requires = [
-          'setuptools',
-          # -*- Extra requirements: -*-
+          "setuptools",
+          "Products.GenericSetup >=1.5",
       ],
       classifiers = [
-        'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Framework :: Plone',
         'Intended Audience :: Other Audience',

@@ -4,10 +4,15 @@ Changelog for Products.membrane
 
 Products.membrane - 1.1b6 Unreleased
 
+    - Move GenericSetup step registration to zcml.
+      [wichert]
+
+
 Products.membrane - 1.1b5 Released March 23, 2009
 
     - Fix git based release problem, now using setuptools-git
-      (hannosch)
+      [hannosch]
+
 
 Products.membrane - 1.1b4 Released March 20, 2009
 

@@ -1,7 +1,44 @@
 <configure
    xmlns="http://namespaces.zope.org/zope"
-   xmlns:five="http://namespaces.zope.org/five"
+   xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
    >
+
+  <!-- Setup tool import steps -->
+
+  <genericsetup:importStep
+      name="membranetool"
+      handler="Products.membrane.exportimport.membranetool.importMembraneTool"
+      title="Membrane Tool"
+      description="Import membrane type specific configuration.">
+    <depends name="toolset"/>
+    <depends name="workflow"/>
+  </genericsetup:importStep>
+
+  <genericsetup:importStep
+      name="plugins"
+      handler="Products.membrane.setuphandlers.setupPlugins"
+      title="Membrane plugins"
+      description="Install membrane PAS plug-ins"
+      />
+
+  <genericsetup:importStep
+      name="membrane-sitemanager"
+      handler="Products.membrane.setuphandlers.initSiteManager"
+      title="Membrane: initialize site manager"
+      description="Initialize site as a site manager."
+      />
+
+  <!-- Setup tool export steps -->
+
+  <genericsetup:exportStep
+      name="membranetool"
+      handler="Products.membrane.exportimport.membranetool.exportMembraneTool"
+      title="Membrane Tool"
+      description="Export membrane type specific configuration."
+      />
+
+
+  <!-- Helpers -->
 
   <adapter
       factory=".membranetool.MembraneToolXMLAdapter"
