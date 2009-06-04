@@ -1,10 +1,11 @@
 from setuptools import setup, find_packages
 from os.path import join
 
+version = "2.0"
+
 name = 'Products.membrane'
 path = join(*name.split('.'))
-version = open(join(path, 'version.txt')).read().strip()
-readme = open(join(path, 'README.txt')).read()
+readme = open('README.txt').read()
 history = open(join('docs', 'HISTORY.txt')).read().replace(name + ' - ', '')
 
 setup(name = name,
