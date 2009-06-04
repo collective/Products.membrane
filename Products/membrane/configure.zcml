@@ -5,9 +5,6 @@
            xmlns:i18n="http://namespaces.zope.org/i18n"
            i18n_domain="membrane">
 
-  <five:traversable class=".tools.membrane.MembraneTool" />
-
-  <!-- BBB support Zope2.9/Five 1.4 -->
   <include file="permissions.zcml" />
   <include package=".browser" />
   <include package=".exportimport" />
@@ -53,23 +50,11 @@
            factory=".factories.roles.GroupAwareRoles"
            />
 
-    <!-- Zope 2.9 / 3.2 support -->
-    <configure zcml:condition="installed zope.app.annotation.tests">
-        <include package="zope.app.annotation" />
-        <adapter for="zope.app.annotation.interfaces.IAnnotatable"
-               provides=".interfaces.ICategoryMapper"
-               factory=".factories.categorymapper.CategoryMapper"
-               />
-    </configure>
-
-    <!-- Zope 2.10 / 3.3 support -->
-    <configure zcml:condition="installed zope.annotation">
-        <include package="zope.annotation" />
-        <adapter for="zope.annotation.interfaces.IAnnotatable"
-               provides=".interfaces.ICategoryMapper"
-               factory=".factories.categorymapper.CategoryMapper"
-               />
-    </configure>
+  <include package="zope.annotation" />
+  <adapter for="zope.annotation.interfaces.IAnnotatable"
+         provides=".interfaces.ICategoryMapper"
+         factory=".factories.categorymapper.CategoryMapper"
+         />
 
   <adapter for=".interfaces.IUserChanger"
            provides=".interfaces.IMembraneUserChanger"
@@ -106,7 +91,5 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       />
-
-
 
 </configure>
