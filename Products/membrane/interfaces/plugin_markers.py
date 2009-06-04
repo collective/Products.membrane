@@ -1,6 +1,11 @@
 """
-Marker interfaces used for specifying alternate PAS plug-in
-adapters.
+Archetypes marker interfaces
+----------------------------
+
+The interfaces in this module can be used for Archetypes content
+classes. This allows them to use the default implementattions for the 
+membrane interfaces from Products.membrane.interfaces.user that
+are included in membrane.
 """
 from zope.interface import Interface
 
