@@ -1,17 +1,15 @@
 from setuptools import setup, find_packages
-from os.path import join
+import  os.path
 
 version = "2.0"
 
-name = 'Products.membrane'
-path = join(*name.split('.'))
 readme = open('README.txt').read()
-history = open(join('docs', 'HISTORY.txt')).read().replace(name + ' - ', '')
+history = open(os.path.join('docs', 'HISTORY.txt')).read()
 
-setup(name = name,
+setup(name = "Products.membrane",,
       version = version,
       description = "Content-based users and groups for Plone",
-      long_description = readme[readme.find('\n\n'):] + '\n' + history,
+      long_description = readme+ '\n' + history,
       keywords = 'plone membrane member content remember',
       author = 'Rob Miller',
       author_email = 'robm@openplans.org',
