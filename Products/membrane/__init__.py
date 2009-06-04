@@ -11,14 +11,11 @@ warnings.warn(
 from Products.Archetypes import process_types
 from Products.Archetypes.public import listTypes
 
-from Products.PluggableAuthService import registerMultiPlugin
-
-from Products.CMFPlone.interfaces import IPloneSiteRoot
-from Products.GenericSetup import EXTENSION, profile_registry
-
 from Products.membrane.config import PROJECTNAME
 from Products.membrane.plugins import usermanager, groupmanager, \
      propertymanager, rolemanager, userfactory
+
+from Products.PluggableAuthService import registerMultiPlugin
 
 registerMultiPlugin(usermanager.MembraneUserManager.meta_type)
 registerMultiPlugin(groupmanager.MembraneGroupManager.meta_type)
@@ -84,18 +81,3 @@ def initialize(context):
              icon = 'tool.gif'
              ).initialize(context)
 
-    profile_registry.registerProfile('default',
-                                     'membrane',
-                                     'Extension profile for membrane',
-                                     'profiles/default',
-                                     'membrane',
-                                     EXTENSION,
-                                     for_=IPloneSiteRoot)
-
-    profile_registry.registerProfile('examples',
-                                     'membrane sample content types',
-                                     'Sample types extension profile for membrane',
-                                     'profiles/examples',
-                                     'membrane',
-                                     EXTENSION,
-                                     for_=IPloneSiteRoot)

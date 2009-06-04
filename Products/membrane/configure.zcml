@@ -1,5 +1,6 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:five="http://namespaces.zope.org/five"
+           xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
            xmlns:zcml="http://namespaces.zope.org/zcml"
            xmlns:i18n="http://namespaces.zope.org/i18n"
            i18n_domain="membrane">
@@ -87,5 +88,25 @@
   <subscriber for=".interfaces.IMembraneTypeUnregisteredEvent"
               handler=".factories.statusmapper.removeStatusCategories"
               />
+
+  <genericsetup:registerProfile
+      name="default"
+      title="Membrane: content-based users and groups"
+      description=""
+      directory="profiles/default"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      />
+
+  <genericsetup:registerProfile
+      name="examples"
+      title="Example content types for Membrane"
+      description=""
+      directory="profiles/examples"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      />
+
+
 
 </configure>

@@ -12,7 +12,7 @@ Changelog
 - Improve package description, RESTify the changelog.
   [wichert]
 
-- Move GenericSetup step registration to zcml.
+- Move GenericSetup profile and step registration to zcml.
   [wichert]
 
 
