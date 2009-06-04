@@ -1,3 +1,11 @@
+"""
+Membrane PAS plugin interfaces
+------------------------------
+
+The interfaces defined in this module define the PAS plugins implemented
+by `Products.membrane`.
+"""
+
 from Products.PlonePAS.interfaces.capabilities import IDeleteCapability
 from Products.PlonePAS.interfaces.capabilities import IPasswordSetCapability
 from Products.PlonePAS.interfaces.group import IGroupIntrospection
