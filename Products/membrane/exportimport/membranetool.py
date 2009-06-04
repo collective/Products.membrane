@@ -173,9 +173,10 @@ def importMembraneTool(context):
     Import membrane_tool configuration.
     """
     site = context.getSite()
-    tool = getToolByName(site, 'membrane_tool')
+    tool = getToolByName(site, 'membrane_tool', None)
 
-    importObjects(tool, '', context)
+    if tool is not None:
+        importObjects(tool, '', context)
 
 def exportMembraneTool(context):
     """

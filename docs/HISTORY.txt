@@ -5,6 +5,10 @@ Changelog
 1.1b6 Unreleased
 ----------------
 
+- Update GenericSetup import handler to gracefully handle sites without a
+  membrane_tool installed.
+  [wichert]
+
 - Improve package description, RESTify the changelog.
   [wichert]
 
