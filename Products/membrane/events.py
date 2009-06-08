@@ -1,7 +1,7 @@
 from zope.interface import implements
 
-from interfaces import IMembraneTypeRegisteredEvent
-from interfaces import IMembraneTypeUnregisteredEvent
+from Products.membrane.interfaces.events import IMembraneTypeRegisteredEvent
+from Products.membrane.interfaces.events import IMembraneTypeUnregisteredEvent
 
 class MembraneTypeEvent(object):
     """

@@ -25,8 +25,6 @@ except ImportError:
     from Products.PlonePAS.tests.PloneTestCase \
             import PloneTestCase as PlonePASTestCase
 
-from Products.PluggableAuthService.interfaces.plugins import \
-     IUserAdderPlugin
 from Products.membrane.tests import dummy
 from Products.membrane.config import TOOLNAME
 
@@ -82,19 +80,6 @@ class MembraneProfilesLayer(SiteLayer):
     def testTearDown(cls):
         pass
 
-class MembraneExamplesLayer(MembraneProfilesLayer):
-    @classmethod
-    def setUp(cls):
-        portal = cls.getPortal()
-        setup_tool = portal.portal_setup
-        setup_tool.runAllImportStepsFromProfile('profile-Products.membrane:examples')
-        plugins = portal.acl_users.plugins
-        plugins.movePluginsUp(IUserAdderPlugin, ['membrane_users'])
-        txn.commit()
-
-    @classmethod
-    def tearDown(cls):
-        pass
 
 class AddUserLayer(MembraneProfilesLayer):
     @classmethod

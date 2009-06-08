@@ -9,7 +9,6 @@ from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 from zope.interface import implements
 
 from Products.CMFCore.utils import getToolByName
-from Products.Archetypes.interfaces import IReferenceable
 
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from Products.PluggableAuthService.interfaces.plugins \
@@ -18,7 +17,8 @@ from Products.PluggableAuthService.interfaces.plugins \
 from Products.PlonePAS.interfaces.plugins import IMutablePropertiesPlugin
 from Products.PlonePAS.sheet import MutablePropertySheet
 from Products.membrane.config import TOOLNAME
-from Products.membrane.interfaces import IMembraneUserProperties
+from Products.membrane.interfaces.user import IMembraneUserProperties
+from Products.membrane.utils import findMembraneUserAspect
 
 manage_addMembranePropertyManagerForm = PageTemplateFile(
     '../www/MembranePropertyManagerForm',
@@ -55,20 +55,14 @@ class MembranePropertyManager(BasePlugin, Cacheable):
         self.title = title
 
     def _getPropertyProviders(self, user):
-        mbtool = getToolByName(self, TOOLNAME)
-        ob_imp_query = {'query': (IMembraneUserProperties.__identifier__,
-                                  IReferenceable.__identifier__),
-                        'operator': 'and'}
-        uSR = mbtool.unrestrictedSearchResults
         isGroup = getattr(user, 'isGroup', lambda:None)()
         if not isGroup:
-            prop_providers = uSR(exact_getUserId=user.getId(),
-                                 object_implements=ob_imp_query)
+            query=dict(exact_getUserId=user.getId())
         else:
-            prop_providers = uSR(exact_getGroupId=user.getId(),
-                                 object_implements=ob_imp_query)
-        for pp in prop_providers:
-            yield pp._unrestrictedGetObject()
+            query=dict(exact_getGroupId=user.getId())
+
+        for pp in findMembraneUserAspect(self, IMembraneUserProperties, **query):
+            yield pp
 
     #
     #   IMutablePropertiesPlugin implementation
@@ -84,13 +78,9 @@ class MembranePropertyManager(BasePlugin, Cacheable):
         mbtool = getToolByName(self, TOOLNAME)
         # first get the auth provider to get the uid property
         member = mbtool.getUserAuthProvider(user.getUserName())
-        if member is not None:
-            # XXX do we want a 'uid' property for groups?
-            properties['uid'] = IReferenceable(member).UID()
 
         prop_providers = self._getPropertyProviders(user)
-        for pp in prop_providers:
-            mem_props = IMembraneUserProperties(pp)
+        for mem_props in prop_providers:
             psheet = mem_props.getPropertiesForUser(user, request)
             for prop, value in psheet.propertyItems():
                 properties[prop] = value
@@ -107,10 +97,9 @@ class MembranePropertyManager(BasePlugin, Cacheable):
         and delegate to them.
         """
         prop_providers = self._getPropertyProviders(user)
-        for pp in prop_providers:
-            mem_props = IMembraneUserProperties(pp)
+        for mem_props in prop_providers:
             mem_props.setPropertiesForUser(user, propertysheet)
-            
+
     security.declarePrivate('deleteUser')
     def deleteUser(self, user_id):
         """

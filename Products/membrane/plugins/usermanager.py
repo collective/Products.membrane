@@ -22,17 +22,16 @@ from Products.PluggableAuthService.utils import createViewName
 from Products.membrane.config import TOOLNAME
 from Products.membrane.config import ACTIVE_STATUS_CATEGORY
 from Products.membrane.config import QIM_ANNOT_KEY
-from Products.membrane.interfaces import IMembraneUserManagerPlugin
-from Products.membrane.interfaces import IMembraneUserAuth
-from Products.membrane.interfaces import IMembraneUserChanger
-from Products.membrane.interfaces import IMembraneUserDeleter
-from Products.membrane.interfaces import IUserAuthProvider
-from Products.membrane.interfaces import ICategoryMapper
-from Products.membrane.interfaces import IUserAuthentication
+from Products.membrane.interfaces.plugins import IMembraneUserManagerPlugin
+from Products.membrane.interfaces.user import IMembraneUserAuth
+from Products.membrane.interfaces.user import IMembraneUserChanger
+from Products.membrane.interfaces.user import IMembraneUserDeleter
+from Products.membrane.interfaces.user import IMembraneUserObject
+from Products.membrane.interfaces.categorymapper import ICategoryMapper
 from Products.membrane.utils import generateCategorySetIdForType
 from Products.membrane.utils import getCurrentUserAdder
-from Products.membrane.utils import queryMembraneTool
 from Products.membrane.utils import findImplementations
+from Products.membrane.utils import findMembraneUserAspect
 
 
 manage_addMembraneUserManagerForm = PageTemplateFile(
@@ -98,7 +97,9 @@ class MembraneUserManager(BasePlugin, Cacheable):
                                      review_state):
             return None
         # Delegate to member object
-        member = IMembraneUserAuth(member)
+        member = IMembraneUserAuth(member, None)
+        if member is None:
+            return None
         return member.authenticateCredentials(credentials)
 
 
@@ -182,10 +183,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
             if sort_by == 'id':
                 query['sort_on'] = 'getUserId'
 
-        query['object_implements'] = {'query': (IMembraneUserAuth.__identifier__,
-                                                IUserAuthProvider.__identifier__,
-                                                IUserAuthentication.__identifier__),
-                                      'operator': 'and'}
+        query['object_implements'] = IMembraneUserObject.__identifier__
 
         members = mbtool.unrestrictedSearchResults(**query)
 
@@ -193,20 +191,15 @@ class MembraneUserManager(BasePlugin, Cacheable):
             members = members[:max_results]
 
         for m in members:
-            member = m._unrestrictedGetObject()
-            authentication = IUserAuthentication(member)
-            username = authentication.getUserName()
-            authprovider = IUserAuthProvider(member)
-            uid = authprovider.UID()
-            userid = IMembraneUserAuth(member).getUserId()
-            # XXX need to ask object for the edit URL, must adhere to an
-            #     interface so we know we can stay within contract
-            info = { 'id': userid
-                     , 'login' : username
-                     , 'pluginid': plugin_id
-                     , 'editurl': '%s/base_edit' % member.absolute_url()
-                     , 'uid': uid
-                     }
+            obj = m._unrestrictedGetObject()
+            member = IMembraneUserObject(obj, None)
+            if member is None:
+                continue
+
+            info = dict(id = member.getUserId(),
+                        login = member.getUserName(),
+                        pluginid = plugin_id,
+                        editurl = "%s/edit" % obj.absolute_url())
             user_info.append(info)
 
         # Put the computed value into the cache
@@ -223,7 +216,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
         """
         Return a list of user ids
         """
-        users = findImplementations(self, IMembraneUserAuth)
+        users = findImplementations(self, IMembraneUserObject)
         return tuple([u.getUserId for u in users])
 
     security.declarePrivate('getUserNames')
@@ -231,7 +224,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
         """
         Return a list of usernames
         """
-        users = findImplementations(self, IUserAuthProvider)
+        users = findImplementations(self, IMembraneUserObject)
         return tuple([u.getUserName for u in users])
 
     security.declarePrivate('getUsers')
@@ -244,32 +237,22 @@ class MembraneUserManager(BasePlugin, Cacheable):
         uf = getToolByName(self, 'acl_users')
         return tuple([uf.getUserById(x) for x in self.getUserIds()])
 
-    def _getUserChanger(self, login):
-        return queryMembraneTool(
-            self,
-            object_implements=IMembraneUserChanger.__identifier__,
-            getUserName=login)
 
     #
     # IUserManagement implementation
     # (including IMembraneUserChanger implementation)
     #
     def doChangeUser(self, login, password, **kwargs):
-        users = self._getUserChanger(login)
-        if users:
-            user = users[0]._unrestrictedGetObject()
-            IMembraneUserChanger(user).doChangeUser(login, password,
-                                                    **kwargs)
+        changers = findMembraneUserAspect(self, IMembraneUserChanger, getUserName=login)
+        if changers:
+            changers[0].doChangeUser(login, password, **kwargs)
         else:
-            raise RuntimeError, 'No adapter found for user: %s'%login
+            raise RuntimeError, 'No IMembraneUserChanger adapter found for user: %s'%login
 
     def doDeleteUser(self, login):
-        users = queryMembraneTool(self,
-                                  object_implements=IMembraneUserDeleter.__identifier__,
-                                  getUserName=login)
-        if users:
-            user = users[0]._unrestrictedGetObject()
-            IMembraneUserDeleter(user).doDeleteUser(login)
+        deleters = findMembraneUserAspect(self, IMembraneUserDeleter, getUserName=login)
+        if deleters:
+            deleters[0].doDeleteUser(login)
         else:
             raise RuntimeError, 'No adapter found for user: %s'%login
 
@@ -290,16 +273,16 @@ class MembraneUserManager(BasePlugin, Cacheable):
         Check if we have access to set the password.
         We can verify this by checking if we can adapt to an IUserChanger
         """
-        return bool(self._getUserChanger(login))
+        changers = findMembraneUserAspect(self, IMembraneUserChanger, getUserName=login)
+        return bool(changers)
 
     def allowDeletePrincipal(self, login):
         """
         Check to see if the user can be deleted by trying to adapt
         to an IMembraneUserDeleter
         """
-        return bool(queryMembraneTool(self,
-                                      object_implements=IMembraneUserDeleter.__identifier__,
-                                      getUserName=login))
+        deleters = findMembraneUserAspect(self, IMembraneUserDeleter, getUserName=login)
+        return bool(deleters)
         
 
 InitializeClass( MembraneUserManager )

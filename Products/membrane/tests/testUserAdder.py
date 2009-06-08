@@ -7,7 +7,18 @@ class TestUserAdder(base.MembraneTestCase):
     Tests the IUserAdder utility that is included in the 'example'
     profile.
     """
-    layer = base.MembraneExamplesLayer
+
+    def afterSetUp(self):
+        super(TestUserAdder, self).afterSetUp()
+
+        from Products.PluggableAuthService.interfaces.plugins import \
+             IUserAdderPlugin
+
+        setup_tool = self.portal.portal_setup
+        setup_tool.runAllImportStepsFromProfile('profile-Products.membrane:examples')
+        plugins = self.portal.acl_users.plugins
+        plugins.movePluginsUp(IUserAdderPlugin, ['membrane_users'])
+
 
     def testUserFolderCreatesUser(self):
         uf = self.portal.acl_users

@@ -49,14 +49,20 @@ def getCurrentUserAdder(context):
 
     return aq_base(adder).__of__(context)
 
-def queryMembraneTool(context, **query):
-    mbtool = getToolByName(context, TOOLNAME)
-    uSR = mbtool.unrestrictedSearchResults
-    return uSR(**query)
 
-def findImplementations(context, iname):
-    return queryMembraneTool(context, 
-                             object_implements=iname.__identifier__)
+def findMembraneUserAspect(context, iface, **query):
+    mbtool = getToolByName(context, TOOLNAME)
+    brains = mbtool.unrestrictedSearchResults(
+            object_implements=iface.__identifier__, **query)
+    candidates=[iface(brain._unrestrictedGetObject(), None) for brain in brains]
+    return filter(None, candidates)
+
+
+def findImplementations(context, iface):
+    mbtool = getToolByName(context, TOOLNAME)
+    return mbtool.unrestrictedSearchResults(
+            object_implements=iface.__identifier__)
+
 
 # convenience cache key for use in adapters (i.e. views) and tools
 def membraneCacheKey(method, self, *args, **kw):

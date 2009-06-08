@@ -4,14 +4,14 @@ from zope.interface import Interface
 from zope.interface import providedBy
 from zope.app.apidoc.component import getRequiredAdapters
 from Products.membrane.interfaces import IUserAuthentication
-from Products.membrane.interfaces import IUserRelated
+from Products.membrane.interfaces import IMembraneUserObject
 from Products.membrane.interfaces import IGroup
 from Products.membrane.interfaces import IMembraneTool
 from zope.component import getGlobalSiteManager
 from plone.indexer import indexer
 
 @indexer(Interface, IMembraneTool)
-def object_implements(object):
+def object_implements(obj):
     def getDottedName(iface):
         # have to do this b/c z2->z3 bridges don't play well
         # w/ __identifier__
@@ -33,7 +33,7 @@ def object_implements(object):
                         result[iface] = None
 
         res = {}
-        for iface in providedBy(object).flattened():
+        for iface in providedBy(obj).flattened():
             res[iface] = None
             # Also look for adapters to parent interfaces __sro__
             #for parent in iface.__sro__:
@@ -53,7 +53,7 @@ def object_implements(object):
         # Fallback in case there is a problem with the fast version
 
         res = {}
-        for iface in providedBy(object).flattened():
+        for iface in providedBy(obj).flattened():
             res[getDottedName(iface)] = iface
         direct = res.values()
         for iface in direct:
@@ -77,40 +77,37 @@ def object_implements(object):
 
 
 @indexer(Interface, IMembraneTool)
-def getUserName(object):
-    try:
-        object = IUserAuthentication(object)
-    except TypeError:
+def getUserName(obj):
+    obj = IUserAuthentication(obj, None)
+    if obj is None:
         return None
-    return object.getUserName()
+    return obj.getUserName()
 
 
 
 @indexer(Interface, IMembraneTool)
-def getUserId(object):
-    try:
-        object = IUserRelated(object)
-    except TypeError:
+def getUserId(obj):
+    obj = IMembraneUserObject(obj, None)
+    if obj is None:
         return None
-    return object.getUserId()
+    return obj.getUserId()
 
 
 
 @indexer(Interface, IMembraneTool)
-def getGroupId(object):
-    try:
-        object = IGroup(object)
-    except TypeError:
+def getGroupId(obj):
+    obj = IGroup(obj, None)
+    if obj is None:
         return None
-    return object.getGroupId()
+    return obj.getGroupId()
 
 
 
 @indexer(Interface, IMembraneTool)
-def getParentPath(object):
+def getParentPath(obj):
     """
     Returns the physical path of the parent object.
     """
-    return '/'.join(aq_parent(aq_inner(object)).getPhysicalPath())
+    return '/'.join(aq_parent(aq_inner(obj)).getPhysicalPath())
 
 

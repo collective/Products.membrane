@@ -147,9 +147,9 @@ class TestMembraneUserManagerEnumeration(base.MembraneUserTestCase):
         member2.reindexObject()
         member2_id = IMembraneUserAuth(member2).getUserId()
         queryMember1 = enumusers(id=member1_id, exact_match=True)[0]
-        self.failUnlessEqual(queryMember1['uid'], member1.UID())
+        self.failUnlessEqual(queryMember1['id'], member1.getUserName())
         queryMember2 = enumusers(id=member2_id, exact_match=True)[0]
-        self.failUnlessEqual(queryMember2['uid'], member2.UID())
+        self.failUnlessEqual(queryMember2['id'], member2.getUserName())
         
 
 class TestMembraneUserManagerAuthentication(base.MembraneUserTestCase):

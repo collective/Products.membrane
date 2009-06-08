@@ -5,6 +5,10 @@ Changelog
 1.1b6 Unreleased
 ----------------
 
+- Refactor PAS plugins to only depend on the generic interfaces. This
+  removes the dependency on Archetypes.
+  [wichert]
+
 - Use `plone.indexer`_ to manager indexable attribuets.
   [wichert]
 

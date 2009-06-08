@@ -23,10 +23,11 @@ from Products.PluggableAuthService.interfaces.plugins \
 from Products.PluggableAuthService.interfaces.plugins \
     import IRolesPlugin
 
-from Products.membrane.interfaces import IGroup
-from Products.membrane.interfaces import IMembraneUserGroups
-from Products.membrane.interfaces import IMembraneGroupManagerPlugin
+from Products.membrane.interfaces.group import IGroup
+from Products.membrane.interfaces.user import IMembraneUserGroups
+from Products.membrane.interfaces.plugins import IMembraneGroupManagerPlugin
 from Products.membrane.config import TOOLNAME
+from Products.membrane.utils import findMembraneUserAspect
 
 # XXX REMOVE WHEN REFACTORING
 from Acquisition import aq_base
@@ -67,13 +68,10 @@ class MembraneGroupManager(BasePlugin, Cacheable):
     #
     security.declarePrivate('getGroupsForPrincipal')
     def getGroupsForPrincipal(self, principal, request=None):
-        mbtool = getToolByName(self, TOOLNAME)
-        uSR = mbtool.unrestrictedSearchResults
-        providers = uSR(exact_getUserId=principal.getId(),
-                        object_implements=IMembraneUserGroups.__identifier__)
         groups = {}
-        for p in providers:
-            provider = IMembraneUserGroups(p._unrestrictedGetObject())
+        providers = findMembraneUserAspect(self, IMembraneUserGroups,
+                exact_getUserId=principal.getId())
+        for provider in providers:
             pgroups = dict.fromkeys(provider.getGroupsForPrincipal(principal))
             groups.update(pgroups)
         return tuple(groups.keys())
@@ -130,7 +128,10 @@ class MembraneGroupManager(BasePlugin, Cacheable):
         i = 0
         for g in groups:
             obj = g._unrestrictedGetObject()
-            group = IGroup(obj)
+            group = IGroup(obj, None)
+            if group is None:
+                continue
+
             if max_results is not None and i >= max_results:
                 break
             i += 1
@@ -171,11 +172,8 @@ class MembraneGroupManager(BasePlugin, Cacheable):
     def getGroupMembers(self, group_id):
         groupmembers = {}
         mbtool = getToolByName(self, TOOLNAME)
-        groups = mbtool.unrestrictedSearchResults(getGroupId=group_id,
-                                                  object_implements=IGroup.__identifier__)
-        for g in groups:
-            group = g._unrestrictedGetObject()
-            group = IGroup(group)
+        groups = findMembraneUserAspect(self, IGroup)
+        for group in groups:
             groupmembers.update(dict.fromkeys(group.getGroupMembers()))
         return tuple(groupmembers.keys())
 

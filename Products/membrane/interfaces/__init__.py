@@ -4,7 +4,7 @@ from membrane_tool import IMembraneTool
 IMembraneTool                                           # make pyflakes happy
 
 from user import IMembraneUser
-from user import IUserRelated
+from user import IMembraneUserObject
 from user import IMembraneUserAuth
 from user import IMembraneUserProperties
 from user import IMembraneUserRoles
@@ -12,7 +12,7 @@ from user import IMembraneUserGroups
 from user import IMembraneUserChanger
 from user import IMembraneUserDeleter
 from user import IMembraneUserManagement
-IMembraneUser, IUserRelated, IMembraneUserAuth          # make pyflakes happy
+IMembraneUser, IMembraneUserObject, IMembraneUserAuth          # make pyflakes happy
 IMembraneUserProperties, IMembraneUserRoles, IMembraneUserGroups
 IMembraneUserChanger, IMembraneUserDeleter, IMembraneUserManagement
 

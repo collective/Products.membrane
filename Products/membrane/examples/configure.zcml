@@ -2,7 +2,6 @@
            i18n_domain="membrane">
 
   <adapter for=".simplemember.SimpleMember"
-           provides="Products.membrane.interfaces.IUserRelated"
            factory=".useridprovider.UserIdProvider"
            />
 

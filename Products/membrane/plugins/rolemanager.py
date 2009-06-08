@@ -13,8 +13,9 @@ from Products.CMFCore.utils import getToolByName
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 
 from Products.membrane.config import TOOLNAME
-from Products.membrane.interfaces import IMembraneRoleManagerPlugin
-from Products.membrane.interfaces import IMembraneUserRoles
+from Products.membrane.interfaces.plugins import IMembraneRoleManagerPlugin
+from Products.membrane.interfaces.user import IMembraneUserRoles
+from Products.membrane.utils import findMembraneUserAspect
 
 manage_addMembraneRoleManagerForm = PageTemplateFile(
     '../www/MembraneRoleManagerForm', globals(),
@@ -50,13 +51,10 @@ class MembraneRoleManager(BasePlugin, Cacheable):
     #
     security.declarePrivate('getRolesForPrincipal')
     def getRolesForPrincipal(self, principal, request=None):
-        mbtool = getToolByName(self, TOOLNAME)
-        uSR = mbtool.unrestrictedSearchResults
-        providers = uSR(exact_getUserId=principal.getId(),
-                         object_implements=IMembraneUserRoles.__identifier__)
         roles = {}
-        for p in providers:
-            provider = IMembraneUserRoles(p._unrestrictedGetObject())
+        providers = findMembraneUserAspect(self, IMembraneUserRoles,
+                exact_getUserId=principal.getId())
+        for provider in providers:
             roles.update(dict.fromkeys(provider.getRolesForPrincipal(principal)))
         return tuple(roles.keys())
 

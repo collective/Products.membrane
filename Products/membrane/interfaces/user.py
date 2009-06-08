@@ -30,10 +30,13 @@ class IMembraneUser(IPropertiedUser):
     """
 
 
-class IUserRelated(Interface):
+class IMembraneUserObject(Interface):
     """
     Needs to be implemented by anything user-related so we can easily
     determine the unique user that the object is related to.
+
+    This is the base interface that all objects that want to provide a user via
+    membrane much implement or be adaptable to.
     """
 
     def getUserId():
@@ -43,40 +46,45 @@ class IUserRelated(Interface):
         object is used as userid.
         """
 
+    def getUserName():
+        """
+        Return the name used for login. This can be the same as the userid,
+        but might also be something different such as the users email address.
+        """
 
-class IMembraneUserAuth(IUserRelated, IAuthenticationPlugin):
+class IMembraneUserAuth(IMembraneUserObject, IAuthenticationPlugin):
     """
     Used for objects that can handle user authentication.
     """
 
-class IMembraneUserProperties(IUserRelated, IMutablePropertiesPlugin):
+class IMembraneUserProperties(IMembraneUserObject, IMutablePropertiesPlugin):
     """
     Used for objects that can provide user properties.
     """
 
-class IMembraneUserGroups(IUserRelated, IGroupsPlugin):
+class IMembraneUserGroups(IMembraneUserObject, IGroupsPlugin):
     """
     Used for objects that can provide user groups.
     """
 
-class IMembraneUserRoles(IUserRelated, IRolesPlugin):
+class IMembraneUserRoles(IMembraneUserObject, IRolesPlugin):
     """
     Used for objects that can provide user roles.
     """
 
-class IMembraneUserManagement(IUserRelated, IUserManagement):
+class IMembraneUserManagement(IMembraneUserObject, IUserManagement):
     """
     Used to change the password and delete objects.
     """
 
-class IMembraneUserChanger(IUserRelated):
+class IMembraneUserChanger(IMembraneUserObject):
     """
     Provide a method to change a user
     """
     def doChangeUser(login, password, **kwargs):
         """change the password for a given user"""
 
-class IMembraneUserDeleter(IUserRelated):
+class IMembraneUserDeleter(IMembraneUserObject):
     """
     Used to delete member objects
     """

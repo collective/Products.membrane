@@ -2,14 +2,14 @@ from zope.interface import implements
 
 from Products.CMFCore.utils import getToolByName
 
-from Products.membrane.interfaces import IUserRelated
+from Products.membrane.interfaces.user import IMembraneUserObject
 
 class UserIdProvider(object):
     """
-    Adapts from SimpleMember to IUserRelated.  Uses a massaged path to
+    Adapts from SimpleMember to IMembraneUserObject.  Uses a massaged path to
     the member object instead of the UID.
     """
-    implements(IUserRelated)
+    implements(IMembraneUserObject)
 
     def __init__(self, context):
         self.context = context

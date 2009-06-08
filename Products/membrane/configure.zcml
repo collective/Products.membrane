@@ -31,67 +31,67 @@
            name="getParentPath"
            />
 
-  <adapter for=".interfaces.IUserAuthProvider"
-           provides=".interfaces.IUserRelated"
+  <adapter for=".interfaces.plugin_markers.IUserAuthProvider"
+           provides=".interfaces.user.IMembraneUserObject"
            factory=".factories.useridprovider.UserIdProvider"
            />
 
-  <adapter for=".interfaces.IUserAuthProvider"
-           provides=".interfaces.IMembraneUserAuth"
+  <adapter for=".interfaces.plugin_markers.IUserAuthProvider"
+           provides=".interfaces.user.IMembraneUserAuth"
            factory=".factories.authentication.Authentication"
            />
 
-  <adapter for=".interfaces.IPropertiesProvider"
-           provides=".interfaces.IMembraneUserProperties"
+  <adapter for=".interfaces.plugin_markers.IPropertiesProvider"
+           provides=".interfaces.user.IMembraneUserProperties"
            factory=".factories.properties.Properties"
            />
 
-  <adapter for=".interfaces.ISchemataPropertiesProvider"
-           provides=".interfaces.IMembraneUserProperties"
+  <adapter for=".interfaces.plugin_markers.ISchemataPropertiesProvider"
+           provides=".interfaces.user.IMembraneUserProperties"
            factory=".factories.properties.SchemataProperties"
            />
 
-  <adapter for=".interfaces.IGroupsProvider"
-           provides=".interfaces.IMembraneUserGroups"
+  <adapter for=".interfaces.plugin_markers.IGroupsProvider"
+           provides=".interfaces.user.IMembraneUserGroups"
            factory=".factories.groups.Groups"
            />
 
-  <adapter for=".interfaces.ISelectedGroupsProvider"
-           provides=".interfaces.IMembraneUserGroups"
+  <adapter for=".interfaces.plugin_markers.ISelectedGroupsProvider"
+           provides=".interfaces.user.IMembraneUserGroups"
            factory=".factories.groups.SelectedGroups"
            />
 
-  <adapter for=".interfaces.IRolesProvider"
-           provides=".interfaces.IMembraneUserRoles"
+  <adapter for=".interfaces.plugin_markers.IRolesProvider"
+           provides=".interfaces.user.IMembraneUserRoles"
            factory=".factories.roles.Roles"
            />
 
-  <adapter for=".interfaces.IGroupAwareRolesProvider"
-           provides=".interfaces.IMembraneUserRoles"
+  <adapter for=".interfaces.plugin_markers.IGroupAwareRolesProvider"
+           provides=".interfaces.user.IMembraneUserRoles"
            factory=".factories.roles.GroupAwareRoles"
            />
 
   <include package="zope.annotation" />
   <adapter for="zope.annotation.interfaces.IAnnotatable"
-         provides=".interfaces.ICategoryMapper"
+         provides=".interfaces.categorymapper.ICategoryMapper"
          factory=".factories.categorymapper.CategoryMapper"
          />
 
-  <adapter for=".interfaces.IUserChanger"
-           provides=".interfaces.IMembraneUserChanger"
+  <adapter for=".interfaces.plugin_markers.IUserChanger"
+           provides=".interfaces.user.IMembraneUserChanger"
            factory=".factories.userchanger.UserChanger"
            />
 
-  <adapter for=".interfaces.IUserDeleter"
-	   provides=".interfaces.IMembraneUserDeleter"
+  <adapter for=".interfaces.plugin_markers.IUserDeleter"
+	   provides=".interfaces.user.IMembraneUserDeleter"
 	   factory=".factories.userdeleter.UserDeleter"
 	   />
 
-  <subscriber for=".interfaces.IMembraneTypeRegisteredEvent"
+  <subscriber for=".interfaces.events.IMembraneTypeRegisteredEvent"
               handler=".factories.statusmapper.initializeStatusCategories"
               />
 
-  <subscriber for=".interfaces.IMembraneTypeUnregisteredEvent"
+  <subscriber for=".interfaces.events.IMembraneTypeUnregisteredEvent"
               handler=".factories.statusmapper.removeStatusCategories"
               />
 
