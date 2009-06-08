@@ -13,8 +13,7 @@ class TestProductInstall(base.MembraneTestCase):
 
     def testExampleTypesInstall(self):
         setup_tool = self.portal.portal_setup
-        setup_tool.setImportContext('profile-Products.membrane:examples')
-        setup_tool.runAllImportSteps()
+        setup_tool.runAllImportStepsFromProfile('profile-Products.membrane:examples')
         typeslist = ['SimpleMember', 'SimpleGroup']
         for t in typeslist:
             self.failUnless(t in self.portal.portal_types.objectIds(),

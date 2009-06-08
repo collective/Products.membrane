@@ -37,7 +37,7 @@ class TestMembraneTool(base.MembraneTestCase):
         self.failUnless(pt in mt.listMembraneTypes())
 
     def testObjectImplements(self):
-        from Products.membrane.tools.membrane import object_implements
+        from Products.membrane.catalog import object_implements
         # Some adapters are registered too broadly and don't actually
         # succeed, some of those fail with TypeError and cause this
         # test to fail.  Use lookup() to retrieve the factory without
@@ -45,7 +45,7 @@ class TestMembraneTool(base.MembraneTestCase):
         lookup = component.getSiteManager().adapters.lookup
         mt = self.mbtool
         provided = (interface.providedBy(mt),)
-        interface_ids = object_implements(mt, self.portal)
+        interface_ids = object_implements(mt)()
         for iid in interface_ids:
             iface = resolveInterface(str(iid))
             try:
