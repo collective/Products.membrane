@@ -6,7 +6,7 @@ version = "2.0"
 readme = open('README.txt').read()
 history = open(os.path.join('docs', 'HISTORY.txt')).read()
 
-setup(name = "Products.membrane",,
+setup(name = "Products.membrane",
       version = version,
       description = "Content-based users and groups for Plone",
       long_description = readme+ '\n' + history,
