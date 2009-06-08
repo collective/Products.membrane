@@ -26,17 +26,17 @@ IMembraneUserManagerPlugin, IMembraneUserFactoryPlugin
 from group import IGroup
 IGroup                                                  # make pyflakes happy
 
-from Products.membrane.interfaces.plugin_markers import IUserAuthProvider
-from Products.membrane.interfaces.plugin_markers import IUserAuthentication
-from Products.membrane.interfaces.plugin_markers import IPropertiesProvider
-from Products.membrane.interfaces.plugin_markers import ISchemataPropertiesProvider
-from Products.membrane.interfaces.plugin_markers import IGroupsProvider
-from Products.membrane.interfaces.plugin_markers import IUserRoles
-from Products.membrane.interfaces.plugin_markers import IRolesProvider
-from Products.membrane.interfaces.plugin_markers import IGroupAwareRolesProvider
-from Products.membrane.interfaces.plugin_markers import ISelectedGroupsProvider
-from Products.membrane.interfaces.plugin_markers import IUserChanger
-from Products.membrane.interfaces.plugin_markers import IUserDeleter
+from Products.membrane.at.interfaces import IUserAuthProvider
+from Products.membrane.at.interfaces import IUserAuthentication
+from Products.membrane.at.interfaces import IPropertiesProvider
+from Products.membrane.at.interfaces import ISchemataPropertiesProvider
+from Products.membrane.at.interfaces import IGroupsProvider
+from Products.membrane.at.interfaces import IUserRoles
+from Products.membrane.at.interfaces import IRolesProvider
+from Products.membrane.at.interfaces import IGroupAwareRolesProvider
+from Products.membrane.at.interfaces import ISelectedGroupsProvider
+from Products.membrane.at.interfaces import IUserChanger
+from Products.membrane.at.interfaces import IUserDeleter
 from zope.deprecation import deprecated
 for iface in [ IUserAuthProvider, IUserAuthentication, IPropertiesProvider,
         ISchemataPropertiesProvider, IGroupsProvider, IUserRoles,

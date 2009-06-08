@@ -2,7 +2,7 @@ from AccessControl import ClassSecurityInfo
 from zope.interface import implements
 
 from Products.membrane.interfaces.user import IMembraneUserObject
-from Products.membrane.interfaces.plugin_markers import IUserAuthProvider
+from Products.membrane.at.interfaces import IUserAuthProvider
 from Products.membrane.relations import UserRelatedRelation
 
 class UserRelated(object):
