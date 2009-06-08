@@ -3,11 +3,11 @@ from zope.interface import implements
 
 from Products.CMFCore.utils import getToolByName
 
-from Products.membrane.interfaces import IMembraneUserRoles
-from Products.membrane.interfaces import IGroup
-from Products.membrane.interfaces import IUserRoles
+from Products.membrane.interfaces.user import IMembraneUserRoles
+from Products.membrane.interfaces.group import IGroup
+from Products.membrane.at.interfaces import IUserRoles
 from Products.membrane.config import TOOLNAME
-from userrelated import UserRelated
+from Products.membrane.at.userrelated import UserRelated
 
 
 class Roles(UserRelated):

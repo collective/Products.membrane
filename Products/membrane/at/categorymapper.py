@@ -3,7 +3,7 @@ from persistent.mapping import PersistentMapping
 from zope.interface import implements
 from zope.annotation.interfaces import IAnnotations
 
-from Products.membrane.interfaces import ICategoryMapper
+from Products.membrane.interfaces.categorymapper import ICategoryMapper
 from Products.membrane.config import CATEGORY_ANNOTATIONS_KEY
 
 class CategoryMapper(object):

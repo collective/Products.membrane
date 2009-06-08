@@ -1,7 +1,7 @@
 from zope.interface import implements
 
-from Products.membrane.interfaces import IUserChanger
-from Products.membrane.interfaces import IMembraneUserChanger
+from Products.membrane.at.interfaces import IUserChanger
+from Products.membrane.interfaces.user import IMembraneUserChanger
 
 class UserChanger(object):
     """

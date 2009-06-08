@@ -3,10 +3,9 @@ from Acquisition import aq_parent
 from zope.interface import Interface
 from zope.interface import providedBy
 from zope.app.apidoc.component import getRequiredAdapters
-from Products.membrane.interfaces import IUserAuthentication
-from Products.membrane.interfaces import IMembraneUserObject
-from Products.membrane.interfaces import IGroup
-from Products.membrane.interfaces import IMembraneTool
+from Products.membrane.interfaces.user import IMembraneUserObject
+from Products.membrane.interfaces.group import IGroup
+from Products.membrane.interfaces.membrane_tool import IMembraneTool
 from zope.component import getGlobalSiteManager
 from plone.indexer import indexer
 
@@ -78,7 +77,7 @@ def object_implements(obj):
 
 @indexer(Interface, IMembraneTool)
 def getUserName(obj):
-    obj = IUserAuthentication(obj, None)
+    obj = IMembraneUserObject(obj, None)
     if obj is None:
         return None
     return obj.getUserName()

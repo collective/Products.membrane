@@ -9,8 +9,8 @@ from Products.Archetypes.public import LinesField, MultiSelectionWidget
 from Products.Archetypes.public import registerType
 from Products.Archetypes.public import DisplayList
 
-from Products.membrane.interfaces import IMembraneUserAuth
-from Products.membrane.interfaces import IGroup
+from Products.membrane.interfaces.user import IMembraneUserAuth
+from Products.membrane.interfaces.group import IGroup
 from Products.membrane.config import PROJECTNAME, TOOLNAME
 from Products.membrane.utils import getFilteredValidRolesForPortal
 

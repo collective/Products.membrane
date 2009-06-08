@@ -13,19 +13,19 @@ from Products.Archetypes.public import LinesField
 from Products.Archetypes.public import registerType
 from Products.Archetypes.public import DisplayList
 
-from Products.membrane.interfaces import IUserAuthProvider
-from Products.membrane.interfaces import IUserAuthentication
-from Products.membrane.interfaces import IPropertiesProvider
-from Products.membrane.interfaces import ISchemataPropertiesProvider
-from Products.membrane.interfaces import IGroupsProvider
-from Products.membrane.interfaces import ISelectedGroupsProvider
-from Products.membrane.interfaces import IGroupAwareRolesProvider
-from Products.membrane.interfaces import IUserRoles
-from Products.membrane.interfaces import IMembraneUserAuth
-from Products.membrane.interfaces import IMembraneUserManagement
-from Products.membrane.interfaces import IMembraneUserChanger
-from Products.membrane.interfaces import IMembraneUserDeleter
-from Products.membrane.interfaces import IGroup
+from Products.membrane.at.interfaces import IUserAuthProvider
+from Products.membrane.at.interfaces import IUserAuthentication
+from Products.membrane.at.interfaces import IPropertiesProvider
+from Products.membrane.at.interfaces import ISchemataPropertiesProvider
+from Products.membrane.at.interfaces import IGroupsProvider
+from Products.membrane.at.interfaces import ISelectedGroupsProvider
+from Products.membrane.at.interfaces import IGroupAwareRolesProvider
+from Products.membrane.at.interfaces import IUserRoles
+from Products.membrane.interfaces.user import IMembraneUserAuth
+from Products.membrane.interfaces.user import IMembraneUserManagement
+from Products.membrane.interfaces.user import IMembraneUserChanger
+from Products.membrane.interfaces.user import IMembraneUserDeleter
+from Products.membrane.interfaces.group import IGroup
 from Products.membrane.config import PROJECTNAME, TOOLNAME
 
 

@@ -5,8 +5,8 @@ from zope.interface import implements
 
 from Products.PlonePAS.sheet import MutablePropertySheet
 
-from Products.membrane.interfaces import IMembraneUserProperties
-from userrelated import UserRelated
+from Products.membrane.interfaces.user import IMembraneUserProperties
+from Products.membrane.at.userrelated import UserRelated
 
 
 class Properties(UserRelated):

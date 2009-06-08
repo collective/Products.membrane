@@ -1,4 +1,4 @@
-from Products.membrane.interfaces import ICategoryMapper
+from Products.membrane.interfaces.categorymapper import ICategoryMapper
 from Products.membrane.config import ACTIVE_STATUS_CATEGORY
 from Products.membrane.utils import generateCategorySetIdForType
 from Products.membrane.utils import getAllWFStatesForType

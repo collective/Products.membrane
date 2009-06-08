@@ -1,7 +1,7 @@
 from zope.interface import implements
 
-from Products.membrane.interfaces import IUserDeleter
-from Products.membrane.interfaces import IMembraneUserDeleter
+from Products.membrane.at.interfaces import IUserDeleter
+from Products.membrane.interfaces.user import IMembraneUserDeleter
 
 class UserDeleter(object):
     """

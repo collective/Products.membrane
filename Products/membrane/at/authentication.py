@@ -2,8 +2,8 @@ from AccessControl import ClassSecurityInfo
 from zope.interface import implements
 
 from Products.membrane.interfaces import IMembraneUserAuth
-from Products.membrane.interfaces import IUserAuthentication
-from userrelated import UserRelated
+from Products.membrane.at.interfaces import IUserAuthentication
+from Products.membrane.at.userrelated import UserRelated
 
 
 class Authentication(UserRelated):

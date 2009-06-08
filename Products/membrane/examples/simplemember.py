@@ -7,12 +7,12 @@ from Products.Archetypes.public import BaseSchema, Schema, BaseContent, \
      MultiSelectionWidget
 
 from Products.membrane.config import PROJECTNAME
-from Products.membrane.interfaces import IUserAuthProvider
-from Products.membrane.interfaces import IUserAuthentication
-from Products.membrane.interfaces import IPropertiesProvider
-from Products.membrane.interfaces import IGroupsProvider
-from Products.membrane.interfaces import IUserRoles
-from Products.membrane.interfaces import IGroupAwareRolesProvider
+from Products.membrane.at.interfaces import IUserAuthProvider
+from Products.membrane.at.interfaces import IUserAuthentication
+from Products.membrane.at.interfaces import IPropertiesProvider
+from Products.membrane.at.interfaces import IGroupsProvider
+from Products.membrane.at.interfaces import IUserRoles
+from Products.membrane.at.interfaces import IGroupAwareRolesProvider
 from Products.membrane.utils import getFilteredValidRolesForPortal
 
 SimpleSchema = BaseSchema + Schema((

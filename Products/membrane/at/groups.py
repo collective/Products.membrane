@@ -2,9 +2,9 @@ from Acquisition import aq_chain, aq_inner
 from AccessControl import ClassSecurityInfo
 from zope.interface import implements
 
-from Products.membrane.interfaces import IMembraneUserGroups
-from Products.membrane.interfaces import IGroup
-from userrelated import UserRelated
+from Products.membrane.interfaces.user import IMembraneUserGroups
+from Products.membrane.interfaces.group import IGroup
+from Products.membrane.at.userrelated import UserRelated
 
 
 class Groups(UserRelated):
