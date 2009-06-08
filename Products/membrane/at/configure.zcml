@@ -1,0 +1,61 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <include package="zope.annotation" />
+
+  <adapter for=".interfaces.IUserAuthProvider"
+           provides="..interfaces.user.IMembraneUserObject"
+           factory=".useridprovider.UserIdProvider"
+           />
+
+  <adapter for=".interfaces.IUserAuthProvider"
+           provides="..interfaces.user.IMembraneUserAuth"
+           factory=".authentication.Authentication"
+           />
+
+  <adapter for=".interfaces.IPropertiesProvider"
+           provides="..interfaces.user.IMembraneUserProperties"
+           factory=".properties.Properties"
+           />
+
+  <adapter for=".interfaces.ISchemataPropertiesProvider"
+           provides="..interfaces.user.IMembraneUserProperties"
+           factory=".properties.SchemataProperties"
+           />
+
+  <adapter for=".interfaces.IGroupsProvider"
+           provides="..interfaces.user.IMembraneUserGroups"
+           factory=".groups.Groups"
+           />
+
+  <adapter for=".interfaces.ISelectedGroupsProvider"
+           provides="..interfaces.user.IMembraneUserGroups"
+           factory=".groups.SelectedGroups"
+           />
+
+  <adapter for=".interfaces.IRolesProvider"
+           provides="..interfaces.user.IMembraneUserRoles"
+           factory=".roles.Roles"
+           />
+
+  <adapter for=".interfaces.IGroupAwareRolesProvider"
+           provides="..interfaces.user.IMembraneUserRoles"
+           factory=".roles.GroupAwareRoles"
+           />
+
+  <adapter for="zope.annotation.interfaces.IAnnotatable"
+         provides="..interfaces.categorymapper.ICategoryMapper"
+         factory=".categorymapper.CategoryMapper"
+         />
+
+  <adapter for=".interfaces.IUserChanger"
+           provides="..interfaces.user.IMembraneUserChanger"
+           factory=".userchanger.UserChanger"
+           />
+
+  <adapter for=".interfaces.IUserDeleter"
+	   provides="..interfaces.user.IMembraneUserDeleter"
+	   factory=".userdeleter.UserDeleter"
+	   />
+
+</configure>
+

@@ -1,9 +1,4 @@
-"""
-Archetype factories
-===================
+import zope.deprecation
 
-This package has basic implementations of all the required interfaces
-(as defined in :mod:`Products.membrane.interfaces.user`) for Archetypes
-based content types.
+zope.deprecation.moved("Products.membrane.at", "1.3")
 
-"""

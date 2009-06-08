@@ -8,7 +8,7 @@ from Products.GenericSetup.ZCatalog.exportimport import ZCatalogXMLAdapter
 from Products.GenericSetup.utils import exportObjects
 from Products.GenericSetup.utils import importObjects
 
-from Products.membrane.factories.statusmapper import doInitializeStatusCategories
+from Products.membrane.at.statusmapper import doInitializeStatusCategories
 from Products.membrane.interfaces import IMembraneTool
 from Products.membrane.interfaces import ICategoryMapper
 from Products.membrane.config import ACTIVE_STATUS_CATEGORY

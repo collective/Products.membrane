@@ -1,52 +1,55 @@
 """Membrane interfaces"""
 
-from membrane_tool import IMembraneTool
+from Products.membrane.interfaces.membrane_tool import IMembraneTool
 IMembraneTool                                           # make pyflakes happy
 
-from user import IMembraneUser
-from user import IMembraneUserObject
-from user import IMembraneUserAuth
-from user import IMembraneUserProperties
-from user import IMembraneUserRoles
-from user import IMembraneUserGroups
-from user import IMembraneUserChanger
-from user import IMembraneUserDeleter
-from user import IMembraneUserManagement
+from Products.membrane.interfaces.user import IMembraneUser
+from Products.membrane.interfaces.user import IMembraneUserObject
+from Products.membrane.interfaces.user import IMembraneUserAuth
+from Products.membrane.interfaces.user import IMembraneUserProperties
+from Products.membrane.interfaces.user import IMembraneUserRoles
+from Products.membrane.interfaces.user import IMembraneUserGroups
+from Products.membrane.interfaces.user import IMembraneUserChanger
+from Products.membrane.interfaces.user import IMembraneUserDeleter
+from Products.membrane.interfaces.user import IMembraneUserManagement
 IMembraneUser, IMembraneUserObject, IMembraneUserAuth          # make pyflakes happy
 IMembraneUserProperties, IMembraneUserRoles, IMembraneUserGroups
 IMembraneUserChanger, IMembraneUserDeleter, IMembraneUserManagement
 
-from plugins import IMembraneGroupManagerPlugin
-from plugins import IMembraneRoleManagerPlugin
-from plugins import IMembraneUserManagerPlugin
-from plugins import IMembraneUserFactoryPlugin
+from Products.membrane.interfaces.plugins import IMembraneGroupManagerPlugin
+from Products.membrane.interfaces.plugins import IMembraneRoleManagerPlugin
+from Products.membrane.interfaces.plugins import IMembraneUserManagerPlugin
+from Products.membrane.interfaces.plugins import IMembraneUserFactoryPlugin
 IMembraneGroupManagerPlugin, IMembraneRoleManagerPlugin # make pyflakes happy
 IMembraneUserManagerPlugin, IMembraneUserFactoryPlugin
 
 from group import IGroup
 IGroup                                                  # make pyflakes happy
 
-from plugin_markers import IUserAuthProvider
-from plugin_markers import IUserAuthentication
-from plugin_markers import IPropertiesProvider
-from plugin_markers import ISchemataPropertiesProvider
-from plugin_markers import IGroupsProvider
-from plugin_markers import IUserRoles
-from plugin_markers import IRolesProvider
-from plugin_markers import IGroupAwareRolesProvider
-from plugin_markers import ISelectedGroupsProvider
-from plugin_markers import IUserChanger
-from plugin_markers import IUserDeleter
-IUserAuthProvider, IUserAuthentication                  # make pyflakes happy
-IPropertiesProvider, ISchemataPropertiesProvider, IGroupsProvider
-IUserRoles, IRolesProvider, IGroupAwareRolesProvider
-ISelectedGroupsProvider, IUserChanger, IUserDeleter
+from Products.membrane.interfaces.plugin_markers import IUserAuthProvider
+from Products.membrane.interfaces.plugin_markers import IUserAuthentication
+from Products.membrane.interfaces.plugin_markers import IPropertiesProvider
+from Products.membrane.interfaces.plugin_markers import ISchemataPropertiesProvider
+from Products.membrane.interfaces.plugin_markers import IGroupsProvider
+from Products.membrane.interfaces.plugin_markers import IUserRoles
+from Products.membrane.interfaces.plugin_markers import IRolesProvider
+from Products.membrane.interfaces.plugin_markers import IGroupAwareRolesProvider
+from Products.membrane.interfaces.plugin_markers import ISelectedGroupsProvider
+from Products.membrane.interfaces.plugin_markers import IUserChanger
+from Products.membrane.interfaces.plugin_markers import IUserDeleter
+from zope.deprecation import deprecated
+for iface in [ IUserAuthProvider, IUserAuthentication, IPropertiesProvider,
+        ISchemataPropertiesProvider, IGroupsProvider, IUserRoles,
+        IRolesProvider, IGroupAwareRolesProvider, ISelectedGroupsProvider,
+        IUserChanger, IUserDeleter ]:
+    deprecated(iface.__name__,
+            "Please import AT support interfaces from Products.membrane.at.interfaces")
 
-from categorymapper import ICategoryMapper
+from Products.membrane.interfaces.categorymapper import ICategoryMapper
 ICategoryMapper                                         # make pyflakes happy
 
-from events import IMembraneTypeRegisteredEvent
-from events import IMembraneTypeUnregisteredEvent
+from Products.membrane.interfaces.events import IMembraneTypeRegisteredEvent
+from Products.membrane.interfaces.events import IMembraneTypeUnregisteredEvent
 IMembraneTypeRegisteredEvent, IMembraneTypeUnregisteredEvent
 
 from utilities import IUserAdder
