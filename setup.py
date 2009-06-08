@@ -24,6 +24,8 @@ setup(name = "Products.membrane",
       install_requires = [
           "setuptools",
           "Products.GenericSetup >=1.4",
+          "plone.indexer",
+          "Plone >=3.3rc1",
       ],
       classifiers = [
         'Environment :: Web Environment',

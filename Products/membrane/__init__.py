@@ -1,13 +1,8 @@
-import warnings
-
 from AccessControl.Permissions import add_user_folders
 
 from Products.CMFCore.utils import ContentInit, ToolInit
 from Products.CMFCore.permissions import AddPortalContent as ADD_CONTENT_PERMISSION
 
-warnings.warn(
-    'Products.membrane - The Archetypes assumptions may be removed as'
-    'soon as version 1.2', DeprecationWarning)
 from Products.Archetypes import process_types
 from Products.Archetypes.public import listTypes
 

@@ -11,6 +11,26 @@
   <include package=".exportimport" />
   <include package=".examples" />
 
+  <adapter factory=".catalog.object_implements"
+           name="object_implements"
+           />
+
+  <adapter factory=".catalog.getUserName"
+           name="getUserName"
+           />
+
+  <adapter factory=".catalog.getUserId"
+           name="getUserId"
+           />
+
+  <adapter factory=".catalog.getGroupId"
+           name="getGroupId"
+           />
+
+  <adapter factory=".catalog.getParentPath"
+           name="getParentPath"
+           />
+
   <adapter for=".interfaces.IUserAuthProvider"
            provides=".interfaces.IUserRelated"
            factory=".factories.useridprovider.UserIdProvider"

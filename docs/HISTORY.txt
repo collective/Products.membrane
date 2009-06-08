@@ -5,6 +5,9 @@ Changelog
 1.1b6 Unreleased
 ----------------
 
+- Use `plone.indexer`_ to manager indexable attribuets.
+  [wichert]
+
 - Update GenericSetup import handler to gracefully handle sites without a
   membrane_tool installed.
   [wichert]
@@ -15,6 +18,7 @@ Changelog
 - Move GenericSetup profile and step registration to zcml.
   [wichert]
 
+.. _plone.indexer: http://pypi.python.org/pypi/plone.indexer
 
 1.1b5 Released March 23, 2009
 -----------------------------
