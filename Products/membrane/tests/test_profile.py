@@ -39,7 +39,7 @@ class TestProfile(MembraneTestCase):
         if mapper.hasCategorySet(cat_set):
             mapper.delCategorySet(cat_set)
         setup_tool = getToolByName(self.portal, 'portal_setup')
-        setup_tool.setImportContext('profile-membrane:test')
+        setup_tool.setImportContext('profile-Products.membrane:test')
         setup_tool.runImportStep('membranetool')
 
 def test_suite():

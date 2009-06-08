@@ -5,6 +5,7 @@
            xmlns:i18n="http://namespaces.zope.org/i18n"
            i18n_domain="membrane">
 
+  <include package="Products.GenericSetup" file="meta.zcml" />
   <include file="permissions.zcml" />
   <include package=".browser" />
   <include package=".exportimport" />

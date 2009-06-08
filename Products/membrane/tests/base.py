@@ -60,7 +60,7 @@ class MembraneProfilesLayer(SiteLayer):
 
     @classmethod
     def setUp(cls):
-        setupPloneSite(extension_profiles=('membrane:default',
+        setupPloneSite(extension_profiles=('Products.membrane:default',
                                            'membrane:test'))
         SiteLayer.setUp()
         portal = cls.getPortal()
@@ -87,7 +87,7 @@ class MembraneExamplesLayer(MembraneProfilesLayer):
     def setUp(cls):
         portal = cls.getPortal()
         setup_tool = portal.portal_setup
-        setup_tool.runAllImportStepsFromProfile('profile-membrane:examples')
+        setup_tool.runAllImportStepsFromProfile('profile-Products.membrane:examples')
         plugins = portal.acl_users.plugins
         plugins.movePluginsUp(IUserAdderPlugin, ['membrane_users'])
         txn.commit()
