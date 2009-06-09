@@ -5,6 +5,10 @@ Changelog
 1.1b6 Unreleased
 ----------------
 
+- Use collective.indexing to update the membrane_tool catalog data. This
+  allows non-Archetypes content to be used.
+  [wichert]
+
 - Refactor PAS plugins to only depend on the generic interfaces. This
   removes the dependency on Archetypes.
   [wichert]

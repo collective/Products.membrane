@@ -8,11 +8,7 @@ from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 
 from zope.interface import implements
 
-from Products.CMFCore.utils import getToolByName
-
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
-
-from Products.membrane.config import TOOLNAME
 from Products.membrane.interfaces.plugins import IMembraneRoleManagerPlugin
 from Products.membrane.interfaces.user import IMembraneUserRoles
 from Products.membrane.utils import findMembraneUserAspect

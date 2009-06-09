@@ -76,8 +76,6 @@ class MembranePropertyManager(BasePlugin, Cacheable):
         """
         properties = {}
         mbtool = getToolByName(self, TOOLNAME)
-        # first get the auth provider to get the uid property
-        member = mbtool.getUserAuthProvider(user.getUserName())
 
         prop_providers = self._getPropertyProviders(user)
         for mem_props in prop_providers:

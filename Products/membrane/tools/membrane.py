@@ -5,6 +5,7 @@ from zope.event import notify
 from Globals import InitializeClass
 from Acquisition import aq_base
 from AccessControl import ClassSecurityInfo
+from persistent.list import PersistentList
 
 from Products.ZCatalog.ZCatalog import ZCatalog
 
@@ -13,8 +14,9 @@ from Products.CMFCore.permissions import ManagePortal
 
 from Products.CMFPlone.CatalogTool import CatalogTool as BaseTool
 
-from Products.membrane.interfaces import IMembraneTool
-from Products.membrane.interfaces import IMembraneUserAuth
+from Products.membrane.interfaces.membrane_tool import IMembraneTool
+from Products.membrane.interfaces.user import IMembraneUserObject
+from Products.membrane.interfaces.user import IMembraneUserAuth
 
 from Products.membrane import permissions
 from Products.membrane.config import TOOLNAME
@@ -54,60 +56,82 @@ class MembraneTool(BaseTool):
 
     def __init__(self, *args, **kwargs):
         ZCatalog.__init__(self, self.getId())
+        self.membrane_types=PersistentList()
 
     security.declareProtected(ManagePortal, 'registerMembraneType')
     def registerMembraneType(self, portal_type):
-        attool = getToolByName(self, 'archetype_tool')
-        catalogs = [x.getId() for x in attool.getCatalogsByType(portal_type)]
-        if TOOLNAME not in catalogs:
-            catalogs.append(TOOLNAME)
-            attool.setCatalogsByType(portal_type, catalogs)
-        # Triger the status maps even if the type is already listed
-        # with the archetypes tool
+        self._assertTypeList()
+        if portal_type not in self.membrane_types:
+            self.membrane_types.append(portal_type)
+
+        # Triger the status maps even if the type is already registered
         notify(MembraneTypeRegisteredEvent(self, portal_type))
 
     security.declareProtected(ManagePortal, 'unregisterMembraneType')
     def unregisterMembraneType(self, portal_type):
-        attool = getToolByName(self, 'archetype_tool')
-        catalogs = [x.getId() for x in attool.getCatalogsByType(portal_type)]
-        if TOOLNAME in catalogs:
-            catalogs.remove(TOOLNAME)
-            attool.setCatalogsByType(portal_type, catalogs)
+        self._assertTypeList()
+        if portal_type in self.membrane_types:
+            self.membrane_types.remove(portal_type)
             notify(MembraneTypeUnregisteredEvent(self, portal_type))
 
     security.declareProtected(permissions.VIEW_PUBLIC_PERMISSION,
                               'listMembraneTypes')
-    def listMembraneTypes(self):
-        mtypes = []
-        attool = getToolByName(self, 'archetype_tool')
+    def _assertTypeList(self):
+        """BBB method to migrate the list of membrane types from
+        archetypes_tool to this tool.
+        """
+        if hasattr(aq_base(self), "membrane_types"):
+            return
+        self.membrane_types=PersistentList()
+        attool = getToolByName(self, 'archetype_tool', None)
+        if attool is None:
+            return
         catalog_map = getattr(aq_base(attool), 'catalog_map', {})
         for t,c in catalog_map.items():
             if self.getId() in c:
-                mtypes.append(t)
-        return mtypes
+                self.membrane_types.append(t)
 
     security.declareProtected(permissions.VIEW_PUBLIC_PERMISSION,
-                              'getUserAuthProvider')
-    def getUserAuthProvider(self, login, brain=False):
+                              'listMembraneTypes')
+    def listMembraneTypes(self):
+        self._assertTypeList()
+        return self.membrane_types
+
+    security.declareProtected(permissions.VIEW_PUBLIC_PERMISSION,
+                              'getUserObject')
+    def getUserObject(self, login=None, user_id=None, brain=False):
         """
-        Return the unique object that is the authentication provider
-        for the provided login.
+        Return the authentication implementation for a given login or userid.
         """
-        if not login: # could be either '' or None
+        query={}
+        if user_id:
+            if self.case_sensitive_auth and \
+                   ('exact_getUserId' in self._catalog.indexes):
+                query["exact_getUserId"]=user_id
+            else:
+                query["getUserId"]=user_id
+        elif login:
+            if self.case_sensitive_auth and \
+                   ('exact_getUserName' in self._catalog.indexes):
+                query["exact_getUserName"]=login
+            else:
+                query["getUserName"]=login
+
+        if not query: # No user_id or login name given
             return None
+
+        query["object_implements"] = IMembraneUserObject.__identifier__
         uSR = self.unrestrictedSearchResults
-        idxname = 'getUserName'
-        if self.case_sensitive_auth and \
-               ('exact_getUserName' in self._catalog.indexes):
-            idxname = 'exact_getUserName'
-        query = {idxname: login,
-                 'object_implements': IMembraneUserAuth.__identifier__}
         members = uSR(**query)
+
         # filter out inadvertent ZCTextIndex matches by only keeping
         # records with the same number of characters
-        if idxname == 'getUserName':
+        if "getUserName" in query:
             members = [mem for mem in members
                        if len(mem.getUserName) == len(login)]
+        if "getUserId" in query:
+            members = [mem for mem in members
+                       if len(mem.getUserId) == len(user_id)]
 
         if not members:
             return None
@@ -133,6 +157,7 @@ class MembraneTool(BaseTool):
 
         member = members[0]._unrestrictedGetObject()
         return member
+
 
     def getOriginalUserIdCase(self, userid):
         """
@@ -174,5 +199,12 @@ class MembraneTool(BaseTool):
                                  Record(lexicon_id='lexicon',
                                         index_type='Cosine Measure'))
 
+    def getCounter(self):
+        # XXX Workaround: collective.indexing has no monkey to trigger a
+        # flush when getCounter is called
+        from collective.indexing.queue import processQueue
+        processQueue()
+        return super(MembraneTool, self).getCounter()
+        
 
 InitializeClass(MembraneTool)

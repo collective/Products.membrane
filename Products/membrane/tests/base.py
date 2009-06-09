@@ -58,6 +58,7 @@ class MembraneProfilesLayer(SiteLayer):
 
     @classmethod
     def setUp(cls):
+        ZopeTestCase.installPackage('collective.indexing')
         setupPloneSite(extension_profiles=('Products.membrane:default',
                                            'membrane:test'))
         SiteLayer.setUp()

@@ -1,7 +1,8 @@
 from AccessControl import ClassSecurityInfo
 from zope.interface import implements
 
-from Products.membrane.interfaces import IMembraneUserAuth
+from Products.membrane.interfaces.user import IMembraneUserObject
+from Products.membrane.interfaces.user import IMembraneUserAuth
 from Products.membrane.at.interfaces import IUserAuthentication
 from Products.membrane.at.userrelated import UserRelated
 
@@ -32,5 +33,6 @@ class Authentication(UserRelated):
             return None
             
         if authentication.verifyCredentials(credentials):
-            userid = self.getUserId()
+            info = IMembraneUserObject(self.context, self)
+            userid = info.getUserId()
             return userid, login

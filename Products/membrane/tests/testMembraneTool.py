@@ -80,23 +80,23 @@ class TestMembraneTool(base.MembraneTestCase):
         mt.unregisterMembraneType(pt)
         self.failIf(cat_map.hasCategorySet(cat_set))
 
-    def testGetUserAuthProviderForEmptyString(self):
+    def testGetUserObjectForEmptyString(self):
         # see http://plone.org/products/membrane/issues/7
         mt = self.mbtool
         self.addUser()
         self.addUser(username='testuser2')
-        mt.getUserAuthProvider('')
+        mt.getUserObject('')
         # test passes if above call doesn't raise AssertionError
 
     def testCaseSensitivityIsHonored(self):
         mt = self.mbtool
         self.addUser()
-        self.failUnless(mt.getUserAuthProvider('TESTUSER') is None)
-        self.failIf(mt.getUserAuthProvider('testuser') is None)
+        self.failUnless(mt.getUserObject('TESTUSER') is None)
+        self.failIf(mt.getUserObject('testuser') is None)
 
         mt.case_sensitive_auth = False
-        self.failIf(mt.getUserAuthProvider('TESTUSER') is None)
-        self.failIf(mt.getUserAuthProvider('testuser') is None)
+        self.failIf(mt.getUserObject('TESTUSER') is None)
+        self.failIf(mt.getUserObject('testuser') is None)
 
     def testGetOriginalUserIdCase(self):
         mt = self.mbtool

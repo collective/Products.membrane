@@ -117,7 +117,7 @@ class TestMembranePropertyManager( base.MembraneTestCase
         sheets = user.getOrderedPropertySheets()
         sheets[0].setProperty(user, 'fullname', fullname)
         mbtool = getattr(self.portal, TOOLNAME)
-        member = mbtool.getUserAuthProvider(user.getUserName())
+        member = mbtool.getUserObject(user.getUserName())
         self.assertEqual(member.Title(), fullname)
 
 class TestMembraneSchemataPropertyManager(base.MembraneTestCase,
@@ -191,7 +191,7 @@ class TestMembraneSchemataPropertyManager(base.MembraneTestCase,
         sheets = user.getOrderedPropertySheets()
         sheets[0].setProperty(user, 'homePhone', homePhone)
         mbtool = getattr(self.portal, TOOLNAME)
-        member = mbtool.getUserAuthProvider(user.getUserName())
+        member = mbtool.getUserObject(user.getUserName())
         self.assertEqual(member.getHomePhone(), homePhone)
 
 def test_suite():

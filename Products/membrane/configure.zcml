@@ -6,6 +6,7 @@
            i18n_domain="membrane">
 
   <include package="Products.GenericSetup" file="meta.zcml" />
+  <include package="collective.indexing" />
   <include file="permissions.zcml" />
   <include package=".browser" />
   <include package=".exportimport" />
@@ -30,6 +31,11 @@
 
   <adapter factory=".catalog.getParentPath"
            name="getParentPath"
+           />
+
+  <utility factory=".catalog.MembraneCatalogProcessor"
+           provides="collective.indexing.indexer.IPortalCatalogQueueProcessor"
+           name="membrane"
            />
 
   <genericsetup:registerProfile

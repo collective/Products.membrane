@@ -45,7 +45,7 @@ class MembraneUserFactory(PloneUserFactory):
     def createUser(self, user_id, name):
         mbtool = getToolByName(self, TOOLNAME)
         # don't create the user unless it's a membrane-based user
-        if mbtool.getUserAuthProvider(name, brain=True) is None:
+        if mbtool.getUserObject(user_id=user_id, brain=True) is None:
             return None
         if not mbtool.case_sensitive_auth:
             user_id = mbtool.getOriginalUserIdCase(user_id)

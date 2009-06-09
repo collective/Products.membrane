@@ -85,7 +85,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
         # We can't depend on security when authenticating the user,
         # or we'll get stuck in loops
         mbtool = getToolByName(self, TOOLNAME)
-        member = mbtool.getUserAuthProvider(login)
+        member = mbtool.getUserObject(login=login)
         if member is None:
             return None
         # Check workflow state is active
