@@ -18,3 +18,6 @@ class UserIdProvider(object):
         purl = getToolByName(self.context, 'portal_url')
         rel_url = purl.getRelativeUrl(self.context)
         return rel_url.replace('/', '-')
+
+    def getUserName(self):
+        return self.context.getUserName()
