@@ -13,6 +13,8 @@ from Products.CMFCore.utils import getToolByName
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from Products.PluggableAuthService.interfaces.plugins \
     import IPropertiesPlugin
+from Products.PluggableAuthService.interfaces.propertysheets \
+    import IPropertySheet
 
 from Products.PlonePAS.interfaces.plugins import IMutablePropertiesPlugin
 from Products.PlonePAS.sheet import MutablePropertySheet
@@ -80,8 +82,13 @@ class MembranePropertyManager(BasePlugin, Cacheable):
         prop_providers = self._getPropertyProviders(user)
         for mem_props in prop_providers:
             psheet = mem_props.getPropertiesForUser(user, request)
-            for prop, value in psheet.propertyItems():
-                properties[prop] = value
+            if psheet:
+                if IPropertySheet.providedBy(psheet):
+                    items=psheet.propertyItems()
+                else:
+                    items=psheet.items()
+                for prop, value in items:
+                    properties[prop] = value
         if properties.has_key('id'):
             # When instantiating sheet(id, **props) is used - two ids is bad
             del properties['id']

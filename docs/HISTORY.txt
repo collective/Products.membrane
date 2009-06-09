@@ -5,6 +5,11 @@ Changelog
 1.1b6 Unreleased
 ----------------
 
+- Modify the property plugin to handle property adapters returning
+  None and pure dictionaries. Even though the PAS interface does not allow
+  it this is common behaviour.
+  [wichert]
+
 - Use collective.indexing to update the membrane_tool catalog data. This
   allows non-Archetypes content to be used.
   [wichert]
