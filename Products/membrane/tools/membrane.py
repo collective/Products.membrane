@@ -199,12 +199,5 @@ class MembraneTool(BaseTool):
                                  Record(lexicon_id='lexicon',
                                         index_type='Cosine Measure'))
 
-    def getCounter(self):
-        # XXX Workaround: collective.indexing has no monkey to trigger a
-        # flush when getCounter is called
-        from collective.indexing.queue import processQueue
-        processQueue()
-        return super(MembraneTool, self).getCounter()
-        
 
 InitializeClass(MembraneTool)

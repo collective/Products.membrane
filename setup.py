@@ -26,7 +26,7 @@ setup(name = "Products.membrane",
           "Products.GenericSetup >=1.4",
           "plone.indexer",
           "Plone >=3.3rc1",
-          "collective.indexing",
+          "collective.indexing >=1.1",
       ],
       classifiers = [
         'Environment :: Web Environment',
