@@ -51,8 +51,10 @@
     <indexed_attr value="object_implements"/>
   </index>
 
-  <index name="SearchableText" meta_type="TextIndex">
+  <index name="SearchableText" meta_type="ZCTextIndex">
     <indexed_attr value="SearchableText"/>
+    <extra name="index_type" value="Okapi BM25 Rank"/>
+    <extra name="lexicon_id" value="lexicon"/>
   </index>
 
   <index name="created" meta_type="DateIndex">

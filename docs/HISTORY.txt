@@ -5,6 +5,10 @@ Changelog
 1.1b6 Unreleased
 ----------------
 
+- Use ZCTextIndex for the SearchableText index. This fixes problems with
+  unicode data.
+  [wichert]
+
 - Modify the property plugin to handle property adapters returning
   None and pure dictionaries. Even though the PAS interface does not allow
   it this is common behaviour.
