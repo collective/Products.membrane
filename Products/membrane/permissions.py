@@ -28,3 +28,5 @@ VIEW_OTHER_PERMISSION = EDIT_PROPERTIES_PERMISSION
 MAIL_PASSWORD_PERMISSION = cmfcore_permissions.MailForgottenPassword
 
 cmfcore_permissions.setDefaultRoles(REGISTER_PERMISSION, ('Manager',))
+cmfcore_permissions.setDefaultRoles(
+    'membrane: Can authenticate', ('Manager', 'Authenticated'))

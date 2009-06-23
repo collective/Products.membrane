@@ -6,6 +6,7 @@
 
 import copy
 from AccessControl import ClassSecurityInfo
+from AccessControl import SecurityManagement
 from App.class_init import default__class_init__ as InitializeClass
 from OFS.Cache import Cacheable
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
@@ -80,11 +81,28 @@ class MembraneUserManager(BasePlugin, Cacheable):
             return None
 
         # Delegate to member object
-        member = user_ifaces.IMembraneUserAuth(member, None)
+        auth = user_ifaces.IMembraneUserAuth(member, None)
         if member is None:
             return None
 
-        return member.authenticateCredentials(credentials)
+        # Check the permission on the member content object so that
+        # workflow or anything else changing permissions can control
+        # authentication
+        info = user_ifaces.IMembraneUserObject(member, auth)
+        user_id = info.getUserId()
+        pas = self._getPAS()
+        user = pas._findUser(pas._getOb('plugins'), user_id, login)
+        orig_sm = SecurityManagement.getSecurityManager()
+        try:
+            SecurityManagement.newSecurityManager(None, user)
+            if not SecurityManagement.getSecurityManager(
+                ).checkPermission('membrane: Can authenticate',
+                                  member):
+                return
+        finally:
+            SecurityManagement.setSecurityManager(orig_sm)
+
+        return auth.authenticateCredentials(credentials)
 
 
     #

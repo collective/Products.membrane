@@ -28,13 +28,6 @@ class Authentication(UserRelated):
         if login is None or password is None:
             return None
 
-        # Check workflow state is active
-        wftool = utils.getToolByName(self.context, 'portal_workflow')
-        review_state = wftool.getInfoFor(self.context, 'review_state')
-
-        mbtool = utils.getToolByName(self.context, config.TOOLNAME)
-        # XXX Add workflow state check
-
         # Adapt to IUserAuthentication to provide the actual authentication.
         # If no such adapter (or null-adapter) exists, fail.
         authentication = IUserAuthentication(self.context, None)
