@@ -5,6 +5,9 @@ Changelog
 1.1b6 Unreleased
 ----------------
 
+- Remove BBB method to migrate the list of membrane types from
+  archetypes_tool to membrane_tool. 
+
 - Use ZCTextIndex for the SearchableText index. This fixes problems with
   unicode data.
   [wichert]

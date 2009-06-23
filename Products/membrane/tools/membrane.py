@@ -76,23 +76,6 @@ class MembraneTool(BaseTool):
 
     security.declareProtected(permissions.VIEW_PUBLIC_PERMISSION,
                               'listMembraneTypes')
-    def _assertTypeList(self):
-        """BBB method to migrate the list of membrane types from
-        archetypes_tool to this tool.
-        """
-        if hasattr(aq_base(self), "membrane_types"):
-            return
-        self.membrane_types=PersistentList()
-        attool = getToolByName(self, 'archetype_tool', None)
-        if attool is None:
-            return
-        catalog_map = getattr(aq_base(attool), 'catalog_map', {})
-        for t,c in catalog_map.items():
-            if self.getId() in c:
-                self.membrane_types.append(t)
-
-    security.declareProtected(permissions.VIEW_PUBLIC_PERMISSION,
-                              'listMembraneTypes')
     def listMembraneTypes(self):
         self._assertTypeList()
         return self.membrane_types
