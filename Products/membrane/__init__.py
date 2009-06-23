@@ -1,10 +1,6 @@
 from AccessControl.Permissions import add_user_folders
 
-from Products.CMFCore.utils import ContentInit, ToolInit
-from Products.CMFCore.permissions import AddPortalContent as ADD_CONTENT_PERMISSION
-
-from Products.Archetypes import process_types
-from Products.Archetypes.public import listTypes
+from Products.CMFCore.utils import ToolInit
 
 from Products.membrane.config import PROJECTNAME
 from Products.membrane.plugins import usermanager, groupmanager, \
@@ -20,20 +16,6 @@ registerMultiPlugin(userfactory.MembraneUserFactory.meta_type)
 
 
 def initialize(context):
-
-    import examples
-    examples            # make pyflakes happy
-
-    content_types, constructors, ftis = process_types(listTypes(PROJECTNAME),
-                                                      PROJECTNAME)
-
-    ContentInit(
-        PROJECTNAME + ' Content',
-        content_types = content_types,
-        permission = ADD_CONTENT_PERMISSION,
-        extra_constructors = constructors,
-        fti = ftis,
-        ).initialize(context)
 
     context.registerClass(usermanager.MembraneUserManager,
                           permission = add_user_folders,
