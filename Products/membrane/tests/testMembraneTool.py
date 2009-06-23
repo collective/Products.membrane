@@ -6,10 +6,7 @@ from zope import interface
 from zope import component
 
 from Products.membrane.tests import base
-from Products.membrane.interfaces import ICategoryMapper
 from Products.membrane.config import TOOLNAME
-from Products.membrane.config import ACTIVE_STATUS_CATEGORY
-from Products.membrane.utils import generateCategorySetIdForType
 from Products.membrane.utils import membraneCacheKey
 
 def resolveInterface(dotted_name):
@@ -52,33 +49,6 @@ class TestMembraneTool(base.MembraneTestCase):
                 lookup(provided, iface)
             except TypeError:
                 self.fail("Can't adapt to %s" % iid)
-
-    def testStatusCategoriesAreInitialized(self):
-        mt = self.mbtool
-        cat_map = ICategoryMapper(mt)
-        for pt in ['TestMember', 'TestGroup']:
-            cat_set = generateCategorySetIdForType(pt)
-            self.failUnless(cat_map.hasCategorySet(cat_set))
-            self.failUnless(cat_map.hasCategory(cat_set,
-                                                ACTIVE_STATUS_CATEGORY))
-            wft = getattr(self.portal, 'portal_workflow')
-            chain = wft.getChainForPortalType(pt)
-            for wfid in chain:
-                wf = getattr(wft, wfid)
-                states = wf.states.objectIds()
-                for state in states:
-                    self.failUnless(cat_map.isInCategory(cat_set,
-                                                         ACTIVE_STATUS_CATEGORY,
-                                                         state))
-
-    def testStatusCategoriesGetCleared(self):
-        mt = self.mbtool
-        pt = 'TestMember'
-        cat_map = ICategoryMapper(mt)
-        cat_set = generateCategorySetIdForType(pt)
-        self.failUnless(cat_map.hasCategorySet(cat_set))
-        mt.unregisterMembraneType(pt)
-        self.failIf(cat_map.hasCategorySet(cat_set))
 
     def testGetUserObjectForEmptyString(self):
         # see http://plone.org/products/membrane/issues/7

@@ -3,12 +3,7 @@ from zope.component import getUtilitiesFor
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
-from Products.membrane.interfaces import ICategoryMapper
 from Products.membrane.interfaces import IUserAdder
-from Products.membrane.config import ACTIVE_STATUS_CATEGORY
-from Products.membrane.utils import generateCategorySetIdForType
-from Products.membrane.utils import getAllWFStatesForType
-
 
 class FormControllerView(BrowserView):
     """
@@ -41,37 +36,6 @@ class FormControllerView(BrowserView):
         errors dictionary
         """
         return {}
-
-
-class StatusMapView(FormControllerView):
-    """
-    ZMI page for managing membrane type "active" status mappings.
-    """
-    template = ZopeTwoPageTemplateFile('status_map.pt')
-
-    def __init__(self, context, request):
-        FormControllerView.__init__(self, context, request)
-        self.cat_map = ICategoryMapper(context)
-
-    def _control(self):
-        """
-        Set the active workflow states for each membrane type.
-        """
-        types = self.request.get('types', [])
-        for portal_type in types:
-            states = self.request.get("%s_active_states" % portal_type, [])
-            cat_set = generateCategorySetIdForType(portal_type)
-            self.cat_map.replaceCategoryValues(cat_set,
-                                               ACTIVE_STATUS_CATEGORY,
-                                               states)
-
-    def allStatesForType(self, portal_type):
-        return getAllWFStatesForType(self.context, portal_type)
-
-    def activeStatesForType(self, portal_type):
-        cat_set = generateCategorySetIdForType(portal_type)
-        return self.cat_map.listCategoryValues(cat_set,
-                                               ACTIVE_STATUS_CATEGORY)
 
 
 class MembraneTypesView(FormControllerView):

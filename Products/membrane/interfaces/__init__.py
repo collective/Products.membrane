@@ -45,9 +45,6 @@ for iface in [ IUserAuthProvider, IUserAuthentication, IPropertiesProvider,
     deprecated(iface.__name__,
             "Please import AT support interfaces from Products.membrane.at.interfaces")
 
-from Products.membrane.interfaces.categorymapper import ICategoryMapper
-ICategoryMapper                                         # make pyflakes happy
-
 from Products.membrane.interfaces.events import IMembraneTypeRegisteredEvent
 from Products.membrane.interfaces.events import IMembraneTypeUnregisteredEvent
 IMembraneTypeRegisteredEvent, IMembraneTypeUnregisteredEvent

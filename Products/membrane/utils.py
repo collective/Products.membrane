@@ -2,13 +2,9 @@ from Acquisition import aq_base
 
 from Products.CMFCore.utils import getToolByName
 
-from config import STATUS_CATEGORY_SET
 from config import FILTERED_ROLES
 from config import TOOLNAME
 from interfaces import IUserAdder
-
-def generateCategorySetIdForType(portal_type):
-    return "_".join((portal_type, STATUS_CATEGORY_SET))
 
 def getAllWFStatesForType(context, portal_type):
     wftool = getToolByName(context, 'portal_workflow')

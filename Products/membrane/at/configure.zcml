@@ -2,14 +2,6 @@
 
   <include package="zope.annotation" />
 
-  <subscriber for="..interfaces.events.IMembraneTypeRegisteredEvent"
-              handler=".statusmapper.initializeStatusCategories"
-              />
-
-  <subscriber for="..interfaces.events.IMembraneTypeUnregisteredEvent"
-              handler=".statusmapper.removeStatusCategories"
-              />
-
   <adapter for=".interfaces.IUserAuthProvider"
            provides="..interfaces.user.IMembraneUserObject"
            factory=".useridprovider.UserIdProvider"
@@ -49,11 +41,6 @@
            provides="..interfaces.user.IMembraneUserRoles"
            factory=".roles.GroupAwareRoles"
            />
-
-  <adapter for="zope.annotation.interfaces.IAnnotatable"
-         provides="..interfaces.categorymapper.ICategoryMapper"
-         factory=".categorymapper.CategoryMapper"
-         />
 
   <adapter for=".interfaces.IUserChanger"
            provides="..interfaces.user.IMembraneUserChanger"

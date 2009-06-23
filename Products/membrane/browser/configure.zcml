@@ -2,12 +2,6 @@
            xmlns:browser="http://namespaces.zope.org/browser">
 
   <browser:page for="..interfaces.IMembraneTool"
-                name="manage_statusmap"
-                class=".tool_zmi_views.StatusMapView"
-                permission="membrane.ManageUsers"
-                template="status_map.pt" />
-
-  <browser:page for="..interfaces.IMembraneTool"
                 name="manage_membranetypes"
                 class=".tool_zmi_views.MembraneTypesView"
                 permission="membrane.ManageUsers"

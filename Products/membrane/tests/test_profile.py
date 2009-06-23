@@ -4,9 +4,6 @@ from unittest import main, makeSuite
 
 from Products.CMFCore.utils import getToolByName
 
-from Products.membrane.interfaces import ICategoryMapper
-from Products.membrane.utils import generateCategorySetIdForType
-
 from base import MembraneTestCase
 
 class TestProfile(MembraneTestCase):
@@ -15,9 +12,6 @@ class TestProfile(MembraneTestCase):
     def test_archetypetool(self):
         """
         Check interaction with archetypetool.xml
-
-        Verify that the statusmapper stuff gets run even if the type
-        is already registered in the catalog map.
 
         If archetypetool.xml registers a type for the catalog map
         and membranetool.xml is run after archetypetool.xml, then
@@ -34,10 +28,6 @@ class TestProfile(MembraneTestCase):
         if 'TestMember' not in catalog_map:
             catalog_map['TestMember'] = ('portal_catalog',
                                          'membrane_tool')
-        cat_set = generateCategorySetIdForType('TestMember')
-        mapper = ICategoryMapper(self.portal.membrane_tool)
-        if mapper.hasCategorySet(cat_set):
-            mapper.delCategorySet(cat_set)
         setup_tool = getToolByName(self.portal, 'portal_setup')
         setup_tool.runImportStepFromProfile('profile-membrane:test', 'membranetool')
 
