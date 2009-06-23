@@ -20,15 +20,12 @@ from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from Products.PluggableAuthService.utils import createViewName
 
 from Products.membrane.config import TOOLNAME
-from Products.membrane.config import ACTIVE_STATUS_CATEGORY
 from Products.membrane.config import QIM_ANNOT_KEY
 from Products.membrane.interfaces.plugins import IMembraneUserManagerPlugin
 from Products.membrane.interfaces.user import IMembraneUserAuth
 from Products.membrane.interfaces.user import IMembraneUserChanger
 from Products.membrane.interfaces.user import IMembraneUserDeleter
 from Products.membrane.interfaces.user import IMembraneUserObject
-from Products.membrane.interfaces.categorymapper import ICategoryMapper
-from Products.membrane.utils import generateCategorySetIdForType
 from Products.membrane.utils import getCurrentUserAdder
 from Products.membrane.utils import findImplementations
 from Products.membrane.utils import findMembraneUserAspect
@@ -77,10 +74,6 @@ class MembraneUserManager(BasePlugin, Cacheable):
           ILoginPasswordExtractionPlugin.
         """
         login = credentials.get('login')
-        password = credentials.get('password')
-
-        if login is None or password is None:
-            return None
 
         # We can't depend on security when authenticating the user,
         # or we'll get stuck in loops
@@ -88,18 +81,12 @@ class MembraneUserManager(BasePlugin, Cacheable):
         member = mbtool.getUserObject(login=login)
         if member is None:
             return None
-        # Check workflow state is active
-        wftool = getToolByName(self, 'portal_workflow')
-        review_state = wftool.getInfoFor(member, 'review_state')
-        wfmapper = ICategoryMapper(mbtool)
-        cat_set = generateCategorySetIdForType(member.portal_type)
-        if not wfmapper.isInCategory(cat_set, ACTIVE_STATUS_CATEGORY,
-                                     review_state):
-            return None
+
         # Delegate to member object
         member = IMembraneUserAuth(member, None)
         if member is None:
             return None
+
         return member.authenticateCredentials(credentials)
 
 
