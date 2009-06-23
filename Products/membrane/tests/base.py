@@ -7,14 +7,28 @@ from Products.GenericSetup import EXTENSION, profile_registry
 from Products.CMFPlone.utils import _createObjectByType
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 
-# Make the boring stuff load quietly
-ZopeTestCase.installProduct('membrane')
-
 from Products.PloneTestCase.setup import _placefulSetUp
 from Products.PloneTestCase import layer
 from Products.CMFPlone.tests.PloneTestCase import (portal_name,
                                                    USELAYER,
                                                    setupPloneSite)
+
+# TODO Patch the installation here, should find a better way to do
+# this
+from Products import membrane
+from Products.membrane import tests
+from Products.membrane import examples
+
+orig_initialize = membrane.initialize
+def initialize(context):
+    orig_initialize(context)
+    examples.initialize(context)
+    tests.initialize(context)
+
+membrane.initialize = initialize
+
+# Make the boring stuff load quietly
+ZopeTestCase.installProduct('membrane')
 
 SiteLayer = layer.PloneSite
 
