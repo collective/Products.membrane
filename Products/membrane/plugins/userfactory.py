@@ -4,7 +4,6 @@ from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 
 from Products.PlonePAS.plugins.ufactory import PloneUserFactory, PloneUser
 
-from Products.Archetypes.config import REFERENCE_CATALOG
 from Products.CMFCore.utils import getToolByName
 
 from Products.membrane.interfaces.user import IMembraneUser
@@ -86,13 +85,6 @@ class MembraneUser(PloneUser):
             if sheet.hasProperty(name):
                 True
         return False
-
-    # Helper method for referenceable interface implementation
-    def _getMembraneObject(self):
-        uid = self.UID()
-        if uid is not None:
-            refcatalog = getToolByName(self, REFERENCE_CATALOG)
-            return refcatalog.lookupObject(uid)
 
 
 InitializeClass(MembraneUser)
