@@ -7,7 +7,7 @@ from Products.CMFPlone.utils import _createObjectByType
 from Products.membrane.interfaces import IMembraneUserAuth
 from Products.membrane.interfaces import IMembraneUserProperties
 from Products.membrane.config import TOOLNAME
-from Products.membrane.relations import UserRelatedRelation
+from Products.membrane.at.relations import UserRelatedRelation
 import base
 from dummy import TestPropertyProvider
 from dummy import TestAlternatePropertyProvider
