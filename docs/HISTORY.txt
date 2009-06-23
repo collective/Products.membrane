@@ -6,7 +6,10 @@ Changelog
 ----------------
 
 - Remove BBB method to migrate the list of membrane types from
-  archetypes_tool to membrane_tool. 
+  archetypes_tool to membrane_tool. [rossp]
+
+- Remove deprecated workflow state category set status mapper
+  support.  [rossp]
 
 - Use ZCTextIndex for the SearchableText index. This fixes problems with
   unicode data.
