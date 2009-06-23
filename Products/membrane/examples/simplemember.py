@@ -7,6 +7,7 @@ from Products.Archetypes.public import BaseSchema, Schema, BaseContent, \
      MultiSelectionWidget
 
 from Products.membrane.config import PROJECTNAME
+from Products.membrane.interfaces import user as user_ifaces
 from Products.membrane.at.interfaces import IUserAuthProvider
 from Products.membrane.at.interfaces import IUserAuthentication
 from Products.membrane.at.interfaces import IPropertiesProvider
@@ -54,7 +55,12 @@ class SimpleMember(BaseContent):
     security = ClassSecurityInfo()
 
     implements(IUserAuthProvider, IUserAuthentication, IPropertiesProvider,
-               IGroupsProvider, IGroupAwareRolesProvider, IUserRoles)
+               IGroupsProvider, IGroupAwareRolesProvider, IUserRoles,
+               user_ifaces.IMembraneUserObjectAvail,
+               user_ifaces.IMembraneUserAuthAvail,
+               user_ifaces.IMembraneUserPropertiesAvail,
+               user_ifaces.IMembraneUserGroupsAvail,
+               user_ifaces.IMembraneUserRolesAvail)
 
     getRoleSet = getFilteredValidRolesForPortal
 

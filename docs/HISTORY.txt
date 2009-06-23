@@ -5,6 +5,33 @@ Changelog
 1.1b6 Unreleased
 ----------------
 
+- Fix performance problems with the object_implements index using
+  marker interfaces registered as utilities. [rossp]
+
+  The object_implements index used to use the ZCA to find out not only
+  what interfaces an object provided, but what interfaces an object
+  could be adapted to out to the second order (adapting two objects).
+  Providing this degree of magical awareness proved to be a large
+  performance problem.
+
+  As such, the object_implements index now uses special marker
+  interfaces (ending in "Avail" by convention) to designate what
+  membrane interfaces membrane content objects provide or can be
+  adapted to.  IOW, the work of determining what membrane capabilities
+  a membrane content object can provide is not shifted to the
+  developer instead of the poorly performing code.
+
+  When implementing a content object that directly provides a
+  IMembraneQueryableInterface interface, be sure that object also
+  provides the corresponding "I*Avail" marker interface.  When
+  implementing an adapter that provides an IMembraneQueryableInterface
+  interface, be sure that objects that can be adapted to the interface
+  also provide the corresponding "I*Avail" marker interface.
+
+  See the implements declaration of
+  Products.membrane.examples.simplemember.SimpleMember for an
+  example.
+
 - Remove BBB method to migrate the list of membrane types from
   archetypes_tool to membrane_tool. [rossp]
 

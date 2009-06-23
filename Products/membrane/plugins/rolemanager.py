@@ -10,7 +10,7 @@ from zope.interface import implements
 
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from Products.membrane.interfaces.plugins import IMembraneRoleManagerPlugin
-from Products.membrane.interfaces.user import IMembraneUserRoles
+from Products.membrane.interfaces import user as user_ifaces
 from Products.membrane.utils import findMembraneUserAspect
 
 manage_addMembraneRoleManagerForm = PageTemplateFile(
@@ -48,8 +48,9 @@ class MembraneRoleManager(BasePlugin, Cacheable):
     security.declarePrivate('getRolesForPrincipal')
     def getRolesForPrincipal(self, principal, request=None):
         roles = {}
-        providers = findMembraneUserAspect(self, IMembraneUserRoles,
-                exact_getUserId=principal.getId())
+        providers = findMembraneUserAspect(
+            self, user_ifaces.IMembraneUserRolesAvail,
+            exact_getUserId=principal.getId())
         for provider in providers:
             roles.update(dict.fromkeys(provider.getRolesForPrincipal(principal)))
         return tuple(roles.keys())

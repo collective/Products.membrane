@@ -25,3 +25,9 @@ class IGroup(Interface):
         """
         return the roles that group members should gain
         """
+
+class IGroupAvail(Interface):
+    """A membrane content object that provides or can be adapted to
+    IGroup"""
+
+IGroupAvail.setTaggedValue('interface', IGroup)

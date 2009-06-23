@@ -47,17 +47,16 @@ def getCurrentUserAdder(context):
 
 
 def findMembraneUserAspect(context, iface, **query):
-    mbtool = getToolByName(context, TOOLNAME)
-    brains = mbtool.unrestrictedSearchResults(
+    return filter(None, [
+        iface.getTaggedValue('interface')(
+            brain._unrestrictedGetObject(), None)
+        for brain in findImplementations(context, iface,  **query)])
+
+
+def findImplementations(context, iface, **query):
+    return getToolByName(
+        context, TOOLNAME).unrestrictedSearchResults(
             object_implements=iface.__identifier__, **query)
-    candidates=[iface(brain._unrestrictedGetObject(), None) for brain in brains]
-    return filter(None, candidates)
-
-
-def findImplementations(context, iface):
-    mbtool = getToolByName(context, TOOLNAME)
-    return mbtool.unrestrictedSearchResults(
-            object_implements=iface.__identifier__)
 
 
 # convenience cache key for use in adapters (i.e. views) and tools

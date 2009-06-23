@@ -9,7 +9,7 @@ from Products.Archetypes.public import LinesField, MultiSelectionWidget
 from Products.Archetypes.public import registerType
 from Products.Archetypes.public import DisplayList
 
-from Products.membrane.interfaces.user import IMembraneUserAuth
+from Products.membrane.interfaces import user as user_ifaces
 from Products.membrane.interfaces.group import IGroup
 from Products.membrane.config import PROJECTNAME, TOOLNAME
 from Products.membrane.utils import getFilteredValidRolesForPortal
@@ -77,11 +77,12 @@ class SimpleGroup(BaseFolder):
 
     def getGroupMembers(self):
         # All references and all subobjects that are members
-        members = dict.fromkeys([IMembraneUserAuth(m).getUserId() for m in
+        members = dict.fromkeys([user_ifaces.IMembraneUserAuth(m).getUserId() for m in
                                  self.getRefs('participatesInProject')])
         mt = getToolByName(self, TOOLNAME)
         usr = mt.unrestrictedSearchResults
-        for m in usr(object_implements=IMembraneUserAuth.__identifier__,
+        for m in usr(object_implements=
+                     user_ifaces.IMembraneUserAuthAvail.__identifier__,
                      path='/'.join(self.getPhysicalPath())):
             members[m.getUserId] = 1
         return tuple(members.keys())
@@ -92,7 +93,8 @@ class SimpleGroup(BaseFolder):
         """
         catalog = getToolByName(self, TOOLNAME)
 
-        results = catalog(object_implements=IMembraneUserAuth.__identifier__)
+        results = catalog(object_implements=
+                          user_ifaces.IMembraneUserAuthAvail.__identifier__)
         value = []
         for r in results:
             key = r.getUserName is not None and \

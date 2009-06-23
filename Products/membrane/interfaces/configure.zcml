@@ -1,0 +1,37 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   i18n_domain="membrane">
+      
+    <interface 
+      interface=".group.IGroupAvail"
+      type=".membrane_tool.IMembraneQueryableInterface" />
+      
+    <interface 
+      interface=".user.IMembraneUserObjectAvail"
+      type=".membrane_tool.IMembraneQueryableInterface" />
+      
+    <interface 
+      interface=".user.IMembraneUserAuthAvail"
+      type=".membrane_tool.IMembraneQueryableInterface" />
+      
+    <interface 
+      interface=".user.IMembraneUserPropertiesAvail"
+      type=".membrane_tool.IMembraneQueryableInterface" />
+      
+    <interface 
+      interface=".user.IMembraneUserGroupsAvail"
+      type=".membrane_tool.IMembraneQueryableInterface" />
+      
+    <interface 
+      interface=".user.IMembraneUserRolesAvail"
+      type=".membrane_tool.IMembraneQueryableInterface" />
+      
+    <interface 
+      interface=".user.IMembraneUserChangerAvail"
+      type=".membrane_tool.IMembraneQueryableInterface" />
+      
+    <interface 
+      interface=".user.IMembraneUserDeleterAvail"
+      type=".membrane_tool.IMembraneQueryableInterface" />
+
+</configure>

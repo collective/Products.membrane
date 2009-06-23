@@ -8,6 +8,7 @@
   <include package="Products.GenericSetup" file="meta.zcml" />
   <include package="collective.indexing" />
   <include file="permissions.zcml" />
+  <include package=".interfaces" />
   <include package=".browser" />
   <include package=".exportimport" />
   <include package=".examples" />

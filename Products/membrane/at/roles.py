@@ -4,7 +4,7 @@ from zope.interface import implements
 from Products.CMFCore.utils import getToolByName
 
 from Products.membrane.interfaces.user import IMembraneUserRoles
-from Products.membrane.interfaces.group import IGroup
+from Products.membrane.interfaces import group as group_ifaces
 from Products.membrane.at.interfaces import IUserRoles
 from Products.membrane.config import TOOLNAME
 from Products.membrane.at.userrelated import UserRelated
@@ -49,9 +49,11 @@ class GroupAwareRoles(UserRelated):
             mbtool = getToolByName(self.context, TOOLNAME)
             uSR = mbtool.unrestrictedSearchResults
             groups = uSR(exact_getGroupId=group_ids,
-                         object_implements=IGroup.__identifier__)
+                         object_implements=
+                         group_ifaces.IGroupAvail.__identifier__)
             for g in groups:
-                group = IGroup(g._unrestrictedGetObject())
+                group = group_ifaces.IGroup(
+                    g._unrestrictedGetObject())
                 roles.update(dict.fromkeys(group.getRoles()))
 
         return roles.keys()

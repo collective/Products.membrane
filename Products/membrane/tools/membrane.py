@@ -3,7 +3,6 @@ from zope.annotation.interfaces import IAttributeAnnotatable
 from zope.event import notify
 
 from Globals import InitializeClass
-from Acquisition import aq_base
 from AccessControl import ClassSecurityInfo
 from persistent.list import PersistentList
 
@@ -15,8 +14,7 @@ from Products.CMFCore.permissions import ManagePortal
 from Products.CMFPlone.CatalogTool import CatalogTool as BaseTool
 
 from Products.membrane.interfaces.membrane_tool import IMembraneTool
-from Products.membrane.interfaces.user import IMembraneUserObject
-from Products.membrane.interfaces.user import IMembraneUserAuth
+from Products.membrane.interfaces import user as user_ifaces
 
 from Products.membrane import permissions
 from Products.membrane.config import TOOLNAME
@@ -100,7 +98,8 @@ class MembraneTool(BaseTool):
         if not query: # No user_id or login name given
             return None
 
-        query["object_implements"] = IMembraneUserObject.__identifier__
+        query["object_implements"
+              ] = user_ifaces.IMembraneUserObjectAvail.__identifier__
         uSR = self.unrestrictedSearchResults
         members = uSR(**query)
 
@@ -147,7 +146,8 @@ class MembraneTool(BaseTool):
             return None
         uSR = self.unrestrictedSearchResults
         query = {'getUserId': userid,
-                 'object_implements': IMembraneUserAuth.__identifier__}
+                 'object_implements':
+                 user_ifaces.IMembraneUserAuthAvail.__identifier__}
         members = uSR(**query)
         # filter out inadvertent ZCTextIndex matches by only keeping
         # records with the same number of characters

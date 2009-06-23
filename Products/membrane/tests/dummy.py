@@ -21,11 +21,8 @@ from Products.membrane.at.interfaces import IGroupsProvider
 from Products.membrane.at.interfaces import ISelectedGroupsProvider
 from Products.membrane.at.interfaces import IGroupAwareRolesProvider
 from Products.membrane.at.interfaces import IUserRoles
-from Products.membrane.interfaces.user import IMembraneUserAuth
-from Products.membrane.interfaces.user import IMembraneUserManagement
-from Products.membrane.interfaces.user import IMembraneUserChanger
-from Products.membrane.interfaces.user import IMembraneUserDeleter
-from Products.membrane.interfaces.group import IGroup
+from Products.membrane.interfaces import user as user_ifaces
+from Products.membrane.interfaces import group as group_ifaces
 from Products.membrane.config import PROJECTNAME, TOOLNAME
 
 
@@ -62,7 +59,9 @@ class TestGroup(BaseFolder):
 
     security = ClassSecurityInfo()
 
-    implements(IGroup, IPropertiesProvider)
+    implements(group_ifaces.IGroup, IPropertiesProvider,
+               group_ifaces.IGroupAvail,
+               user_ifaces.IMembraneUserPropertiesAvail)
 
     def getGroupName(self):
         return self.getId()
@@ -73,11 +72,13 @@ class TestGroup(BaseFolder):
     def getGroupMembers(self):
         # All references and all subobjects that are members
         mems = self.getRefs(GROUP_RELATIONSHIP)
-        mem_dict = dict.fromkeys([IMembraneUserAuth(m).getUserId()
-                                  for m in mems])
+        mem_dict = dict.fromkeys(
+            [user_ifaces.IMembraneUserAuth(m).getUserId()
+             for m in mems])
         mbtool = getToolByName(self, TOOLNAME)
         mems = mbtool.unrestrictedSearchResults(
-            object_implements=IMembraneUserAuth.__identifier__,
+            object_implements=
+            user_ifaces.IMembraneUserAuthAvail.__identifier__,
             path='/'.join(self.getPhysicalPath()))
         for m in mems:
             mem_dict[m.getUserId] = 1
@@ -88,7 +89,9 @@ class TestGroup(BaseFolder):
         Return a DisplayList of users
         """
         catalog = getToolByName(self, TOOLNAME)
-        results = catalog(object_implements=IMembraneUserAuth.__identifier__)
+        results = catalog(
+            object_implements=
+            user_ifaces.IMembraneUserAuthAvail.__identifier__)
 
         value = []
         for r in results:
@@ -167,11 +170,19 @@ class BaseMember:
 
 class TestMember(BaseMember, BaseContent):
     """A member archetype for testing"""
-    implements(IUserAuthProvider, IUserAuthentication, 
-               IPropertiesProvider, IGroupsProvider, 
-               IGroupAwareRolesProvider, IUserRoles,
-               IMembraneUserChanger, IMembraneUserManagement,
-               IMembraneUserDeleter)
+    implements(
+        IUserAuthProvider, IUserAuthentication, IPropertiesProvider,
+        IGroupsProvider, IGroupAwareRolesProvider, IUserRoles,
+        user_ifaces.IMembraneUserChanger,
+        user_ifaces.IMembraneUserManagement,
+        user_ifaces.IMembraneUserDeleter,
+        user_ifaces.IMembraneUserObjectAvail,
+        user_ifaces.IMembraneUserAuthAvail,
+        user_ifaces.IMembraneUserPropertiesAvail,
+        user_ifaces.IMembraneUserGroupsAvail,
+        user_ifaces.IMembraneUserRolesAvail,
+        user_ifaces.IMembraneUserChangerAvail,
+        user_ifaces.IMembraneUserDeleterAvail)
 
 registerType(TestMember, PROJECTNAME)
 
@@ -181,8 +192,13 @@ class AlternativeTestMember(BaseMember, BaseContent):
 
     security = ClassSecurityInfo()
 
-    implements(IUserAuthProvider, IUserAuthentication, 
-               ISchemataPropertiesProvider, ISelectedGroupsProvider)
+    implements(
+        IUserAuthProvider, IUserAuthentication,
+        ISchemataPropertiesProvider, ISelectedGroupsProvider,
+        user_ifaces.IMembraneUserObjectAvail,
+        user_ifaces.IMembraneUserAuthAvail,
+        user_ifaces.IMembraneUserPropertiesAvail,
+        user_ifaces.IMembraneUserGroupsAvail)
 
     # For IPropertiesPlugin implementation/Property mixin
     security.declarePrivate('getUserPropertySchematas')
@@ -201,7 +217,8 @@ class TestPropertyProvider(BaseContent):
     schema = extra
     _at_rename_after_creation = True
     security = ClassSecurityInfo()
-    implements(IPropertiesProvider)
+    implements(IPropertiesProvider,
+               user_ifaces.IMembraneUserPropertiesAvail)
 
 registerType(TestPropertyProvider, PROJECTNAME)
 
@@ -213,7 +230,8 @@ class TestAlternatePropertyProvider(BaseContent):
     schema = extra
     _at_rename_after_creation = True
     security = ClassSecurityInfo()
-    implements(ISchemataPropertiesProvider)
+    implements(ISchemataPropertiesProvider,
+               user_ifaces.IMembraneUserPropertiesAvail)
 
     def getUserPropertySchemata(self):
         return ('userinfo',)
