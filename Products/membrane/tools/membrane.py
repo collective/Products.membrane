@@ -60,7 +60,6 @@ class MembraneTool(BaseTool):
 
     security.declareProtected(ManagePortal, 'registerMembraneType')
     def registerMembraneType(self, portal_type):
-        self._assertTypeList()
         if portal_type not in self.membrane_types:
             self.membrane_types.append(portal_type)
 
@@ -69,7 +68,6 @@ class MembraneTool(BaseTool):
 
     security.declareProtected(ManagePortal, 'unregisterMembraneType')
     def unregisterMembraneType(self, portal_type):
-        self._assertTypeList()
         if portal_type in self.membrane_types:
             self.membrane_types.remove(portal_type)
             notify(MembraneTypeUnregisteredEvent(self, portal_type))
@@ -77,7 +75,6 @@ class MembraneTool(BaseTool):
     security.declareProtected(permissions.VIEW_PUBLIC_PERMISSION,
                               'listMembraneTypes')
     def listMembraneTypes(self):
-        self._assertTypeList()
         return self.membrane_types
 
     security.declareProtected(permissions.VIEW_PUBLIC_PERMISSION,
