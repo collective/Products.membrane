@@ -12,7 +12,11 @@ from zope.interface import Interface
 from Products.Archetypes.interfaces import IBaseObject
 from Products.Archetypes.interfaces import IReferenceable
 
-class IUserAuthProvider(IReferenceable):
+from Products.membrane.interfaces import user as user_ifaces
+
+class IUserAuthProvider(IReferenceable,
+                        user_ifaces.IMembraneUserObjectAvail,
+                        user_ifaces.IMembraneUserAuthAvail):
     """
     Marks the object as a Membrane user authentication provider. Objects must
     also provide or adapt to IUserAuthentication to perform the actual
@@ -35,14 +39,17 @@ class IUserAuthentication(Interface):
         Returns True is password is authenticated, False if not.
         """
 
-class IPropertiesProvider(IReferenceable, IBaseObject):
+class IPropertiesProvider(IReferenceable, IBaseObject,
+                          user_ifaces.IMembraneUserPropertiesAvail):
     """
     Marks the object as a Membrane properties provider using the
     default properties computation mechanism defined in the Properties
     adapter (i.e. 'user_property' attribute on the schema fields).
     """
 
-class ISchemataPropertiesProvider(IReferenceable, IBaseObject):
+class ISchemataPropertiesProvider(
+    IReferenceable, IBaseObject,
+    user_ifaces.IMembraneUserPropertiesAvail):
     """
     Marks the object as a Membrane properties provider using the
     SchemataProperties adapter instead of the default Properties
@@ -66,7 +73,8 @@ class IUserRoles(Interface):
         Returns a sequence of the user's roles.
         """
 
-class IRolesProvider(Interface):
+class IRolesProvider(Interface,
+                     user_ifaces.IMembraneUserRolesAvail):
     """
     Marks the object as a Membrane roles provider using the default
     roles computation mechanism defined in the Roles adapter. Objects
@@ -80,13 +88,15 @@ class IGroupAwareRolesProvider(IRolesProvider):
     GroupAwareRoles adapter.
     """
 
-class IGroupsProvider(IReferenceable):
+class IGroupsProvider(IReferenceable,
+                     user_ifaces.IMembraneUserGroupsAvail):
     """
     Marks the object as a Membrane groups provider using the default
     group computation mechanism defined in the Groups adapter.
     """
     
-class ISelectedGroupsProvider(IReferenceable):
+class ISelectedGroupsProvider(IReferenceable,
+                              user_ifaces.IMembraneUserGroupsAvail):
     """
     Use SelectedGroups adapter instead of the default Groups
     adapter when adapting to IGroupsPlugin.
@@ -97,14 +107,16 @@ class ISelectedGroupsProvider(IReferenceable):
         to use when looking up the group references.
         """
 
-class IUserChanger(IReferenceable):
+class IUserChanger(IReferenceable,
+                   user_ifaces.IMembraneUserChangerAvail):
     """
     Change the password for a user
     """
     def setPassword(password):
         """change the password for a user"""
 
-class IUserDeleter(IReferenceable):
+class IUserDeleter(IReferenceable,
+                   user_ifaces.IMembraneUserDeleterAvail):
     """
     delete a user
     """

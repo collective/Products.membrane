@@ -59,9 +59,7 @@ class TestGroup(BaseFolder):
 
     security = ClassSecurityInfo()
 
-    implements(group_ifaces.IGroup, IPropertiesProvider,
-               group_ifaces.IGroupAvail,
-               user_ifaces.IMembraneUserPropertiesAvail)
+    implements(group_ifaces.IGroup, IPropertiesProvider)
 
     def getGroupName(self):
         return self.getId()
@@ -175,14 +173,7 @@ class TestMember(BaseMember, BaseContent):
         IGroupsProvider, IGroupAwareRolesProvider, IUserRoles,
         user_ifaces.IMembraneUserChanger,
         user_ifaces.IMembraneUserManagement,
-        user_ifaces.IMembraneUserDeleter,
-        user_ifaces.IMembraneUserObjectAvail,
-        user_ifaces.IMembraneUserAuthAvail,
-        user_ifaces.IMembraneUserPropertiesAvail,
-        user_ifaces.IMembraneUserGroupsAvail,
-        user_ifaces.IMembraneUserRolesAvail,
-        user_ifaces.IMembraneUserChangerAvail,
-        user_ifaces.IMembraneUserDeleterAvail)
+        user_ifaces.IMembraneUserDeleter)
 
 registerType(TestMember, PROJECTNAME)
 
@@ -194,11 +185,7 @@ class AlternativeTestMember(BaseMember, BaseContent):
 
     implements(
         IUserAuthProvider, IUserAuthentication,
-        ISchemataPropertiesProvider, ISelectedGroupsProvider,
-        user_ifaces.IMembraneUserObjectAvail,
-        user_ifaces.IMembraneUserAuthAvail,
-        user_ifaces.IMembraneUserPropertiesAvail,
-        user_ifaces.IMembraneUserGroupsAvail)
+        ISchemataPropertiesProvider, ISelectedGroupsProvider)
 
     # For IPropertiesPlugin implementation/Property mixin
     security.declarePrivate('getUserPropertySchematas')
@@ -217,8 +204,7 @@ class TestPropertyProvider(BaseContent):
     schema = extra
     _at_rename_after_creation = True
     security = ClassSecurityInfo()
-    implements(IPropertiesProvider,
-               user_ifaces.IMembraneUserPropertiesAvail)
+    implements(IPropertiesProvider)
 
 registerType(TestPropertyProvider, PROJECTNAME)
 
@@ -230,8 +216,7 @@ class TestAlternatePropertyProvider(BaseContent):
     schema = extra
     _at_rename_after_creation = True
     security = ClassSecurityInfo()
-    implements(ISchemataPropertiesProvider,
-               user_ifaces.IMembraneUserPropertiesAvail)
+    implements(ISchemataPropertiesProvider)
 
     def getUserPropertySchemata(self):
         return ('userinfo',)
