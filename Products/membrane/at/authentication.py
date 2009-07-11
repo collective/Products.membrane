@@ -1,11 +1,8 @@
 from AccessControl import ClassSecurityInfo
 from zope.interface import implements
 
-from Products.CMFCore import utils
-
 from Products.membrane.interfaces.user import IMembraneUserObject
 from Products.membrane.interfaces.user import IMembraneUserAuth
-from Products.membrane import config
 from Products.membrane.at.interfaces import IUserAuthentication
 from Products.membrane.at.userrelated import UserRelated
 
