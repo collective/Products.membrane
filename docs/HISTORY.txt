@@ -27,17 +27,17 @@ Changelog
 
   As such, the object_implements index now uses special marker
   interfaces (ending in "Avail" by convention) to designate what
-  membrane interfaces membrane content objects provide or can be
-  adapted to.  IOW, the work of determining what membrane capabilities
-  a membrane content object can provide is not shifted to the
-  developer instead of the poorly performing code.
+  membrane interfaces membrane content objects can be adapted to.
+  IOW, the work of determining what membrane capabilities a membrane
+  content object can be adapted to is now shifted to the developer
+  instead of the poorly performing code.
 
-  When implementing a content object that directly provides a
-  IMembraneQueryableInterface interface, be sure that object also
-  provides the corresponding "I*Avail" marker interface.  When
-  implementing an adapter that provides an IMembraneQueryableInterface
-  interface, be sure that objects that can be adapted to the interface
-  also provide the corresponding "I*Avail" marker interface.
+  When implementing a content object that directly provides one of
+  these interfaces nothing will change and the object will be indexed
+  under the corresponding I*Avail interface in object_implements.
+  When implementing an adapter that provides one of these interfaces,
+  be sure that objects that can be adapted to the interface also
+  provide the corresponding "I*Avail" marker interface.
 
   See the implements declaration of
   Products.membrane.examples.simplemember.SimpleMember for an

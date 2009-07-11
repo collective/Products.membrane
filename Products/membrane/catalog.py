@@ -20,7 +20,8 @@ def object_implements(obj):
         id_ for id_, iface in
         component.getUtilitiesFor(
             membrane_tool.IMembraneQueryableInterface)
-        if iface.providedBy(obj))
+        if iface.getTaggedValue('interface').providedBy(obj)
+        or iface.providedBy(obj))
 
 
 @indexer(Interface, membrane_tool.IMembraneTool)
