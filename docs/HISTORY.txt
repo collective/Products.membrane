@@ -2,6 +2,10 @@ Changelog for Products.membrane
 
     (name of developer listed in brackets)
 
+Products.membrane - 1.1 Unreleased
+
+    - Fix Plone version requirement
+
 Products.membrane - 1.1b5 Released March 23, 2009
 
     - Fix git based release problem, now using setuptools-git
