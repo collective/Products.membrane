@@ -26,7 +26,8 @@ helping out, please see 'MANIFESTO.txt'.
 Requirements
 ------------
 
-- Plone 3.0+
+- Zope 2.9.6
+- Plone 2.5.2
 
 Please see docs/INSTALL.txt for installation instructions.
 
