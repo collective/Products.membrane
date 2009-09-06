@@ -1,8 +1,5 @@
 from StringIO import StringIO
 
-from Products.Five.site.localsite import ISite
-from Products.Five.site.localsite import enableLocalSiteHook
-
 from Products.CMFCore.utils import getToolByName
 
 from Products.PluggableAuthService.interfaces.plugins \
@@ -90,14 +87,3 @@ def setupPlugins(context):
     _setupPlugins(portal, out)
     logger = context.getLogger("plugins")
     logger.info(out.getvalue())
-
-def initSiteManager(context):
-    """ init portal object as a site manager if not already done """
-    if context.readDataFile('membrane-init-site-manager.txt') is None:
-        return
-
-    portal = context.getSite()
-    if not ISite.providedBy(portal):
-        enableLocalSiteHook(portal)
-        logger = context.getLogger("membrane-sitemanager")
-        logger.info("Portal initialized as local site.")

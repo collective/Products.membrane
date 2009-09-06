@@ -21,13 +21,6 @@
       description="Install membrane PAS plug-ins"
       />
 
-  <genericsetup:importStep
-      name="membrane-sitemanager"
-      handler="Products.membrane.setuphandlers.initSiteManager"
-      title="Membrane: initialize site manager"
-      description="Initialize site as a site manager."
-      />
-
   <!-- Setup tool export steps -->
 
   <genericsetup:exportStep
