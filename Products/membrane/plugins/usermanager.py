@@ -82,7 +82,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
 
         # Delegate to member object
         auth = user_ifaces.IMembraneUserAuth(member, None)
-        if member is None:
+        if auth is None:
             return None
 
         # Check the permission on the member content object so that
