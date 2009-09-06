@@ -175,7 +175,8 @@ class MembraneGroupManager(BasePlugin, Cacheable):
     def getGroupMembers(self, group_id):
         groupmembers = {}
         mbtool = getToolByName(self, TOOLNAME)
-        groups = findMembraneUserAspect(self, group_ifaces.IGroupAvail)
+        groups = findMembraneUserAspect(self, group_ifaces.IGroupAvail,
+                                        exact_getGroupId=group_id)
         for group in groups:
             groupmembers.update(dict.fromkeys(group.getGroupMembers()))
         return tuple(groupmembers.keys())
