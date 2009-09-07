@@ -5,6 +5,10 @@ Changelog
 1.1b6 Unreleased
 ----------------
 
+- Bug fix: when asked to return a maximum number of users, convert
+  max_results to an integer.
+  [maurits]
+
 - Replace deprecated workflow state category set status mapper
   support with a simple permission check.  [rossp]
 
