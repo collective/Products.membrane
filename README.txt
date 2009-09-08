@@ -41,10 +41,8 @@ Requirements
 - Plone 3.2
 
 
-
----------
 WARNING!!
----------
+=========
 
   Currently, a catalog is used to index the interfaces implemented by
   the objects in the portal.  However, interfaces are specified
