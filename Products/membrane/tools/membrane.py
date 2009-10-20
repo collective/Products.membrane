@@ -4,6 +4,7 @@ from zope.event import notify
 
 from Globals import InitializeClass
 from AccessControl import ClassSecurityInfo
+from Acquisition import aq_base
 from persistent.list import PersistentList
 
 from Products.ZCatalog.ZCatalog import ZCatalog
@@ -18,6 +19,7 @@ from Products.membrane.interfaces import user as user_ifaces
 
 from Products.membrane import permissions
 from Products.membrane.config import TOOLNAME
+from Products.membrane.config import USE_COLLECTIVE_INDEXING
 from Products.membrane.events import MembraneTypeRegisteredEvent
 from Products.membrane.events import MembraneTypeUnregisteredEvent
 
@@ -58,22 +60,45 @@ class MembraneTool(BaseTool):
 
     security.declareProtected(ManagePortal, 'registerMembraneType')
     def registerMembraneType(self, portal_type):
-        if portal_type not in self.membrane_types:
+        if not USE_COLLECTIVE_INDEXING:
+            attool = getToolByName(self, 'archetype_tool')
+            catalogs = [x.getId() for x in
+                        attool.getCatalogsByType(portal_type)]
+            if TOOLNAME not in catalogs:
+                catalogs.append(TOOLNAME)
+                attool.setCatalogsByType(portal_type, catalogs)
+        elif portal_type not in self.membrane_types:
             self.membrane_types.append(portal_type)
 
-        # Triger the status maps even if the type is already registered
+        # Trigger the status maps even if the type is already registered.
         notify(MembraneTypeRegisteredEvent(self, portal_type))
 
     security.declareProtected(ManagePortal, 'unregisterMembraneType')
     def unregisterMembraneType(self, portal_type):
-        if portal_type in self.membrane_types:
+        if not USE_COLLECTIVE_INDEXING:
+            attool = getToolByName(self, 'archetype_tool')
+            catalogs = [x.getId() for x in
+                        attool.getCatalogsByType(portal_type)]
+            if TOOLNAME in catalogs:
+                catalogs.remove(TOOLNAME)
+                attool.setCatalogsByType(portal_type, catalogs)
+        elif portal_type in self.membrane_types:
             self.membrane_types.remove(portal_type)
             notify(MembraneTypeUnregisteredEvent(self, portal_type))
 
     security.declareProtected(permissions.VIEW_PUBLIC_PERMISSION,
                               'listMembraneTypes')
     def listMembraneTypes(self):
-        return self.membrane_types
+        if not USE_COLLECTIVE_INDEXING:
+            mtypes = []
+            attool = getToolByName(self, 'archetype_tool')
+            catalog_map = getattr(aq_base(attool), 'catalog_map', {})
+            for t, c in catalog_map.items():
+                if self.getId() in c:
+                    mtypes.append(t)
+            return mtypes
+        else:
+            return self.membrane_types
 
     security.declareProtected(permissions.VIEW_PUBLIC_PERMISSION,
                               'getUserObject')
@@ -129,7 +154,7 @@ class MembraneTool(BaseTool):
                 # yup, clear it out and move on
                 self._catalog.uncatalogObject(bogus[0])
                 members = uSR(**query)
-        
+
         assert len(members) == 1, 'more than one member found for login "%s"' % login
         if brain:
             return members[0]
@@ -159,7 +184,7 @@ class MembraneTool(BaseTool):
 
         assert len(members) == 1
         return members[0].getUserId
-        
+
 
     def _createTextIndexes(self, item, container):
         """Create getUserName, getUserId, getGroupId text indexes."""

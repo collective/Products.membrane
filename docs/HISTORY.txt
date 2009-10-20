@@ -5,6 +5,14 @@ Changelog
 1.1b6 Unreleased
 ----------------
 
+- Removed the dependency on collective.indexing >= 1.1 as it was added
+  to allow non-Archetypes content to be used, but it is giving
+  problems with some normal Archetypes content.  If you add
+  collective.indexing to your buildout yourself, we still use it and
+  register our own catalog queue processor with it.  Please install it
+  in your Plone Site yourself.
+  [maurits]
+
 - Bug fix: when asked to return a maximum number of users, convert
   max_results to an integer.
   [maurits]

@@ -8,11 +8,14 @@ from Acquisition import aq_parent
 from Products.CMFCore.utils import getToolByName
 
 from plone.indexer import indexer
-from collective.indexing.interfaces import IIndexQueueProcessor
 
 from Products.membrane.interfaces.user import IMembraneUserObject
 from Products.membrane.interfaces.group import IGroup
 from Products.membrane.interfaces import membrane_tool
+from Products.membrane.config import USE_COLLECTIVE_INDEXING
+if USE_COLLECTIVE_INDEXING:
+    from collective.indexing.interfaces import IIndexQueueProcessor
+
 
 @indexer(Interface, membrane_tool.IMembraneTool)
 def object_implements(obj):
@@ -64,7 +67,8 @@ class MembraneCatalogProcessor(object):
     on objects providing `IMembraneUserObject` are also reflected
     in the `membrane_tool` catalog.
     """
-    implements(IIndexQueueProcessor)
+    if USE_COLLECTIVE_INDEXING:
+        implements(IIndexQueueProcessor)
 
     def index(self, obj, attributes=[]):
         if IMembraneUserObject(obj, None) is None:
