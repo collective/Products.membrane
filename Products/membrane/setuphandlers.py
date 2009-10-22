@@ -11,12 +11,14 @@ from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
 
 from interfaces import IUserAdder
 from config import TOOLNAME
+from config import USE_COLLECTIVE_INDEXING
+
 
 def _doRegisterUserAdderUtility(context, step_name, profile_id,
                                 utility_name, utility):
     """ registers utility for adding ExampleMembers """
     portal = context.getSite()
-    
+
     sm = portal.getSiteManager()
     logger = context.getLogger(step_name)
     if sm.queryUtility(IUserAdder, name=utility_name) is None:
@@ -36,6 +38,7 @@ def _doRegisterUserAdderUtility(context, step_name, profile_id,
     else:
         logger.info("IUserAdder utility '%s' already registered" %
                     utility_name)
+
 
 def _setupPlugins(portal, out):
     """
@@ -77,6 +80,7 @@ def _setupPlugins(portal, out):
         plugins = uf.plugins
         plugins.movePluginsUp(IUserFactoryPlugin, ['membrane_user_factory'])
 
+
 def setupPlugins(context):
     """ initialize membrane plugins """
     if context.readDataFile('membrane-setup-plugins.txt') is None:
@@ -84,6 +88,10 @@ def setupPlugins(context):
 
     portal = context.getSite()
     out = StringIO()
+    if USE_COLLECTIVE_INDEXING:
+        setup_tool = getToolByName(portal, 'portal_setup')
+        setup_tool.runAllImportStepsFromProfile(
+            'profile-collective.indexing:default')
     _setupPlugins(portal, out)
     logger = context.getLogger("plugins")
     logger.info(out.getvalue())

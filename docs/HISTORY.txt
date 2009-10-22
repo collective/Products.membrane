@@ -5,6 +5,9 @@ Changelog
 1.1b6 Unreleased
 ----------------
 
+- Apply the collective.indexing profile when it is available.
+  [maurits]
+
 - Removed the dependency on collective.indexing >= 1.1 as it was added
   to allow non-Archetypes content to be used, but it is giving
   problems with some normal Archetypes content.  If you add
