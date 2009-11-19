@@ -1,7 +1,12 @@
 #
 # MembraneTestCase Membrane
 #
-from Products.Five.site.localsite import ISite
+try:
+    from zope.location.interfaces import ISite
+    ISite # pyflakes
+except ImportError:
+    # BBB Plone 3
+    from Products.Five.site.localsite import ISite
 
 from Products.membrane.config import TOOLNAME
 import base
