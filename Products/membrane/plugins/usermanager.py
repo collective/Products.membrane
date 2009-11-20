@@ -126,7 +126,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
         if isinstance( id, str ):
             id = [ id ]
 
-        if isinstance( login, str ):
+        if isinstance( login, str ) and login:
             login = [ login ]
 
         mbtool = getToolByName(self, TOOLNAME)
