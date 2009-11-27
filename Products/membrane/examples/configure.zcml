@@ -1,8 +1,13 @@
 <configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:five="http://namespaces.zope.org/five"
            i18n_domain="membrane">
 
   <adapter for=".simplemember.SimpleMember"
            factory=".useridprovider.UserIdProvider"
            />
+
+  <!-- Avoid deprecation warnings for manage_afterAdd and friends. -->
+  <five:deprecatedManageAddDelete
+      class=".simplemember.SimpleMember" />
 
 </configure>

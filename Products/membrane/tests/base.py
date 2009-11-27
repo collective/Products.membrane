@@ -2,6 +2,9 @@ from AccessControl.SecurityManagement import newSecurityManager
 import transaction as txn
 from Testing import ZopeTestCase
 
+from Products.Five import zcml
+from Products.Five import fiveconfigure
+
 from Products.GenericSetup import EXTENSION, profile_registry
 
 from Products.CMFPlone.utils import _createObjectByType
@@ -74,6 +77,11 @@ class MembraneProfilesLayer(SiteLayer):
 
     @classmethod
     def setUp(cls):
+        fiveconfigure.debug_mode = True
+        zcml.load_config('testing.zcml', package=tests)
+        fiveconfigure.debug_mode = False
+
+
         ZopeTestCase.installPackage('collective.indexing')
         setupPloneSite(extension_profiles=('Products.membrane:default',
                                            'membrane:test'))

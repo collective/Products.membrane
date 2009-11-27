@@ -2,7 +2,7 @@ from zope.interface import implements
 from zope.annotation.interfaces import IAttributeAnnotatable
 from zope.event import notify
 
-from Globals import InitializeClass
+from App.class_init import InitializeClass
 from AccessControl import ClassSecurityInfo
 from Acquisition import aq_base
 from persistent.list import PersistentList

@@ -1,0 +1,17 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:five="http://namespaces.zope.org/five"
+           i18n_domain="remember">
+
+  <!-- Avoid deprecation warnings for manage_afterAdd and friends. -->
+  <five:deprecatedManageAddDelete
+      class=".dummy.TestGroup" />
+  <five:deprecatedManageAddDelete
+      class=".dummy.TestMember" />
+  <five:deprecatedManageAddDelete
+      class=".dummy.AlternativeTestMember" />
+  <five:deprecatedManageAddDelete
+      class=".dummy.TestPropertyProvider" />
+  <five:deprecatedManageAddDelete
+      class=".dummy.TestAlternatePropertyProvider" />
+
+</configure>
