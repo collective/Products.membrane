@@ -1,5 +1,5 @@
 from AccessControl import ClassSecurityInfo
-from Globals import InitializeClass
+from App.class_init import InitializeClass
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 
 from Products.PlonePAS.plugins.ufactory import PloneUserFactory, PloneUser
