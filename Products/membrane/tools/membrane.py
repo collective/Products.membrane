@@ -47,7 +47,7 @@ class MembraneTool(BaseTool):
 
     implements(IMembraneTool, IAttributeAnnotatable)
 
-    manage_options=(
+    manage_options = (
         {'label': 'Types', 'action': 'manage_membranetypes'},
         {'label': 'Status Map', 'action': 'manage_statusmap'},
         ) + BaseTool.manage_options
@@ -56,9 +56,8 @@ class MembraneTool(BaseTool):
 
     def __init__(self, *args, **kwargs):
         ZCatalog.__init__(self, self.getId())
-        self.membrane_types=PersistentList()
+        self.membrane_types = PersistentList()
 
-    security.declareProtected(ManagePortal, 'registerMembraneType')
     def registerMembraneType(self, portal_type):
         if not USE_COLLECTIVE_INDEXING:
             attool = getToolByName(self, 'archetype_tool')
@@ -72,8 +71,8 @@ class MembraneTool(BaseTool):
 
         # Trigger the status maps even if the type is already registered.
         notify(MembraneTypeRegisteredEvent(self, portal_type))
+    security.declareProtected(ManagePortal, 'registerMembraneType')
 
-    security.declareProtected(ManagePortal, 'unregisterMembraneType')
     def unregisterMembraneType(self, portal_type):
         if not USE_COLLECTIVE_INDEXING:
             attool = getToolByName(self, 'archetype_tool')
@@ -85,9 +84,8 @@ class MembraneTool(BaseTool):
         elif portal_type in self.membrane_types:
             self.membrane_types.remove(portal_type)
             notify(MembraneTypeUnregisteredEvent(self, portal_type))
+    security.declareProtected(ManagePortal, 'unregisterMembraneType')
 
-    security.declareProtected(permissions.VIEW_PUBLIC_PERMISSION,
-                              'listMembraneTypes')
     def listMembraneTypes(self):
         if not USE_COLLECTIVE_INDEXING:
             mtypes = []
@@ -99,28 +97,28 @@ class MembraneTool(BaseTool):
             return mtypes
         else:
             return self.membrane_types
-
     security.declareProtected(permissions.VIEW_PUBLIC_PERMISSION,
-                              'getUserObject')
+                              'listMembraneTypes')
+
     def getUserObject(self, login=None, user_id=None, brain=False):
         """
         Return the authentication implementation for a given login or userid.
         """
-        query={}
+        query = {}
         if user_id:
             if self.case_sensitive_auth and \
                    ('exact_getUserId' in self._catalog.indexes):
-                query["exact_getUserId"]=user_id
+                query["exact_getUserId"] = user_id
             else:
-                query["getUserId"]=user_id
+                query["getUserId"] = user_id
         elif login:
             if self.case_sensitive_auth and \
                    ('exact_getUserName' in self._catalog.indexes):
-                query["exact_getUserName"]=login
+                query["exact_getUserName"] = login
             else:
-                query["getUserName"]=login
+                query["getUserName"] = login
 
-        if not query: # No user_id or login name given
+        if not query:  # No user_id or login name given
             return None
 
         query["object_implements"
@@ -149,7 +147,8 @@ class MembraneTool(BaseTool):
             # bogus entry.
             site = getToolByName(self, 'portal_url').getPortalObject()
             site_path = '/'.join(site.getPhysicalPath())
-            bogus = [b.getPath() for b in members if site_path not in b.getPath()]
+            bogus = [b.getPath() for b in members
+                     if site_path not in b.getPath()]
             if len(bogus) == 1:
                 # yup, clear it out and move on
                 self._catalog.uncatalogObject(bogus[0])
@@ -163,7 +162,8 @@ class MembraneTool(BaseTool):
 
         member = members[0]._unrestrictedGetObject()
         return member
-
+    security.declareProtected(permissions.VIEW_PUBLIC_PERMISSION,
+                              'getUserObject')
 
     def getOriginalUserIdCase(self, userid):
         """
@@ -186,7 +186,6 @@ class MembraneTool(BaseTool):
 
         assert len(members) == 1
         return members[0].getUserId
-
 
     def _createTextIndexes(self, item, container):
         """Create getUserName, getUserId, getGroupId text indexes."""

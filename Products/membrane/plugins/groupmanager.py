@@ -34,9 +34,11 @@ from Acquisition import aq_base
 from Products.PlonePAS.plugins.group import PloneGroup
 
 manage_addMembraneGroupManagerForm = PageTemplateFile(
-    '../www/MembraneGroupManagerForm', globals(), __name__='manage_addMembraneGroupManagerForm' )
+    '../www/MembraneGroupManagerForm', globals(),
+    __name__='manage_addMembraneGroupManagerForm' )
 
-def addMembraneGroupManager( dispatcher, id, title=None, REQUEST=None ):
+
+def addMembraneGroupManager(dispatcher, id, title=None, REQUEST=None):
     """ Add a MembraneGroupManager to a Pluggable Auth Service. """
 
     pmm = MembraneGroupManager(id, title)
@@ -48,6 +50,7 @@ def addMembraneGroupManager( dispatcher, id, title=None, REQUEST=None ):
                                 '?manage_tabs_message='
                                 'MembraneGroupManager+added.'
                             % dispatcher.absolute_url())
+
 
 class MembraneGroupManager(BasePlugin, Cacheable):
     """
@@ -66,7 +69,6 @@ class MembraneGroupManager(BasePlugin, Cacheable):
     #
     #   IGroupsPlugin implementation
     #
-    security.declarePrivate('getGroupsForPrincipal')
     def getGroupsForPrincipal(self, principal, request=None):
         groups = {}
         providers = findMembraneUserAspect(
@@ -76,11 +78,11 @@ class MembraneGroupManager(BasePlugin, Cacheable):
             pgroups = dict.fromkeys(provider.getGroupsForPrincipal(principal))
             groups.update(pgroups)
         return tuple(groups.keys())
+    security.declarePrivate('getGroupsForPrincipal')
 
     #
     #   IGroupEnumerationPlugin implementation
     #
-    security.declarePrivate('enumerateGroups')
     def enumerateGroups(self,
                         id=None,
                         title=None,
@@ -97,11 +99,11 @@ class MembraneGroupManager(BasePlugin, Cacheable):
         group_info = []
         plugin_id = self.getId()
 
-        if isinstance( id, str ):
-            id = [ id ]
+        if isinstance(id, str):
+            id = [id]
 
-        if isinstance( title, str ):
-            title = [ title ]
+        if isinstance(title, str):
+            title = [title]
 
         mbtool = getToolByName(self, TOOLNAME)
         query = {}
@@ -111,7 +113,7 @@ class MembraneGroupManager(BasePlugin, Cacheable):
                 query['exact_getGroupId'] = id
             else:
                 query['getGroupId'] = ['%s*' % i for i in id]
-                
+
         elif title:
             query['Title'] = exact_match and title or \
                              ['%s*' % t for t in title]
@@ -139,15 +141,16 @@ class MembraneGroupManager(BasePlugin, Cacheable):
             i += 1
             # XXX WE NEED TO ASK THE GROUP ITSELF WHERE ITS EDIT
             # SCREENS ARE
-            info = { 'id': group.getGroupId()
-                     , 'pluginid': plugin_id
-                     , 'properties_url': '%s/base_edit' % obj.absolute_url()
-                     , 'members_url': '%s/base_edit' % obj.absolute_url()
+            info = {'id': group.getGroupId(),
+                    'pluginid': plugin_id,
+                    'properties_url': '%s/base_edit' % obj.absolute_url(),
+                    'members_url': '%s/base_edit' % obj.absolute_url(),
                      }
 
             group_info.append(info)
 
-        return tuple( group_info )
+        return tuple(group_info)
+    security.declarePrivate('enumerateGroups')
 
     #
     #   IGroupsPlugin implementation
@@ -182,15 +185,14 @@ class MembraneGroupManager(BasePlugin, Cacheable):
         return tuple(groupmembers.keys())
 
     # XXXXXXXXXXXXXXXXXXXXXXXXXX REMOVE FROM HERE IF POSSIBLE
-    
+
     # [optilude] svn.plone.org/svn/collective/borg/tests/test_department.py
-    # exercises (and found NameErrors in) this, coming from 
+    # exercises (and found NameErrors in) this, coming from
     # portal_groups.getGroupById()
-    
+
     #################################
     # group wrapping mechanics
 
-    security.declarePrivate('_createGroup')
     def _createGroup(self, plugins, group_id, name):
         """ Create group object. For users, this can be done with a
         plugin, but I don't care to define one for that now. Just uses
@@ -208,9 +210,8 @@ class MembraneGroupManager(BasePlugin, Cacheable):
         #        return user.__of__(self)
 
         return PloneGroup(group_id, name).__of__(self)
+    security.declarePrivate('_createGroup')
 
-
-    security.declarePrivate('_findGroup')
     def _findGroup(self, plugins, group_id, title=None, request=None):
         """ group_id -> decorated_group
         This method based on PluggableAuthService._findGroup
@@ -218,9 +219,7 @@ class MembraneGroupManager(BasePlugin, Cacheable):
 
         # See if the group can be retrieved from the cache
         view_name = '_findGroup-%s' % group_id
-        keywords = { 'group_id' : group_id
-                   , 'title' : title
-                   }
+        keywords = {'group_id': group_id, 'title': title}
         group = self.ZCacheable_get(view_name=view_name
                                   , keywords=keywords
                                   , default=None
@@ -237,8 +236,8 @@ class MembraneGroupManager(BasePlugin, Cacheable):
                 if data:
                     group.addPropertysheet(propfinder_id, data)
 
-            groups = self.acl_users._getGroupsForPrincipal(group, request
-                                                , plugins=plugins)
+            groups = self.acl_users._getGroupsForPrincipal(
+                group, request, plugins=plugins)
             group._addGroups(groups)
 
             rolemakers = plugins.listPlugins(IRolesPlugin)
@@ -261,8 +260,8 @@ class MembraneGroupManager(BasePlugin, Cacheable):
                                   )
 
         return group.__of__(self)
+    security.declarePrivate('_findGroup')
 
-    security.declarePrivate('_verifyGroup')
     def _verifyGroup(self, plugins, group_id=None, title=None):
 
         """ group_id -> boolean
@@ -271,11 +270,11 @@ class MembraneGroupManager(BasePlugin, Cacheable):
         criteria = {}
 
         if group_id is not None:
-            criteria[ 'id' ] = group_id
-            criteria[ 'exact_match' ] = True
+            criteria['id'] = group_id
+            criteria['exact_match'] = True
 
         if title is not None:
-            criteria[ 'title' ] = title
+            criteria['title'] = title
 
         if criteria:
             view_name = createViewName('_verifyGroup', group_id or title)
@@ -286,7 +285,6 @@ class MembraneGroupManager(BasePlugin, Cacheable):
 
             if cached_info is not None:
                 return cached_info
-
 
             enumerators = plugins.listPlugins(IGroupEnumerationPlugin)
 
@@ -305,12 +303,12 @@ class MembraneGroupManager(BasePlugin, Cacheable):
 
                 except _SWALLOWABLE_PLUGIN_EXCEPTIONS:
                     logger = logging.getLogger('membrane')
-                    logger.debug('GroupEnumerationPlugin %s error' % enumerator_id,
-                                 exc_info=True)
+                    logger.debug(
+                        'GroupEnumerationPlugin %s error' % enumerator_id,
+                        exc_info=True)
 
         return 0
+    security.declarePrivate('_verifyGroup')
     # XXXXXXXXXXXXXXXXXXXXXXXXXX REMOVE TO HERE
 
-
-
-InitializeClass( MembraneGroupManager )
+InitializeClass(MembraneGroupManager)

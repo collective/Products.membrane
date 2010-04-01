@@ -12,6 +12,7 @@ import base
 from dummy import TestPropertyProvider
 from dummy import TestAlternatePropertyProvider
 
+
 class MembranePropertyManagerTestBase:
 
     def _getTargetClass(self):
@@ -28,29 +29,37 @@ class MembranePropertyManagerTestBase:
                                                  self.portal,
                                                  'test_prop_provider')
 
+
 class User:
     def __init__(self, member):
         self.member = member
+
     def getId(self):
         return IMembraneUserAuth(self.member).getUserId()
+
     def getUserName(self):
         return self.getId()
+
     def isGroup(self):
         return False
+
 
 class Group:
     def __init__(self, group):
         self.group = group
+
     def getId(self):
         return self.group.getId()
+
     def getUserName(self):
         return self.getId()
+
     def isGroup(self):
         return True
 
 
-class TestMembranePropertyManager( base.MembraneTestCase
-                                 , MembranePropertyManagerTestBase):
+class TestMembranePropertyManager(base.MembraneTestCase,
+                                  MembranePropertyManagerTestBase):
 
     def afterSetUp(self):
         self.portal.pmm = self._makeOne('pmm')
@@ -80,7 +89,8 @@ class TestMembranePropertyManager( base.MembraneTestCase
         self.failUnless(properties.hasProperty('title'))
         self.failUnless(properties.hasProperty('description'))
         self.failUnlessEqual(properties.getProperty('title'), 'Test group')
-        self.failUnlessEqual(properties.getProperty('description'), 'A test group')
+        self.failUnlessEqual(
+            properties.getProperty('description'), 'A test group')
 
     def testGetPropertiesForUser(self):
         userid = IMembraneUserAuth(self.member).getUserId()
@@ -119,6 +129,7 @@ class TestMembranePropertyManager( base.MembraneTestCase
         mbtool = getattr(self.portal, TOOLNAME)
         member = mbtool.getUserObject(user.getUserName())
         self.assertEqual(member.Title(), fullname)
+
 
 class TestMembraneSchemataPropertyManager(base.MembraneTestCase,
                                           MembranePropertyManagerTestBase):
@@ -183,7 +194,7 @@ class TestMembraneSchemataPropertyManager(base.MembraneTestCase,
         self.failUnlessEqual(member.getProperty('extraPropertyFromSchemata'),
                              rightvalue)
         self.failIf(member.hasProperty('extraProperty'))
-        
+
     def testSetPropertiesForUser(self):
         homePhone = 'phome hone"'
         userid = IMembraneUserAuth(self.member).getUserId()
@@ -193,6 +204,7 @@ class TestMembraneSchemataPropertyManager(base.MembraneTestCase,
         mbtool = getattr(self.portal, TOOLNAME)
         member = mbtool.getUserObject(user.getUserName())
         self.assertEqual(member.getHomePhone(), homePhone)
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite

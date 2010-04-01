@@ -12,7 +12,7 @@ from Products.membrane.interfaces.user import IMembraneUserGroups
 from Products.membrane.interfaces.user import IMembraneUserChanger
 from Products.membrane.interfaces.user import IMembraneUserDeleter
 from Products.membrane.interfaces.user import IMembraneUserManagement
-IMembraneUser, IMembraneUserObject, IMembraneUserAuth          # make pyflakes happy
+IMembraneUser, IMembraneUserObject, IMembraneUserAuth  # make pyflakes happy
 IMembraneUserProperties, IMembraneUserRoles, IMembraneUserGroups
 IMembraneUserChanger, IMembraneUserDeleter, IMembraneUserManagement
 
@@ -20,7 +20,7 @@ from Products.membrane.interfaces.plugins import IMembraneGroupManagerPlugin
 from Products.membrane.interfaces.plugins import IMembraneRoleManagerPlugin
 from Products.membrane.interfaces.plugins import IMembraneUserManagerPlugin
 from Products.membrane.interfaces.plugins import IMembraneUserFactoryPlugin
-IMembraneGroupManagerPlugin, IMembraneRoleManagerPlugin # make pyflakes happy
+IMembraneGroupManagerPlugin, IMembraneRoleManagerPlugin  # make pyflakes happy
 IMembraneUserManagerPlugin, IMembraneUserFactoryPlugin
 
 from group import IGroup
@@ -38,12 +38,14 @@ from Products.membrane.at.interfaces import ISelectedGroupsProvider
 from Products.membrane.at.interfaces import IUserChanger
 from Products.membrane.at.interfaces import IUserDeleter
 from zope.deprecation import deprecated
-for iface in [ IUserAuthProvider, IUserAuthentication, IPropertiesProvider,
-        ISchemataPropertiesProvider, IGroupsProvider, IUserRoles,
-        IRolesProvider, IGroupAwareRolesProvider, ISelectedGroupsProvider,
-        IUserChanger, IUserDeleter ]:
+for iface in [
+    IUserAuthProvider, IUserAuthentication, IPropertiesProvider,
+    ISchemataPropertiesProvider, IGroupsProvider, IUserRoles,
+    IRolesProvider, IGroupAwareRolesProvider, ISelectedGroupsProvider,
+    IUserChanger, IUserDeleter ]:
     deprecated(iface.__name__,
-            "Please import AT support interfaces from Products.membrane.at.interfaces")
+               "Please import AT support interfaces from "
+               "Products.membrane.at.interfaces")
 
 from Products.membrane.interfaces.events import IMembraneTypeRegisteredEvent
 from Products.membrane.interfaces.events import IMembraneTypeUnregisteredEvent

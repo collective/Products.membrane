@@ -4,6 +4,7 @@ from Products.CMFCore.utils import getToolByName
 
 from Products.membrane.interfaces.user import IMembraneUserObject
 
+
 class UserIdProvider(object):
     """
     Adapts from SimpleMember to IMembraneUserObject.  Uses a massaged path to

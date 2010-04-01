@@ -1,5 +1,6 @@
 from zope.interface import Interface
 
+
 class IUserAdder(Interface):
     """
     An interface providing a means of adding a user to a Plone site.

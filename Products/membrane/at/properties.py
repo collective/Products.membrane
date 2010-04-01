@@ -23,7 +23,6 @@ class Properties(UserRelated):
 
     illegal_property_ids = ['id']
 
-    security.declarePrivate('_isPropertyField')
     def _isPropertyField(self, field):
         """
         Returns 1 if field is a property field, to satisfy
@@ -32,11 +31,11 @@ class Properties(UserRelated):
         if hasattr(field, 'user_property') and field.user_property \
            and field.getName() not in self.illegal_property_ids:
             return 1
+    security.declarePrivate('_isPropertyField')
 
     #
     #   IMutablePropertiesPlugin implementation
     #
-    security.declarePrivate('getPropertiesForUser')
     def getPropertiesForUser(self, user, request=None):
         """
         Find the fields that have true value for 'user_property' and
@@ -59,6 +58,7 @@ class Properties(UserRelated):
                                     and value or ''
         return MutablePropertySheet(self.context.getId(),
                                     **properties)
+    security.declarePrivate('getPropertiesForUser')
 
     def setPropertiesForUser(self, user, propertysheet):
         """
@@ -73,26 +73,27 @@ class Properties(UserRelated):
             user_prop = field.user_property
             prop_name = (isinstance(user_prop, str) and user_prop) or \
                          field.getName()
-            if properties.has_key(prop_name):
+            if prop_name in properties:
                 value = properties[prop_name]
                 try:
                     mutator = field.getMutator(self.context)
-                    if mutator is not None: # skip ComputedFields
+                    if mutator is not None:  # skip ComputedFields
                         mutator(value)
-                except: # XXX: investigate which exceptions we care about
+                except:  # XXX: investigate which exceptions we care about
                     # relatively safe b/c we're still raising the exception
                     e, m = sys.exc_info()[0:2]
                     msg = """
                     Exception raised when writing %s property:
                     %s: %s
                     """ % (prop_name, e, m)
-                    raise ValueError, msg
+                    raise ValueError(msg)
 
     def deleteUser(self, user_id):
         """
         XXX: TODO
         """
         pass
+
 
 class SchemataProperties(UserRelated):
     """
@@ -107,7 +108,6 @@ class SchemataProperties(UserRelated):
     #
     #   IPropertiesPlugin implementation
     #
-    security.declarePrivate( 'getPropertiesForUser' )
     def getPropertiesForUser(self, user, request=None ):
         illegal_ids = ['id']
         properties = {}
@@ -122,6 +122,7 @@ class SchemataProperties(UserRelated):
                                 value is not None and value or ''
         return MutablePropertySheet(self.context.getId(),
                                     **properties)
+    security.declarePrivate('getPropertiesForUser')
 
     def setPropertiesForUser(self, user, propertysheet):
         """
@@ -135,18 +136,18 @@ class SchemataProperties(UserRelated):
             if schema is not None:
                 for field in schema.fields():
                     fieldname = field.getName()
-                    if properties.has_key(fieldname):
+                    if fieldname in properties:
                         value = properties[fieldname]
                     try:
                         field.getMutator(self.context)(value)
-                    except: # XXX: investigate which exceptions we care about
+                    except:  # XXX: investigate which exceptions we care about
                         # relatively safe b/c we're still raising the exception
                         e, m = sys.exc_info()[0:2]
                         msg = """
                         Exception raised when writing %s property:
                         %s: %s
                         """ % (fieldname, e, m)
-                        raise ValueError, msg
+                        raise ValueError(msg)
 
     def deleteUser(self, user_id):
         """

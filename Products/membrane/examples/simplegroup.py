@@ -21,7 +21,7 @@ SimpleSchema = BaseSchema + Schema((
         relationship='managesProject',
         allowed_types=('SimpleMember',),
         vocabulary='listUsers',
-        languageIndependent = 1,
+        languageIndependent=1,
         widget=ReferenceWidget(
             label='Group manager',
             description='The manager of this project.'
@@ -32,12 +32,13 @@ SimpleSchema = BaseSchema + Schema((
         name="members",
         relationship='participatesInProject',
         multiValued=1,
-        languageIndependent = 1,
+        languageIndependent=1,
         allowed_types=('SimpleMember',),
         vocabulary='listUsers',
         widget=ReferenceWidget(
             label='Associated group members',
-            description='Members of this group that are really from other groups',
+            description='''\
+Members of this group that are really from other groups''',
             ),
         ),
 
@@ -77,13 +78,15 @@ class SimpleGroup(BaseFolder):
 
     def getGroupMembers(self):
         # All references and all subobjects that are members
-        members = dict.fromkeys([user_ifaces.IMembraneUserAuth(m).getUserId() for m in
-                                 self.getRefs('participatesInProject')])
+        members = dict.fromkeys(
+            [user_ifaces.IMembraneUserAuth(m).getUserId() for m in
+             self.getRefs('participatesInProject')])
         mt = getToolByName(self, TOOLNAME)
         usr = mt.unrestrictedSearchResults
-        for m in usr(object_implements=
-                     user_ifaces.IMembraneUserAuthAvail.__identifier__,
-                     path='/'.join(self.getPhysicalPath())):
+        for m in usr(
+            object_implements=(
+                user_ifaces.IMembraneUserAuthAvail.__identifier__),
+            path='/'.join(self.getPhysicalPath())):
             members[m.getUserId] = 1
         return tuple(members.keys())
 
@@ -93,8 +96,8 @@ class SimpleGroup(BaseFolder):
         """
         catalog = getToolByName(self, TOOLNAME)
 
-        results = catalog(object_implements=
-                          user_ifaces.IMembraneUserAuthAvail.__identifier__)
+        results = catalog(object_implements=(
+            user_ifaces.IMembraneUserAuthAvail.__identifier__))
         value = []
         for r in results:
             key = r.getUserName is not None and \

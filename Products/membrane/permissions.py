@@ -4,7 +4,8 @@ from Products.CMFCore import permissions as cmfcore_permissions
 ADD_PERMISSION = ADD_MEMBER_PERMISSION = cmfcore_permissions.AddPortalMember
 # Add a MemberDataContainer
 ADD_MDC_PERMISSION = 'Manage users'
-# Register a new member, i.e. create a User object and enable a member to log in
+# Register a new member, i.e. create a User object and enable a member
+# to log in
 REGISTER_PERMISSION = 'membrane: Register member'
 # Disable a membership
 DISABLE_PERMISSION = 'Manage users'

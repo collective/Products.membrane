@@ -17,18 +17,18 @@ from Products.membrane.utils import getFilteredValidRolesForPortal
 
 SimpleSchema = BaseSchema + Schema((
     StringField('userName',
-                languageIndependent = 1,
-                widget = StringWidget(description = "Username for a person.")
+                languageIndependent=1,
+                widget=StringWidget(description="Username for a person.")
                ),
     StringField('password',
-                languageIndependent = 1,
-                widget = StringWidget(description = "Password.")
+                languageIndependent=1,
+                widget=StringWidget(description="Password.")
                ),
     StringField('fullname',
-                languageIndependent = 1,
+                languageIndependent=1,
                 #schemata='userinfo',
                 user_property=True,
-                widget = StringWidget(description = "Full name.")
+                widget=StringWidget(description="Full name.")
                ),
     LinesField(
         # not 'roles' b/c 'validate_roles' exists; stoopid Archetypes

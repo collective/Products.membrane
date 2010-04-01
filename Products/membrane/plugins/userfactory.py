@@ -13,9 +13,11 @@ from Products.membrane.config import TOOLNAME
 from zope.interface import implements
 
 manage_addMembraneUserFactoryForm = PageTemplateFile(
-    '../www/MembraneUserFactoryForm', globals(), __name__='manage_addMembraneUserFactoryForm' )
+    '../www/MembraneUserFactoryForm', globals(),
+    __name__='manage_addMembraneUserFactoryForm' )
 
-def addMembraneUserFactory( dispatcher, id, title=None, REQUEST=None ):
+
+def addMembraneUserFactory(dispatcher, id, title=None, REQUEST=None):
     """ Add a MembraneUserFactory to a Pluggable Auth Service. """
 
     pmm = MembraneUserFactory(id, title)
@@ -40,7 +42,6 @@ class MembraneUserFactory(PloneUserFactory):
         self.id = id
         self.title = title or self.meta_type
 
-    security.declarePrivate('createUser')
     def createUser(self, user_id, name):
         mbtool = getToolByName(self, TOOLNAME)
         # don't create the user unless it's a membrane-based user
@@ -49,11 +50,13 @@ class MembraneUserFactory(PloneUserFactory):
         if not mbtool.case_sensitive_auth:
             user_id = mbtool.getOriginalUserIdCase(user_id)
         return MembraneUser(user_id, name)
+    security.declarePrivate('createUser')
 
 InitializeClass(MembraneUserFactory)
 
-
 _marker = ['INVALID_VALUE']
+
+
 class MembraneUser(PloneUser):
 
     security = ClassSecurityInfo()
@@ -65,7 +68,6 @@ class MembraneUser(PloneUser):
     # This is also implemented by the wrapper
     # from memberdata...
     #
-    security.declarePrivate("getProperty")
     def getProperty(self, name, default=_marker):
         """getProperty(self, name) => return property value or
         raise AttributeError
@@ -74,17 +76,18 @@ class MembraneUser(PloneUser):
             if sheet.hasProperty(name):
                 return sheet.getProperty(name)
         if default is _marker:
-            raise AttributeError, name
+            raise AttributeError(name)
         else:
             return default
+    security.declarePrivate("getProperty")
 
-    security.declarePrivate("hasProperty")
     def hasProperty(self, name):
         """hasProperty"""
         for sheet in self.getOrderedPropertySheets():
             if sheet.hasProperty(name):
                 True
         return False
+    security.declarePrivate("hasProperty")
 
 
 InitializeClass(MembraneUser)

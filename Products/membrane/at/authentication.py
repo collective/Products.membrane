@@ -6,6 +6,7 @@ from Products.membrane.interfaces.user import IMembraneUserAuth
 from Products.membrane.at.interfaces import IUserAuthentication
 from Products.membrane.at.userrelated import UserRelated
 
+
 class Authentication(UserRelated):
     """
     Adapts from IUserAuthProvider to IMembraneUserAuth.
@@ -17,7 +18,6 @@ class Authentication(UserRelated):
     #
     #   IAuthenticationPlugin implementation
     #
-    security.declarePrivate('authenticateCredentials')
     def authenticateCredentials(self, credentials):
         login = credentials.get('login')
         password = credentials.get('password')
@@ -30,8 +30,9 @@ class Authentication(UserRelated):
         authentication = IUserAuthentication(self.context, None)
         if authentication is None:
             return None
-            
+
         if authentication.verifyCredentials(credentials):
             info = IMembraneUserObject(self.context, self)
             userid = info.getUserId()
             return userid, login
+    security.declarePrivate('authenticateCredentials')

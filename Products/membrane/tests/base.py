@@ -23,6 +23,8 @@ from Products.membrane import tests
 from Products.membrane import examples
 
 orig_initialize = membrane.initialize
+
+
 def initialize(context):
     orig_initialize(context)
     examples.initialize(context)
@@ -38,7 +40,7 @@ SiteLayer = layer.PloneSite
 try:
     from Products.PlonePAS.tests.base import (
         TestCase as PlonePASTestCase)
-    PlonePASTestCase # pyflakes
+    PlonePASTestCase  # pyflakes
 except ImportError:
     # BBB Plone 3
     from Products.PlonePAS.tests.PlonePASTestCase import (
@@ -55,6 +57,7 @@ profile_registry.registerProfile('test',
                                  EXTENSION,
                                  for_=IPloneSiteRoot)
 
+
 def addUser(obj, username='testuser', title='full name'):
     member = _createObjectByType('TestMember', obj, username)
     member.setUserName(username)
@@ -65,7 +68,7 @@ def addUser(obj, username='testuser', title='full name'):
     member.setMobilePhone('555-1212')
     member.reindexObject()
     return member
-    
+
 
 class MembraneProfilesLayer(SiteLayer):
     @classmethod
@@ -80,7 +83,6 @@ class MembraneProfilesLayer(SiteLayer):
         fiveconfigure.debug_mode = True
         zcml.load_config('testing.zcml', package=tests)
         fiveconfigure.debug_mode = False
-
 
         ZopeTestCase.installPackage('collective.indexing')
         setupPloneSite(extension_profiles=('Products.membrane:default',
@@ -128,7 +130,7 @@ class AddUserLayer(MembraneProfilesLayer):
     @classmethod
     def testTearDown(cls):
         pass
-        
+
 
 class MembraneTestCase(PlonePASTestCase):
 

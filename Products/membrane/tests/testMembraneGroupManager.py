@@ -16,41 +16,42 @@ from Products.membrane.tests.utils import sortTuple
 from Products.membrane.interfaces import IMembraneUserAuth
 from Products.membrane.interfaces import IMembraneUserGroups
 
+
 class MembraneGroupManagerTestBase:
 
-    def _getTargetClass( self ):
+    def _getTargetClass(self):
 
         from Products.membrane.plugins.groupmanager \
             import MembraneGroupManager
 
         return MembraneGroupManager
 
-    def _makeOne( self, id='test', *args, **kw ):
+    def _makeOne(self, id='test', *args, **kw):
 
-        return self._getTargetClass()( id=id, *args, **kw )
+        return self._getTargetClass()(id=id, *args, **kw)
 
     def createGroupAndUsers(self):
         self.addGroup(self.portal)
         self.addUser(self.group)
 
-        self.member2 = _createObjectByType('TestMember', self.portal, 'testmember')
+        self.member2 = _createObjectByType(
+            'TestMember', self.portal, 'testmember')
         self.member2.setUserName('testmember')
         self.member2.setPassword('testpassword')
         self.member2.setTitle('Member 2')
         self.member2.reindexObject()
 
 
-class TestMembraneGroupManagerBasics( unittest.TestCase
-                                    , MembraneGroupManagerTestBase
-                                    , IGroupsPlugin_conformance
-                                    , IGroupEnumerationPlugin_conformance
-                                    ):
+class TestMembraneGroupManagerBasics(unittest.TestCase,
+                                     MembraneGroupManagerTestBase,
+                                     IGroupsPlugin_conformance,
+                                     IGroupEnumerationPlugin_conformance):
     # Run the conformance tests
     pass
 
 
-class TestMembraneGroupManager( base.MembraneTestCase
-                              , MembraneGroupManagerTestBase):
+class TestMembraneGroupManager(base.MembraneTestCase,
+                               MembraneGroupManagerTestBase):
 
     def afterSetUp(self):
         self.portal.pmm = self._makeOne('pmm')
@@ -58,7 +59,7 @@ class TestMembraneGroupManager( base.MembraneTestCase
 
     def testGroupMembership(self):
         group = self.portal.testgroup
-        member = group.testuser # We need acquisition to be correct
+        member = group.testuser  # We need acquisition to be correct
         mem_auth = IMembraneUserAuth(member)
         mem_grps = IMembraneUserGroups(member)
         member2 = self.member2
@@ -95,7 +96,7 @@ class TestMembraneGroupManagerSelectedGroups(base.MembraneTestCase,
 
     def testGroupMembership(self):
         group = self.portal.testgroup
-        member = group.testuser # We need acquisition to be correct
+        member = group.testuser  # We need acquisition to be correct
         mem_auth = IMembraneUserAuth(member)
         mem_grps = IMembraneUserGroups(member)
         member2 = self.member2
@@ -109,12 +110,12 @@ class TestMembraneGroupManagerSelectedGroups(base.MembraneTestCase,
         self.failUnlessEqual(sortTuple(group.getGroupMembers()),
                              sortTuple([mem2_auth.getUserId(),
                                         mem_auth.getUserId()]))
-        self.failUnlessEqual(mem2_grps.getGroupsForPrincipal(mem2_grps)
-                             , (group.getId(),))
+        self.failUnlessEqual(
+            mem2_grps.getGroupsForPrincipal(mem2_grps), (group.getId(),))
 
 
-class TestMembraneGroupManagerEnumeration( base.MembraneTestCase
-                                         , MembraneGroupManagerTestBase):
+class TestMembraneGroupManagerEnumeration(base.MembraneTestCase,
+                                          MembraneGroupManagerTestBase):
 
     def afterSetUp(self):
         self.portal.pmm = self._makeOne('pmm')
@@ -126,14 +127,15 @@ class TestMembraneGroupManagerEnumeration( base.MembraneTestCase
     def testEnumerateGroupsByTitleNonexisting(self):
         enumgrps = self.portal.pmm.enumerateGroups
         self.failUnlessEqual(enumgrps(title='nonexisting'), ())
-        self.failUnlessEqual(enumgrps(title='nonexisting', exact_match=True), ())
+        self.failUnlessEqual(
+            enumgrps(title='nonexisting', exact_match=True), ())
 
     def testEnumerateGroupsByTitle(self):
         enumgrps = self.portal.pmm.enumerateGroups
         self.failUnlessEqual(len(enumgrps(title=self.group.Title(),
                                           exact_match=True)), 1)
         self.failUnlessEqual(len(enumgrps(
-            title=self.group.Title()[:len(self.group.Title())-1],
+            title=self.group.Title()[:len(self.group.Title()) - 1],
             exact_match=False)), 1)
         self.failUnlessEqual(len(enumgrps(title=self.group.Title(),
                                           exact_match=True,
@@ -155,7 +157,7 @@ class TestMembraneGroupManagerEnumeration( base.MembraneTestCase
         self.failUnlessEqual(len(enumgrps(id=self.group.getGroupName(),
                                           exact_match=True)), 1)
         self.failUnlessEqual(len(enumgrps(
-            id=self.group.getGroupName()[:len(self.group.getGroupName())-1],
+            id=self.group.getGroupName()[:len(self.group.getGroupName()) - 1],
             exact_match=False)), 1)
         self.failUnlessEqual(len(enumgrps(id=self.group.getGroupName(),
                                           exact_match=True,
@@ -166,28 +168,28 @@ class TestMembraneGroupManagerEnumeration( base.MembraneTestCase
                                           exact_match=True, max_results=1)), 1)
         self.failUnlessEqual(len(enumgrps(id=self.group.getGroupName(),
                                           exact_match=True, max_results=0)), 0)
-                                          
+
     def testEnumerateGroupsWithSimilarIds(self):
         """ ensure that enumerating groups while exact_match==True returns only
             exact matches for a given id
         """
         # add a new group with a similar id
-        self.newgroup = _createObjectByType('TestGroup', self.portal, 'testgroup-2')
+        self.newgroup = _createObjectByType(
+            'TestGroup', self.portal, 'testgroup-2')
         self.newgroup.setTitle('New Test group')
         self.newgroup.setDescription('A test group')
         self.newgroup.reindexObject()
-        
+
         enumgrps = self.portal.pmm.enumerateGroups
         # only an exact match should be found when exact_match==True
         self.failUnlessEqual(len(enumgrps(id=self.group.getGroupName(),
                                           exact_match=True)), 1)
         self.failUnlessEqual(len(enumgrps(id=self.group.getGroupName(),
                                           exact_match=False)), 2)
-    
 
 
-class TestMembraneGroupIntrospection( base.MembraneTestCase
-                                    , MembraneGroupManagerTestBase):
+class TestMembraneGroupIntrospection(base.MembraneTestCase,
+                                     MembraneGroupManagerTestBase):
 
     # Test IGroupIntrospection
 

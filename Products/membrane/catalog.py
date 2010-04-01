@@ -62,7 +62,7 @@ def getParentPath(obj):
 class MembraneCatalogProcessor(object):
     """Catalog processor to update user objects in the membrane tool.
 
-    This index queue processor acts as a utility that is used by 
+    This index queue processor acts as a utility that is used by
     `collective.indexing`_. It makes sure all catalog operations
     on objects providing `IMembraneUserObject` are also reflected
     in the `membrane_tool` catalog.
@@ -99,4 +99,3 @@ class MembraneCatalogProcessor(object):
 
     def abort(self):
         pass
-

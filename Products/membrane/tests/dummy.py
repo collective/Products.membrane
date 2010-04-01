@@ -32,15 +32,15 @@ group = BaseSchema.copy() + Schema((
     ReferenceField(
         name='manager',
         relationship='managesProject',
-        allowed_types=('Member','TestMember',),
+        allowed_types=('Member', 'TestMember',),
         vocabulary='listUsers',
-        languageIndependent = 1,),
+        languageIndependent=1),
     ReferenceField(
         name="members",
         relationship=GROUP_RELATIONSHIP,
         multiValued=1,
-        languageIndependent = 1,
-        allowed_types=('Member','TestMember',),
+        languageIndependent=1,
+        allowed_types=('Member', 'TestMember',),
         vocabulary='listUsers',),
     LinesField(
         name="roles_",
@@ -52,6 +52,7 @@ group = BaseSchema.copy() + Schema((
 # Make the group title and description user properties
 group['title'].user_property = True
 group['description'].user_property = True
+
 
 class TestGroup(BaseFolder):
     """A group archetype for testing"""
@@ -75,8 +76,8 @@ class TestGroup(BaseFolder):
              for m in mems])
         mbtool = getToolByName(self, TOOLNAME)
         mems = mbtool.unrestrictedSearchResults(
-            object_implements=
-            user_ifaces.IMembraneUserAuthAvail.__identifier__,
+            object_implements=(
+                user_ifaces.IMembraneUserAuthAvail.__identifier__),
             path='/'.join(self.getPhysicalPath()))
         for m in mems:
             mem_dict[m.getUserId] = 1
@@ -88,8 +89,8 @@ class TestGroup(BaseFolder):
         """
         catalog = getToolByName(self, TOOLNAME)
         results = catalog(
-            object_implements=
-            user_ifaces.IMembraneUserAuthAvail.__identifier__)
+            object_implements=(
+            user_ifaces.IMembraneUserAuthAvail.__identifier__))
 
         value = []
         for r in results:
@@ -106,21 +107,21 @@ registerType(TestGroup, PROJECTNAME)
 
 user = BaseSchema + Schema((
     StringField('userName',
-                languageIndependent = 1,),
+                languageIndependent=1,),
     StringField('password',
-                languageIndependent = 1,),
+                languageIndependent=1,),
     StringField('title',
-                languageIndependent = 1,
+                languageIndependent=1,
                 user_property='fullname',
                 accessor='Title'),
     StringField('mobilePhone',
-                languageIndependent = 1,
+                languageIndependent=1,
                 user_property=True,),
     StringField('homePhone',
-                languageIndependent = 1,
+                languageIndependent=1,
                 schemata='userinfo',),
     LinesField('roles_',
-               languageIndependent = 1,
+               languageIndependent=1,
                accessor='getRoles',
                mutator='setRoles',
                default=('Member',)),
@@ -132,6 +133,7 @@ extra = BaseSchema + Schema((
     StringField('extraPropertyFromSchemata',
                 schemata='userinfo',),
     ))
+
 
 class BaseMember:
     schema = user
@@ -188,16 +190,17 @@ class AlternativeTestMember(BaseMember, BaseContent):
         ISchemataPropertiesProvider, ISelectedGroupsProvider)
 
     # For IPropertiesPlugin implementation/Property mixin
-    security.declarePrivate('getUserPropertySchematas')
     def getUserPropertySchemata(self):
         return ['userinfo']
+    security.declarePrivate('getUserPropertySchematas')
 
     # For IGroupsPlugin implementation/Group mixin
-    security.declarePrivate( 'getGroupRelationships' )
     def getGroupRelationships(self):
         return [GROUP_RELATIONSHIP]
+    security.declarePrivate('getGroupRelationships')
 
 registerType(AlternativeTestMember, PROJECTNAME)
+
 
 class TestPropertyProvider(BaseContent):
     """Tests externally provided properties"""
@@ -207,6 +210,7 @@ class TestPropertyProvider(BaseContent):
     implements(IPropertiesProvider)
 
 registerType(TestPropertyProvider, PROJECTNAME)
+
 
 class TestAlternatePropertyProvider(BaseContent):
     """

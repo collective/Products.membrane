@@ -86,30 +86,32 @@ class TestMembraneUserManagerEnumeration(base.MembraneUserTestCase):
     layer = MembraneUserManagerLayer
 
     def testEnumerateUsersNoArgs(self):
-        self.failUnlessEqual(len(self.portal.acl_users.pmm.enumerateUsers()), 1)        
+        self.failUnlessEqual(
+            len(self.portal.acl_users.pmm.enumerateUsers()), 1)
 
     def testEnumerateUsersByLoginNonexisting(self):
         enumusers = self.portal.acl_users.pmm.enumerateUsers
         self.failUnlessEqual(enumusers(login='nonexisting'), ())
-        self.failUnlessEqual(enumusers(login='nonexisting', exact_match=True), ())
+        self.failUnlessEqual(
+            enumusers(login='nonexisting', exact_match=True), ())
 
     def testEnumerateUsersByLogin(self):
         username = self.member.getUserName()
         enumusers = self.portal.acl_users.pmm.enumerateUsers
         self.failUnlessEqual(len(enumusers(login=username,
                                            exact_match=True)), 1)
-        self.failUnlessEqual(len(enumusers(login=username[:len(username)-1],
+        self.failUnlessEqual(len(enumusers(login=username[:len(username) - 1],
                                            exact_match=False)), 1)
         self.failUnlessEqual(len(enumusers(login=username,
                                            exact_match=True)), 1)
-        self.failUnlessEqual(len(enumusers(login=username,
-                                           exact_match=True, sort_on='login')), 1)
+        self.failUnlessEqual(len(enumusers(
+            login=username, exact_match=True, sort_on='login')), 1)
         self.failUnlessEqual(len(enumusers(login=username,
                                            exact_match=True, sort_on='id')), 1)
-        self.failUnlessEqual(len(enumusers(login=username,
-                                           exact_match=True, max_results=1)), 1)
-        self.failUnlessEqual(len(enumusers(login=username,
-                                           exact_match=True, max_results=0)), 0)
+        self.failUnlessEqual(len(enumusers(
+            login=username, exact_match=True, max_results=1)), 1)
+        self.failUnlessEqual(len(enumusers(
+            login=username, exact_match=True, max_results=0)), 0)
 
     def testEnumerateUsersByUserIdNonexisting(self):
         enumusers = self.portal.acl_users.pmm.enumerateUsers
@@ -120,17 +122,17 @@ class TestMembraneUserManagerEnumeration(base.MembraneUserTestCase):
         userid = IMembraneUserAuth(self.member).getUserId()
         enumusers = self.portal.acl_users.pmm.enumerateUsers
         self.failUnlessEqual(len(enumusers(id=userid, exact_match=True)), 1)
-        self.failUnlessEqual(len(enumusers(id=userid[:len(userid)-1],
+        self.failUnlessEqual(len(enumusers(id=userid[:len(userid) - 1],
                                            exact_match=False)), 1)
-        self.failUnlessEqual(len(enumusers(id=userid,
-                                           exact_match=True, sort_on='login')), 1)
+        self.failUnlessEqual(len(enumusers(
+            id=userid, exact_match=True, sort_on='login')), 1)
         self.failUnlessEqual(len(enumusers(id=userid,
                                            exact_match=True, sort_on='id')), 1)
-        self.failUnlessEqual(len(enumusers(id=userid,
-                                           exact_match=True, max_results=1)), 1)
-        self.failUnlessEqual(len(enumusers(id=userid,
-                                           exact_match=True, max_results=0)), 0)
-        
+        self.failUnlessEqual(len(enumusers(
+            id=userid, exact_match=True, max_results=1)), 1)
+        self.failUnlessEqual(len(enumusers(
+            id=userid, exact_match=True, max_results=0)), 0)
+
     def testEnumerateUsersExactMatchCaseInsensitive(self):
         enumusers = self.portal.acl_users.pmm.enumerateUsers
         member1 = _createObjectByType('TestMember', self.portal, 'Ann')
@@ -147,30 +149,30 @@ class TestMembraneUserManagerEnumeration(base.MembraneUserTestCase):
         self.failUnlessEqual(queryMember1['id'], member1.getUserName())
         queryMember2 = enumusers(id=member2_id, exact_match=True)[0]
         self.failUnlessEqual(queryMember2['id'], member2.getUserName())
-        
+
 
 class TestMembraneUserManagerAuthentication(base.MembraneUserTestCase):
 
     layer = MembraneUserManagerLayer
 
     def testAuthenticateOnMember(self):
-        credentials = {'login':'norealuser', 'password':'norealpassword'}
+        credentials = {'login': 'norealuser', 'password': 'norealpassword'}
         userauth = IMembraneUserAuth(self.member)
         authcred = userauth.authenticateCredentials
         self.failUnlessEqual(authcred(credentials), None)
-        credentials = {'login':'testuser', 'password':'wrongpassword'}
+        credentials = {'login': 'testuser', 'password': 'wrongpassword'}
         self.failUnlessEqual(authcred(credentials), None)
-        credentials = {'login':'testuser', 'password':'testpassword'}
-        self.failUnlessEqual(authcred(credentials), (userauth.getUserId(),
-                                                     self.member.getUserName()))
+        credentials = {'login': 'testuser', 'password': 'testpassword'}
+        self.failUnlessEqual(authcred(credentials),
+                             (userauth.getUserId(), self.member.getUserName()))
 
     def testAuthenticate(self):
-        credentials = {'login':'norealuser', 'password':'norealpassword'}
+        credentials = {'login': 'norealuser', 'password': 'norealpassword'}
         authcred = self.portal.acl_users.pmm.authenticateCredentials
         self.failUnlessEqual(authcred(credentials), None)
-        credentials = {'login':'testuser', 'password':'wrongpassword'}
+        credentials = {'login': 'testuser', 'password': 'wrongpassword'}
         self.failUnlessEqual(authcred(credentials), None)
-        credentials = {'login':'testuser', 'password':'testpassword'}
+        credentials = {'login': 'testuser', 'password': 'testpassword'}
         right = (IMembraneUserAuth(self.member).getUserId(),
                  self.member.getUserName())
         self.failUnlessEqual(authcred(credentials), right)
@@ -179,7 +181,7 @@ class TestMembraneUserManagerAuthentication(base.MembraneUserTestCase):
         mbtool = getattr(self.portal, TOOLNAME)
         wftool = getattr(self.portal, 'portal_workflow')
         authcred = self.portal.acl_users.pmm.authenticateCredentials
-        credentials = {'login':'testuser', 'password':'testpassword'}
+        credentials = {'login': 'testuser', 'password': 'testpassword'}
         mem_state = wftool.getInfoFor(self.member, 'review_state')
         right = (IMembraneUserAuth(self.member).getUserId(),
                  self.member.getUserName())
@@ -197,7 +199,7 @@ class TestMembraneUserManagerAuthentication(base.MembraneUserTestCase):
 
     def testLoginCaseSensitive(self):
         member2 = _createObjectByType('TestMember', self.portal,
-                                     'TestUser') # different case
+                                     'TestUser')  # different case
         member2.setUserName('TestUser')
         member2.setPassword('testpassword2')
         member2.reindexObject()
@@ -212,23 +214,24 @@ class TestMembraneUserManagerAuthentication(base.MembraneUserTestCase):
                               member2.getUserName()))
 
 
-class TestMembraneUserManagerAuthenticationPermissions(base.MembraneUserTestCase):
+class TestMembraneUserManagerAuthenticationPermissions(
+    base.MembraneUserTestCase):
     """Check if everything works when the user object is private"""
 
     layer = MembraneUserManagerLayer
-    
+
     def afterSetUp(self):
         base.MembraneUserTestCase.afterSetUp(self)
         self.portal.portal_workflow.doActionFor(self.member, 'hide')
 
     def testAuthenticate(self):
         self.logout()
-        credentials = {'login':'norealuser', 'password':'norealpassword'}
+        credentials = {'login': 'norealuser', 'password': 'norealpassword'}
         authcred = self.portal.acl_users.pmm.authenticateCredentials
         self.failUnlessEqual(authcred(credentials), None)
-        credentials = {'login':'testuser', 'password':'wrongpassword'}
+        credentials = {'login': 'testuser', 'password': 'wrongpassword'}
         self.failUnlessEqual(authcred(credentials), None)
-        credentials = {'login':'testuser', 'password':'testpassword'}
+        credentials = {'login': 'testuser', 'password': 'testpassword'}
         self.failUnlessEqual(authcred(credentials),
                              (IMembraneUserAuth(self.member).getUserId(),
                               self.member.getUserName()))
@@ -236,7 +239,6 @@ class TestMembraneUserManagerAuthenticationPermissions(base.MembraneUserTestCase
     def testLogin(self):
         self.logout()
         self.login(IMembraneUserAuth(self.member).getUserId())
-
 
 
 class TestUserManagerIntrospectionNoUsers(base.MembraneTestCase):
@@ -279,7 +281,7 @@ class TestUserManagerIntrospectionTwoUsers(base.MembraneUserTestCase):
     def afterSetUp(self):
         base.MembraneUserTestCase.afterSetUp(self)
         self.member2 = self.portal.testuser2
-        
+
     def testGetUserIds(self):
         userids = sortTuple(self.portal.acl_users.pmm.getUserIds())
         correct = sortTuple(
@@ -306,13 +308,13 @@ class TestMembraneUserManagerManagement(base.MembraneUserTestCase):
         userauth = IMembraneUserAuth(self.member)
         authcred = userauth.authenticateCredentials
         # Verify the current credentials
-        credentials = {'login':'testuser', 'password':'testpassword'}
-        self.failUnlessEqual(authcred(credentials), (userauth.getUserId(),
-                                                     self.member.getUserName()))
+        credentials = {'login': 'testuser', 'password': 'testpassword'}
+        self.failUnlessEqual(authcred(credentials),
+                             (userauth.getUserId(), self.member.getUserName()))
         usermanager.doChangeUser('testuser', 'pass2')
-        credentials = {'login':'testuser', 'password':'pass2'}
-        self.failUnlessEqual(authcred(credentials), (userauth.getUserId(),
-                                                     self.member.getUserName()))
+        credentials = {'login': 'testuser', 'password': 'pass2'}
+        self.failUnlessEqual(authcred(credentials),
+                             (userauth.getUserId(), self.member.getUserName()))
 
     def testUserChangeOtherData(self):
         usermanager = IMembraneUserManagement(self.member)
@@ -333,16 +335,17 @@ class TestMembraneUserManagerManagement(base.MembraneUserTestCase):
         userauth = IMembraneUserAuth(self.member)
         authcred = pmm.authenticateCredentials
         # Verify the current credentials
-        credentials = {'login':'testuser', 'password':'testpassword'}
-        self.failUnlessEqual(authcred(credentials), (userauth.getUserId(),
-                                                     self.member.getUserName()))
+        credentials = {'login': 'testuser', 'password': 'testpassword'}
+        self.failUnlessEqual(authcred(credentials),
+                             (userauth.getUserId(), self.member.getUserName()))
         pmm.doChangeUser('testuser', 'pass2')
-        credentials = {'login':'testuser', 'password':'pass2'}
-        self.failUnlessEqual(authcred(credentials), (userauth.getUserId(),
-                                                     self.member.getUserName()))
+        credentials = {'login': 'testuser', 'password': 'pass2'}
+        self.failUnlessEqual(authcred(credentials),
+                             (userauth.getUserId(), self.member.getUserName()))
 
     def testAllowChangePassword(self):
-        self.failUnless(IPasswordSetCapability.providedBy(self.portal.acl_users.pmm))
+        self.failUnless(
+            IPasswordSetCapability.providedBy(self.portal.acl_users.pmm))
 
     def testChangeOtherData(self):
         pmm = self.portal.acl_users.pmm

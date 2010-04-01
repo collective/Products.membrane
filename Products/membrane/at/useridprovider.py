@@ -1,6 +1,7 @@
 from zope.interface import implements
 from Products.membrane.interfaces.user import IMembraneUserObject
 
+
 class UserIdProvider(object):
     """
     Adapts from IUserAuthProvider to IMembraneUserObject.  Provides the

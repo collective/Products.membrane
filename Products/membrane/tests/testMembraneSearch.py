@@ -16,6 +16,7 @@ class TestMembraneSearch(base.MembraneTestCase,
         self.failUnless(len(mems) == 1 and
                         mems[0]['userid'] == user_auth.getUserId())
 
+
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()

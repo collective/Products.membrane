@@ -9,6 +9,7 @@ from Products.membrane.tests import base
 from Products.membrane.config import TOOLNAME
 from Products.membrane.utils import membraneCacheKey
 
+
 def resolveInterface(dotted_name):
     parts = dotted_name.split('.')
     m_name = '.'.join(parts[:-1])
@@ -16,8 +17,9 @@ def resolveInterface(dotted_name):
     module = __import__(m_name, globals(), locals(), [k_name])
     klass = getattr(module, k_name)
     if not issubclass(klass, interface.Interface):
-        raise ValueError, '%r is not a valid Interface.' % dotted_name
+        raise ValueError('%r is not a valid Interface.' % dotted_name)
     return klass
+
 
 class TestMembraneTool(base.MembraneTestCase):
 
@@ -90,6 +92,7 @@ class TestMembraneTool(base.MembraneTestCase):
 
     def testCacheKey(self):
         method = lambda: 42
+
         class MockAdapter:
             pass
         adapter = MockAdapter()

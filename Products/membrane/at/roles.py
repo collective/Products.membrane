@@ -22,9 +22,10 @@ class Roles(UserRelated):
     #
     #   IRolesPlugin implementation
     #
-    security.declarePrivate('getRolesForPrincipal')
     def getRolesForPrincipal(self, principal, request=None):
         return IUserRoles(self.context).getRoles()
+    security.declarePrivate('getRolesForPrincipal')
+
 
 class GroupAwareRoles(UserRelated):
     """
@@ -39,7 +40,6 @@ class GroupAwareRoles(UserRelated):
     #
     #   IRolesPlugin implementation
     #
-    security.declarePrivate('getRolesForPrincipal')
     def getRolesForPrincipal(self, principal, request=None):
         roles = dict.fromkeys(IUserRoles(self.context).getRoles())
 
@@ -49,11 +49,12 @@ class GroupAwareRoles(UserRelated):
             mbtool = getToolByName(self.context, TOOLNAME)
             uSR = mbtool.unrestrictedSearchResults
             groups = uSR(exact_getGroupId=group_ids,
-                         object_implements=
-                         group_ifaces.IGroupAvail.__identifier__)
+                         object_implements=(
+                         group_ifaces.IGroupAvail.__identifier__))
             for g in groups:
                 group = group_ifaces.IGroup(
                     g._unrestrictedGetObject())
                 roles.update(dict.fromkeys(group.getRoles()))
 
         return roles.keys()
+    security.declarePrivate('getRolesForPrincipal')

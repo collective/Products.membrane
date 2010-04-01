@@ -17,6 +17,7 @@ manage_addMembraneRoleManagerForm = PageTemplateFile(
     '../www/MembraneRoleManagerForm', globals(),
     __name__='manage_addMembraneRoleManager' )
 
+
 def addMembraneRoleManager(dispatcher, id, title=None, REQUEST=None):
     """ Add a MembraneRoleManager to a Pluggable Auth Service. """
     pmm = MembraneRoleManager(id, title)
@@ -28,6 +29,7 @@ def addMembraneRoleManager(dispatcher, id, title=None, REQUEST=None):
                                 '?manage_tabs_message='
                                 'MembraneRoleManager+added.'
                                 % dispatcher.absolute_url())
+
 
 class MembraneRoleManager(BasePlugin, Cacheable):
     """ PAS plugin for managing roles with Membrane.
@@ -45,14 +47,15 @@ class MembraneRoleManager(BasePlugin, Cacheable):
     #
     #   IRolesPlugin implementation
     #
-    security.declarePrivate('getRolesForPrincipal')
     def getRolesForPrincipal(self, principal, request=None):
         roles = {}
         providers = findMembraneUserAspect(
             self, user_ifaces.IMembraneUserRolesAvail,
             exact_getUserId=principal.getId())
         for provider in providers:
-            roles.update(dict.fromkeys(provider.getRolesForPrincipal(principal)))
+            roles.update(dict.fromkeys(
+                provider.getRolesForPrincipal(principal)))
         return tuple(roles.keys())
+    security.declarePrivate('getRolesForPrincipal')
 
-InitializeClass( MembraneRoleManager )
+InitializeClass(MembraneRoleManager)

@@ -11,6 +11,7 @@ from Products.GenericSetup.utils import importObjects
 from Products.membrane.interfaces import IMembraneTool
 from Products.membrane.config import QIM_ANNOT_KEY
 
+
 class MembraneToolXMLAdapter(ZCatalogXMLAdapter):
     """
     Mode im- and exporter for MembraneTool.
@@ -63,7 +64,7 @@ class MembraneToolXMLAdapter(ZCatalogXMLAdapter):
         query_index_map = annots.get(QIM_ANNOT_KEY)
         if query_index_map is not None:
             child = self._doc.createElement('query_index_map')
-            
+
             for key, value in query_index_map.items():
                 sub = self._doc.createElement('index')
                 sub.setAttribute('name', key)
@@ -133,6 +134,7 @@ class MembraneToolXMLAdapter(ZCatalogXMLAdapter):
         if annots.get(QIM_ANNOT_KEY) is not None:
             del annots[QIM_ANNOT_KEY]
 
+
 def importMembraneTool(context):
     """
     Import membrane_tool configuration.
@@ -142,6 +144,7 @@ def importMembraneTool(context):
 
     if tool is not None:
         importObjects(tool, '', context)
+
 
 def exportMembraneTool(context):
     """

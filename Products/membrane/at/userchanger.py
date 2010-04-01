@@ -3,6 +3,7 @@ from zope.interface import implements
 from Products.membrane.at.interfaces import IUserChanger
 from Products.membrane.interfaces.user import IMembraneUserChanger
 
+
 class UserChanger(object):
     """
     provide a default adaptation from IUserChanger to IMembraneUserChanger

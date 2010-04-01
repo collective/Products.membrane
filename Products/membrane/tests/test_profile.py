@@ -6,6 +6,7 @@ from Products.CMFCore.utils import getToolByName
 
 from base import MembraneTestCase
 
+
 class TestProfile(MembraneTestCase):
     """Test the generic setup profile."""
 
@@ -29,7 +30,9 @@ class TestProfile(MembraneTestCase):
             catalog_map['TestMember'] = ('portal_catalog',
                                          'membrane_tool')
         setup_tool = getToolByName(self.portal, 'portal_setup')
-        setup_tool.runImportStepFromProfile('profile-membrane:test', 'membranetool')
+        setup_tool.runImportStepFromProfile('profile-membrane:test',
+                                            'membranetool')
+
 
 def test_suite():
     return makeSuite(TestProfile)

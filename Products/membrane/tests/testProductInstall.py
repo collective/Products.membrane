@@ -3,13 +3,14 @@
 #
 try:
     from zope.location.interfaces import ISite
-    ISite # pyflakes
+    ISite  # pyflakes
 except ImportError:
     # BBB Plone 3
     from Products.Five.site.localsite import ISite
 
 from Products.membrane.config import TOOLNAME
 import base
+
 
 class TestProductInstall(base.MembraneTestCase):
 
@@ -18,7 +19,8 @@ class TestProductInstall(base.MembraneTestCase):
 
     def testExampleTypesInstall(self):
         setup_tool = self.portal.portal_setup
-        setup_tool.runAllImportStepsFromProfile('profile-Products.membrane:examples')
+        setup_tool.runAllImportStepsFromProfile(
+            'profile-Products.membrane:examples')
         typeslist = ['SimpleMember', 'SimpleGroup']
         for t in typeslist:
             self.failUnless(t in self.portal.portal_types.objectIds(),

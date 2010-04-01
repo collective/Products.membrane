@@ -3,7 +3,7 @@ Archetypes marker interfaces
 ----------------------------
 
 The interfaces in this module can be used for Archetypes content
-classes. This allows them to use the default implementattions for the 
+classes. This allows them to use the default implementattions for the
 membrane interfaces from Products.membrane.interfaces.user that
 are included in membrane.
 """
@@ -14,6 +14,7 @@ from Products.Archetypes.interfaces import IReferenceable
 
 from Products.membrane.interfaces import user as user_ifaces
 
+
 class IUserAuthProvider(IReferenceable,
                         user_ifaces.IMembraneUserObjectAvail,
                         user_ifaces.IMembraneUserAuthAvail):
@@ -22,6 +23,7 @@ class IUserAuthProvider(IReferenceable,
     also provide or adapt to IUserAuthentication to perform the actual
     authentication.
     """
+
 
 class IUserAuthentication(Interface):
     """
@@ -39,6 +41,7 @@ class IUserAuthentication(Interface):
         Returns True is password is authenticated, False if not.
         """
 
+
 class IPropertiesProvider(IReferenceable, IBaseObject,
                           user_ifaces.IMembraneUserPropertiesAvail):
     """
@@ -46,6 +49,7 @@ class IPropertiesProvider(IReferenceable, IBaseObject,
     default properties computation mechanism defined in the Properties
     adapter (i.e. 'user_property' attribute on the schema fields).
     """
+
 
 class ISchemataPropertiesProvider(
     IReferenceable, IBaseObject,
@@ -61,17 +65,19 @@ class ISchemataPropertiesProvider(
         user properties.
         """
 
+
 class IUserRoles(Interface):
     """
     Obtains roles for a given user. Typically, a member object would
     provide this or adapt to this, and also provide one of
     IRolesProvider and IGroupAwareRolesProvider.
     """
-    
+
     def getRoles():
         """
         Returns a sequence of the user's roles.
         """
+
 
 class IRolesProvider(Interface,
                      user_ifaces.IMembraneUserRolesAvail):
@@ -81,6 +87,7 @@ class IRolesProvider(Interface,
     must also provide or adapt to IUserRoles.
     """
 
+
 class IGroupAwareRolesProvider(IRolesProvider):
     """
     Marks the object as a Membrane roles provider using the
@@ -88,13 +95,15 @@ class IGroupAwareRolesProvider(IRolesProvider):
     GroupAwareRoles adapter.
     """
 
+
 class IGroupsProvider(IReferenceable,
                      user_ifaces.IMembraneUserGroupsAvail):
     """
     Marks the object as a Membrane groups provider using the default
     group computation mechanism defined in the Groups adapter.
     """
-    
+
+
 class ISelectedGroupsProvider(IReferenceable,
                               user_ifaces.IMembraneUserGroupsAvail):
     """
@@ -107,6 +116,7 @@ class ISelectedGroupsProvider(IReferenceable,
         to use when looking up the group references.
         """
 
+
 class IUserChanger(IReferenceable,
                    user_ifaces.IMembraneUserChangerAvail):
     """
@@ -114,6 +124,7 @@ class IUserChanger(IReferenceable,
     """
     def setPassword(password):
         """change the password for a user"""
+
 
 class IUserDeleter(IReferenceable,
                    user_ifaces.IMembraneUserDeleterAvail):

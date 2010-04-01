@@ -5,26 +5,27 @@ from Products.membrane.interfaces.user import IMembraneUserObject
 from Products.membrane.at.interfaces import IUserAuthProvider
 from Products.membrane.at.relations import UserRelatedRelation
 
+
 class UserRelated(object):
     """
     Default implementation for extracting a user id from a piece of
-    content.  Could be used to adapt from IReferenceable to IMembraneUserObject,
-    but is really just used as a mix-in for more specific adapters.
+    content.  Could be used to adapt from IReferenceable to
+    IMembraneUserObject, but is really just used as a mix-in for more
+    specific adapters.
     """
     security = ClassSecurityInfo()
 
     implements(IMembraneUserObject)
-        
+
     def __init__(self, context):
         self.context = context
 
     #
     #   IMembraneUserObject implementation
     #
-    security.declarePublic('getUserId')
     def getUserId(self):
         """
-        Return the user id 
+        Return the user id
         """
         relationship = UserRelatedRelation.relationship
         user_providers = self.context.getBRefs(relationship=relationship)
@@ -38,3 +39,4 @@ class UserRelated(object):
                 return IMembraneUserObject(user_provider).getUserId()
             except TypeError:
                 return None
+    security.declarePublic('getUserId')

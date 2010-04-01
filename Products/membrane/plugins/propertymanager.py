@@ -26,7 +26,8 @@ manage_addMembranePropertyManagerForm = PageTemplateFile(
     '../www/MembranePropertyManagerForm',
     globals(), __name__='manage_addMembranePropertyManagerForm' )
 
-def addMembranePropertyManager( dispatcher, id, title=None, REQUEST=None ):
+
+def addMembranePropertyManager(dispatcher, id, title=None, REQUEST=None):
     """ Add a MembranePropertyManager to a Pluggable Auth Service. """
 
     pmm = MembranePropertyManager(id, title)
@@ -57,11 +58,11 @@ class MembranePropertyManager(BasePlugin, Cacheable):
         self.title = title
 
     def _getPropertyProviders(self, user):
-        isGroup = getattr(user, 'isGroup', lambda:None)()
+        isGroup = getattr(user, 'isGroup', lambda: None)()
         if not isGroup:
-            query=dict(exact_getUserId=user.getId())
+            query = dict(exact_getUserId=user.getId())
         else:
-            query=dict(exact_getGroupId=user.getId())
+            query = dict(exact_getGroupId=user.getId())
 
         for pp in findMembraneUserAspect(
             self, user_ifaces.IMembraneUserPropertiesAvail, **query):
@@ -71,7 +72,6 @@ class MembranePropertyManager(BasePlugin, Cacheable):
     #   IMutablePropertiesPlugin implementation
     #   IPropertiesPlugin implementation
     #
-    security.declarePrivate('getPropertiesForUser')
     def getPropertiesForUser(self, user, request=None):
         """
         Retrieve all the IMembraneUserProperties property providers
@@ -85,18 +85,18 @@ class MembranePropertyManager(BasePlugin, Cacheable):
             psheet = mem_props.getPropertiesForUser(user, request)
             if psheet:
                 if IPropertySheet.providedBy(psheet):
-                    items=psheet.propertyItems()
+                    items = psheet.propertyItems()
                 else:
-                    items=psheet.items()
+                    items = psheet.items()
                 for prop, value in items:
                     properties[prop] = value
-        if properties.has_key('id'):
+        if 'id' in properties:
             # When instantiating sheet(id, **props) is used - two ids is bad
             del properties['id']
         return MutablePropertySheet(self.id,
                                     **properties)
+    security.declarePrivate('getPropertiesForUser')
 
-    security.declarePrivate('setPropertiesForUser')
     def setPropertiesForUser(self, user, propertysheet):
         """
         Retrieve all of the IMembraneUserProperties property providers
@@ -105,12 +105,13 @@ class MembranePropertyManager(BasePlugin, Cacheable):
         prop_providers = self._getPropertyProviders(user)
         for mem_props in prop_providers:
             mem_props.setPropertiesForUser(user, propertysheet)
+    security.declarePrivate('setPropertiesForUser')
 
-    security.declarePrivate('deleteUser')
     def deleteUser(self, user_id):
         """
         XXX: TODO
         """
         pass
+    security.declarePrivate('deleteUser')
 
 InitializeClass(MembranePropertyManager)

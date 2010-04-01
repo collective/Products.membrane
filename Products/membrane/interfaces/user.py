@@ -1,4 +1,4 @@
-""" 
+"""
 Content interfaces
 ------------------
 
@@ -22,6 +22,7 @@ from Products.PluggableAuthService.interfaces.plugins import IRolesPlugin
 from Products.PlonePAS.interfaces.plugins import IUserManagement
 
 from Products.PlonePAS.interfaces.plugins import IMutablePropertiesPlugin
+
 
 class IMembraneUser(IPropertiedUser):
     """
@@ -52,6 +53,7 @@ class IMembraneUserObject(Interface):
         but might also be something different such as the users email address.
         """
 
+
 class IMembraneUserObjectAvail(Interface):
     """A membrane content object that provides or can be adapted to
     IMembraneUserObject"""
@@ -65,6 +67,7 @@ class IMembraneUserAuth(IMembraneUserObject, IAuthenticationPlugin):
     Used for objects that can handle user authentication.
     """
 
+
 class IMembraneUserAuthAvail(Interface):
     """A membrane content object that provides or can be adapted to
     IMembraneUserAuth"""
@@ -76,6 +79,7 @@ class IMembraneUserProperties(IMembraneUserObject, IMutablePropertiesPlugin):
     """
     Used for objects that can provide user properties.
     """
+
 
 class IMembraneUserPropertiesAvail(Interface):
     """A membrane content object that provides or can be adapted to
@@ -90,6 +94,7 @@ class IMembraneUserGroups(IMembraneUserObject, IGroupsPlugin):
     Used for objects that can provide user groups.
     """
 
+
 class IMembraneUserGroupsAvail(Interface):
     """A membrane content object that provides or can be adapted to
     IMembraneUserGroups"""
@@ -102,6 +107,7 @@ class IMembraneUserRoles(IMembraneUserObject, IRolesPlugin):
     """
     Used for objects that can provide user roles.
     """
+
 
 class IMembraneUserRolesAvail(Interface):
     """A membrane content object that provides or can be adapted to
@@ -124,6 +130,7 @@ class IMembraneUserChanger(IMembraneUserObject):
     def doChangeUser(login, password, **kwargs):
         """change the password for a given user"""
 
+
 class IMembraneUserChangerAvail(Interface):
     """A membrane content object that provides or can be adapted to
     IMembraneUserChanger"""
@@ -139,10 +146,10 @@ class IMembraneUserDeleter(IMembraneUserObject):
     def doDeleteUser(login):
         """remove the user with the id login"""
 
+
 class IMembraneUserDeleterAvail(Interface):
     """A membrane content object that provides or can be adapted to
     IMembraneUserDeleter"""
 
 IMembraneUserDeleterAvail.setTaggedValue(
     'interface', IMembraneUserDeleter)
-

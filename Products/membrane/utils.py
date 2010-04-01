@@ -6,6 +6,7 @@ from config import FILTERED_ROLES
 from config import TOOLNAME
 from interfaces import IUserAdder
 
+
 def getAllWFStatesForType(context, portal_type):
     wftool = getToolByName(context, 'portal_workflow')
     chain = wftool.getChainForPortalType(portal_type)
@@ -15,12 +16,14 @@ def getAllWFStatesForType(context, portal_type):
         states += wf.states.objectIds()
     return states
 
+
 def getFilteredValidRolesForPortal(context):
     portal = getToolByName(context, 'portal_url').getPortalObject()
     roles = dict.fromkeys(portal.validRoles())
     for filtered_role in FILTERED_ROLES:
         roles.pop(filtered_role, None)
     return roles.keys()
+
 
 def getCurrentUserAdder(context):
     """
@@ -50,7 +53,7 @@ def findMembraneUserAspect(context, iface, **query):
     return filter(None, [
         iface.getTaggedValue('interface')(
             brain._unrestrictedGetObject(), None)
-        for brain in findImplementations(context, iface,  **query)])
+        for brain in findImplementations(context, iface, **query)])
 
 
 def findImplementations(context, iface, **query):
@@ -63,4 +66,3 @@ def findImplementations(context, iface, **query):
 def membraneCacheKey(method, self, *args, **kw):
     mbtool = getToolByName(self.context, TOOLNAME)
     return '/'.join(mbtool.getPhysicalPath()), mbtool.getCounter()
-

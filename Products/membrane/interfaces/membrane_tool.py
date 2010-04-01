@@ -1,10 +1,11 @@
-""" 
+"""
 Membrane tool interface
 """
 
 from zope.interface import Interface
 from zope.interface import Attribute
 from zope.interface import interfaces as iinterfaces
+
 
 class IMembraneTool(Interface):
     '''This tool interacts with a customized ZCatalog.
@@ -41,6 +42,7 @@ class IMembraneTool(Interface):
         casing of the same userid.  Facilitates consistent behaviour
         in sites that allow case-insensitive logins.
         """
+
 
 class IMembraneQueryableInterface(iinterfaces.IInterface):
     """Marker interface for interfaces by which membrane members can

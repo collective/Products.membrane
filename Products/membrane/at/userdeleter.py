@@ -3,6 +3,7 @@ from zope.interface import implements
 from Products.membrane.at.interfaces import IUserDeleter
 from Products.membrane.interfaces.user import IMembraneUserDeleter
 
+
 class UserDeleter(object):
     """
     provide a default adaptation from IUserDeleter to IMembraneUserDeleter

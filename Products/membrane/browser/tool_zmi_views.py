@@ -5,6 +5,7 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
 from Products.membrane.interfaces import IUserAdder
 
+
 class FormControllerView(BrowserView):
     """
     A (super) quick-n-dirty prototype of what a FormController-like

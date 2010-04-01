@@ -3,8 +3,8 @@
 from Acquisition import aq_base
 from Products.CMFCore.utils import getToolByName
 from base import MembraneTestCase
-from unittest import main
 from unittest import makeSuite
+
 
 class TestMembraneToolExportImport(MembraneTestCase):
     """Test membrane_tool import / export handlers."""
@@ -16,10 +16,10 @@ class TestMembraneToolExportImport(MembraneTestCase):
              IUserAdderPlugin
 
         setup_tool = self.portal.portal_setup
-        setup_tool.runAllImportStepsFromProfile('profile-Products.membrane:examples')
+        setup_tool.runAllImportStepsFromProfile(
+            'profile-Products.membrane:examples')
         plugins = self.portal.acl_users.plugins
         plugins.movePluginsUp(IUserAdderPlugin, ['membrane_users'])
-
 
     def test_useradder(self):
         """
@@ -30,6 +30,6 @@ class TestMembraneToolExportImport(MembraneTestCase):
         user_adder = getattr(aq_base(mbtool), 'user_adder', None)
         self.assertEqual(user_adder, "membrane_example")
 
+
 def test_suite():
     return makeSuite(TestMembraneToolExportImport)
-
