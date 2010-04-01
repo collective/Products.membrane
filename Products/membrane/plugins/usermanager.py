@@ -242,7 +242,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
         if changers:
             changers[0].doChangeUser(login, password, **kwargs)
         else:
-            raise RuntimeError(
+            raise KeyError(
                 'No IMembraneUserChanger adapter found for user: %s'
                 % login)
 
@@ -252,7 +252,9 @@ class MembraneUserManager(BasePlugin, Cacheable):
         if deleters:
             deleters[0].doDeleteUser(login)
         else:
-            raise RuntimeError('No adapter found for user: %s' % login)
+            raise KeyError(
+                'No IMembraneUserDeleter adapter found for user: %s' %
+                login)
 
     def doAddUser(self, login, password):
         """
@@ -264,7 +266,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
             adder.addUser(login, password)
             return True
         else:
-            raise(NotImplemented, "IUserAdder utility not available")
+            raise NotImplemented("IUserAdder utility not available")
 
     def allowPasswordSet(self, login):
         """
