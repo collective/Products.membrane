@@ -242,7 +242,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
         if changers:
             changers[0].doChangeUser(login, password, **kwargs)
         else:
-            raise KeyError(
+            raise RuntimeError(
                 'No IMembraneUserChanger adapter found for user: %s'
                 % login)
 
