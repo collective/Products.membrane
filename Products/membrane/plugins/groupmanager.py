@@ -112,11 +112,11 @@ class MembraneGroupManager(BasePlugin, Cacheable):
             if exact_match:
                 query['exact_getGroupId'] = id
             else:
-                query['getGroupId'] = ['%s*' % i for i in id]
+                query['getGroupId'] = ['%s*' % i for i in id if i]
 
         elif title:
             query['Title'] = exact_match and title or \
-                             ['%s*' % t for t in title]
+                             ['%s*' % t for t in title if t]
 
         if sort_by is not None:
             if sort_by == 'title':
