@@ -176,20 +176,6 @@ class TestMembraneUserManagerAuthentication(base.MembraneUserTestCase):
                  self.member.getUserName())
         self.failUnlessEqual(authcred(credentials), right)
 
-    def testAuthenticateActiveStatesOnly(self):
-        authcred = self.portal.acl_users.pmm.authenticateCredentials
-        credentials = {'login': 'testuser', 'password': 'testpassword'}
-        right = (IMembraneUserAuth(self.member).getUserId(),
-                 self.member.getUserName())
-        self.failUnlessEqual(authcred(credentials), right)
-        self.portal.manage_permission(
-            'membrane: Can authenticate', ['Manager'], False)
-        self.failUnlessEqual(authcred(credentials), None)
-        self.portal.manage_permission(
-            'membrane: Can authenticate',
-            ['Manager', 'Authenticated'], False)
-        self.failUnlessEqual(authcred(credentials), right)
-
     def testLogin(self):
         self.login(IMembraneUserAuth(self.member).getUserId())
 

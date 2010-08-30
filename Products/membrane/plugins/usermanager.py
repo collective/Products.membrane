@@ -84,22 +84,6 @@ class MembraneUserManager(BasePlugin, Cacheable):
         if auth is None:
             return None
 
-        # Check the permission on the member content object so that
-        # workflow or anything else changing permissions can control
-        # authentication
-        info = user_ifaces.IMembraneUserObject(member, auth)
-        user_id = info.getUserId()
-        pas = self._getPAS()
-        user = pas._findUser(pas._getOb('plugins'), user_id, login)
-        orig_sm = SecurityManagement.getSecurityManager()
-        try:
-            SecurityManagement.newSecurityManager(None, user)
-            if not SecurityManagement.getSecurityManager(
-                ).checkPermission('membrane: Can authenticate',
-                                  member):
-                return
-        finally:
-            SecurityManagement.setSecurityManager(orig_sm)
 
         return auth.authenticateCredentials(credentials)
     security.declarePrivate('authenticateCredentials')

@@ -20,16 +20,10 @@ Changelog
   max_results to an integer.
   [maurits]
 
-- Replace deprecated workflow state category set status mapper
-  support with a simple permission check.  [rossp]
-
-  To restrict authentication based on workflow state, use workflow
-  state permission mapings to remove the 'membrane: Can authenticate'
-  permission from the membrane object for the membrane user.  Note
-  that this will most often require that the membrane user have a role
-  in the context of their own membrane object, such as Owner.
-  Membrane does not provide any such role, but remember does and can
-  be used as an example.
+- Remove deprecated workflow state category set status mapper. This should be
+  implemented using a workflow based test in an IMembraneUserAuth
+  implementation, not in the core Membrane code.
+  [rossp, wichert]
 
 - Fix performance problems with the object_implements index using
   marker interfaces registered as utilities. [rossp]
