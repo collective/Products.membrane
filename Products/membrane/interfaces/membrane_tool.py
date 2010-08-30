@@ -19,9 +19,11 @@ class IMembraneTool(Interface):
                                     'or not auth provider lookup should be '
                                     'case sensitive.')
 
+# XXX membrane type logic should be ripped out - the membrane interfaces
+# can be checked directly.
     def registerMembraneType(portal_type):
-        """Register a member type,
-        by manipulating AT catalog multiplex registry"""
+        """Register a member type, by manipulating AT catalog multiplex
+        registry"""
 
     def unregisterMembraneType(portal_type):
         """Unregister a member type,

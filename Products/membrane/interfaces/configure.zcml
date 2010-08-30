@@ -3,35 +3,35 @@
    i18n_domain="membrane">
       
     <interface 
-      interface=".group.IGroupAvail"
+      interface=".group.IGroup"
       type=".membrane_tool.IMembraneQueryableInterface" />
       
     <interface 
-      interface=".user.IMembraneUserObjectAvail"
+      interface=".user.IMembraneUserObject"
       type=".membrane_tool.IMembraneQueryableInterface" />
       
     <interface 
-      interface=".user.IMembraneUserAuthAvail"
+      interface=".user.IMembraneUserAuth"
       type=".membrane_tool.IMembraneQueryableInterface" />
       
     <interface 
-      interface=".user.IMembraneUserPropertiesAvail"
+      interface=".user.IMembraneUserProperties"
       type=".membrane_tool.IMembraneQueryableInterface" />
       
     <interface 
-      interface=".user.IMembraneUserGroupsAvail"
+      interface=".user.IMembraneUserGroups"
       type=".membrane_tool.IMembraneQueryableInterface" />
       
     <interface 
-      interface=".user.IMembraneUserRolesAvail"
+      interface=".user.IMembraneUserRoles"
       type=".membrane_tool.IMembraneQueryableInterface" />
       
     <interface 
-      interface=".user.IMembraneUserChangerAvail"
+      interface=".user.IMembraneUserChanger"
       type=".membrane_tool.IMembraneQueryableInterface" />
       
     <interface 
-      interface=".user.IMembraneUserDeleterAvail"
+      interface=".user.IMembraneUserDeleter"
       type=".membrane_tool.IMembraneQueryableInterface" />
 
 </configure>

@@ -40,3 +40,9 @@ class UserRelated(object):
             except TypeError:
                 return None
     security.declarePublic('getUserId')
+
+    def getUserName(self):
+        """Return the users login name. This delegates to the generated
+        getUserName accessor from Archetypes."""
+        return self.context.getUserName()
+

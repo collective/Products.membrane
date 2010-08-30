@@ -62,7 +62,7 @@ class MembranePropertyManager(BasePlugin, Cacheable):
             query = dict(exact_getGroupId=user.getId())
 
         for pp in findMembraneUserAspect(
-            self, user_ifaces.IMembraneUserPropertiesAvail, **query):
+            self, user_ifaces.IMembraneUserProperties, **query):
             yield pp
 
     #

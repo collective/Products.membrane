@@ -77,7 +77,7 @@ class TestGroup(BaseFolder):
         mbtool = getToolByName(self, TOOLNAME)
         mems = mbtool.unrestrictedSearchResults(
             object_implements=(
-                user_ifaces.IMembraneUserAuthAvail.__identifier__),
+                user_ifaces.IMembraneUserAuth.__identifier__),
             path='/'.join(self.getPhysicalPath()))
         for m in mems:
             mem_dict[m.getUserId] = 1
@@ -90,7 +90,7 @@ class TestGroup(BaseFolder):
         catalog = getToolByName(self, TOOLNAME)
         results = catalog(
             object_implements=(
-            user_ifaces.IMembraneUserAuthAvail.__identifier__))
+            user_ifaces.IMembraneUserAuth.__identifier__))
 
         value = []
         for r in results:
@@ -209,6 +209,11 @@ class TestPropertyProvider(BaseContent):
     security = ClassSecurityInfo()
     implements(IPropertiesProvider)
 
+    def getUserName(self):
+        # We must implement IMembraneUserObject. We cheat a bit and do not
+        # provide the right login.
+        return None
+
 registerType(TestPropertyProvider, PROJECTNAME)
 
 
@@ -221,6 +226,11 @@ class TestAlternatePropertyProvider(BaseContent):
     _at_rename_after_creation = True
     security = ClassSecurityInfo()
     implements(ISchemataPropertiesProvider)
+
+    def getUserName(self):
+        # We must implement IMembraneUserObject. We cheat a bit and do not
+        # provide the right login.
+        return None
 
     def getUserPropertySchemata(self):
         return ('userinfo',)
