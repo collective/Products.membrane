@@ -15,7 +15,6 @@ from Products.PluggableAuthService.tests.conformance \
 from Products.membrane.tests.utils import sortTuple
 from Products.membrane.interfaces import IMembraneUserAuth
 from Products.membrane.interfaces import IMembraneUserManagement
-from Products.membrane.config import TOOLNAME
 from Products.membrane.plugins.usermanager import MembraneUserManager
 from Products.membrane.tests import base
 
@@ -178,11 +177,8 @@ class TestMembraneUserManagerAuthentication(base.MembraneUserTestCase):
         self.failUnlessEqual(authcred(credentials), right)
 
     def testAuthenticateActiveStatesOnly(self):
-        mbtool = getattr(self.portal, TOOLNAME)
-        wftool = getattr(self.portal, 'portal_workflow')
         authcred = self.portal.acl_users.pmm.authenticateCredentials
         credentials = {'login': 'testuser', 'password': 'testpassword'}
-        mem_state = wftool.getInfoFor(self.member, 'review_state')
         right = (IMembraneUserAuth(self.member).getUserId(),
                  self.member.getUserName())
         self.failUnlessEqual(authcred(credentials), right)

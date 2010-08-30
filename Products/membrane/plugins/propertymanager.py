@@ -8,8 +8,6 @@ from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 
 from zope.interface import implements
 
-from Products.CMFCore.utils import getToolByName
-
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from Products.PluggableAuthService.interfaces.plugins \
     import IPropertiesPlugin
@@ -19,7 +17,6 @@ from Products.PluggableAuthService.interfaces.propertysheets \
 from Products.PlonePAS.interfaces.plugins import IMutablePropertiesPlugin
 from Products.PlonePAS.sheet import MutablePropertySheet
 from Products.membrane.interfaces import user as user_ifaces
-from Products.membrane.config import TOOLNAME
 from Products.membrane.utils import findMembraneUserAspect
 
 manage_addMembranePropertyManagerForm = PageTemplateFile(
