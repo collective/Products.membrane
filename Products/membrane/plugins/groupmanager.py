@@ -177,7 +177,6 @@ class MembraneGroupManager(BasePlugin, Cacheable):
 
     def getGroupMembers(self, group_id):
         groupmembers = {}
-        mbtool = getToolByName(self, TOOLNAME)
         groups = findMembraneUserAspect(self, group_ifaces.IGroupAvail,
                                         exact_getGroupId=group_id)
         for group in groups:
