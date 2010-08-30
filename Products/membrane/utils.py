@@ -46,7 +46,9 @@ def getCurrentUserAdder(context):
         except StopIteration:
             adder = None
 
-    return aq_base(adder).__of__(context)
+    if adder is not None:
+        adder = aq_base(adder).__of__(context)
+    return adder
 
 
 def findMembraneUserAspect(context, iface, **query):
