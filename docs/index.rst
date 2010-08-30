@@ -1,8 +1,8 @@
 .. _index:
 
-***********************************************
-:py::mod:`Products.membrane` - Content as users
-***********************************************
+**********************************************
+:py:mod:`Products.membrane` - Content as users
+**********************************************
 
 :Version: |version|
 
@@ -38,6 +38,13 @@ policy, or more exotic setups in corporate intranets. This means that to get
 the default Plone behaviour you will need something else in addition to
 membrane.
 
+Contents
+========
+
+.. toctree::
+
+   content
+   faq
 
 Change History
 ==============
