@@ -46,17 +46,32 @@ def getCurrentUserAdder(context):
         except StopIteration:
             adder = None
 
-    return aq_base(adder).__of__(context)
+    if adder is not None:
+        adder = aq_base(adder).__of__(context)
+    return adder
 
 
 def findMembraneUserAspect(context, iface, **query):
-    return filter(None, [
-        iface.getTaggedValue('interface')(
-            brain._unrestrictedGetObject(), None)
+    """Return all instances of a *membrane aspect* for objects matching
+    the given catalog query.
+
+    To get the content objects instead of the interface implementation
+    use :py:func:`findImplementations` instead.
+    """
+    return filter(None, 
+        [iface(brain._unrestrictedGetObject(), None)
         for brain in findImplementations(context, iface, **query)])
 
 
 def findImplementations(context, iface, **query):
+    """Return a list of all objects that can provide, either directly or via
+    an adapter, a given membrane interface. This requires that the interfaces
+    have :py:obj:`IMembraneQueryableInterface` providing utilities. This is
+    true for all standard membrane interfaces.
+
+    Use :py:func:`findMembraneUserAspect` if you want to get the object that
+    implements the interface (which can be an adapter).
+    """
     return getToolByName(
         context, TOOLNAME).unrestrictedSearchResults(
             object_implements=iface.__identifier__, **query)

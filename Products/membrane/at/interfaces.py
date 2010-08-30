@@ -15,9 +15,7 @@ from Products.Archetypes.interfaces import IReferenceable
 from Products.membrane.interfaces import user as user_ifaces
 
 
-class IUserAuthProvider(IReferenceable,
-                        user_ifaces.IMembraneUserObjectAvail,
-                        user_ifaces.IMembraneUserAuthAvail):
+class IUserAuthProvider(IReferenceable):
     """
     Marks the object as a Membrane user authentication provider. Objects must
     also provide or adapt to IUserAuthentication to perform the actual
@@ -42,8 +40,7 @@ class IUserAuthentication(Interface):
         """
 
 
-class IPropertiesProvider(IReferenceable, IBaseObject,
-                          user_ifaces.IMembraneUserPropertiesAvail):
+class IPropertiesProvider(IReferenceable, IBaseObject):
     """
     Marks the object as a Membrane properties provider using the
     default properties computation mechanism defined in the Properties
@@ -51,9 +48,7 @@ class IPropertiesProvider(IReferenceable, IBaseObject,
     """
 
 
-class ISchemataPropertiesProvider(
-    IReferenceable, IBaseObject,
-    user_ifaces.IMembraneUserPropertiesAvail):
+class ISchemataPropertiesProvider(IReferenceable, IBaseObject):
     """
     Marks the object as a Membrane properties provider using the
     SchemataProperties adapter instead of the default Properties
@@ -79,8 +74,7 @@ class IUserRoles(Interface):
         """
 
 
-class IRolesProvider(Interface,
-                     user_ifaces.IMembraneUserRolesAvail):
+class IRolesProvider(Interface):
     """
     Marks the object as a Membrane roles provider using the default
     roles computation mechanism defined in the Roles adapter. Objects
@@ -96,16 +90,14 @@ class IGroupAwareRolesProvider(IRolesProvider):
     """
 
 
-class IGroupsProvider(IReferenceable,
-                     user_ifaces.IMembraneUserGroupsAvail):
+class IGroupsProvider(IReferenceable,):
     """
     Marks the object as a Membrane groups provider using the default
     group computation mechanism defined in the Groups adapter.
     """
 
 
-class ISelectedGroupsProvider(IReferenceable,
-                              user_ifaces.IMembraneUserGroupsAvail):
+class ISelectedGroupsProvider(IReferenceable):
     """
     Use SelectedGroups adapter instead of the default Groups
     adapter when adapting to IGroupsPlugin.
@@ -117,8 +109,7 @@ class ISelectedGroupsProvider(IReferenceable,
         """
 
 
-class IUserChanger(IReferenceable,
-                   user_ifaces.IMembraneUserChangerAvail):
+class IUserChanger(IReferenceable):
     """
     Change the password for a user
     """
@@ -126,8 +117,7 @@ class IUserChanger(IReferenceable,
         """change the password for a user"""
 
 
-class IUserDeleter(IReferenceable,
-                   user_ifaces.IMembraneUserDeleterAvail):
+class IUserDeleter(IReferenceable):
     """
     delete a user
     """

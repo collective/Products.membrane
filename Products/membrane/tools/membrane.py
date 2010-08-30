@@ -122,7 +122,7 @@ class MembraneTool(BaseTool):
             return None
 
         query["object_implements"
-              ] = user_ifaces.IMembraneUserObjectAvail.__identifier__
+              ] = user_ifaces.IMembraneUserAuth.__identifier__
         uSR = self.unrestrictedSearchResults
         members = uSR(**query)
 
@@ -174,7 +174,7 @@ class MembraneTool(BaseTool):
         uSR = self.unrestrictedSearchResults
         query = {'getUserId': userid,
                  'object_implements':
-                 user_ifaces.IMembraneUserAuthAvail.__identifier__}
+                 user_ifaces.IMembraneUserAuth.__identifier__}
         members = uSR(**query)
         # filter out inadvertent ZCTextIndex matches by only keeping
         # records with the same number of characters

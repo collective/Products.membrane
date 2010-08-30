@@ -54,25 +54,11 @@ class IMembraneUserObject(Interface):
         """
 
 
-class IMembraneUserObjectAvail(Interface):
-    """A membrane content object that provides or can be adapted to
-    IMembraneUserObject"""
-
-IMembraneUserObjectAvail.setTaggedValue(
-    'interface', IMembraneUserObject)
-
 
 class IMembraneUserAuth(IMembraneUserObject, IAuthenticationPlugin):
     """
     Used for objects that can handle user authentication.
     """
-
-
-class IMembraneUserAuthAvail(Interface):
-    """A membrane content object that provides or can be adapted to
-    IMembraneUserAuth"""
-
-IMembraneUserAuthAvail.setTaggedValue('interface', IMembraneUserAuth)
 
 
 class IMembraneUserProperties(IMembraneUserObject, IMutablePropertiesPlugin):
@@ -81,13 +67,6 @@ class IMembraneUserProperties(IMembraneUserObject, IMutablePropertiesPlugin):
     """
 
 
-class IMembraneUserPropertiesAvail(Interface):
-    """A membrane content object that provides or can be adapted to
-    IMembraneUserProperties"""
-
-IMembraneUserPropertiesAvail.setTaggedValue(
-    'interface', IMembraneUserProperties)
-
 
 class IMembraneUserGroups(IMembraneUserObject, IGroupsPlugin):
     """
@@ -95,26 +74,11 @@ class IMembraneUserGroups(IMembraneUserObject, IGroupsPlugin):
     """
 
 
-class IMembraneUserGroupsAvail(Interface):
-    """A membrane content object that provides or can be adapted to
-    IMembraneUserGroups"""
-
-IMembraneUserGroupsAvail.setTaggedValue(
-    'interface', IMembraneUserGroups)
-
 
 class IMembraneUserRoles(IMembraneUserObject, IRolesPlugin):
     """
     Used for objects that can provide user roles.
     """
-
-
-class IMembraneUserRolesAvail(Interface):
-    """A membrane content object that provides or can be adapted to
-    IMembraneUserRoles"""
-
-IMembraneUserRolesAvail.setTaggedValue(
-    'interface', IMembraneUserRoles)
 
 
 class IMembraneUserManagement(IMembraneUserObject, IUserManagement):
@@ -131,13 +95,6 @@ class IMembraneUserChanger(IMembraneUserObject):
         """change the password for a given user"""
 
 
-class IMembraneUserChangerAvail(Interface):
-    """A membrane content object that provides or can be adapted to
-    IMembraneUserChanger"""
-
-IMembraneUserChangerAvail.setTaggedValue(
-    'interface', IMembraneUserChanger)
-
 
 class IMembraneUserDeleter(IMembraneUserObject):
     """
@@ -146,10 +103,3 @@ class IMembraneUserDeleter(IMembraneUserObject):
     def doDeleteUser(login):
         """remove the user with the id login"""
 
-
-class IMembraneUserDeleterAvail(Interface):
-    """A membrane content object that provides or can be adapted to
-    IMembraneUserDeleter"""
-
-IMembraneUserDeleterAvail.setTaggedValue(
-    'interface', IMembraneUserDeleter)

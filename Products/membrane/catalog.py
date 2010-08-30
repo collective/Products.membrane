@@ -19,12 +19,15 @@ if USE_COLLECTIVE_INDEXING:
 
 @indexer(Interface, membrane_tool.IMembraneTool)
 def object_implements(obj):
+    """Catalog indexer which returns a list of all interfaces implementing
+    :py:obj:`IMembraneQueryableInterface`. This boils down to the list of
+    supported membrane behaviours for an object..
+    """
     return tuple(
         id_ for id_, iface in
         component.getUtilitiesFor(
             membrane_tool.IMembraneQueryableInterface)
-        if iface.getTaggedValue('interface').providedBy(obj)
-        or iface.providedBy(obj))
+        if iface(obj, None) is not None) 
 
 
 @indexer(Interface, membrane_tool.IMembraneTool)
@@ -63,8 +66,8 @@ class MembraneCatalogProcessor(object):
     """Catalog processor to update user objects in the membrane tool.
 
     This index queue processor acts as a utility that is used by
-    `collective.indexing`_. It makes sure all catalog operations
-    on objects providing `IMembraneUserObject` are also reflected
+    `collective.indexing`_. It makes sure all catalog operations on objects
+    providing :py:obj:`IMembraneUserObject` are also reflected
     in the `membrane_tool` catalog.
     """
     if USE_COLLECTIVE_INDEXING:

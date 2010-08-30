@@ -50,7 +50,7 @@ class MembraneRoleManager(BasePlugin, Cacheable):
     def getRolesForPrincipal(self, principal, request=None):
         roles = {}
         providers = findMembraneUserAspect(
-            self, user_ifaces.IMembraneUserRolesAvail,
+            self, user_ifaces.IMembraneUserRoles,
             exact_getUserId=principal.getId())
         for provider in providers:
             roles.update(dict.fromkeys(

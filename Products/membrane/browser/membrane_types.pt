@@ -14,7 +14,7 @@
     <input type="hidden" name="submitted" value="1" />
 
     <h4>Membrane types:</h4>
-    <select name="membrane_types:list" multiple size="10"
+    <select name="membrane_types:list" multiple="multiple" size="10"
             tal:define="membrane_types here/listMembraneTypes">
       <option tal:repeat="portal_type here/portal_types/listContentTypes"
               tal:attributes="selected python:portal_type in membrane_types"

@@ -8,8 +8,6 @@ from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 
 from zope.interface import implements
 
-from Products.CMFCore.utils import getToolByName
-
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from Products.PluggableAuthService.interfaces.plugins \
     import IPropertiesPlugin
@@ -19,7 +17,6 @@ from Products.PluggableAuthService.interfaces.propertysheets \
 from Products.PlonePAS.interfaces.plugins import IMutablePropertiesPlugin
 from Products.PlonePAS.sheet import MutablePropertySheet
 from Products.membrane.interfaces import user as user_ifaces
-from Products.membrane.config import TOOLNAME
 from Products.membrane.utils import findMembraneUserAspect
 
 manage_addMembranePropertyManagerForm = PageTemplateFile(
@@ -65,7 +62,7 @@ class MembranePropertyManager(BasePlugin, Cacheable):
             query = dict(exact_getGroupId=user.getId())
 
         for pp in findMembraneUserAspect(
-            self, user_ifaces.IMembraneUserPropertiesAvail, **query):
+            self, user_ifaces.IMembraneUserProperties, **query):
             yield pp
 
     #
@@ -78,7 +75,6 @@ class MembranePropertyManager(BasePlugin, Cacheable):
         and delegate to them.
         """
         properties = {}
-        mbtool = getToolByName(self, TOOLNAME)
 
         prop_providers = self._getPropertyProviders(user)
         for mem_props in prop_providers:

@@ -175,7 +175,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
                 query['sort_on'] = 'getUserId'
 
         query['object_implements'
-              ] = user_ifaces.IMembraneUserObjectAvail.__identifier__
+              ] = user_ifaces.IMembraneUserObject.__identifier__
 
         members = mbtool.unrestrictedSearchResults(**query)
 
@@ -209,7 +209,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
         Return a list of user ids
         """
         users = findImplementations(
-            self, user_ifaces.IMembraneUserObjectAvail)
+            self, user_ifaces.IMembraneUserObject)
         return tuple([u.getUserId for u in users])
     security.declarePrivate('getUserIds')
 
@@ -218,7 +218,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
         Return a list of usernames
         """
         users = findImplementations(
-            self, user_ifaces.IMembraneUserObjectAvail)
+            self, user_ifaces.IMembraneUserObject)
         return tuple([u.getUserName for u in users])
     security.declarePrivate('getUserNames')
 
@@ -238,7 +238,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
     #
     def doChangeUser(self, login, password, **kwargs):
         changers = findMembraneUserAspect(
-            self, user_ifaces.IMembraneUserChangerAvail, getUserName=login)
+            self, user_ifaces.IMembraneUserChanger, getUserName=login)
         if changers:
             changers[0].doChangeUser(login, password, **kwargs)
         else:
@@ -248,7 +248,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
 
     def doDeleteUser(self, login):
         deleters = findMembraneUserAspect(
-            self, user_ifaces.IMembraneUserDeleterAvail, getUserName=login)
+            self, user_ifaces.IMembraneUserDeleter, getUserName=login)
         if deleters:
             deleters[0].doDeleteUser(login)
         else:
@@ -266,7 +266,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
             adder.addUser(login, password)
             return True
         else:
-            raise NotImplemented("IUserAdder utility not available")
+            return False
 
     def allowPasswordSet(self, login):
         """
@@ -274,7 +274,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
         We can verify this by checking if we can adapt to an IUserChanger
         """
         changers = findMembraneUserAspect(
-            self, user_ifaces.IMembraneUserChangerAvail, getUserName=login)
+            self, user_ifaces.IMembraneUserChanger, getUserName=login)
         return bool(changers)
 
     def allowDeletePrincipal(self, login):
@@ -283,7 +283,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
         to an IMembraneUserDeleter
         """
         deleters = findMembraneUserAspect(
-            self, user_ifaces.IMembraneUserDeleterAvail, getUserName=login)
+            self, user_ifaces.IMembraneUserDeleter, getUserName=login)
         return bool(deleters)
 
 InitializeClass(MembraneUserManager)

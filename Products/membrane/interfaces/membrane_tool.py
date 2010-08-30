@@ -19,9 +19,11 @@ class IMembraneTool(Interface):
                                     'or not auth provider lookup should be '
                                     'case sensitive.')
 
+# XXX membrane type logic should be ripped out - the membrane interfaces
+# can be checked directly.
     def registerMembraneType(portal_type):
-        """Register a member type,
-        by manipulating AT catalog multiplex registry"""
+        """Register a member type, by manipulating AT catalog multiplex
+        registry"""
 
     def unregisterMembraneType(portal_type):
         """Unregister a member type,
@@ -42,6 +44,8 @@ class IMembraneTool(Interface):
         casing of the same userid.  Facilitates consistent behaviour
         in sites that allow case-insensitive logins.
         """
+        # XXX: user ids are essentialy binary strings, so this does not
+        # make any sense. Should this be related to login names??
 
 
 class IMembraneQueryableInterface(iinterfaces.IInterface):

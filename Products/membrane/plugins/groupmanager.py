@@ -72,7 +72,7 @@ class MembraneGroupManager(BasePlugin, Cacheable):
     def getGroupsForPrincipal(self, principal, request=None):
         groups = {}
         providers = findMembraneUserAspect(
-            self, user_ifaces.IMembraneUserGroupsAvail,
+            self, user_ifaces.IMembraneUserGroups,
             exact_getUserId=principal.getId())
         for provider in providers:
             pgroups = dict.fromkeys(provider.getGroupsForPrincipal(principal))
@@ -125,7 +125,7 @@ class MembraneGroupManager(BasePlugin, Cacheable):
                 query['sort_on'] = 'getGroupId'
 
         query['object_implements'
-              ] = group_ifaces.IGroupAvail.__identifier__
+              ] = group_ifaces.IGroup.__identifier__
 
         groups = mbtool.unrestrictedSearchResults(**query)
 
@@ -172,13 +172,12 @@ class MembraneGroupManager(BasePlugin, Cacheable):
     def getGroupIds(self):
         mbtool = getToolByName(self, TOOLNAME)
         groups = mbtool.unrestrictedSearchResults(
-            object_implements=group_ifaces.IGroupAvail.__identifier__)
+            object_implements=group_ifaces.IGroup.__identifier__)
         return tuple([g.getGroupId for g in groups])
 
     def getGroupMembers(self, group_id):
         groupmembers = {}
-        mbtool = getToolByName(self, TOOLNAME)
-        groups = findMembraneUserAspect(self, group_ifaces.IGroupAvail,
+        groups = findMembraneUserAspect(self, group_ifaces.IGroup,
                                         exact_getGroupId=group_id)
         for group in groups:
             groupmembers.update(dict.fromkeys(group.getGroupMembers()))
