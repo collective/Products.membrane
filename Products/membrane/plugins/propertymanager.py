@@ -78,7 +78,6 @@ class MembranePropertyManager(BasePlugin, Cacheable):
         and delegate to them.
         """
         properties = {}
-        mbtool = getToolByName(self, TOOLNAME)
 
         prop_providers = self._getPropertyProviders(user)
         for mem_props in prop_providers:
