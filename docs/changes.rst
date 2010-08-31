@@ -4,6 +4,12 @@ Changelog
 2.0b1 Unreleased
 ----------------
 
+- ...
+
+
+2.0b1, August 31, 2010
+----------------------
+
 - Apply the collective.indexing profile when it is available.
   [maurits]
 
