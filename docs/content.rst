@@ -9,23 +9,24 @@ your content is adaptable to one of the membrane interfaces. You can either
 make your content type implement the interfaces directly, or register separate
 adapters.
 
-Base adapter
-------------
+Basic user
+----------
 
-All adapters must implement the :py:obj:`IMembraneUserObject` interface. This interface
-specifies methods to get the userid and login name for a user object. Membrane needs
-this to be able to identify the relevant user.
+To expose a content object as a user you must implement the
+:py:obj:`IMembraneUserObject` interface. This is a very minimal interface
+which membrane users to find the userid and the login name for a user.
+This is a minimal implementation:
 
-.. code-black:: python
+.. code-block:: python
 
    from plone.dexterity.content import Item
    from Products.membrane.interfaces import IMembraneUserAuth
    from plone.uuid.interfaces import IUUID
 
-   class MyUser(Item):
+   class MyContent(Item):
        pass
 
-   class BaseUserObject(object):
+   class MyContentUer(object):
        def __init__(self, context):
            self.context=context
 
@@ -37,6 +38,15 @@ this to be able to identify the relevant user.
 
 .. autointerface:: IMembraneUserObject
 
+.. note::
+
+   If you use adapters to implement the membrane interfaces, and you also
+   implement one of the other membrane interfaces you do not need to register
+   the IMembraneUserObject adapter separately since all other interfaces are
+   derived from it. It is recommended to use a MyContentUser-like class as base
+   class for all adapters to make sure the getUserId() and getUserName()
+   implemenations are not duplicated.
+
 
 Authentication
 ---------------
@@ -46,18 +56,23 @@ to your user content type. This is handled through the :py:obj:`IMembraneUserAut
 interface. Below is an example for a very basic authentication handler which users
 a plaintext password attribute. This uses the `BaseUserObject` class shown above.
 
-.. code-black:: python
+The example below demonstrates a very simple authentication adapter. It uses
+the MyContentUser class shown earlier, and uses `five.grok
+<http://pypi.python.org/pypi/five.grok>`_ to create the adapter so you do not
+need to write any ZCML.
+
+.. code-block:: python
 
    from plone.dexterity.content import Item
    from five import grok
    from Products.membrane.interfaces import IMembraneUserAuth
    from plone.uuid.interfaces import IUUID
 
-   class MyUser(Item):
+   class MyContent(Item):
        pass
 
-   class MyUserAuthentication(grok.Adapter, BaseUserObject):
-       grok.context(MyUser)
+   class MyUserAuthentication(grok.Adapter, MyContentUser):
+       grok.context(Content)
        grok.implements(IMembraneUserAuth)
 
        def authenticateCredentials(self, credentials):
