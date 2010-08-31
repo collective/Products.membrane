@@ -52,7 +52,7 @@ Change History
 .. toctree::
   :maxdepth: 2
 
-  CHANGES
+  changes
 
 
 Indices and tables

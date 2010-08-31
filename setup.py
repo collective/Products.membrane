@@ -4,7 +4,7 @@ import  os.path
 version = "2.0"
 
 readme = open('README.txt').read()
-history = open(os.path.join('docs', 'HISTORY.txt')).read()
+history = open(os.path.join('docs', 'changes.rst')).read()
 
 setup(name="Products.membrane",
       version=version,

@@ -1,8 +1,7 @@
 Changelog
 =========
 
-
-1.1b6 Unreleased
+2.0b1 Unreleased
 ----------------
 
 - Apply the collective.indexing profile when it is available.
