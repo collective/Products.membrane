@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.0b1 Unreleased
-----------------
+2.0 Unreleased
+--------------
 
 - ...
 
