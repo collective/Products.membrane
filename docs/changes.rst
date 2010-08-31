@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.0b1 Unreleased
-----------------
+2.0b1, August 31, 2010
+----------------------
 
 - Apply the collective.indexing profile when it is available.
   [maurits]
@@ -69,16 +69,16 @@ Changelog
 .. _plone.indexer: http://pypi.python.org/pypi/plone.indexer
 
 
-1.1b5 Released March 23, 2009
------------------------------
+1.1b5, March 23, 2009
+----------------------
 
 - Fix git based release problem, now using setuptools-git
   [hannosch]
 
 
 
-1.1b4 Released March 20, 2009
------------------------------
+1.1b4, March 20, 2009
+---------------------
 
 - Tested with Plone 3.0-3.2 [rossp]
 
@@ -103,8 +103,8 @@ Changelog
   [rafrombrc]
 
 
-1.1b3 Released July 23, 2008
-----------------------------
+1.1b3, July 23, 2008
+--------------------
 
 - Fix issue with retrieving unnamed user adders.
   [witsch]
@@ -115,8 +115,8 @@ Changelog
   [witsch]
 
 
-1.1b2 Released July 22, 2008
-----------------------------
+1.1b2, July 22, 2008
+--------------------
 
 - Add a counter to the membrane tool which can be used as a cache key as
   well as a convenience helper for quickly memoizing adapters and tools.
@@ -126,8 +126,8 @@ Changelog
   [mj]
 
 
-1.1b1 Released May 22, 2008
----------------------------
+1.1b1, May 22, 2008
+-------------------
 
 - Initial egg release.
   [rafrombrc]
