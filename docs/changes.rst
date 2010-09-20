@@ -4,6 +4,12 @@ Changelog
 2.0 Unreleased
 --------------
 
+- ...
+
+
+2.0b1, September 20, 2010
+-------------------------
+
 - Fix username/userid error in the PAS users plugin: doChangeUser takes a
   userid as parameter, not a username.
   [wichert]
