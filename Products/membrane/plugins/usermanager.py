@@ -220,15 +220,15 @@ class MembraneUserManager(BasePlugin, Cacheable):
     # IUserManagement implementation
     # (including IMembraneUserChanger implementation)
     #
-    def doChangeUser(self, login, password, **kwargs):
+    def doChangeUser(self, user_id, password, **kwargs):
         changers = findMembraneUserAspect(
-            self, user_ifaces.IMembraneUserChanger, getUserName=login)
+            self, user_ifaces.IMembraneUserChanger, getUserId=user_id)
         if changers:
-            changers[0].doChangeUser(login, password, **kwargs)
+            changers[0].doChangeUser(user_id, password, **kwargs)
         else:
             raise RuntimeError(
-                'No IMembraneUserChanger adapter found for user: %s'
-                % login)
+                'No IMembraneUserChanger adapter found for user id: %s'
+                % user_id)
 
     def doDeleteUser(self, login):
         deleters = findMembraneUserAspect(
