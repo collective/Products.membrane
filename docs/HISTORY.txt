@@ -4,6 +4,8 @@ Changelog for Products.membrane
 
 Products.membrane - 1.1 Unreleased
 
+    - Uninstall method [elro]
+
     - Fix Plone version requirement
 
 Products.membrane - 1.1b5 Released March 23, 2009
