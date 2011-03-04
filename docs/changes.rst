@@ -4,7 +4,8 @@ Changelog
 2.0 Unreleased
 --------------
 
-- ...
+- Add an upgrade step to migrate from membrane 1.1 releases.
+  [cah190]
 
 
 2.0b1, September 20, 2010
