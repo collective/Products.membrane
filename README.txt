@@ -38,7 +38,7 @@ membrane.
 Requirements
 ============
 
-- Plone 3.2
+- Plone 3.3 or better
 
 
 WARNING!!
