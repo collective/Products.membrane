@@ -4,6 +4,11 @@ Changelog
 2.0.1, Unreleased
 -----------------
 
+- Add an upgrade step to handle cases where meta_type for the SearchableText
+  step has been rewritten to "Broken Because Product is Gone" which would cause
+  the 2.0 upgrade step to not migrate the index.
+  [cah190]
+
 2.0, March 9, 2011
 ------------------
 
@@ -11,7 +16,7 @@ Changelog
   [cah190]
 
 
-2.0b1, September 20, 2010
+2.0b2, September 20, 2010
 -------------------------
 
 - Fix username/userid error in the PAS users plugin: doChangeUser takes a

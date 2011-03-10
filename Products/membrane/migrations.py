@@ -1,9 +1,14 @@
 from Products.CMFCore.utils import getToolByName
 
-def from_1_1_to_2_0(context):
-    setup_tool = getToolByName(context, 'portal_setup')
-    membrane_tool = getToolByName(context, 'membrane_tool')
+def _upgradeSearchableTextIndex(context, setup_tool, membrane_tool):
+    # delete the old index, import membranetool so it will be recreated, then reindex it
+    membrane_tool.delIndex('SearchableText')
+    setup_tool.runImportStepFromProfile('profile-Products.membrane:default', 'membranetool')
+    membrane_tool.reindexIndex('SearchableText', None)
 
+def from_1_1_to_2_0(context):
+    membrane_tool = getToolByName(context, 'membrane_tool')
+    setup_tool = getToolByName(context, 'portal_setup')
     registry = setup_tool.getImportStepRegistry()
 
     # remove membrane-sitemanager import step
@@ -12,7 +17,13 @@ def from_1_1_to_2_0(context):
         
     # if SearchableText is still a TextIndex, we need to drop the index, import the correct index, then reindex
     if 'SearchableText' in membrane_tool.Indexes and membrane_tool.Indexes['SearchableText'].meta_type == 'TextIndex':
-        membrane_tool.delIndex('SearchableText')
-        setup_tool.runImportStepFromProfile('profile-Products.membrane:default', 'membranetool')
-        membrane_tool.reindexIndex('SearchableText', None)
+        _upgradeSearchableTextIndex(context, setup_tool, membrane_tool)
+
+def from_2_0_to_2_0_1(context):
+    membrane_tool = getToolByName(context, 'membrane_tool')
+    setup_tool = getToolByName(context, 'portal_setup')
+
+    # in newer Plones the meta_type is rewritten to "Broken Because Product is Gone" so we test and upgrade the index, if necessary
+    if 'SearchableText' in membrane_tool.Indexes and membrane_tool.Indexes['SearchableText'].meta_type == 'Broken Because Product is Gone':
+        _upgradeSearchableTextIndex(context, setup_tool, membrane_tool)
 
