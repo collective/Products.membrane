@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.0.1, Unreleased
------------------
+2.0.1, March 11, 2011
+---------------------
 
 - Add an upgrade step to handle cases where meta_type for the SearchableText
   step has been rewritten to "Broken Because Product is Gone" which would cause
