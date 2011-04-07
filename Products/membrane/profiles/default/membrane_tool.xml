@@ -22,13 +22,13 @@
   <index name="exact_getUserName" meta_type="FieldIndex">
     <indexed_attr value="getUserName"/>
   </index>
-  
+
   <index name="getUserId" meta_type="ZCTextIndex">
     <indexed_attr value="getUserId"/>
     <extra name="index_type" value="Cosine Measure"/>
     <extra name="lexicon_id" value="lexicon"/>
   </index>
-  
+
   <index name="exact_getUserId" meta_type="FieldIndex">
     <indexed_attr value="getUserId"/>
   </index>
@@ -38,7 +38,7 @@
     <extra name="index_type" value="Cosine Measure"/>
     <extra name="lexicon_id" value="lexicon"/>
   </index>
-  
+
   <index name="exact_getGroupId" meta_type="FieldIndex">
     <indexed_attr value="getGroupId"/>
   </index>

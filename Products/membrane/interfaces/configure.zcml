@@ -1,36 +1,36 @@
 <configure
    xmlns="http://namespaces.zope.org/zope"
    i18n_domain="membrane">
-      
-    <interface 
+
+    <interface
       interface=".group.IGroup"
       type=".membrane_tool.IMembraneQueryableInterface" />
-      
-    <interface 
+
+    <interface
       interface=".user.IMembraneUserObject"
       type=".membrane_tool.IMembraneQueryableInterface" />
-      
-    <interface 
+
+    <interface
       interface=".user.IMembraneUserAuth"
       type=".membrane_tool.IMembraneQueryableInterface" />
-      
-    <interface 
+
+    <interface
       interface=".user.IMembraneUserProperties"
       type=".membrane_tool.IMembraneQueryableInterface" />
-      
-    <interface 
+
+    <interface
       interface=".user.IMembraneUserGroups"
       type=".membrane_tool.IMembraneQueryableInterface" />
-      
-    <interface 
+
+    <interface
       interface=".user.IMembraneUserRoles"
       type=".membrane_tool.IMembraneQueryableInterface" />
-      
-    <interface 
+
+    <interface
       interface=".user.IMembraneUserChanger"
       type=".membrane_tool.IMembraneQueryableInterface" />
-      
-    <interface 
+
+    <interface
       interface=".user.IMembraneUserDeleter"
       type=".membrane_tool.IMembraneQueryableInterface" />
 

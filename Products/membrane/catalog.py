@@ -27,7 +27,7 @@ def object_implements(obj):
         id_ for id_, iface in
         component.getUtilitiesFor(
             membrane_tool.IMembraneQueryableInterface)
-        if iface(obj, None) is not None) 
+        if iface(obj, None) is not None)
 
 
 @indexer(Interface, membrane_tool.IMembraneTool)

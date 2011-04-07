@@ -52,14 +52,14 @@
      provides="Products.GenericSetup.interfaces.IFilesystemImporter"
      for="Products.membrane.interfaces.IMembraneUserManagerPlugin"
      />
-     
+
   <!-- Membrane User Factory -->
   <adapter
      factory="Products.PluggableAuthService.plugins.exportimport.TitleOnlyExportImport"
      provides="Products.GenericSetup.interfaces.IFilesystemExporter"
      for="Products.membrane.interfaces.IMembraneUserFactoryPlugin"
      />
-     
+
   <adapter
      factory="Products.PluggableAuthService.plugins.exportimport.TitleOnlyExportImport"
      provides="Products.GenericSetup.interfaces.IFilesystemImporter"

@@ -58,7 +58,7 @@ def findMembraneUserAspect(context, iface, **query):
     To get the content objects instead of the interface implementation
     use :py:func:`findImplementations` instead.
     """
-    return filter(None, 
+    return filter(None,
         [iface(brain._unrestrictedGetObject(), None)
         for brain in findImplementations(context, iface, **query)])
 
