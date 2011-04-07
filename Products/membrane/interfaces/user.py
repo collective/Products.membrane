@@ -5,7 +5,7 @@ Content interfaces
 The interfaces in this module define the various aspects a content object
 must implement to be usable by membrane as a user or a group. The interfaces
 are  based on the standard `PluggableAuthService` interfaces. This means that
-the user will often be passed in as a parameter, even though the it is already
+the user will often be passed in as a parameter, even though it is already
 called on the user object.
 
 Content objects may either implement these interfaces directly, or be adaptable
@@ -37,7 +37,7 @@ class IMembraneUserObject(Interface):
     determine the unique user that the object is related to.
 
     This is the base interface that all objects that want to provide a user via
-    membrane much implement or be adaptable to.
+    membrane must implement or be adaptable to.
     """
 
     def getUserId():
@@ -50,9 +50,8 @@ class IMembraneUserObject(Interface):
     def getUserName():
         """
         Return the name used for login. This can be the same as the userid,
-        but might also be something different such as the users email address.
+        but might also be something different such as the user's email address.
         """
-
 
 
 class IMembraneUserAuth(IMembraneUserObject, IAuthenticationPlugin):
@@ -67,12 +66,10 @@ class IMembraneUserProperties(IMembraneUserObject, IMutablePropertiesPlugin):
     """
 
 
-
 class IMembraneUserGroups(IMembraneUserObject, IGroupsPlugin):
     """
     Used for objects that can provide user groups.
     """
-
 
 
 class IMembraneUserRoles(IMembraneUserObject, IRolesPlugin):
@@ -95,11 +92,9 @@ class IMembraneUserChanger(IMembraneUserObject):
         """change the password for a given user"""
 
 
-
 class IMembraneUserDeleter(IMembraneUserObject):
     """
     Used to delete member objects
     """
     def doDeleteUser(login):
         """remove the user with the id login"""
-

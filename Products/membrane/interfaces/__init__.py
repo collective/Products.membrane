@@ -42,7 +42,7 @@ for iface in [
     IUserAuthProvider, IUserAuthentication, IPropertiesProvider,
     ISchemataPropertiesProvider, IGroupsProvider, IUserRoles,
     IRolesProvider, IGroupAwareRolesProvider, ISelectedGroupsProvider,
-    IUserChanger, IUserDeleter ]:
+    IUserChanger, IUserDeleter]:
     deprecated(iface.__name__,
                "Please import AT support interfaces from "
                "Products.membrane.at.interfaces")

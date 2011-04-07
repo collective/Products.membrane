@@ -26,4 +26,3 @@ class IGroup(Interface):
         """
         return the roles that group members should gain
         """
-
