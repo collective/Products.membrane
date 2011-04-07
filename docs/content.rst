@@ -14,7 +14,7 @@ Basic user
 
 To expose a content object as a user you must implement the
 :py:obj:`IMembraneUserObject` interface. This is a very minimal interface
-which membrane users to find the userid and the login name for a user.
+which membrane uses to find the userid and the login name for a user.
 This is a minimal implementation:
 
 .. code-block:: python
@@ -26,7 +26,7 @@ This is a minimal implementation:
    class MyContent(Item):
        pass
 
-   class MyContentUer(object):
+   class MyContentUser(object):
        def __init__(self, context):
            self.context=context
 
@@ -45,7 +45,7 @@ This is a minimal implementation:
    the IMembraneUserObject adapter separately since all other interfaces are
    derived from it. It is recommended to use a MyContentUser-like class as base
    class for all adapters to make sure the getUserId() and getUserName()
-   implemenations are not duplicated.
+   implementations are not duplicated.
 
 
 Authentication
@@ -53,8 +53,8 @@ Authentication
 
 If you want a user to be able to login in a site you must add authentication support
 to your user content type. This is handled through the :py:obj:`IMembraneUserAuth`
-interface. Below is an example for a very basic authentication handler which users
-a plaintext password attribute. This uses the `BaseUserObject` class shown above.
+interface. Below is an example for a very basic authentication handler which uses
+a plaintext password attribute.
 
 The example below demonstrates a very simple authentication adapter. It uses
 the MyContentUser class shown earlier, and uses `five.grok
