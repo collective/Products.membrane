@@ -5,10 +5,7 @@ from Testing import ZopeTestCase
 from Products.Five import zcml
 from Products.Five import fiveconfigure
 
-from Products.GenericSetup import EXTENSION, profile_registry
-
 from Products.CMFPlone.utils import _createObjectByType
-from Products.CMFPlone.interfaces import IPloneSiteRoot
 
 from Products.PloneTestCase.setup import _placefulSetUp
 from Products.PloneTestCase import layer
@@ -49,14 +46,6 @@ except ImportError:
 from Products.membrane.tests import dummy
 from Products.membrane.config import TOOLNAME
 
-profile_registry.registerProfile('test',
-                                 'membrane',
-                                 'Testing extension profile for membrane',
-                                 'profiles/test',
-                                 'membrane',
-                                 EXTENSION,
-                                 for_=IPloneSiteRoot)
-
 
 def addUser(obj, username='testuser', title='full name'):
     member = _createObjectByType('TestMember', obj, username)
@@ -86,7 +75,7 @@ class MembraneProfilesLayer(SiteLayer):
 
         ZopeTestCase.installPackage('collective.indexing')
         setupPloneSite(extension_profiles=('Products.membrane:default',
-                                           'membrane:test'))
+                                           'Products.membrane.tests:test'))
         SiteLayer.setUp()
         portal = cls.getPortal()
         mbtool = getattr(portal, TOOLNAME)

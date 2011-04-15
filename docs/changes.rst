@@ -4,6 +4,11 @@ Changelog
 2.0.2, Unreleased
 -----------------
 
+- Changed the test setup so the tests also work on Plone 4.1, next to
+  Plone 4.0 and 3.3.
+  [maurits]
+
+
 2.0.1, March 11, 2011
 ---------------------
 
@@ -11,6 +16,7 @@ Changelog
   step has been rewritten to "Broken Because Product is Gone" which would cause
   the 2.0 upgrade step to not migrate the index.
   [cah190]
+
 
 2.0, March 9, 2011
 ------------------
