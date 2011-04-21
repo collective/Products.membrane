@@ -4,6 +4,13 @@ Changelog
 2.0.2, Unreleased
 -----------------
 
+- In the unindexObject patch when collective.indexing is used, when
+  the object is no membrane object, try to unwrap it, as it may be a
+  PathWrapper around the object, wrapped by collective.indexing.
+  Without this, stale brains may be left in the membrane_tool catalog,
+  at least when using dexterity objects as members.
+  [maurits]
+
 - Changed the test setup so the tests also work on Plone 4.1, next to
   Plone 4.0 and 3.3.
   [maurits]

@@ -89,7 +89,14 @@ class MembraneCatalogProcessor(object):
 
     def unindex(self, obj):
         if IMembraneUserObject(obj, None) is None:
-            return
+            # Could be a PathWrapper object from collective.indexing.
+            try:
+                obj = obj.context
+            except AttributeError:
+                return
+            # Try again with the unwrapped object:
+            if IMembraneUserObject(obj, None) is None:
+                return
         mbtool = getToolByName(obj, 'membrane_tool', None)
         if mbtool is not None:
             mbtool.unindexObject(obj)
