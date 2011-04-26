@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.0.2, Unreleased
------------------
+2.0.2, 26 April, 2011
+---------------------
 
 - In the unindexObject patch when collective.indexing is used, when
   the object is no membrane object, try to unwrap it, as it may be a
