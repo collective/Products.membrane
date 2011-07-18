@@ -1,10 +1,11 @@
 Changelog
 =========
 
-2.0.3, Unreleased
+2.1.0, Unreleased
 -----------------
 
-- Nothing changed yet.
+- Add compatibility with collective.indexing 2.0a1.
+  [hannosch]
 
 
 2.0.2, 26 April, 2011
