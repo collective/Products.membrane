@@ -4,6 +4,11 @@ Changelog
 2.1.0, Unreleased
 -----------------
 
+- Added a normalizerlexicon that does case normalization.
+  getUserId and getUserName are the only places where case sensitivity
+  makes sense in searches. Title and SearchableText needs normalization.
+  [tesdal]
+
 - Fixed a bug where only user objects and not groups would be
   indexed if collective.indexing could be imported.
   Also added a missing check of of portal_type against listMembraneTypes

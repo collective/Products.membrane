@@ -187,23 +187,5 @@ class MembraneTool(BaseTool):
         assert len(members) == 1
         return members[0].getUserId
 
-    def _createTextIndexes(self, item, container):
-        """Create getUserName, getUserId, getGroupId text indexes."""
-
-        self.manage_addProduct['ZCTextIndex'].manage_addLexicon(
-            'lexicon',
-            elements=[
-            Record(group='Case Normalizer', name='Case Normalizer'),
-            Record(group='Stop Words', name=" Don't remove stop words"),
-            Record(group='Word Splitter', name="Unicode Whitespace splitter"),
-            ])
-
-        txt_idxs = ('Title', 'getUserName', 'getUserId', 'getGroupId')
-        for index in txt_idxs:
-            self.manage_addIndex(index,
-                                 'ZCTextIndex',
-                                 Record(lexicon_id='lexicon',
-                                        index_type='Cosine Measure'))
-
 
 InitializeClass(MembraneTool)

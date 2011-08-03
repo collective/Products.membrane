@@ -7,10 +7,16 @@
     <element name="Unicode Whitespace splitter" group="Word Splitter" />
   </object>
 
+  <object name="normalizerlexicon" meta_type="ZCTextIndex Lexicon">
+    <element name="Case Normalizer" group="Case Normalizer" />
+    <!--element name=" Don't remove stop words" group="Stop Words" /-->
+    <element name="Unicode Whitespace splitter" group="Word Splitter" />
+  </object>
+
   <index name="Title" meta_type="ZCTextIndex">
     <indexed_attr value="Title"/>
     <extra name="index_type" value="Cosine Measure"/>
-    <extra name="lexicon_id" value="lexicon"/>
+    <extra name="lexicon_id" value="normalizerlexicon"/>
   </index>
 
   <index name="getUserName" meta_type="ZCTextIndex">
@@ -54,7 +60,7 @@
   <index name="SearchableText" meta_type="ZCTextIndex">
     <indexed_attr value="SearchableText"/>
     <extra name="index_type" value="Okapi BM25 Rank"/>
-    <extra name="lexicon_id" value="lexicon"/>
+    <extra name="lexicon_id" value="normalizerlexicon"/>
   </index>
 
   <index name="created" meta_type="DateIndex">
