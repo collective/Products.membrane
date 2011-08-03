@@ -4,6 +4,12 @@ Changelog
 2.1.0, Unreleased
 -----------------
 
+- Fixed a bug where only user objects and not groups would be
+  indexed if collective.indexing could be imported.
+  Also added a missing check of of portal_type against listMembraneTypes
+  before performing re/un/indexing.
+  [tesdal]
+
 - Add compatibility with collective.indexing 2.0a1.
   [hannosch]
 

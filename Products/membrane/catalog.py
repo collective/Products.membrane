@@ -74,32 +74,36 @@ class MembraneCatalogProcessor(object):
         implements(IIndexQueueProcessor)
 
     def index(self, obj, attributes=[]):
-        if IMembraneUserObject(obj, None) is None:
+        if IMembraneUserObject(obj, None) is None and IGroup(obj, None) is None:
             return
         mbtool = getToolByName(obj, "membrane_tool", None)
         if mbtool is not None:
-            mbtool.indexObject(obj, attributes or [])
+            # Verify that the portal_type is part of the catalog map
+            if getattr(obj, 'portal_type') in mbtool.listMembraneTypes():
+                mbtool.indexObject(obj, attributes or [])
 
     def reindex(self, obj, attributes=[]):
-        if IMembraneUserObject(obj, None) is None:
+        if IMembraneUserObject(obj, None) is None and IGroup(obj, None) is None:
             return
         mbtool = getToolByName(obj, 'membrane_tool', None)
         if mbtool is not None:
-            mbtool.reindexObject(obj, attributes or [])
+            if getattr(obj, 'portal_type') in mbtool.listMembraneTypes():
+                mbtool.reindexObject(obj, attributes or [])
 
     def unindex(self, obj):
-        if IMembraneUserObject(obj, None) is None:
+        if IMembraneUserObject(obj, None) is None and IGroup(obj, None) is None:
             # Could be a PathWrapper object from collective.indexing.
             try:
                 obj = obj.context
             except AttributeError:
                 return
             # Try again with the unwrapped object:
-            if IMembraneUserObject(obj, None) is None:
+            if IMembraneUserObject(obj, None) is None and IGroup(obj, None) is None:
                 return
         mbtool = getToolByName(obj, 'membrane_tool', None)
         if mbtool is not None:
-            mbtool.unindexObject(obj)
+            if getattr(obj, 'portal_type') in mbtool.listMembraneTypes():
+                mbtool.unindexObject(obj)
 
     def begin(self):
         pass
