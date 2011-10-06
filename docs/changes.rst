@@ -4,7 +4,7 @@ Changelog
 2.1.0, Unreleased
 -----------------
 
-- Added a normalizerlexicon that does case normalization.
+- Added a normalizer lexicon that does case normalization.
   getUserId and getUserName are the only places where case sensitivity
   makes sense in searches. Title and SearchableText needs normalization.
   [tesdal]
