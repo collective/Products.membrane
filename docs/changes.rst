@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.1.0, Unreleased
------------------
+2.1.0, 15 November, 2011
+------------------------
 
 - Restored compatibility with collective.indexing 1.8 or earlier.
   [maurits]
