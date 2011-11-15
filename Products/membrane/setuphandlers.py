@@ -11,7 +11,7 @@ from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
 
 from interfaces import IUserAdder
 from config import TOOLNAME
-from config import USE_COLLECTIVE_INDEXING 
+from config import USE_COLLECTIVE_INDEXING
 
 
 def _doRegisterUserAdderUtility(context, step_name, profile_id,
@@ -89,10 +89,10 @@ def setupPlugins(context):
 
     portal = context.getSite()
     out = StringIO()
-    if USE_COLLECTIVE_INDEXING: 
-         setup_tool = getToolByName(portal, 'portal_setup') 
+    if USE_COLLECTIVE_INDEXING:
+         setup_tool = getToolByName(portal, 'portal_setup')
          try:
-             setup_tool.runAllImportStepsFromProfile( 
+             setup_tool.runAllImportStepsFromProfile(
                  'profile-collective.indexing:default')
          except KeyError:
              # collective.indexing 2.0 has no install and needs no install.
