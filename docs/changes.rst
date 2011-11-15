@@ -4,6 +4,9 @@ Changelog
 2.1.0, Unreleased
 -----------------
 
+- Restored compatibility with collective.indexing 1.8 or earlier.
+  [maurits]
+
 - Added a normalizer lexicon that does case normalization.
   getUserId and getUserName are the only places where case sensitivity
   makes sense in searches. Title and SearchableText needs normalization.
