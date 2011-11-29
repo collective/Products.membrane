@@ -162,8 +162,7 @@ class MembraneTool(BaseTool):
 
         member = members[0]._unrestrictedGetObject()
         return member
-    security.declareProtected(permissions.VIEW_PUBLIC_PERMISSION,
-                              'getUserObject')
+    security.declarePrivate('getUserObject')
 
     def getOriginalUserIdCase(self, userid):
         """
