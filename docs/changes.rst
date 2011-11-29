@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.1.1, Unreleased
------------------
+2.1.1, 29 November, 2011
+------------------------
 
 - Made the getUserObject method private for better security.
   Use ``portal_membership.getMemberInfo(user_id)`` when you need something
