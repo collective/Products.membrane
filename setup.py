@@ -29,7 +29,6 @@ setup(name="Products.membrane",
       classifiers=[
         'Environment :: Web Environment',
         'Framework :: Plone',
-        'Framework :: Plone :: 3.2',
         'Framework :: Plone :: 3.3',
         'Framework :: Plone :: 4.0',
         'Framework :: Plone :: 4.1',
