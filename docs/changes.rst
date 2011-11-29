@@ -1,12 +1,19 @@
 Changelog
 =========
 
+2.1.2, Unreleased
+-----------------
+
+- Nothing changed yet.
+
+
 2.1.1, 29 November, 2011
 ------------------------
 
 - Made the getUserObject method private for better security.
   Use ``portal_membership.getMemberInfo(user_id)`` when you need something
   similar in a skin script or template.  Or ``@@pas_member`` on Plone 4.0+.
+  Problem reported by Richard Mitchell, thanks!
   [maurits]
 
 
