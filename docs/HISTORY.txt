@@ -2,6 +2,11 @@ Changelog for Products.membrane
 
     (name of developer listed in brackets)
 
+
+Products.membrane - 1.1.1 (unreleased)
+
+    - Nothing changed yet.
+
 Products.membrane - 1.1 (2011-12-01)
 
     - Made the getUserAuthProvider method private for better security.
