@@ -1,6 +1,6 @@
-Changelog for Membrane
+Old Changelog for Membrane
 
-   (name of developer listed in brackets)
+See docs/HISTORY.txt for the new history.
 
 membrane 1.1
 
