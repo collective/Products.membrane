@@ -4,6 +4,12 @@ Changelog for Products.membrane
 
 Products.membrane - 1.1 Unreleased
 
+    - Made the getUserAuthProvider method private for better security.
+      Use ``portal_membership.getMemberInfo(user_id)`` when you need something
+      similar in a skin script or template.
+      Problem reported by Richard Mitchell, thanks!
+      [maurits]
+
     - Uninstall method [elro]
 
     - Fix Plone version requirement

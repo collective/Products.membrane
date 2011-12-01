@@ -205,8 +205,7 @@ class MembraneTool(BaseTool):
                 mtypes.append(t)
         return mtypes
 
-    security.declareProtected(permissions.VIEW_PUBLIC_PERMISSION,
-                              'getUserAuthProvider')
+    security.declarePrivate('getUserAuthProvider')
     def getUserAuthProvider(self, login, brain=False):
         """
         Return the unique object that is the authentication provider
