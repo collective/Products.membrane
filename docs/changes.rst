@@ -4,7 +4,13 @@ Changelog
 2.1.2, Unreleased
 -----------------
 
-- Nothing changed yet.
+- Fixed problem that occurs after upgrading the SearchableText index
+  of the membrane_tool, which happens after upgrading to membrane 2.0
+  or to Plone 4: the membrane_tool catalog would be empty.  Now we
+  refresh the membrane_tool catalog when we upgrade the index.  If
+  this has already happened to you, it should work to just go to the
+  membrane_tool, then the Advanced tab, and click on 'Update Catalog.'
+  [maurits
 
 
 2.1.1, 29 November, 2011

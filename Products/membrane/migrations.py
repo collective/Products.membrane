@@ -1,13 +1,22 @@
+import logging
+
 from Products.CMFCore.utils import getToolByName
+
+logger = logging.getLogger('Products.membrane')
 
 
 def _upgradeSearchableTextIndex(context, setup_tool, membrane_tool):
-    # delete the old index, import membranetool so it will be
-    # recreated, then reindex it
+    # Delete the old index, import membranetool so it will be
+    # recreated.  Then we should reindex it, but since the import
+    # clears all other indexes as well, we refresh the complete
+    # catalog.  Note that this only updates existing items in the
+    # catalog and does not go hunting for new members.
     membrane_tool.delIndex('SearchableText')
     setup_tool.runImportStepFromProfile('profile-Products.membrane:default',
                                         'membranetool')
-    membrane_tool.reindexIndex('SearchableText', None)
+    #membrane_tool.reindexIndex('SearchableText', None)
+    logger.info("Refreshing membrane_tool catalog...")
+    membrane_tool.refreshCatalog()
 
 
 def from_1_1_to_2_0(context):
