@@ -10,7 +10,7 @@ Changelog
   refresh the membrane_tool catalog when we upgrade the index.  If
   this has already happened to you, it should work to just go to the
   membrane_tool, then the Advanced tab, and click on 'Update Catalog.'
-  [maurits
+  [maurits]
 
 
 2.1.1, 29 November, 2011
