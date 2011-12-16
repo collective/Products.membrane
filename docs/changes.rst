@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.1.2, Unreleased
------------------
+2.1.2 (2011-12-16)
+------------------
 
 - Fixed problem that occurs after upgrading the SearchableText index
   of the membrane_tool, which happens after upgrading to membrane 2.0
