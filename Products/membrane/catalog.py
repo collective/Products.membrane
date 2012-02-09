@@ -2,6 +2,7 @@ from zope.interface import Interface
 from zope.interface import implements
 from zope import component
 
+from Acquisition import aq_base
 from Acquisition import aq_inner
 from Acquisition import aq_parent
 
@@ -91,15 +92,12 @@ class MembraneCatalogProcessor(object):
                 mbtool.reindexObject(obj, attributes or [])
 
     def unindex(self, obj):
-        if IMembraneUserObject(obj, None) is None and IGroup(obj, None) is None:
+        if aq_base(obj).__class__.__name__ == 'PathWrapper':
             # Could be a PathWrapper object from collective.indexing.
-            try:
-                obj = obj.context
-            except AttributeError:
-                return
-            # Try again with the unwrapped object:
-            if IMembraneUserObject(obj, None) is None and IGroup(obj, None) is None:
-                return
+            obj = obj.context
+
+        if IMembraneUserObject(obj, None) is None and IGroup(obj, None) is None:
+            return
         mbtool = getToolByName(obj, 'membrane_tool', None)
         if mbtool is not None:
             if getattr(obj, 'portal_type') in mbtool.listMembraneTypes():
