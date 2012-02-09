@@ -4,7 +4,8 @@ Changelog
 2.1.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Bugfix. The catalog processor called by collective.indexing doesn't unindex users
+  from the membrane_tool. [jcbrand]
 
 
 2.1.2 (2011-12-16)
