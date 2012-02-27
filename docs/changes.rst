@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.3 (unreleased)
+2.1.3 (2012-02-27)
 ------------------
 
 - Bugfix. The catalog processor called by collective.indexing doesn't unindex users
