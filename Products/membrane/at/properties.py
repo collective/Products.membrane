@@ -54,8 +54,9 @@ class Properties(UserRelated):
             user_prop = field.user_property
             prop_name = (isinstance(user_prop, str) and user_prop) or \
                         field.getName()
-            properties[prop_name] = value is not None \
-                                    and value or ''
+            if value is None:
+                value = ''
+            properties[prop_name] = value
         return MutablePropertySheet(self.context.getId(),
                                     **properties)
     security.declarePrivate('getPropertiesForUser')

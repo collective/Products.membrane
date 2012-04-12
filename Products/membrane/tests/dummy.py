@@ -10,6 +10,7 @@ from Products.Archetypes.public import BaseContent
 from Products.Archetypes.public import ReferenceField
 from Products.Archetypes.public import StringField
 from Products.Archetypes.public import LinesField
+from Products.Archetypes.public import BooleanField
 from Products.Archetypes.public import registerType
 from Products.Archetypes.public import DisplayList
 
@@ -125,6 +126,10 @@ user = BaseSchema + Schema((
                accessor='getRoles',
                mutator='setRoles',
                default=('Member',)),
+    BooleanField('editor',
+                 languageIndependent=1,
+                 user_property='ext_editor',
+                 default=False),
     ))
 
 extra = BaseSchema + Schema((

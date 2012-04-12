@@ -101,6 +101,7 @@ class TestMembranePropertyManager(base.MembraneTestCase,
         mtool = self.portal.portal_membership
         member = mtool.getMemberById(userid)
         self.failUnlessEqual(member.getProperty('fullname'), 'full name')
+        self.failUnlessEqual(member.getProperty('ext_editor'), False)
 
     def testGetPropertiesFromExternalProvider(self):
         value = 'foo'
@@ -126,9 +127,11 @@ class TestMembranePropertyManager(base.MembraneTestCase,
         user = self.portal.acl_users.getUserById(userid)
         sheets = user.getOrderedPropertySheets()
         sheets[0].setProperty(user, 'fullname', fullname)
+        sheets[0].setProperty(user, 'ext_editor', True)
         mbtool = getattr(self.portal, TOOLNAME)
         member = mbtool.getUserObject(user.getUserName())
         self.assertEqual(member.Title(), fullname)
+        self.assertEqual(member.getEditor(), True)
 
 
 class TestMembraneSchemataPropertyManager(base.MembraneTestCase,

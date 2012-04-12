@@ -4,7 +4,10 @@ Changelog
 2.1.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- False user property values were being converted to empty strings which would
+  cause the property sheet to treat them as strings and make it impossible to set
+  these properties back to True.
+  [cah190]
 
 
 2.1.3 (2012-02-27)
