@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.4 (unreleased)
+2.1.4 (2012-04-13)
 ------------------
 
 - False user property values were being converted to empty strings which would
