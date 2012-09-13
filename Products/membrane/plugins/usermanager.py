@@ -6,7 +6,6 @@
 
 import copy
 from AccessControl import ClassSecurityInfo
-from AccessControl import SecurityManagement
 from App.class_init import default__class_init__ as InitializeClass
 from OFS.Cache import Cacheable
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
@@ -83,7 +82,6 @@ class MembraneUserManager(BasePlugin, Cacheable):
         auth = user_ifaces.IMembraneUserAuth(member, None)
         if auth is None:
             return None
-
 
         return auth.authenticateCredentials(credentials)
     security.declarePrivate('authenticateCredentials')
