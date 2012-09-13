@@ -4,7 +4,8 @@ Changelog
 2.1.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Moved to github: https://github.com/collective/Products.membrane
+  [maurits]
 
 
 2.1.4 (2012-04-13)
