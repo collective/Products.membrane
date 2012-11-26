@@ -150,6 +150,18 @@ class MembraneUserManager(BasePlugin, Cacheable):
             else:
                 query['getUserId'] = ['%s*' % i for i in id]
 
+        elif keywords.get('fullname'):
+            # Controlpanel searches with keyword argument ``fullname``.
+            # Title is a ZCTextIndex, we don't need to look for exact_match.
+            query['Title'] = keywords['fullname']
+
+        elif keywords.get('email'):
+            # Sharing-Tab searches with keyword argument ``email``.
+            if exact_match:
+                query['exact_getUserName'] = keywords['email']
+            else:
+                query['exact_getUserName'] = '%s*' % keywords['email']
+
         if sort_by is not None:
             if sort_by == 'login':
                 query['sort_on'] = 'getUserName'

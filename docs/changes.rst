@@ -4,7 +4,12 @@ Changelog
 2.1.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add handling of new keyword argument ``fullname`` passed by
+  ``plone.app.controlpanel.usergroups.UsersOverviewControlPanel`` and
+  ``email`` passed by ``plone.app.workflow.browser.sharing.SharingView`` for
+  ``enumerateUsers(...)``. This avoids finding all membrane users on any
+  searchterm in sharing tab or user contorl panel.
+  [saily]
 
 
 2.1.5 (2012-09-13)
@@ -208,7 +213,7 @@ Changelog
 - Distinguish btn substring matches and case-insensitive matches
   for userid and username when supporting case-insensitive logins
   [rafrombrc]
-  
+
 - Only use the membrane user factory plug-in for users for whom
   membrane provides authentication.
   [rafrombrc]
@@ -245,7 +250,7 @@ Changelog
 
 
 - removed deprecation messages in Plone 3.0 (Zope 2.10): Import of
-  zope.app.annotation turned into zope.annotation 
+  zope.app.annotation turned into zope.annotation
   [jensens]
 
 
