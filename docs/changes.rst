@@ -4,6 +4,11 @@ Changelog
 2.1.6 (unreleased)
 ------------------
 
+- Removed ``getUserAuthProvider`` from ``IMembraneTool`` interface.
+  Replaced it with ``getUserObject`` which has been the method to call
+  for a few years.
+  [maurits]
+
 - Add handling of new keyword argument ``fullname`` passed by
   ``plone.app.controlpanel.usergroups.UsersOverviewControlPanel`` and
   ``email`` passed by ``plone.app.workflow.browser.sharing.SharingView`` for

@@ -32,10 +32,10 @@ class IMembraneTool(Interface):
     def listMembraneTypes():
         """Lists all currently registered member types"""
 
-    def getUserAuthProvider(login):
+    def getUserObject(login, user_id, brain):
         """
-        Returns the unique object that is the authentication provider
-        for the provided login.
+        Return the authentication implementation (content item) for a
+        given login or userid.
         """
 
     def getOriginalUserIdCase(userid):

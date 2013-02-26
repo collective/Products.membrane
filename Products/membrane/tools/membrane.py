@@ -102,7 +102,8 @@ class MembraneTool(BaseTool):
 
     def getUserObject(self, login=None, user_id=None, brain=False):
         """
-        Return the authentication implementation for a given login or userid.
+        Return the authentication implementation (content item) for a
+        given login or userid.
         """
         query = {}
         if user_id:
