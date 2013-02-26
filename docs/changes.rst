@@ -10,10 +10,9 @@ Changelog
   [maurits]
 
 - Add handling of new keyword argument ``fullname`` passed by
-  ``plone.app.controlpanel.usergroups.UsersOverviewControlPanel`` and
-  ``email`` passed by ``plone.app.workflow.browser.sharing.SharingView`` for
+  ``plone.app.controlpanel.usergroups.UsersOverviewControlPanel`` for
   ``enumerateUsers(...)``. This avoids finding all membrane users on any
-  searchterm in sharing tab or user contorl panel.
+  searchterm in sharing tab or user control panel.
   [saily]
 
 
