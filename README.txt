@@ -38,7 +38,8 @@ membrane.
 Requirements
 ============
 
-- Plone 3.3 or better
+- Plone 3.3 or better.  Currently tested primarily on Plone 4.2.
+  Works on Plone 4.3 (beta) as well.
 
 
 WARNING!!
