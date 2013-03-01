@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.6 (unreleased)
+2.1.6 (2013-03-01)
 ------------------
 
 - Removed ``getUserAuthProvider`` from ``IMembraneTool`` interface.
