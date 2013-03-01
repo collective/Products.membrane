@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.7 (unreleased)
+2.1.7 (2013-03-01)
 ------------------
 
 - Fixed broken release that was missing README.txt file.
