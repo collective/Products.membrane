@@ -4,7 +4,8 @@ Changelog
 2.1.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fixed broken release that was missing README.txt file.
+  [maurits]
 
 
 2.1.6 (2013-03-01)
