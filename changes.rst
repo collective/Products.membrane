@@ -10,7 +10,10 @@ Changelog
 2.1.8 (2013-03-31)
 ------------------
 
-- Nothing changed yet.
+- Added updateUser and updateEveryLoginName methods.  For the moment
+  they do nothing.  They are needed for compatibility with
+  PluggableAuthService 1.10 and higher.
+  [maurits]
 
 
 2.1.7 (2013-03-01)
