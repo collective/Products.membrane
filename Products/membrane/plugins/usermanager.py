@@ -188,6 +188,26 @@ class MembraneUserManager(BasePlugin, Cacheable):
         return tuple(user_info)
     security.declarePrivate('enumerateUsers')
 
+    def updateUser(self, user_id, login_name):
+        """ Update the login name of the user with id user_id.
+
+        This is a new part of the IUserEnumerationPlugin interface,
+        but not interesting for us.  Actually, it may be interesting,
+        but usually the login name and user id are the same.  An
+        implementation might choose to do this differently.
+        """
+        pass
+
+    def updateEveryLoginName(self, quit_on_first_error=True):
+        """Update login names of all users to their canonical value.
+
+        This is a new part of the IUserEnumerationPlugin interface,
+        but by default we cannot do anything here.  This is up to the
+        member implementation.  If anyone needs some code here, let us
+        know on the mailing list.
+        """
+        pass
+
     #
     #   IUserIntrospection implementation
     #
