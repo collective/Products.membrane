@@ -4,7 +4,9 @@ Changelog
 2.1.9 (unreleased)
 ------------------
 
-- When the enumerateUsers query is empty, do not return any results.
+- When enumerateUsers gets criteria that lead to an empty query, do
+  not return any results.  When no criteria are passed, return all
+  members.
   This refs the discussion at
   https://github.com/collective/Products.membrane/commit/c336a17f926a10ad384ea7b056db8d166a7eea00
   [maurits]

@@ -86,8 +86,10 @@ class TestMembraneUserManagerEnumeration(base.MembraneUserTestCase):
     layer = MembraneUserManagerLayer
 
     def testEnumerateUsersNoArgs(self):
+        # If we do not pass any criteria to enumerateUsers, we get all
+        # users.
         self.failUnlessEqual(
-            len(self.portal.acl_users.pmm.enumerateUsers()), 0)
+            len(self.portal.acl_users.pmm.enumerateUsers()), 1)
 
     def testEnumerateUsersExtraIndexes(self):
         # You can add keyword arguments for known indexes.

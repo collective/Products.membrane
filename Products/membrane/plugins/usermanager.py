@@ -155,13 +155,17 @@ class MembraneUserManager(BasePlugin, Cacheable):
             # Title is a ZCTextIndex, we don't need to look for exact_match.
             query['Title'] = keywords['fullname']
 
-        if not query:
-            # The query is empty.  If we continue, that would lead to
-            # returning all members, which is not what we want here.
+        if not query and (id or login or kw):
+            # The query is empty, even though we did explicitly search
+            # for something.  The most likely cause is specifying a
+            # search term for which we have no index.  If we continue,
+            # that would lead to returning all members, which is not
+            # what we want here.
+            #
             # Note that if in Plone you click 'Show all users' in the
             # users panel, that leads to three queries.  At least one
             # of those will not be empty, so all users will be listed
-            # anyway, which is good.
+            # anyway, which is good in that case.
             return []
         if sort_by is not None:
             if sort_by == 'login':
