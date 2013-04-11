@@ -4,7 +4,10 @@ Changelog
 2.1.9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- When the enumerateUsers query is empty, do not return any results.
+  This refs the discussion at
+  https://github.com/collective/Products.membrane/commit/c336a17f926a10ad384ea7b056db8d166a7eea00
+  [maurits]
 
 
 2.1.8 (2013-03-31)

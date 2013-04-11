@@ -3,6 +3,7 @@
 #
 
 import transaction as txn
+from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import _createObjectByType
 
 from Products.PlonePAS.interfaces.capabilities import IPasswordSetCapability
@@ -86,7 +87,26 @@ class TestMembraneUserManagerEnumeration(base.MembraneUserTestCase):
 
     def testEnumerateUsersNoArgs(self):
         self.failUnlessEqual(
-            len(self.portal.acl_users.pmm.enumerateUsers()), 1)
+            len(self.portal.acl_users.pmm.enumerateUsers()), 0)
+
+    def testEnumerateUsersExtraIndexes(self):
+        # You can add keyword arguments for known indexes.
+        from Products.membrane.config import QIM_ANNOT_KEY
+        from Products.membrane.config import TOOLNAME
+        from persistent.mapping import PersistentMapping
+        from zope.annotation.interfaces import IAnnotations
+        mbtool = getToolByName(self.portal, TOOLNAME)
+        annots = IAnnotations(mbtool)
+        query_index_map = annots.get(QIM_ANNOT_KEY)
+        if query_index_map is None:
+            query_index_map = annots[QIM_ANNOT_KEY] = PersistentMapping()
+        self.assertTrue('Title' in mbtool.indexes())
+        self.assertFalse('title' in query_index_map)
+        self.failUnlessEqual(
+            len(self.portal.acl_users.pmm.enumerateUsers(title='')), 0)
+        query_index_map['title'] = 'Title'
+        self.failUnlessEqual(
+            len(self.portal.acl_users.pmm.enumerateUsers(title='')), 1)
 
     def testEnumerateUsersByLoginNonexisting(self):
         enumusers = self.portal.acl_users.pmm.enumerateUsers
