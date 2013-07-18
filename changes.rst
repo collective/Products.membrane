@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.9 (unreleased)
+2.1.9 (2013-07-18)
 ------------------
 
 - When enumerateUsers gets criteria that lead to an empty query, do
