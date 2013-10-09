@@ -1,4 +1,5 @@
 from Acquisition import aq_base
+from Acquisition.interfaces import IAcquirer
 
 from Products.CMFCore.utils import getToolByName
 
@@ -46,7 +47,7 @@ def getCurrentUserAdder(context):
         except StopIteration:
             adder = None
 
-    if adder is not None:
+    if adder is not None and IAcquirer.providedBy(adder):
         adder = aq_base(adder).__of__(context)
     return adder
 
