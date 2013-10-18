@@ -4,7 +4,8 @@ Changelog
 2.1.10 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix: check if the user adder can be acquired.
+  [gagaro]
 
 
 2.1.9 (2013-07-18)
