@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '2.1.10.dev0'
+version = '2.1.10'
 readme = open('README.txt').read()
 history = open('changes.rst').read()
 

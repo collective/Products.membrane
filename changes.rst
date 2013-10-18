@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.10 (unreleased)
+2.1.10 (2013-10-19)
 -------------------
 
 - Fix: check if the user adder can be acquired.
