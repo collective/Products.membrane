@@ -4,7 +4,9 @@ Changelog
 2.1.11 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix username/userid error in the PAS users plugin: allowPasswordSet and
+  allowDeletePrincipal takes a userid as parameter, not a username.
+  [vincentfretin]
 
 
 2.1.10 (2013-10-19)

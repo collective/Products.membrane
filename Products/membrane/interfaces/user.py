@@ -88,7 +88,7 @@ class IMembraneUserChanger(IMembraneUserObject):
     """
     Provide a method to change a user
     """
-    def doChangeUser(login, password, **kwargs):
+    def doChangeUser(user_id, password, **kwargs):
         """change the password for a given user"""
 
 

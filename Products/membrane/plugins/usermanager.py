@@ -265,7 +265,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
                 'No IMembraneUserChanger adapter found for user id: %s'
                 % user_id)
 
-    def doDeleteUser(self, login):
+    def doDeleteUser(self, login):  # XXX: is it really login, or user_id?
         deleters = findMembraneUserAspect(
             self, user_ifaces.IMembraneUserDeleter, getUserName=login)
         if deleters:
@@ -287,22 +287,22 @@ class MembraneUserManager(BasePlugin, Cacheable):
         else:
             return False
 
-    def allowPasswordSet(self, login):
+    def allowPasswordSet(self, user_id):
         """
         Check if we have access to set the password.
         We can verify this by checking if we can adapt to an IUserChanger
         """
         changers = findMembraneUserAspect(
-            self, user_ifaces.IMembraneUserChanger, getUserName=login)
+            self, user_ifaces.IMembraneUserChanger, getUserId=user_id)
         return bool(changers)
 
-    def allowDeletePrincipal(self, login):
+    def allowDeletePrincipal(self, user_id):
         """
         Check to see if the user can be deleted by trying to adapt
         to an IMembraneUserDeleter
         """
         deleters = findMembraneUserAspect(
-            self, user_ifaces.IMembraneUserDeleter, getUserName=login)
+            self, user_ifaces.IMembraneUserDeleter, getUserId=user_id)
         return bool(deleters)
 
 InitializeClass(MembraneUserManager)
