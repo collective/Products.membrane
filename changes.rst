@@ -4,6 +4,9 @@ Changelog
 2.1.11 (unreleased)
 -------------------
 
+- Recursive group plugin now works with membrane groups.
+  [vincentfretin]
+
 - Fix username/userid error in the PAS users plugin: allowPasswordSet and
   allowDeletePrincipal takes a userid as parameter, not a username.
   [vincentfretin]

@@ -3,6 +3,8 @@ from StringIO import StringIO
 from Products.CMFCore.utils import getToolByName
 
 from Products.PluggableAuthService.interfaces.plugins \
+     import IGroupsPlugin
+from Products.PluggableAuthService.interfaces.plugins \
      import IPropertiesPlugin
 from Products.PluggableAuthService.interfaces.plugins \
      import IUserFactoryPlugin
@@ -45,6 +47,7 @@ def _setupPlugins(portal, out):
     Install and prioritize the membrane PAS plug-ins.
     """
     uf = getToolByName(portal, 'acl_users')
+    plugins = uf.plugins
 
     membrane = uf.manage_addProduct['membrane']
     existing = uf.objectIds()
@@ -58,6 +61,7 @@ def _setupPlugins(portal, out):
         membrane.addMembraneGroupManager('membrane_groups')
         print >> out, "Added Group Manager."
         activatePluginInterfaces(portal, 'membrane_groups', out)
+        plugins.movePluginsUp(IGroupsPlugin, ['membrane_groups'])
 
     if 'membrane_roles' not in existing:
         membrane.addMembraneRoleManager('membrane_roles')
@@ -68,8 +72,6 @@ def _setupPlugins(portal, out):
         membrane.addMembranePropertyManager('membrane_properties')
         print >> out, "Added Property Manager."
         activatePluginInterfaces(portal, 'membrane_properties', out)
-
-        plugins = uf.plugins
         plugins.movePluginsUp(IPropertiesPlugin, ['membrane_properties'])
         plugins.movePluginsUp(IPropertiesPlugin, ['membrane_properties'])
 
@@ -77,8 +79,6 @@ def _setupPlugins(portal, out):
         membrane.addMembraneUserFactory('membrane_user_factory')
         print >> out, "Added User Factory."
         activatePluginInterfaces(portal, 'membrane_user_factory', out)
-
-        plugins = uf.plugins
         plugins.movePluginsUp(IUserFactoryPlugin, ['membrane_user_factory'])
 
 

@@ -74,6 +74,9 @@ class MembraneGroupManager(BasePlugin, Cacheable):
         providers = findMembraneUserAspect(
             self, user_ifaces.IMembraneUserGroups,
             exact_getUserId=principal.getId())
+        providers.extend(findMembraneUserAspect(
+            self, user_ifaces.IMembraneUserGroups,
+            exact_getGroupId=principal.getId()))
         for provider in providers:
             pgroups = dict.fromkeys(provider.getGroupsForPrincipal(principal))
             groups.update(pgroups)
