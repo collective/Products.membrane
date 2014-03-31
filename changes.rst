@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.11 (unreleased)
+2.1.11 (2014-03-31)
 -------------------
 
 - Recursive group plugin now works with membrane groups.
