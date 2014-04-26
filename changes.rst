@@ -4,7 +4,9 @@ Changelog
 2.1.12 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix bug where moving a membrane object did not unindex it from the
+  membrane catalog.
+  [davisagli]
 
 
 2.1.11 (2014-03-31)

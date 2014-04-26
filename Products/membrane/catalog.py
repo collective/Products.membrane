@@ -92,6 +92,7 @@ class MembraneCatalogProcessor(object):
                 mbtool.reindexObject(obj, attributes or [])
 
     def unindex(self, obj):
+        wrapped_obj = obj
         if aq_base(obj).__class__.__name__ == 'PathWrapper':
             # Could be a PathWrapper object from collective.indexing.
             obj = obj.context
@@ -101,7 +102,7 @@ class MembraneCatalogProcessor(object):
         mbtool = getToolByName(obj, 'membrane_tool', None)
         if mbtool is not None:
             if getattr(obj, 'portal_type') in mbtool.listMembraneTypes():
-                mbtool.unindexObject(obj)
+                mbtool.unindexObject(wrapped_obj)
 
     def begin(self):
         pass
