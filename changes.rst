@@ -8,6 +8,9 @@ Changelog
   membrane catalog.
   [davisagli]
 
+- Replaced getUserId for exact_getUserId to avoid weird lookup side effects.
+  [agitator]
+
 
 2.1.11 (2014-03-31)
 -------------------

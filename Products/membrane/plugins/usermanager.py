@@ -257,7 +257,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
     #
     def doChangeUser(self, user_id, password, **kwargs):
         changers = findMembraneUserAspect(
-            self, user_ifaces.IMembraneUserChanger, getUserId=user_id)
+            self, user_ifaces.IMembraneUserChanger, exact_getUserId=user_id)
         if changers:
             changers[0].doChangeUser(user_id, password, **kwargs)
         else:
@@ -293,7 +293,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
         We can verify this by checking if we can adapt to an IUserChanger
         """
         changers = findMembraneUserAspect(
-            self, user_ifaces.IMembraneUserChanger, getUserId=user_id)
+            self, user_ifaces.IMembraneUserChanger, exact_getUserId=user_id)
         return bool(changers)
 
     def allowDeletePrincipal(self, user_id):
@@ -302,7 +302,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
         to an IMembraneUserDeleter
         """
         deleters = findMembraneUserAspect(
-            self, user_ifaces.IMembraneUserDeleter, getUserId=user_id)
+            self, user_ifaces.IMembraneUserDeleter, exact_getUserId=user_id)
         return bool(deleters)
 
 InitializeClass(MembraneUserManager)
