@@ -24,6 +24,9 @@ setup(name="Products.membrane",
           "plone.indexer",
           "Plone >=3.3rc1",
       ],
+      extras_require={
+          'test': ['Products.PloneTestCase'],
+      },
       classifiers=[
           'Environment :: Web Environment',
           'Framework :: Plone',
