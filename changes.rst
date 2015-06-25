@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.12 (unreleased)
+2.1.12 (2015-06-25)
 -------------------
 
 - Allow arbitrary indexes to be passed in to the catalog query in groupmanager.
