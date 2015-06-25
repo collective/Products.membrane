@@ -35,6 +35,9 @@ def wrap(obj):
         def __getattr__(self, name):
             return getattr(aq_inner(self.context), name)
 
+        def getPhysicalPath(self):
+            return self.path
+
     return PathWrapper().__of__(aq_parent(obj))
 
 
