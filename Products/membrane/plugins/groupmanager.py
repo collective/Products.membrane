@@ -6,7 +6,9 @@ from AccessControl import ClassSecurityInfo
 from App.class_init import default__class_init__ as InitializeClass
 from OFS.Cache import Cacheable
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
+from Products.ZCTextIndex.ZCTextIndex import ZCTextIndex
 
+from zope.annotation.interfaces import IAnnotations
 from zope.interface import implements
 
 from Products.CMFCore.utils import getToolByName
@@ -26,6 +28,7 @@ from Products.PluggableAuthService.interfaces.plugins \
 from Products.membrane.interfaces import group as group_ifaces
 from Products.membrane.interfaces import user as user_ifaces
 from Products.membrane.interfaces.plugins import IMembraneGroupManagerPlugin
+from Products.membrane.config import QIM_ANNOT_KEY
 from Products.membrane.config import TOOLNAME
 from Products.membrane.utils import findMembraneUserAspect
 
@@ -120,6 +123,24 @@ class MembraneGroupManager(BasePlugin, Cacheable):
         elif title:
             query['Title'] = exact_match and title or \
                              ['%s*' % t for t in title if t]
+
+        # allow arbitrary indexes to be passed in to the catalog query
+        query_index_map = IAnnotations(mbtool).get(QIM_ANNOT_KEY)
+        if query_index_map is not None:
+            for keyword in kw.keys():
+                if keyword in query_index_map:
+                    index_name = query_index_map[keyword]
+                    search_term = kw[keyword]
+                    if search_term is not None:
+                        if not exact_match:
+                            index = mbtool.Indexes[index_name]
+                            if type(index) == ZCTextIndex:
+                                # split, glob, join
+                                sep = search_term.strip().split()
+                                sep = ["%s*" % val for val in sep]
+                                search_term = ' '.join(sep)
+
+                        query[index_name] = search_term
 
         if sort_by is not None:
             if sort_by == 'title':

@@ -4,6 +4,9 @@ Changelog
 2.1.12 (unreleased)
 -------------------
 
+- Allow arbitrary indexes to be passed in to the catalog query in groupmanager.
+  [cedricmessiant]
+
 - Fix bug where moving a membrane object did not unindex it from the
   membrane catalog.
   [davisagli]
