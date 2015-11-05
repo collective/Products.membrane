@@ -4,7 +4,8 @@ Changelog
 2.1.13 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix broken distribution; README file was renamed and MANIFEST.in was updated.
+  [hvelarde]
 
 
 2.1.12 (2015-06-25)

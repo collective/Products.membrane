@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 version = '2.1.13.dev0'
-readme = open('README.txt').read()
+readme = open('README.rst').read()
 history = open('changes.rst').read()
 
 setup(name="Products.membrane",

@@ -1,4 +1,4 @@
-recursive-include Products *
-recursive-include docs *
-include *txt *rst
 global-exclude *.pyc
+graft docs
+graft Products
+include *.rst
