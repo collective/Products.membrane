@@ -34,14 +34,7 @@ ZopeTestCase.installProduct('membrane')
 
 SiteLayer = layer.PloneSite
 
-try:
-    from Products.PlonePAS.tests.base import (
-        TestCase as PlonePASTestCase)
-    PlonePASTestCase  # pyflakes
-except ImportError:
-    # BBB Plone 3
-    from Products.PlonePAS.tests.PlonePASTestCase import (
-        PlonePASTestCase)
+from Products.PlonePAS.tests.base import TestCase as PlonePASTestCase
 
 from Products.membrane.tests import dummy
 from Products.membrane.config import TOOLNAME
