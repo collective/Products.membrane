@@ -24,7 +24,7 @@ setup(name="Products.membrane",
           "Products.CMFPlone >= 4.3",
       ],
       extras_require={
-          'test': ['Products.PloneTestCase'],
+          'test': ['plone.app.testing'],
       },
       classifiers=[
           'Environment :: Web Environment',

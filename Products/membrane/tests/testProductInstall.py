@@ -8,9 +8,6 @@ import base
 
 class TestProductInstall(base.MembraneTestCase):
 
-    def afterSetUp(self):
-        pass
-
     def testExampleTypesInstall(self):
         setup_tool = self.portal.portal_setup
         setup_tool.runAllImportStepsFromProfile(
@@ -31,10 +28,3 @@ class TestProductInstall(base.MembraneTestCase):
 
     def testSiteManagerInstall(self):
         self.failUnless(ISite.providedBy(self.portal))
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestProductInstall))
-    return suite

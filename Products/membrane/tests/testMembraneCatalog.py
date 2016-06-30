@@ -4,10 +4,9 @@
 
 from Acquisition import aq_inner
 from Acquisition import aq_parent
-
-from Products.membrane.tests import base
-from Products.membrane.config import TOOLNAME
 from Products.membrane.catalog import MembraneCatalogProcessor
+from Products.membrane.config import TOOLNAME
+from Products.membrane.tests import base
 
 
 def wrap(obj):
@@ -43,7 +42,8 @@ def wrap(obj):
 
 class TestMembraneCatalogProcessor(base.MembraneTestCase):
 
-    def afterSetUp(self):
+    def setUp(self):
+        super(TestMembraneCatalogProcessor, self).setUp()
         self.mbtool = getattr(self.portal, TOOLNAME)
 
     def testWrappedObject(self):
@@ -59,10 +59,3 @@ class TestMembraneCatalogProcessor(base.MembraneTestCase):
 
         processor.index(user)
         self.assertEqual(len(mt.searchResults(id='testuser')), 1)
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestMembraneCatalogProcessor))
-    return suite

@@ -19,7 +19,8 @@ class MembraneRoleManagerTestBase:
 class TestMembraneRoleManagerPlugin(base.MembraneTestCase,
                                     MembraneRoleManagerTestBase):
 
-    def afterSetUp(self):
+    def setUp(self):
+        super(TestMembraneRoleManagerPlugin, self).setUp()
         self.addUser(self.portal)
 
     def getUser(self):
@@ -43,10 +44,3 @@ class TestMembraneRoleManagerPlugin(base.MembraneTestCase,
         self.group.addReference(self.member)
         self.group.setRoles((role,))
         self.failUnless(role in self.getUser().getRoles())
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestMembraneRoleManagerPlugin))
-    return suite

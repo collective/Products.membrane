@@ -63,7 +63,8 @@ class Group:
 class TestMembranePropertyManager(base.MembraneTestCase,
                                   MembranePropertyManagerTestBase):
 
-    def afterSetUp(self):
+    def setUp(self):
+        super(TestMembranePropertyManager, self).setUp()
         self.portal.pmm = self._makeOne('pmm')
         self.addUser()
 
@@ -151,7 +152,8 @@ class TestMembraneSchemataPropertyManager(base.MembraneTestCase,
         self.member.setHomePhone('555-1212')
         self.member.reindexObject()
 
-    def afterSetUp(self):
+    def setUp(self):
+        super(TestMembraneSchemataPropertyManager, self).setUp()
         self.portal.pmm = self._makeOne('pmm')
         self.addUser()
 
@@ -209,11 +211,3 @@ class TestMembraneSchemataPropertyManager(base.MembraneTestCase,
         mbtool = getattr(self.portal, TOOLNAME)
         member = mbtool.getUserObject(user.getUserName())
         self.assertEqual(member.getHomePhone(), homePhone)
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestMembranePropertyManager))
-    suite.addTest(makeSuite(TestMembraneSchemataPropertyManager))
-    return suite

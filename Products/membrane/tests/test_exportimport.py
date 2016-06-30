@@ -1,16 +1,15 @@
 """Test the GS export import handlers."""
 
 from Acquisition import aq_base
-from Products.CMFCore.utils import getToolByName
 from base import MembraneTestCase
-from unittest import makeSuite
+from Products.CMFCore.utils import getToolByName
 
 
 class TestMembraneToolExportImport(MembraneTestCase):
     """Test membrane_tool import / export handlers."""
 
-    def afterSetUp(self):
-        super(TestMembraneToolExportImport, self).afterSetUp()
+    def setUp(self):
+        super(TestMembraneToolExportImport, self).setUp()
 
         from Products.PluggableAuthService.interfaces.plugins import \
             IUserAdderPlugin
@@ -29,7 +28,3 @@ class TestMembraneToolExportImport(MembraneTestCase):
         mbtool = getToolByName(self.portal, 'membrane_tool')
         user_adder = getattr(aq_base(mbtool), 'user_adder', None)
         self.assertEqual(user_adder, "membrane_example")
-
-
-def test_suite():
-    return makeSuite(TestMembraneToolExportImport)

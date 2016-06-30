@@ -23,7 +23,8 @@ def resolveInterface(dotted_name):
 
 class TestMembraneTool(base.MembraneTestCase):
 
-    def afterSetUp(self):
+    def setUp(self):
+        super(TestMembraneTool, self).setUp()
         self.mbtool = getattr(self.portal, TOOLNAME)
 
     def testMembraneTypeRegistration(self):
@@ -109,10 +110,3 @@ class TestMembraneTool(base.MembraneTestCase):
         last = membraneCacheKey(method, adapter)
         self.portal.manage_delObjects('testuser2')
         self.failUnless(membraneCacheKey(method, adapter) > last)
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestMembraneTool))
-    return suite
