@@ -10,8 +10,9 @@ from Products.membrane import examples
 from Products.membrane import tests
 from Products.membrane.config import TOOLNAME
 from Products.membrane.tests import dummy
-from Products.PlonePAS.tests.base import TestCase as PlonePASTestCase
 from Products.PloneTestCase import layer
+from Products.PloneTestCase import ptc
+from Products.PloneTestCase.layer import PloneSite
 from Products.PloneTestCase.setup import _placefulSetUp
 from Testing import ZopeTestCase
 
@@ -34,6 +35,26 @@ membrane.initialize = initialize
 ZopeTestCase.installProduct('membrane')
 
 SiteLayer = layer.PloneSite
+
+
+class PlonePASLayer(PloneSite):
+
+    @classmethod
+    def setUp(cls):
+        pass
+
+    @classmethod
+    def tearDown(cls):
+        pass
+
+
+class PlonePASTestCase(ptc.PloneTestCase):
+    '''TestCase for PlonePAS'''
+
+    layer = PlonePASLayer
+
+
+ptc.setupPloneSite()
 
 
 def addUser(obj, username='testuser', title='full name'):
