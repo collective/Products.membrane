@@ -13,7 +13,7 @@ class TestUserAdder(base.MembraneTestCase):
         super(TestUserAdder, self).afterSetUp()
 
         from Products.PluggableAuthService.interfaces.plugins import \
-             IUserAdderPlugin
+            IUserAdderPlugin
 
         setup_tool = self.portal.portal_setup
         setup_tool.runAllImportStepsFromProfile(

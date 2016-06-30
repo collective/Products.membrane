@@ -14,7 +14,7 @@ from zope.interface import implements
 
 manage_addMembraneUserFactoryForm = PageTemplateFile(
     '../www/MembraneUserFactoryForm', globals(),
-    __name__='manage_addMembraneUserFactoryForm' )
+    __name__='manage_addMembraneUserFactoryForm')
 
 
 def addMembraneUserFactory(dispatcher, id, title=None, REQUEST=None):
@@ -25,10 +25,10 @@ def addMembraneUserFactory(dispatcher, id, title=None, REQUEST=None):
 
     if REQUEST is not None:
         REQUEST['RESPONSE'].redirect(
-                                '%s/manage_workspace'
-                                '?manage_tabs_message='
-                                'MembraneUserFactory+added.'
-                            % dispatcher.absolute_url())
+            '%s/manage_workspace'
+            '?manage_tabs_message='
+            'MembraneUserFactory+added.'
+            % dispatcher.absolute_url())
 
 
 class MembraneUserFactory(PloneUserFactory):

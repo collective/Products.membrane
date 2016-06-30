@@ -31,6 +31,7 @@ class MembranePropertyManagerTestBase:
 
 
 class User:
+
     def __init__(self, member):
         self.member = member
 
@@ -45,6 +46,7 @@ class User:
 
 
 class Group:
+
     def __init__(self, group):
         self.group = group
 
@@ -189,7 +191,7 @@ class TestMembraneSchemataPropertyManager(base.MembraneTestCase,
         sheets = user.getOrderedPropertySheets()
         self.failUnless([x.getProperty('extraPropertyFromSchemata')
                          for x in sheets
-                         if x.getProperty('extraPropertyFromSchemata') \
+                         if x.getProperty('extraPropertyFromSchemata')
                          == rightvalue])
 
         mtool = self.portal.portal_membership

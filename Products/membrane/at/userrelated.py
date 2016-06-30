@@ -45,4 +45,3 @@ class UserRelated(object):
         """Return the users login name. This delegates to the generated
         getUserName accessor from Archetypes."""
         return self.context.getUserName()
-

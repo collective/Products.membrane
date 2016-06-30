@@ -50,7 +50,7 @@ class GroupAwareRoles(UserRelated):
             uSR = mbtool.unrestrictedSearchResults
             groups = uSR(exact_getGroupId=group_ids,
                          object_implements=(
-                         group_ifaces.IGroup.__identifier__))
+                             group_ifaces.IGroup.__identifier__))
             for g in groups:
                 group = group_ifaces.IGroup(
                     g._unrestrictedGetObject())

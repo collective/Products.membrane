@@ -21,6 +21,7 @@ from Products.membrane.tests import base
 
 
 class MembraneUserManagerLayer(base.AddUserLayer):
+
     @classmethod
     def setUp(cls):
         portal = cls.getPortal()
@@ -41,6 +42,7 @@ class MembraneUserManagerLayer(base.AddUserLayer):
 
 
 class MembraneUserManagerTwoUsersLayer(MembraneUserManagerLayer):
+
     @classmethod
     def setUp(cls):
         portal = cls.getPortal()
@@ -66,6 +68,7 @@ class MembraneUserManagerTwoUsersLayer(MembraneUserManagerLayer):
 
 
 class MembraneUserManagerTestBase:
+
     def _getTargetClass(self):
         return MembraneUserManager
 
@@ -203,7 +206,7 @@ class TestMembraneUserManagerAuthentication(base.MembraneUserTestCase):
 
     def testLoginCaseSensitive(self):
         member2 = _createObjectByType('TestMember', self.portal,
-                                     'TestUser')  # different case
+                                      'TestUser')  # different case
         member2.setUserName('TestUser')
         member2.setPassword('testpassword2')
         member2.reindexObject()
@@ -219,7 +222,7 @@ class TestMembraneUserManagerAuthentication(base.MembraneUserTestCase):
 
 
 class TestMembraneUserManagerAuthenticationPermissions(
-    base.MembraneUserTestCase):
+        base.MembraneUserTestCase):
     """Check if everything works when the user object is private"""
 
     layer = MembraneUserManagerLayer
@@ -291,7 +294,7 @@ class TestUserManagerIntrospectionTwoUsers(base.MembraneUserTestCase):
         correct = sortTuple(
             (IMembraneUserAuth(self.member).getUserId(),
              IMembraneUserAuth(self.member2).getUserId())
-            )
+        )
         self.failUnlessEqual(userids, correct)
 
     def testGetUsers(self):
@@ -299,7 +302,7 @@ class TestUserManagerIntrospectionTwoUsers(base.MembraneUserTestCase):
         correct = sortTuple(
             (IMembraneUserAuth(self.member).getUserId(),
              IMembraneUserAuth(self.member2).getUserId())
-            )
+        )
         self.failUnlessEqual(userids, correct)
 
 

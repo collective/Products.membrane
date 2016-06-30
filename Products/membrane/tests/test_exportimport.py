@@ -13,7 +13,7 @@ class TestMembraneToolExportImport(MembraneTestCase):
         super(TestMembraneToolExportImport, self).afterSetUp()
 
         from Products.PluggableAuthService.interfaces.plugins import \
-             IUserAdderPlugin
+            IUserAdderPlugin
 
         setup_tool = self.portal.portal_setup
         setup_tool.runAllImportStepsFromProfile(

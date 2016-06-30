@@ -19,7 +19,7 @@ from Products.PluggableAuthService.PluggableAuthService \
     import _SWALLOWABLE_PLUGIN_EXCEPTIONS
 
 from Products.PluggableAuthService.interfaces.plugins \
-     import IGroupEnumerationPlugin
+    import IGroupEnumerationPlugin
 from Products.PluggableAuthService.interfaces.plugins \
     import IPropertiesPlugin
 from Products.PluggableAuthService.interfaces.plugins \
@@ -38,7 +38,7 @@ from Products.PlonePAS.plugins.group import PloneGroup
 
 manage_addMembraneGroupManagerForm = PageTemplateFile(
     '../www/MembraneGroupManagerForm', globals(),
-    __name__='manage_addMembraneGroupManagerForm' )
+    __name__='manage_addMembraneGroupManagerForm')
 
 
 def addMembraneGroupManager(dispatcher, id, title=None, REQUEST=None):
@@ -49,10 +49,10 @@ def addMembraneGroupManager(dispatcher, id, title=None, REQUEST=None):
 
     if REQUEST is not None:
         REQUEST['RESPONSE'].redirect(
-                                '%s/manage_workspace'
-                                '?manage_tabs_message='
-                                'MembraneGroupManager+added.'
-                            % dispatcher.absolute_url())
+            '%s/manage_workspace'
+            '?manage_tabs_message='
+            'MembraneGroupManager+added.'
+            % dispatcher.absolute_url())
 
 
 class MembraneGroupManager(BasePlugin, Cacheable):
@@ -122,7 +122,7 @@ class MembraneGroupManager(BasePlugin, Cacheable):
 
         elif title:
             query['Title'] = exact_match and title or \
-                             ['%s*' % t for t in title if t]
+                ['%s*' % t for t in title if t]
 
         # allow arbitrary indexes to be passed in to the catalog query
         query_index_map = IAnnotations(mbtool).get(QIM_ANNOT_KEY)
@@ -169,7 +169,7 @@ class MembraneGroupManager(BasePlugin, Cacheable):
                     'pluginid': plugin_id,
                     'properties_url': '%s/base_edit' % obj.absolute_url(),
                     'members_url': '%s/base_edit' % obj.absolute_url(),
-                     }
+                    }
 
             group_info.append(info)
 
@@ -225,7 +225,7 @@ class MembraneGroupManager(BasePlugin, Cacheable):
 
         #factories = plugins.listPlugins(IUserFactoryPlugin)
 
-        #for factory_id, factory in factories:
+        # for factory_id, factory in factories:
 
         #    user = factory.createUser(user_id, name)
 
@@ -243,10 +243,8 @@ class MembraneGroupManager(BasePlugin, Cacheable):
         # See if the group can be retrieved from the cache
         view_name = '_findGroup-%s' % group_id
         keywords = {'group_id': group_id, 'title': title}
-        group = self.ZCacheable_get(view_name=view_name
-                                  , keywords=keywords
-                                  , default=None
-                                 )
+        group = self.ZCacheable_get(view_name=view_name, keywords=keywords, default=None
+                                    )
 
         if group is None:
 
@@ -277,16 +275,13 @@ class MembraneGroupManager(BasePlugin, Cacheable):
             # Cache the group if caching is enabled
             base_group = aq_base(group)
             if getattr(base_group, '_p_jar', None) is None:
-                self.ZCacheable_set(base_group
-                                   , view_name=view_name
-                                   , keywords=keywords
-                                  )
+                self.ZCacheable_set(base_group, view_name=view_name, keywords=keywords
+                                    )
 
         return group.__of__(self)
     security.declarePrivate('_findGroup')
 
     def _verifyGroup(self, plugins, group_id=None, title=None):
-
         """ group_id -> boolean
         This method based on PluggableAuthService._verifyUser
         """
@@ -301,10 +296,8 @@ class MembraneGroupManager(BasePlugin, Cacheable):
 
         if criteria:
             view_name = createViewName('_verifyGroup', group_id or title)
-            cached_info = self.ZCacheable_get(view_name=view_name
-                                             , keywords=criteria
-                                             , default=None
-                                            )
+            cached_info = self.ZCacheable_get(view_name=view_name, keywords=criteria, default=None
+                                              )
 
             if cached_info is not None:
                 return cached_info
@@ -318,10 +311,8 @@ class MembraneGroupManager(BasePlugin, Cacheable):
                     if info:
                         id = info[0]['id']
                         # Put the computed value into the cache
-                        self.ZCacheable_set(id
-                                           , view_name=view_name
-                                           , keywords=criteria
-                                           )
+                        self.ZCacheable_set(id, view_name=view_name, keywords=criteria
+                                            )
                         return id
 
                 except _SWALLOWABLE_PLUGIN_EXCEPTIONS:

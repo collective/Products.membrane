@@ -22,15 +22,15 @@ def wrap(obj):
         get the wrapped instance's 'portal_type' attribute.
     """
     class PathWrapper(obj.__class__):
-        portal_type = '' # We explicitly set this class variable here, to test
+        portal_type = ''  # We explicitly set this class variable here, to test
         # for the case where __getattr__ is not invoked and therefore doesn't
         # get the wrapped object's portal_type (which is what's desired).
 
         def __init__(self):
             self.__dict__.update(dict(
-                context = obj,
-                path = obj.getPhysicalPath(),
-                REQUEST = getattr(obj, 'REQUEST', None)))
+                context=obj,
+                path=obj.getPhysicalPath(),
+                REQUEST=getattr(obj, 'REQUEST', None)))
 
         def __getattr__(self, name):
             return getattr(aq_inner(self.context), name)
@@ -53,7 +53,7 @@ class TestMembraneCatalogProcessor(base.MembraneTestCase):
         processor = MembraneCatalogProcessor()
         self.assertEqual(len(mt.searchResults(id='testuser')), 1)
 
-        wrapped_user = wrap(user) # See PathWrapper above
+        wrapped_user = wrap(user)  # See PathWrapper above
         processor.unindex(wrapped_user)
         self.assertEqual(len(mt.searchResults(id='testuser')), 0)
 
@@ -66,4 +66,3 @@ def test_suite():
     suite = TestSuite()
     suite.addTest(makeSuite(TestMembraneCatalogProcessor))
     return suite
-

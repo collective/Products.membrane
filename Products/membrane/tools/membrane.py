@@ -28,6 +28,7 @@ class Record:
     """ A simple helper class for carrying the 'extra'-payload to
     index constructors.
     """
+
     def __init__(self, **kw):
         self.__dict__.update(kw)
 
@@ -50,7 +51,7 @@ class MembraneTool(BaseTool):
     manage_options = (
         {'label': 'Types', 'action': 'manage_membranetypes'},
         {'label': 'Status Map', 'action': 'manage_statusmap'},
-        ) + BaseTool.manage_options
+    ) + BaseTool.manage_options
 
     security = ClassSecurityInfo()
 
@@ -108,13 +109,13 @@ class MembraneTool(BaseTool):
         query = {}
         if user_id:
             if self.case_sensitive_auth and \
-                   ('exact_getUserId' in self._catalog.indexes):
+                    ('exact_getUserId' in self._catalog.indexes):
                 query["exact_getUserId"] = user_id
             else:
                 query["getUserId"] = user_id
         elif login:
             if self.case_sensitive_auth and \
-                   ('exact_getUserName' in self._catalog.indexes):
+                    ('exact_getUserName' in self._catalog.indexes):
                 query["exact_getUserName"] = login
             else:
                 query["getUserName"] = login

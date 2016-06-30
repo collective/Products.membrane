@@ -39,10 +39,10 @@ from Products.membrane.at.interfaces import IUserChanger
 from Products.membrane.at.interfaces import IUserDeleter
 from zope.deprecation import deprecated
 for iface in [
-    IUserAuthProvider, IUserAuthentication, IPropertiesProvider,
-    ISchemataPropertiesProvider, IGroupsProvider, IUserRoles,
-    IRolesProvider, IGroupAwareRolesProvider, ISelectedGroupsProvider,
-    IUserChanger, IUserDeleter]:
+        IUserAuthProvider, IUserAuthentication, IPropertiesProvider,
+        ISchemataPropertiesProvider, IGroupsProvider, IUserRoles,
+        IRolesProvider, IGroupAwareRolesProvider, ISelectedGroupsProvider,
+        IUserChanger, IUserDeleter]:
     deprecated(iface.__name__,
                "Please import AT support interfaces from "
                "Products.membrane.at.interfaces")

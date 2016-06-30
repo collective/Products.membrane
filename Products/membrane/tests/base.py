@@ -53,6 +53,7 @@ def addUser(obj, username='testuser', title='full name'):
 
 
 class MembraneProfilesLayer(SiteLayer):
+
     @classmethod
     def getPortal(cls):
         app = ZopeTestCase.app()
@@ -91,6 +92,7 @@ class MembraneProfilesLayer(SiteLayer):
 
 
 class AddUserLayer(MembraneProfilesLayer):
+
     @classmethod
     def setUp(cls):
         portal = cls.getPortal()
@@ -120,6 +122,7 @@ class MembraneTestCase(PlonePASTestCase):
         layer = MembraneProfilesLayer
 
     class Session(dict):
+
         def set(self, key, value):
             self[key] = value
 

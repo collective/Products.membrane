@@ -14,6 +14,7 @@ class FormControllerView(BrowserView):
     initial prototype that I don't think it should be used by anybody
     else.  Consider yourself warned...  :-)
     """
+
     def __call__(self):
         if not self.request.get('submitted'):
             return self.template()

@@ -5,6 +5,7 @@ from Products.membrane.interfaces import IMembraneUserAuth
 
 class TestMembraneSearch(base.MembraneTestCase,
                          testMembraneUserManager.MembraneUserManagerTestBase):
+
     def afterSetUp(self):
         self.portal.pmm = self._makeOne('pmm')
         self.addUser()

@@ -8,6 +8,7 @@ class MembraneTypeEvent(object):
     """
     Base class for membrane type related events.
     """
+
     def __init__(self, tool, portal_type):
         self.tool = tool
         self.portal_type = portal_type
