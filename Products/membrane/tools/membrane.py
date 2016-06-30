@@ -59,9 +59,14 @@ class MembraneTool(BaseTool):
         ZCatalog.__init__(self, self.getId())
         self.membrane_types = PersistentList()
 
+    def attool(self):
+        if USE_COLLECTIVE_INDEXING:
+            return None
+        return getToolByName(self, 'archetype_tool', None)
+
     def registerMembraneType(self, portal_type):
-        if not USE_COLLECTIVE_INDEXING:
-            attool = getToolByName(self, 'archetype_tool')
+        attool = self.attool()
+        if attool is not None:
             catalogs = [x.getId() for x in
                         attool.getCatalogsByType(portal_type)]
             if TOOLNAME not in catalogs:
@@ -75,8 +80,8 @@ class MembraneTool(BaseTool):
     security.declareProtected(ManagePortal, 'registerMembraneType')
 
     def unregisterMembraneType(self, portal_type):
-        if not USE_COLLECTIVE_INDEXING:
-            attool = getToolByName(self, 'archetype_tool')
+        attool = self.attool()
+        if attool is not None:
             catalogs = [x.getId() for x in
                         attool.getCatalogsByType(portal_type)]
             if TOOLNAME in catalogs:
@@ -88,9 +93,9 @@ class MembraneTool(BaseTool):
     security.declareProtected(ManagePortal, 'unregisterMembraneType')
 
     def listMembraneTypes(self):
-        if not USE_COLLECTIVE_INDEXING:
+        attool = self.attool()
+        if attool is not None:
             mtypes = []
-            attool = getToolByName(self, 'archetype_tool')
             catalog_map = getattr(aq_base(attool), 'catalog_map', {})
             for t, c in catalog_map.items():
                 if self.getId() in c:

@@ -1,3 +1,4 @@
+from pkg_resources import get_distribution
 from plone.app.testing import applyProfile
 from plone.app.testing import login
 from plone.app.testing import logout
@@ -16,6 +17,8 @@ from Products.membrane.tests import dummy
 from zope.configuration import xmlconfig
 
 
+PLONE_VERSION = get_distribution('Products.CMFPlone').version
+MAJOR_PLONE_VERSION = int(PLONE_VERSION[0])
 orig_initialize = membrane.initialize
 
 
@@ -47,10 +50,18 @@ class MembraneProfilesLayer(PloneSandboxLayer):
             context=configurationContext)
         z2.installProduct(app, 'collective.indexing')
         app.REQUEST['SESSION'] = Session()
+        if MAJOR_PLONE_VERSION >= 5:
+            import plone.app.contenttypes
+            self.loadZCML(package=plone.app.contenttypes)
+            import Products.Archetypes
+            self.loadZCML(package=Products.Archetypes)
 
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'Products.membrane:default')
         applyProfile(portal, 'Products.membrane.tests:test')
+        if MAJOR_PLONE_VERSION >= 5:
+            applyProfile(portal, 'plone.app.contenttypes:default')
+            applyProfile(portal, 'Products.Archetypes:Archetypes')
 
         setRoles(portal, TEST_USER_ID, ['Manager'])
         login(portal, TEST_USER_NAME)
@@ -92,6 +103,9 @@ class AddUserLayer(MembraneProfilesLayer):
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'Products.membrane:default')
         applyProfile(portal, 'Products.membrane.tests:test')
+        if MAJOR_PLONE_VERSION >= 5:
+            applyProfile(portal, 'plone.app.contenttypes:default')
+            applyProfile(portal, 'Products.Archetypes:Archetypes')
         setRoles(portal, TEST_USER_ID, ['Manager'])
         login(portal, TEST_USER_NAME)
         addUser(portal)
@@ -103,6 +117,9 @@ class MembraneUserManagerLayer(AddUserLayer):
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'Products.membrane:default')
         applyProfile(portal, 'Products.membrane.tests:test')
+        if MAJOR_PLONE_VERSION >= 5:
+            applyProfile(portal, 'plone.app.contenttypes:default')
+            applyProfile(portal, 'Products.Archetypes:Archetypes')
         setRoles(portal, TEST_USER_ID, ['Manager'])
         login(portal, TEST_USER_NAME)
         addUser(portal)
@@ -116,9 +133,11 @@ class MembraneUserManagerTwoUsersLayer(MembraneUserManagerLayer):
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'Products.membrane:default')
         applyProfile(portal, 'Products.membrane.tests:test')
+        if MAJOR_PLONE_VERSION >= 5:
+            applyProfile(portal, 'plone.app.contenttypes:default')
+            applyProfile(portal, 'Products.Archetypes:Archetypes')
         setRoles(portal, TEST_USER_ID, ['Manager'])
         login(portal, TEST_USER_NAME)
-        addUser(portal)
         from Products.membrane.plugins.usermanager import MembraneUserManager
         portal.acl_users.pmm = MembraneUserManager(id='pmm')
         member = _createObjectByType('TestMember', portal,
