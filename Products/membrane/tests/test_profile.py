@@ -30,8 +30,9 @@ class TestProfile(MembraneTestCase):
             catalog_map['TestMember'] = ('portal_catalog',
                                          'membrane_tool')
         setup_tool = getToolByName(self.portal, 'portal_setup')
-        setup_tool.runImportStepFromProfile('profile-Products.membrane.tests:test',
-                                            'membranetool')
+        setup_tool.runImportStepFromProfile(
+            'profile-Products.membrane.tests:test',
+            'membranetool')
 
 
 def test_suite():

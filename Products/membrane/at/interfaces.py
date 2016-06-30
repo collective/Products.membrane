@@ -12,7 +12,8 @@ from zope.interface import Interface
 from Products.Archetypes.interfaces import IBaseObject
 from Products.Archetypes.interfaces import IReferenceable
 
-from Products.membrane.interfaces import user as user_ifaces
+# Keep this in case third party code imports it:
+from Products.membrane.interfaces import user as user_ifaces  # noqa
 
 
 class IUserAuthProvider(IReferenceable):

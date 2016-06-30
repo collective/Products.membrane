@@ -91,7 +91,8 @@ class TestMembraneTool(base.MembraneTestCase):
         self.failUnless(mt.getCounter() > last)
 
     def testCacheKey(self):
-        method = lambda: 42
+        def method():
+            return 42
 
         class MockAdapter:
             pass

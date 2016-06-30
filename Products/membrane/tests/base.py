@@ -1,23 +1,22 @@
 from AccessControl.SecurityManagement import newSecurityManager
-import transaction as txn
+from Products import membrane
+from Products.CMFPlone.tests.PloneTestCase import portal_name
+from Products.CMFPlone.tests.PloneTestCase import setupPloneSite
+from Products.CMFPlone.tests.PloneTestCase import USELAYER
+from Products.CMFPlone.utils import _createObjectByType
+from Products.Five import fiveconfigure
+from Products.Five import zcml
+from Products.membrane import examples
+from Products.membrane import tests
+from Products.membrane.config import TOOLNAME
+from Products.membrane.tests import dummy
+from Products.PlonePAS.tests.base import TestCase as PlonePASTestCase
+from Products.PloneTestCase import layer
+from Products.PloneTestCase.setup import _placefulSetUp
 from Testing import ZopeTestCase
 
-from Products.Five import zcml
-from Products.Five import fiveconfigure
+import transaction as txn
 
-from Products.CMFPlone.utils import _createObjectByType
-
-from Products.PloneTestCase.setup import _placefulSetUp
-from Products.PloneTestCase import layer
-from Products.CMFPlone.tests.PloneTestCase import (portal_name,
-                                                   USELAYER,
-                                                   setupPloneSite)
-
-# TODO Patch the installation here, should find a better way to do
-# this
-from Products import membrane
-from Products.membrane import tests
-from Products.membrane import examples
 
 orig_initialize = membrane.initialize
 
@@ -27,17 +26,14 @@ def initialize(context):
     examples.initialize(context)
     tests.initialize(context)
 
+# TODO We are patching the installation here, and should find a better way to
+# do this
 membrane.initialize = initialize
 
 # Make the boring stuff load quietly
 ZopeTestCase.installProduct('membrane')
 
 SiteLayer = layer.PloneSite
-
-from Products.PlonePAS.tests.base import TestCase as PlonePASTestCase
-
-from Products.membrane.tests import dummy
-from Products.membrane.config import TOOLNAME
 
 
 def addUser(obj, username='testuser', title='full name'):

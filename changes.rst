@@ -4,6 +4,8 @@ Changelog
 3.0 (unreleased)
 ----------------
 
+- Fixed various pep8 and pyflakes errors and warnings.  [maurits]
+
 - Dropped compatibility with Plone 4.2 and lower.  [maurits]
 
 

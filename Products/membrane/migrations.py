@@ -14,7 +14,7 @@ def _upgradeSearchableTextIndex(context, setup_tool, membrane_tool):
     membrane_tool.delIndex('SearchableText')
     setup_tool.runImportStepFromProfile('profile-Products.membrane:default',
                                         'membranetool')
-    #membrane_tool.reindexIndex('SearchableText', None)
+    # membrane_tool.reindexIndex('SearchableText', None)
     logger.info("Refreshing membrane_tool catalog...")
     membrane_tool.refreshCatalog()
 

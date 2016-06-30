@@ -223,7 +223,7 @@ class MembraneGroupManager(BasePlugin, Cacheable):
         This method based on PluggableAuthervice._createUser
         """
 
-        #factories = plugins.listPlugins(IUserFactoryPlugin)
+        # factories = plugins.listPlugins(IUserFactoryPlugin)
 
         # for factory_id, factory in factories:
 
@@ -243,8 +243,8 @@ class MembraneGroupManager(BasePlugin, Cacheable):
         # See if the group can be retrieved from the cache
         view_name = '_findGroup-%s' % group_id
         keywords = {'group_id': group_id, 'title': title}
-        group = self.ZCacheable_get(view_name=view_name, keywords=keywords, default=None
-                                    )
+        group = self.ZCacheable_get(
+            view_name=view_name, keywords=keywords, default=None)
 
         if group is None:
 
@@ -275,8 +275,8 @@ class MembraneGroupManager(BasePlugin, Cacheable):
             # Cache the group if caching is enabled
             base_group = aq_base(group)
             if getattr(base_group, '_p_jar', None) is None:
-                self.ZCacheable_set(base_group, view_name=view_name, keywords=keywords
-                                    )
+                self.ZCacheable_set(
+                    base_group, view_name=view_name, keywords=keywords)
 
         return group.__of__(self)
     security.declarePrivate('_findGroup')
@@ -296,8 +296,8 @@ class MembraneGroupManager(BasePlugin, Cacheable):
 
         if criteria:
             view_name = createViewName('_verifyGroup', group_id or title)
-            cached_info = self.ZCacheable_get(view_name=view_name, keywords=criteria, default=None
-                                              )
+            cached_info = self.ZCacheable_get(
+                view_name=view_name, keywords=criteria, default=None)
 
             if cached_info is not None:
                 return cached_info
@@ -311,8 +311,8 @@ class MembraneGroupManager(BasePlugin, Cacheable):
                     if info:
                         id = info[0]['id']
                         # Put the computed value into the cache
-                        self.ZCacheable_set(id, view_name=view_name, keywords=criteria
-                                            )
+                        self.ZCacheable_set(
+                            id, view_name=view_name, keywords=criteria)
                         return id
 
                 except _SWALLOWABLE_PLUGIN_EXCEPTIONS:
