@@ -134,7 +134,7 @@ class MembraneGroupManager(BasePlugin, Cacheable):
                     if search_term is not None:
                         if not exact_match:
                             index = mbtool.Indexes[index_name]
-                            if type(index) == ZCTextIndex:
+                            if isinstance(index, ZCTextIndex):
                                 # split, glob, join
                                 sep = search_term.strip().split()
                                 sep = ["%s*" % val for val in sep]

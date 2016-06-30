@@ -75,7 +75,8 @@ class MembraneCatalogProcessor(object):
         implements(IIndexQueueProcessor)
 
     def index(self, obj, attributes=[]):
-        if IMembraneUserObject(obj, None) is None and IGroup(obj, None) is None:
+        if IMembraneUserObject(
+                obj, None) is None and IGroup(obj, None) is None:
             return
         mbtool = getToolByName(obj, "membrane_tool", None)
         if mbtool is not None:
@@ -84,7 +85,8 @@ class MembraneCatalogProcessor(object):
                 mbtool.indexObject(obj, attributes or [])
 
     def reindex(self, obj, attributes=[]):
-        if IMembraneUserObject(obj, None) is None and IGroup(obj, None) is None:
+        if IMembraneUserObject(
+                obj, None) is None and IGroup(obj, None) is None:
             return
         mbtool = getToolByName(obj, 'membrane_tool', None)
         if mbtool is not None:
@@ -97,7 +99,8 @@ class MembraneCatalogProcessor(object):
             # Could be a PathWrapper object from collective.indexing.
             obj = obj.context
 
-        if IMembraneUserObject(obj, None) is None and IGroup(obj, None) is None:
+        if IMembraneUserObject(
+                obj, None) is None and IGroup(obj, None) is None:
             return
         mbtool = getToolByName(obj, 'membrane_tool', None)
         if mbtool is not None:
