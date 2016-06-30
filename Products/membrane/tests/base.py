@@ -12,7 +12,6 @@ from Products.membrane.config import TOOLNAME
 from Products.membrane.tests import dummy
 from Products.PloneTestCase import layer
 from Products.PloneTestCase import ptc
-from Products.PloneTestCase.layer import PloneSite
 from Products.PloneTestCase.setup import _placefulSetUp
 from Testing import ZopeTestCase
 
@@ -35,23 +34,6 @@ membrane.initialize = initialize
 ZopeTestCase.installProduct('membrane')
 
 SiteLayer = layer.PloneSite
-
-
-class PlonePASLayer(PloneSite):
-
-    @classmethod
-    def setUp(cls):
-        pass
-
-    @classmethod
-    def tearDown(cls):
-        pass
-
-
-class PlonePASTestCase(ptc.PloneTestCase):
-    '''TestCase for PlonePAS'''
-
-    layer = PlonePASLayer
 
 
 ptc.setupPloneSite()
@@ -133,7 +115,7 @@ class AddUserLayer(MembraneProfilesLayer):
         pass
 
 
-class MembraneTestCase(PlonePASTestCase):
+class MembraneTestCase(ptc.PloneTestCase):
 
     if USELAYER:
         layer = MembraneProfilesLayer
@@ -144,7 +126,7 @@ class MembraneTestCase(PlonePASTestCase):
             self[key] = value
 
     def _setup(self):
-        PlonePASTestCase._setup(self)
+        ptc.PloneTestCase._setup(self)
         self.app.REQUEST['SESSION'] = self.Session()
 
     def addGroup(self, obj=None):
