@@ -4,6 +4,10 @@ Changelog
 3.0 (unreleased)
 ----------------
 
+- Fixed tests on Plone 5.  Added Travis for continuous integration
+  testing on Plone 4.3 and 5.0.  We only test with Python 2.7.
+  [maurits]
+
 - Ported tests to plone.app.testing.  [maurits]
 
 - Fixed various pep8 and pyflakes errors and warnings.  [maurits]
