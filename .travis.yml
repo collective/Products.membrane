@@ -1,0 +1,19 @@
+language: python
+python: 2.7
+sudo: false
+cache:
+  directories:
+  - eggs
+env:
+  matrix:
+    - PLONE_VERSION=4.3
+    - PLONE_VERSION=5.0
+matrix:
+  fast_finish: true
+install:
+- sed -ie "s#test-4.x#test-$PLONE_VERSION.x#" buildout.cfg
+- python bootstrap.py
+- bin/buildout annotate
+- bin/buildout
+script:
+- bin/test && bin/test-indexing
