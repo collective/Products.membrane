@@ -1,3 +1,4 @@
+from pkg_resources import DistributionNotFound
 from pkg_resources import get_distribution
 from plone.app.testing import applyProfile
 from plone.app.testing import login
@@ -16,6 +17,16 @@ from Products.membrane.config import TOOLNAME
 from Products.membrane.tests import dummy
 from zope.configuration import xmlconfig
 
+try:
+    get_distribution('collective.indexing')
+    HAS_INDEXING = True
+except DistributionNotFound:
+    HAS_INDEXING = False
+try:
+    get_distribution('Products.remember')
+    HAS_REMEMBER = True
+except DistributionNotFound:
+    HAS_REMEMBER = False
 
 PLONE_VERSION = get_distribution('Products.CMFPlone').version
 MAJOR_PLONE_VERSION = int(PLONE_VERSION[0])
@@ -48,11 +59,23 @@ class MembraneProfilesLayer(PloneSandboxLayer):
             'testing.zcml',
             Products.membrane.tests,
             context=configurationContext)
-        z2.installProduct(app, 'collective.indexing')
         app.REQUEST['SESSION'] = Session()
+        if HAS_INDEXING:
+            import collective.indexing
+            z2.installProduct(app, 'collective.indexing')
+            self.loadZCML(package=collective.indexing)
+        if HAS_REMEMBER:
+            # We do not need this ourselves, but it is nice if we can at least
+            # load it without breaking anything.
+            import Products.remember
+            z2.installProduct(app, 'Products.remember')
+            self.loadZCML(package=Products.remember)
         if MAJOR_PLONE_VERSION >= 5:
             import plone.app.contenttypes
             self.loadZCML(package=plone.app.contenttypes)
+            # We need to load Archetypes because our example and test profiles
+            # need this.  We could turn the types into dexterity types and
+            # depend on collective.indexing instead.
             import Products.Archetypes
             self.loadZCML(package=Products.Archetypes)
 
