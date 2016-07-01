@@ -7,6 +7,10 @@
       type=".membrane_tool.IMembraneQueryableInterface" />
 
     <interface
+      interface=".group.IMembraneGroupProperties"
+      type=".membrane_tool.IMembraneQueryableInterface" />
+
+    <interface
       interface=".user.IMembraneUserObject"
       type=".membrane_tool.IMembraneQueryableInterface" />
 

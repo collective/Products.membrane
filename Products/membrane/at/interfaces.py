@@ -41,7 +41,20 @@ class IUserAuthentication(Interface):
         """
 
 
-class IPropertiesProvider(IReferenceable, IBaseObject):
+class IUserPropertiesProvider(IReferenceable, IBaseObject):
+    """
+    Marks the object as a Membrane properties provider using the
+    default properties computation mechanism defined in the Properties
+    adapter (i.e. 'user_property' attribute on the schema fields).
+    """
+
+
+# Until Products.membrane 2.x we only had IPropertiesProvider.
+# For backwards compatibility we keep this name as alias.
+IPropertiesProvider = IUserPropertiesProvider
+
+
+class IGroupPropertiesProvider(IReferenceable, IBaseObject):
     """
     Marks the object as a Membrane properties provider using the
     default properties computation mechanism defined in the Properties

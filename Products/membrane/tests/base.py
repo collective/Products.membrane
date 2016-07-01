@@ -32,7 +32,7 @@ class MembraneTestCase(unittest.TestCase):
         self.userid = self.member.getId()
 
 
-class MembraneUserTestCase(unittest.TestCase):
+class MembraneUserTestCase(MembraneTestCase):
 
     layer = MEMBRANE_ADD_USER_INTEGRATION_TESTING
 

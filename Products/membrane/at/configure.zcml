@@ -12,8 +12,13 @@
            factory=".authentication.Authentication"
            />
 
-  <adapter for=".interfaces.IPropertiesProvider"
+  <adapter for=".interfaces.IUserPropertiesProvider"
            provides="..interfaces.user.IMembraneUserProperties"
+           factory=".properties.Properties"
+           />
+
+  <adapter for=".interfaces.IGroupPropertiesProvider"
+           provides="..interfaces.group.IMembraneGroupProperties"
            factory=".properties.Properties"
            />
 
@@ -53,4 +58,3 @@
 	   />
 
 </configure>
-

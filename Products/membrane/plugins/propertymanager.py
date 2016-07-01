@@ -17,6 +17,7 @@ from Products.PluggableAuthService.interfaces.propertysheets \
 from Products.PlonePAS.interfaces.plugins import IMutablePropertiesPlugin
 from Products.PlonePAS.sheet import MutablePropertySheet
 from Products.membrane.interfaces import user as user_ifaces
+from Products.membrane.interfaces import group as group_ifaces
 from Products.membrane.utils import findMembraneUserAspect
 
 manage_addMembranePropertyManagerForm = PageTemplateFile(
@@ -56,13 +57,15 @@ class MembranePropertyManager(BasePlugin, Cacheable):
 
     def _getPropertyProviders(self, user):
         isGroup = getattr(user, 'isGroup', lambda: None)()
-        if not isGroup:
-            query = dict(exact_getUserId=user.getId())
-        else:
+        if isGroup:
             query = dict(exact_getGroupId=user.getId())
+            iface = group_ifaces.IMembraneGroupProperties
+        else:
+            query = dict(exact_getUserId=user.getId())
+            iface = user_ifaces.IMembraneUserProperties
 
         for pp in findMembraneUserAspect(
-                self, user_ifaces.IMembraneUserProperties, **query):
+                self, iface, **query):
             yield pp
 
     #

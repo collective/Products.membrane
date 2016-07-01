@@ -4,6 +4,14 @@ Changelog
 3.0 (unreleased)
 ----------------
 
+- Split user properties and group properties interface.  A group that
+  implemented IPropertiesProvider would get included when listing
+  members, which led to ``AttributeError: 'NoneType' object has no
+  attribute '__of__'``.  Renamed ``IPropertiesProvider`` to
+  ``IUserPropertiesProvider`` but kept the old name as alias for
+  backwards compatibility.  Added ``IGroupPropertiesProvider``.
+  [maurits]
+
 - Fixed tests on Plone 5.  Added Travis for continuous integration
   testing on Plone 4.3 and 5.0.  We only test with Python 2.7.
   [maurits]

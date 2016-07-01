@@ -56,7 +56,7 @@ def findMembraneUserAspect(context, iface, **query):
     """Return all instances of a *membrane aspect* for objects matching
     the given catalog query.
 
-    To get the content objects instead of the interface implementation
+    To get the brains instead of the interface implementation
     use :py:func:`findImplementations` instead.
     """
     return filter(None,
