@@ -59,7 +59,6 @@ class MembraneProfilesLayer(PloneSandboxLayer):
     def setUpPloneSite(self, portal):
         if MAJOR_PLONE_VERSION >= 5:
             applyProfile(portal, 'plone.app.contenttypes:default')
-            applyProfile(portal, 'Products.Archetypes:Archetypes')
         applyProfile(portal, 'Products.membrane:default')
         applyProfile(portal, 'Products.membrane.tests:test')
         setRoles(portal, TEST_USER_ID, ['Manager'])
@@ -102,7 +101,6 @@ class AddUserLayer(MembraneProfilesLayer):
     def setUpPloneSite(self, portal):
         if MAJOR_PLONE_VERSION >= 5:
             applyProfile(portal, 'plone.app.contenttypes:default')
-            applyProfile(portal, 'Products.Archetypes:Archetypes')
         applyProfile(portal, 'Products.membrane:default')
         applyProfile(portal, 'Products.membrane.tests:test')
         setRoles(portal, TEST_USER_ID, ['Manager'])
@@ -116,7 +114,6 @@ class MembraneUserManagerLayer(AddUserLayer):
     def setUpPloneSite(self, portal):
         if MAJOR_PLONE_VERSION >= 5:
             applyProfile(portal, 'plone.app.contenttypes:default')
-            applyProfile(portal, 'Products.Archetypes:Archetypes')
         applyProfile(portal, 'Products.membrane:default')
         applyProfile(portal, 'Products.membrane.tests:test')
         setRoles(portal, TEST_USER_ID, ['Manager'])
@@ -132,7 +129,6 @@ class MembraneUserManagerTwoUsersLayer(MembraneUserManagerLayer):
     def setUpPloneSite(self, portal):
         if MAJOR_PLONE_VERSION >= 5:
             applyProfile(portal, 'plone.app.contenttypes:default')
-            applyProfile(portal, 'Products.Archetypes:Archetypes')
         applyProfile(portal, 'Products.membrane:default')
         applyProfile(portal, 'Products.membrane.tests:test')
         setRoles(portal, TEST_USER_ID, ['Manager'])
