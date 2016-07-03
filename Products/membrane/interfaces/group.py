@@ -2,6 +2,7 @@
 Group interface
 """
 
+from Products.PlonePAS.interfaces.plugins import IMutablePropertiesPlugin
 from zope.interface import Interface
 
 
@@ -26,3 +27,9 @@ class IGroup(Interface):
         """
         return the roles that group members should gain
         """
+
+
+class IMembraneGroupProperties(IGroup, IMutablePropertiesPlugin):
+    """
+    Used for objects that can provide group properties.
+    """

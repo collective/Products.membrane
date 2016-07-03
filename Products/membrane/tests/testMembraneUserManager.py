@@ -120,6 +120,15 @@ class TestMembraneUserManagerEnumeration(base.MembraneUserTestCase):
         queryMember2 = enumusers(id=member2_id, exact_match=True)[0]
         self.failUnlessEqual(queryMember2['id'], member2.getUserName())
 
+    def test_listMembers(self):
+        memship = self.portal.portal_membership
+        self.assertEqual(len(memship.listMembers()), 2)
+        # A group should not be in the list of members, and should certainly
+        # not break the list of members with:
+        # AttributeError: 'NoneType' object has no attribute '__of__'
+        self.addGroup(self.portal)
+        self.assertEqual(len(memship.listMembers()), 2)
+
 
 class TestMembraneUserManagerAuthentication(base.MembraneUserTestCase):
 

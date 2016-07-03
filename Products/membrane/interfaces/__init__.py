@@ -17,7 +17,8 @@ from Products.membrane.interfaces.plugins import IMembraneRoleManagerPlugin  # n
 from Products.membrane.interfaces.plugins import IMembraneUserManagerPlugin  # noqa
 from Products.membrane.interfaces.plugins import IMembraneUserFactoryPlugin  # noqa
 
-from group import IGroup  # noqa
+from Products.membrane.interfaces.group import IGroup  # noqa
+from Products.membrane.interfaces.group import IMembraneGroupProperties  # noqa
 
 from Products.membrane.at.interfaces import IUserAuthProvider
 from Products.membrane.at.interfaces import IUserAuthentication

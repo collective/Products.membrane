@@ -16,7 +16,8 @@ from Products.Archetypes.public import DisplayList
 
 from Products.membrane.at.interfaces import IUserAuthProvider
 from Products.membrane.at.interfaces import IUserAuthentication
-from Products.membrane.at.interfaces import IPropertiesProvider
+from Products.membrane.at.interfaces import IUserPropertiesProvider
+from Products.membrane.at.interfaces import IGroupPropertiesProvider
 from Products.membrane.at.interfaces import ISchemataPropertiesProvider
 from Products.membrane.at.interfaces import IGroupsProvider
 from Products.membrane.at.interfaces import ISelectedGroupsProvider
@@ -61,7 +62,7 @@ class TestGroup(BaseFolder):
 
     security = ClassSecurityInfo()
 
-    implements(group_ifaces.IGroup, IPropertiesProvider)
+    implements(group_ifaces.IGroup, IGroupPropertiesProvider)
 
     def getGroupName(self):
         return self.getId()
@@ -176,7 +177,7 @@ class BaseMember:
 class TestMember(BaseMember, BaseContent):
     """A member archetype for testing"""
     implements(
-        IUserAuthProvider, IUserAuthentication, IPropertiesProvider,
+        IUserAuthProvider, IUserAuthentication, IUserPropertiesProvider,
         IGroupsProvider, IGroupAwareRolesProvider, IUserRoles,
         user_ifaces.IMembraneUserChanger,
         user_ifaces.IMembraneUserManagement,
@@ -212,7 +213,7 @@ class TestPropertyProvider(BaseContent):
     schema = extra
     _at_rename_after_creation = True
     security = ClassSecurityInfo()
-    implements(IPropertiesProvider)
+    implements(IUserPropertiesProvider)
 
     def getUserName(self):
         # We must implement IMembraneUserObject. We cheat a bit and do not
