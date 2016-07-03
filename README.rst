@@ -38,8 +38,15 @@ membrane.
 Requirements
 ============
 
-- Plone 4.3 or better.  Currently tested primarily on Plone 4.3.
-  Works on Plone 5.0 as well.
+Since version 3.0: Plone 4.3 or 5.0.  We only test with Python 2.7.
+
+If you create a membrane type based on Archetypes, then you must first install Archetypes, then membrane.
+This is needed so new users are properly indexed by the membrane tool.
+The canonical implementation of such a membrane type for Plone is ``Products.remember``.
+Currently the latest version, 1.9.4, does not work on Plone 5.
+
+If you create a membrane type based on dexterity, then you must add ``collective.indexing`` to the eggs of your Plone instance.
+The canonical implementation of such a membrane type for Plone is ``dexterity.membrane``.
 
 
 WARNING!!
