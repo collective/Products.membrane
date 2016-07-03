@@ -2,19 +2,15 @@
 # MembraneTestCase Membrane
 #
 
-import unittest
-
-from Products.membrane.tests import base
 from Products.CMFPlone.utils import _createObjectByType
-
-from Products.PluggableAuthService.tests.conformance \
-    import IGroupsPlugin_conformance
-from Products.PluggableAuthService.tests.conformance \
-    import IGroupEnumerationPlugin_conformance
-
-from Products.membrane.tests.utils import sortTuple
 from Products.membrane.interfaces import IMembraneUserAuth
 from Products.membrane.interfaces import IMembraneUserGroups
+from Products.membrane.tests import base
+from Products.membrane.tests.utils import sortTuple
+from Products.PluggableAuthService.tests.conformance import IGroupEnumerationPlugin_conformance  # noqa
+from Products.PluggableAuthService.tests.conformance import IGroupsPlugin_conformance  # noqa
+
+import unittest
 
 
 class MembraneGroupManagerTestBase:
@@ -53,7 +49,8 @@ class TestMembraneGroupManagerBasics(unittest.TestCase,
 class TestMembraneGroupManager(base.MembraneTestCase,
                                MembraneGroupManagerTestBase):
 
-    def afterSetUp(self):
+    def setUp(self):
+        super(TestMembraneGroupManager, self).setUp()
         self.portal.pmm = self._makeOne('pmm')
         self.createGroupAndUsers()
 
@@ -90,7 +87,8 @@ class TestMembraneGroupManagerSelectedGroups(base.MembraneTestCase,
         self.member.setTitle('full name')
         self.member.reindexObject()
 
-    def afterSetUp(self):
+    def setUp(self):
+        super(TestMembraneGroupManagerSelectedGroups, self).setUp()
         self.portal.pmm = self._makeOne('pmm')
         self.createGroupAndUsers()
 
@@ -117,7 +115,8 @@ class TestMembraneGroupManagerSelectedGroups(base.MembraneTestCase,
 class TestMembraneGroupManagerEnumeration(base.MembraneTestCase,
                                           MembraneGroupManagerTestBase):
 
-    def afterSetUp(self):
+    def setUp(self):
+        super(TestMembraneGroupManagerEnumeration, self).setUp()
         self.portal.pmm = self._makeOne('pmm')
         self.createGroupAndUsers()
 
@@ -193,7 +192,8 @@ class TestMembraneGroupIntrospection(base.MembraneTestCase,
 
     # Test IGroupIntrospection
 
-    def afterSetUp(self):
+    def setUp(self):
+        super(TestMembraneGroupIntrospection, self).setUp()
         self.portal.pmm = self._makeOne('pmm')
 
     def testGetGroupIdsNoGroups(self):
@@ -242,14 +242,3 @@ class TestMembraneGroupIntrospection(base.MembraneTestCase,
         self.failUnless(groups)
         self.failUnlessEqual(len(groups), 1)
         self.failUnlessEqual(groups[0].getId(), self.group.getGroupId())
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestMembraneGroupManagerBasics))
-    suite.addTest(makeSuite(TestMembraneGroupManager))
-    suite.addTest(makeSuite(TestMembraneGroupManagerSelectedGroups))
-    suite.addTest(makeSuite(TestMembraneGroupManagerEnumeration))
-    suite.addTest(makeSuite(TestMembraneGroupIntrospection))
-    return suite

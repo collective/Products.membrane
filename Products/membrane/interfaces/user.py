@@ -14,9 +14,9 @@ to them.
 from zope.interface import Interface
 
 from Products.PluggableAuthService.interfaces.authservice import \
-     IPropertiedUser
+    IPropertiedUser
 from Products.PluggableAuthService.interfaces.plugins import \
-     IAuthenticationPlugin
+    IAuthenticationPlugin
 from Products.PluggableAuthService.interfaces.plugins import IGroupsPlugin
 from Products.PluggableAuthService.interfaces.plugins import IRolesPlugin
 from Products.PlonePAS.interfaces.plugins import IUserManagement

@@ -1,9 +1,6 @@
-#
-# MembraneTestCase Membrane
-#
-
-from Products.membrane.tests import base
+from plone.app.testing import login
 from Products.membrane.plugins.userfactory import MembraneUser
+from Products.membrane.tests import base
 
 
 class MembraneUserFactoryTestBase:
@@ -23,7 +20,8 @@ class MembraneUserFactoryTestBase:
 class TestMembraneUserFactory(base.MembraneTestCase,
                               MembraneUserFactoryTestBase):
 
-    def afterSetUp(self):
+    def setUp(self):
+        super(TestMembraneUserFactory, self).setUp()
         self.portal.pmm = self._makeOne('pmm')
         self.addUser()
 
@@ -39,11 +37,4 @@ class TestMembraneUserFactory(base.MembraneTestCase,
         self.failUnless(isinstance(user, MembraneUser))
 
     def testLogin(self):
-        self.login(self.userid)
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestMembraneUserFactory))
-    return suite
+        login(self.portal, self.userid)

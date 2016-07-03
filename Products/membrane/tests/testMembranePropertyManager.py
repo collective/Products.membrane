@@ -31,6 +31,7 @@ class MembranePropertyManagerTestBase:
 
 
 class User:
+
     def __init__(self, member):
         self.member = member
 
@@ -45,6 +46,7 @@ class User:
 
 
 class Group:
+
     def __init__(self, group):
         self.group = group
 
@@ -61,7 +63,8 @@ class Group:
 class TestMembranePropertyManager(base.MembraneTestCase,
                                   MembranePropertyManagerTestBase):
 
-    def afterSetUp(self):
+    def setUp(self):
+        super(TestMembranePropertyManager, self).setUp()
         self.portal.pmm = self._makeOne('pmm')
         self.addUser()
 
@@ -149,7 +152,8 @@ class TestMembraneSchemataPropertyManager(base.MembraneTestCase,
         self.member.setHomePhone('555-1212')
         self.member.reindexObject()
 
-    def afterSetUp(self):
+    def setUp(self):
+        super(TestMembraneSchemataPropertyManager, self).setUp()
         self.portal.pmm = self._makeOne('pmm')
         self.addUser()
 
@@ -189,7 +193,7 @@ class TestMembraneSchemataPropertyManager(base.MembraneTestCase,
         sheets = user.getOrderedPropertySheets()
         self.failUnless([x.getProperty('extraPropertyFromSchemata')
                          for x in sheets
-                         if x.getProperty('extraPropertyFromSchemata') \
+                         if x.getProperty('extraPropertyFromSchemata')
                          == rightvalue])
 
         mtool = self.portal.portal_membership
@@ -207,11 +211,3 @@ class TestMembraneSchemataPropertyManager(base.MembraneTestCase,
         mbtool = getattr(self.portal, TOOLNAME)
         member = mbtool.getUserObject(user.getUserName())
         self.assertEqual(member.getHomePhone(), homePhone)
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestMembranePropertyManager))
-    suite.addTest(makeSuite(TestMembraneSchemataPropertyManager))
-    return suite

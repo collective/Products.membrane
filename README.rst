@@ -38,8 +38,8 @@ membrane.
 Requirements
 ============
 
-- Plone 3.3 or better.  Currently tested primarily on Plone 4.2.
-  Works on Plone 4.3 (beta) as well.
+- Plone 4.3 or better.  Currently tested primarily on Plone 4.3.
+  Works on Plone 5.0 as well.
 
 
 WARNING!!
@@ -54,4 +54,3 @@ WARNING!!
   interfaces implemented on any membrane related type or object, you
   may need to explicitly reindex the 'object_implements' interface on
   the membrane_tool.
-

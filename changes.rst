@@ -1,10 +1,14 @@
 Changelog
 =========
 
-2.1.14 (unreleased)
--------------------
+3.0 (unreleased)
+----------------
 
-- Nothing changed yet.
+- Ported tests to plone.app.testing.  [maurits]
+
+- Fixed various pep8 and pyflakes errors and warnings.  [maurits]
+
+- Dropped compatibility with Plone 4.2 and lower.  [maurits]
 
 
 2.1.13 (2015-11-05)
@@ -374,4 +378,3 @@ Changelog
   can only do "starts with" searches.  However, that's much better
   than returning () for every call that has "exact_match=False".
   [dpunktnpunkt]
-

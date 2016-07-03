@@ -60,8 +60,8 @@ def findMembraneUserAspect(context, iface, **query):
     use :py:func:`findImplementations` instead.
     """
     return filter(None,
-        [iface(brain._unrestrictedGetObject(), None)
-        for brain in findImplementations(context, iface, **query)])
+                  [iface(brain._unrestrictedGetObject(), None)
+                   for brain in findImplementations(context, iface, **query)])
 
 
 def findImplementations(context, iface, **query):

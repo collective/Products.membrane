@@ -1,10 +1,7 @@
 """Test the generic setup profile."""
 
-from unittest import main, makeSuite
-
-from Products.CMFCore.utils import getToolByName
-
 from base import MembraneTestCase
+from Products.CMFCore.utils import getToolByName
 
 
 class TestProfile(MembraneTestCase):
@@ -30,12 +27,6 @@ class TestProfile(MembraneTestCase):
             catalog_map['TestMember'] = ('portal_catalog',
                                          'membrane_tool')
         setup_tool = getToolByName(self.portal, 'portal_setup')
-        setup_tool.runImportStepFromProfile('profile-Products.membrane.tests:test',
-                                            'membranetool')
-
-
-def test_suite():
-    return makeSuite(TestProfile)
-
-if __name__ == "__main__":
-    main(defaultTest='test_suite')
+        setup_tool.runImportStepFromProfile(
+            'profile-Products.membrane.tests:test',
+            'membranetool')

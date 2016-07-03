@@ -93,7 +93,7 @@ class MembraneToolXMLAdapter(ZCatalogXMLAdapter):
             # catalog map or in the status map
             mtype = str(child.getAttribute('name'))
             if mtype and \
-                   mtype not in self.context.listMembraneTypes():
+                    mtype not in self.context.listMembraneTypes():
                 self.context.registerMembraneType(mtype)
 
     def _initQueryIndexMap(self, node):

@@ -15,7 +15,7 @@ from Products.membrane.utils import findMembraneUserAspect
 
 manage_addMembraneRoleManagerForm = PageTemplateFile(
     '../www/MembraneRoleManagerForm', globals(),
-    __name__='manage_addMembraneRoleManager' )
+    __name__='manage_addMembraneRoleManager')
 
 
 def addMembraneRoleManager(dispatcher, id, title=None, REQUEST=None):
@@ -25,10 +25,10 @@ def addMembraneRoleManager(dispatcher, id, title=None, REQUEST=None):
 
     if REQUEST is not None:
         REQUEST['RESPONSE'].redirect(
-                                '%s/manage_workspace'
-                                '?manage_tabs_message='
-                                'MembraneRoleManager+added.'
-                                % dispatcher.absolute_url())
+            '%s/manage_workspace'
+            '?manage_tabs_message='
+            'MembraneRoleManager+added.'
+            % dispatcher.absolute_url())
 
 
 class MembraneRoleManager(BasePlugin, Cacheable):

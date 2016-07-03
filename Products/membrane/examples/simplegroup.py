@@ -25,8 +25,8 @@ SimpleSchema = BaseSchema + Schema((
         widget=ReferenceWidget(
             label='Group manager',
             description='The manager of this project.'
-            ),
         ),
+    ),
 
     ReferenceField(
         name="members",
@@ -39,8 +39,8 @@ SimpleSchema = BaseSchema + Schema((
             label='Associated group members',
             description='''\
 Members of this group that are really from other groups''',
-            ),
         ),
+    ),
 
     LinesField(
         # not 'roles' b/c 'validate_roles' exists; stoopid Archetypes
@@ -52,9 +52,9 @@ Members of this group that are really from other groups''',
         widget=MultiSelectionWidget(
             label="Roles",
             description="Roles that members of this group should receive.",
-            ),
         ),
-    ))
+    ),
+))
 
 
 class SimpleGroup(BaseFolder):
@@ -84,9 +84,9 @@ class SimpleGroup(BaseFolder):
         mt = getToolByName(self, TOOLNAME)
         usr = mt.unrestrictedSearchResults
         for m in usr(
-            object_implements=(
-                user_ifaces.IMembraneUserAuthAvail.__identifier__),
-            path='/'.join(self.getPhysicalPath())):
+                object_implements=(
+                    user_ifaces.IMembraneUserAuthAvail.__identifier__),
+                path='/'.join(self.getPhysicalPath())):
             members[m.getUserId] = 1
         return tuple(members.keys())
 
@@ -101,7 +101,7 @@ class SimpleGroup(BaseFolder):
         value = []
         for r in results:
             key = r.getUserName is not None and \
-                  r.getUserName.strip() or r.getUserId
+                r.getUserName.strip() or r.getUserId
             value.append((key.lower(), (r.UID, key)))
         value.sort()
         value = [r for throwaway, r in value]

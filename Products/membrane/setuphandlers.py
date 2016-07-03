@@ -3,11 +3,11 @@ from StringIO import StringIO
 from Products.CMFCore.utils import getToolByName
 
 from Products.PluggableAuthService.interfaces.plugins \
-     import IGroupsPlugin
+    import IGroupsPlugin
 from Products.PluggableAuthService.interfaces.plugins \
-     import IPropertiesPlugin
+    import IPropertiesPlugin
 from Products.PluggableAuthService.interfaces.plugins \
-     import IUserFactoryPlugin
+    import IUserFactoryPlugin
 
 from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
 
@@ -24,13 +24,10 @@ def _doRegisterUserAdderUtility(context, step_name, profile_id,
     sm = portal.getSiteManager()
     logger = context.getLogger(step_name)
     if sm.queryUtility(IUserAdder, name=utility_name) is None:
-        try:
-            sm.registerUtility(provided=IUserAdder, component=utility,
-                               name=utility_name)
-        except TypeError:
-            # BBB For Five 1.4 compatibility
-            sm.registerUtility(interface=IUserAdder, utility=utility,
-                               name=utility_name)
+        sm.registerUtility(
+            provided=IUserAdder,
+            component=utility,
+            name=utility_name)
         logger.info("Registered IUserAdder utility: %s" %
                     utility_name)
         mbtool = getToolByName(portal, TOOLNAME)
@@ -90,13 +87,13 @@ def setupPlugins(context):
     portal = context.getSite()
     out = StringIO()
     if USE_COLLECTIVE_INDEXING:
-         setup_tool = getToolByName(portal, 'portal_setup')
-         try:
-             setup_tool.runAllImportStepsFromProfile(
-                 'profile-collective.indexing:default')
-         except KeyError:
-             # collective.indexing 2.0 has no install and needs no install.
-             pass
+        setup_tool = getToolByName(portal, 'portal_setup')
+        try:
+            setup_tool.runAllImportStepsFromProfile(
+                'profile-collective.indexing:default')
+        except KeyError:
+            # collective.indexing 2.0 has no install and needs no install.
+            pass
     _setupPlugins(portal, out)
     logger = context.getLogger("plugins")
     logger.info(out.getvalue())

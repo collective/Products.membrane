@@ -1,5 +1,11 @@
-from Acquisition import aq_parent, aq_inner
+from Acquisition import aq_inner
+from Acquisition import aq_parent
+from plone.app.testing import login
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
 from Products.membrane.utils import getCurrentUserAdder
+
 import base
 
 
@@ -9,11 +15,10 @@ class TestUserAdder(base.MembraneTestCase):
     profile.
     """
 
-    def afterSetUp(self):
-        super(TestUserAdder, self).afterSetUp()
-
+    def setUp(self):
+        super(TestUserAdder, self).setUp()
         from Products.PluggableAuthService.interfaces.plugins import \
-             IUserAdderPlugin
+            IUserAdderPlugin
 
         setup_tool = self.portal.portal_setup
         setup_tool.runAllImportStepsFromProfile(
@@ -25,7 +30,8 @@ class TestUserAdder(base.MembraneTestCase):
         uf = self.portal.acl_users
         userid = 'test_utility'
         pwd = 'secret'
-        self.loginAsPortalOwner()
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        login(self.portal, TEST_USER_NAME)
         uf._doAddUser(userid, pwd, [], [])
         self.failUnless(userid in self.portal.objectIds())
         req = self.portal.REQUEST
@@ -38,10 +44,3 @@ class TestUserAdder(base.MembraneTestCase):
         self.failIf(getattr(aq_inner(adder), 'REQUEST', None) is None)
         # Our parent should be the plugin
         self.failUnless(aq_parent(adder) is plugin)
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestUserAdder))
-    return suite

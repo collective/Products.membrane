@@ -53,7 +53,7 @@ class Properties(UserRelated):
                 value = field.get(self.context)
             user_prop = field.user_property
             prop_name = (isinstance(user_prop, str) and user_prop) or \
-                        field.getName()
+                field.getName()
             if value is None:
                 value = ''
             properties[prop_name] = value
@@ -73,7 +73,7 @@ class Properties(UserRelated):
         for field in schema.filterFields(self._isPropertyField):
             user_prop = field.user_property
             prop_name = (isinstance(user_prop, str) and user_prop) or \
-                         field.getName()
+                field.getName()
             if prop_name in properties:
                 value = properties[prop_name]
                 try:
@@ -109,7 +109,7 @@ class SchemataProperties(UserRelated):
     #
     #   IPropertiesPlugin implementation
     #
-    def getPropertiesForUser(self, user, request=None ):
+    def getPropertiesForUser(self, user, request=None):
         illegal_ids = ['id']
         properties = {}
         schemata = self.context.Schemata()
@@ -120,7 +120,7 @@ class SchemataProperties(UserRelated):
                     if field.getName() not in illegal_ids:
                         value = field.get(self.context)
                         properties[field.getName()] = \
-                                value is not None and value or ''
+                            value is not None and value or ''
         return MutablePropertySheet(self.context.getId(),
                                     **properties)
     security.declarePrivate('getPropertiesForUser')

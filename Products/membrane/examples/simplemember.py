@@ -3,8 +3,8 @@ from AccessControl import ClassSecurityInfo
 from zope.interface import implements
 
 from Products.Archetypes.public import BaseSchema, Schema, BaseContent, \
-     StringField, StringWidget, registerType, LinesField, \
-     MultiSelectionWidget
+    StringField, StringWidget, registerType, LinesField, \
+    MultiSelectionWidget
 
 from Products.membrane.config import PROJECTNAME
 from Products.membrane.at.interfaces import IUserAuthProvider
@@ -19,17 +19,17 @@ SimpleSchema = BaseSchema + Schema((
     StringField('userName',
                 languageIndependent=1,
                 widget=StringWidget(description="Username for a person.")
-               ),
+                ),
     StringField('password',
                 languageIndependent=1,
                 widget=StringWidget(description="Password.")
-               ),
+                ),
     StringField('fullname',
                 languageIndependent=1,
-                #schemata='userinfo',
+                # schemata='userinfo',
                 user_property=True,
                 widget=StringWidget(description="Full name.")
-               ),
+                ),
     LinesField(
         # not 'roles' b/c 'validate_roles' exists; stoopid Archetypes
         name="roles_",
@@ -41,9 +41,9 @@ SimpleSchema = BaseSchema + Schema((
         widget=MultiSelectionWidget(
             label="Roles",
             description="Roles that member has.",
-            ),
         ),
-    ))
+    ),
+))
 
 
 class SimpleMember(BaseContent):

@@ -21,7 +21,7 @@ from Products.membrane.utils import findMembraneUserAspect
 
 manage_addMembranePropertyManagerForm = PageTemplateFile(
     '../www/MembranePropertyManagerForm',
-    globals(), __name__='manage_addMembranePropertyManagerForm' )
+    globals(), __name__='manage_addMembranePropertyManagerForm')
 
 
 def addMembranePropertyManager(dispatcher, id, title=None, REQUEST=None):
@@ -32,10 +32,10 @@ def addMembranePropertyManager(dispatcher, id, title=None, REQUEST=None):
 
     if REQUEST is not None:
         REQUEST['RESPONSE'].redirect(
-                                '%s/manage_workspace'
-                                '?manage_tabs_message='
-                                'MembranePropertyManager+added.'
-                            % dispatcher.absolute_url())
+            '%s/manage_workspace'
+            '?manage_tabs_message='
+            'MembranePropertyManager+added.'
+            % dispatcher.absolute_url())
 
 
 class MembranePropertyManager(BasePlugin, Cacheable):
@@ -62,7 +62,7 @@ class MembranePropertyManager(BasePlugin, Cacheable):
             query = dict(exact_getGroupId=user.getId())
 
         for pp in findMembraneUserAspect(
-            self, user_ifaces.IMembraneUserProperties, **query):
+                self, user_ifaces.IMembraneUserProperties, **query):
             yield pp
 
     #

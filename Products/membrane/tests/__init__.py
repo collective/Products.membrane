@@ -1,18 +1,14 @@
 """
-skeleton tests package
+Initialising code for Products.membrane.tests product.
+See also testing.zcml and the profile directory.
 """
 
-from Products.CMFCore.utils import ContentInit
-from Products.CMFCore.permissions import (
-    AddPortalContent as ADD_CONTENT_PERMISSION)
-
-from Products.Archetypes.public import process_types
 from Products.Archetypes.public import listTypes
-
+from Products.Archetypes.public import process_types
+from Products.CMFCore.permissions import AddPortalContent
+from Products.CMFCore.utils import ContentInit
 from Products.membrane.config import PROJECTNAME
-
-from Products.membrane.tests import dummy
-dummy               # make pyflakes happy
+from Products.membrane.tests import dummy  # noqa
 
 
 def initialize(context):
@@ -23,7 +19,7 @@ def initialize(context):
     ContentInit(
         PROJECTNAME + ' Content',
         content_types=content_types,
-        permission=ADD_CONTENT_PERMISSION,
+        permission=AddPortalContent,
         extra_constructors=constructors,
         fti=ftis,
-        ).initialize(context)
+    ).initialize(context)

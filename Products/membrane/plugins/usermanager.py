@@ -30,10 +30,10 @@ from Products.membrane.utils import findMembraneUserAspect
 
 manage_addMembraneUserManagerForm = PageTemplateFile(
     '../www/MembraneUserManagerForm',
-    globals(), __name__='manage_addMembraneUserManagerForm' )
+    globals(), __name__='manage_addMembraneUserManagerForm')
 
 
-def addMembraneUserManager(dispatcher, id, title=None, REQUEST=None ):
+def addMembraneUserManager(dispatcher, id, title=None, REQUEST=None):
     """ Add a MembraneUserManager to a Pluggable Auth Service. """
 
     pmm = MembraneUserManager(id, title)
@@ -41,10 +41,10 @@ def addMembraneUserManager(dispatcher, id, title=None, REQUEST=None ):
 
     if REQUEST is not None:
         REQUEST['RESPONSE'].redirect(
-                                '%s/manage_workspace'
-                                '?manage_tabs_message='
-                                'MembraneUserManager+added.'
-                            % dispatcher.absolute_url())
+            '%s/manage_workspace'
+            '?manage_tabs_message='
+            'MembraneUserManager+added.'
+            % dispatcher.absolute_url())
 
 
 class MembraneUserManager(BasePlugin, Cacheable):
@@ -116,7 +116,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
                     if search_term is not None:
                         if not exact_match:
                             index = mbtool.Indexes[index_name]
-                            if type(index) == ZCTextIndex:
+                            if isinstance(index, ZCTextIndex):
                                 # split, glob, join
                                 sep = search_term.strip().split()
                                 sep = ["%s*" % val for val in sep]
@@ -130,7 +130,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
                          'exact_match': exact_match,
                          'sort_by': sort_by,
                          'max_results': max_results}
-                       )
+                        )
         cached_info = self.ZCacheable_get(view_name=view_name,
                                           keywords=keywords, default=None)
         if cached_info is not None:

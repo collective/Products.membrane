@@ -4,7 +4,7 @@ from Products.CMFCore.utils import ToolInit
 
 from Products.membrane.config import PROJECTNAME
 from Products.membrane.plugins import usermanager, groupmanager, \
-     propertymanager, rolemanager, userfactory
+    propertymanager, rolemanager, userfactory
 
 from Products.PluggableAuthService import registerMultiPlugin
 
@@ -23,7 +23,7 @@ def initialize(context):
         constructors=(usermanager.manage_addMembraneUserManagerForm,
                       usermanager.addMembraneUserManager),
         visibility=None
-                          )
+    )
 
     context.registerClass(
         groupmanager.MembraneGroupManager,
@@ -31,7 +31,7 @@ def initialize(context):
         constructors=(groupmanager.manage_addMembraneGroupManagerForm,
                       groupmanager.addMembraneGroupManager),
         visibility=None
-        )
+    )
 
     context.registerClass(
         propertymanager.MembranePropertyManager,
@@ -39,7 +39,7 @@ def initialize(context):
         constructors=(propertymanager.manage_addMembranePropertyManagerForm,
                       propertymanager.addMembranePropertyManager),
         visibility=None
-        )
+    )
 
     context.registerClass(
         rolemanager.MembraneRoleManager,
@@ -47,7 +47,7 @@ def initialize(context):
         constructors=(rolemanager.manage_addMembraneRoleManagerForm,
                       rolemanager.addMembraneRoleManager),
         visibility=None
-        )
+    )
 
     context.registerClass(
         userfactory.MembraneUserFactory,
@@ -55,7 +55,7 @@ def initialize(context):
         constructors=(userfactory.manage_addMembraneUserFactoryForm,
                       userfactory.addMembraneUserFactory),
         visibility=None
-        )
+    )
 
     from Products.membrane.tools import membrane
     ToolInit(PROJECTNAME + ' Tool',

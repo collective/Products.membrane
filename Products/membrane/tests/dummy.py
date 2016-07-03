@@ -47,8 +47,8 @@ group = BaseSchema.copy() + Schema((
         name="roles_",
         accessor='getRoles',
         mutator='setRoles',
-        ),
-    ))
+    ),
+))
 
 # Make the group title and description user properties
 group['title'].user_property = True
@@ -91,12 +91,12 @@ class TestGroup(BaseFolder):
         catalog = getToolByName(self, TOOLNAME)
         results = catalog(
             object_implements=(
-            user_ifaces.IMembraneUserAuth.__identifier__))
+                user_ifaces.IMembraneUserAuth.__identifier__))
 
         value = []
         for r in results:
             key = r.getUserName is not None and r.getUserName.strip() \
-                  or r.getUserId
+                or r.getUserId
             value.append((key.lower(), (r.UID, key)))
         value.sort()
         value = [r for throwaway, r in value]
@@ -130,14 +130,14 @@ user = BaseSchema + Schema((
                  languageIndependent=1,
                  user_property='ext_editor',
                  default=False),
-    ))
+))
 
 extra = BaseSchema + Schema((
     StringField('extraProperty',
                 user_property=True,),
     StringField('extraPropertyFromSchemata',
                 schemata='userinfo',),
-    ))
+))
 
 
 class BaseMember:

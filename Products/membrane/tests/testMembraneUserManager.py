@@ -1,71 +1,20 @@
-#
-# MembraneTestCase Membrane
-#
-
-import transaction as txn
+from plone.app.testing import login
+from plone.app.testing import logout
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import _createObjectByType
-
-from Products.PlonePAS.interfaces.capabilities import IPasswordSetCapability
-
-from Products.PluggableAuthService.tests.conformance \
-    import IAuthenticationPlugin_conformance
-from Products.PluggableAuthService.tests.conformance \
-    import IUserEnumerationPlugin_conformance
-
-from Products.membrane.tests.utils import sortTuple
+from Products.membrane import testing
 from Products.membrane.interfaces import IMembraneUserAuth
 from Products.membrane.interfaces import IMembraneUserManagement
 from Products.membrane.plugins.usermanager import MembraneUserManager
 from Products.membrane.tests import base
-
-
-class MembraneUserManagerLayer(base.AddUserLayer):
-    @classmethod
-    def setUp(cls):
-        portal = cls.getPortal()
-        portal.acl_users.pmm = MembraneUserManager(id='pmm')
-        txn.commit()
-
-    @classmethod
-    def tearDown(cls):
-        pass
-
-    @classmethod
-    def testSetUp(cls):
-        pass
-
-    @classmethod
-    def testTearDown(cls):
-        pass
-
-
-class MembraneUserManagerTwoUsersLayer(MembraneUserManagerLayer):
-    @classmethod
-    def setUp(cls):
-        portal = cls.getPortal()
-        member = _createObjectByType('TestMember', portal,
-                                     'testuser2')
-        member.setUserName('testuser2')
-        member.setPassword('testpassword2')
-        member.setTitle('full name 2')
-        member.reindexObject()
-        txn.commit()
-
-    @classmethod
-    def tearDown(cls):
-        pass
-
-    @classmethod
-    def testSetUp(cls):
-        pass
-
-    @classmethod
-    def testTearDown(cls):
-        pass
+from Products.membrane.tests.utils import sortTuple
+from Products.PlonePAS.interfaces.capabilities import IPasswordSetCapability
+from Products.PluggableAuthService.tests.conformance import IAuthenticationPlugin_conformance  # noqa
+from Products.PluggableAuthService.tests.conformance import IUserEnumerationPlugin_conformance  # noqa
 
 
 class MembraneUserManagerTestBase:
+
     def _getTargetClass(self):
         return MembraneUserManager
 
@@ -78,12 +27,12 @@ class TestMembraneUserManagerBasics(base.MembraneTestCase,
                                     IAuthenticationPlugin_conformance,
                                     IUserEnumerationPlugin_conformance):
     # Run the conformance tests
-    layer = MembraneUserManagerLayer
+    layer = testing.MEMBRANE_USER_MANAGER_INTEGRATION_TESTING
 
 
 class TestMembraneUserManagerEnumeration(base.MembraneUserTestCase):
 
-    layer = MembraneUserManagerLayer
+    layer = testing.MEMBRANE_USER_MANAGER_INTEGRATION_TESTING
 
     def testEnumerateUsersNoArgs(self):
         # If we do not pass any criteria to enumerateUsers, we get all
@@ -174,7 +123,7 @@ class TestMembraneUserManagerEnumeration(base.MembraneUserTestCase):
 
 class TestMembraneUserManagerAuthentication(base.MembraneUserTestCase):
 
-    layer = MembraneUserManagerLayer
+    layer = testing.MEMBRANE_USER_MANAGER_INTEGRATION_TESTING
 
     def testAuthenticateOnMember(self):
         credentials = {'login': 'norealuser', 'password': 'norealpassword'}
@@ -199,11 +148,11 @@ class TestMembraneUserManagerAuthentication(base.MembraneUserTestCase):
         self.failUnlessEqual(authcred(credentials), right)
 
     def testLogin(self):
-        self.login(IMembraneUserAuth(self.member).getUserId())
+        login(self.portal, IMembraneUserAuth(self.member).getUserId())
 
     def testLoginCaseSensitive(self):
         member2 = _createObjectByType('TestMember', self.portal,
-                                     'TestUser')  # different case
+                                      'TestUser')  # different case
         member2.setUserName('TestUser')
         member2.setPassword('testpassword2')
         member2.reindexObject()
@@ -219,17 +168,18 @@ class TestMembraneUserManagerAuthentication(base.MembraneUserTestCase):
 
 
 class TestMembraneUserManagerAuthenticationPermissions(
-    base.MembraneUserTestCase):
+        base.MembraneUserTestCase):
     """Check if everything works when the user object is private"""
 
-    layer = MembraneUserManagerLayer
+    layer = testing.MEMBRANE_USER_MANAGER_INTEGRATION_TESTING
 
-    def afterSetUp(self):
-        base.MembraneUserTestCase.afterSetUp(self)
+    def setUp(self):
+        super(TestMembraneUserManagerAuthenticationPermissions, self).setUp()
+        self.portal.portal_workflow.setDefaultChain('plone_workflow')
         self.portal.portal_workflow.doActionFor(self.member, 'hide')
 
     def testAuthenticate(self):
-        self.logout()
+        logout()
         credentials = {'login': 'norealuser', 'password': 'norealpassword'}
         authcred = self.portal.acl_users.pmm.authenticateCredentials
         self.failUnlessEqual(authcred(credentials), None)
@@ -241,13 +191,14 @@ class TestMembraneUserManagerAuthenticationPermissions(
                               self.member.getUserName()))
 
     def testLogin(self):
-        self.logout()
-        self.login(IMembraneUserAuth(self.member).getUserId())
+        logout()
+        login(self.portal, IMembraneUserAuth(self.member).getUserId())
 
 
 class TestUserManagerIntrospectionNoUsers(base.MembraneTestCase):
 
-    def afterSetUp(self):
+    def setUp(self):
+        super(TestUserManagerIntrospectionNoUsers, self).setUp()
         self.portal.acl_users.pmm = MembraneUserManager(id='pmm')
 
     def testGetUserIdsNoUsers(self):
@@ -262,7 +213,7 @@ class TestUserManagerIntrospectionNoUsers(base.MembraneTestCase):
 
 class TestUserManagerIntrospectionOneUser(base.MembraneUserTestCase):
 
-    layer = MembraneUserManagerLayer
+    layer = testing.MEMBRANE_USER_MANAGER_INTEGRATION_TESTING
 
     def testGetUserIdsOneUser(self):
         self.failUnlessEqual(self.portal.acl_users.pmm.getUserIds(),
@@ -280,10 +231,10 @@ class TestUserManagerIntrospectionOneUser(base.MembraneUserTestCase):
 
 class TestUserManagerIntrospectionTwoUsers(base.MembraneUserTestCase):
 
-    layer = MembraneUserManagerTwoUsersLayer
+    layer = testing.MEMBRANE_USER_MANAGER_TWO_USERS_INTEGRATION_TESTING
 
-    def afterSetUp(self):
-        base.MembraneUserTestCase.afterSetUp(self)
+    def setUp(self):
+        super(TestUserManagerIntrospectionTwoUsers, self).setUp()
         self.member2 = self.portal.testuser2
 
     def testGetUserIds(self):
@@ -291,7 +242,7 @@ class TestUserManagerIntrospectionTwoUsers(base.MembraneUserTestCase):
         correct = sortTuple(
             (IMembraneUserAuth(self.member).getUserId(),
              IMembraneUserAuth(self.member2).getUserId())
-            )
+        )
         self.failUnlessEqual(userids, correct)
 
     def testGetUsers(self):
@@ -299,13 +250,13 @@ class TestUserManagerIntrospectionTwoUsers(base.MembraneUserTestCase):
         correct = sortTuple(
             (IMembraneUserAuth(self.member).getUserId(),
              IMembraneUserAuth(self.member2).getUserId())
-            )
+        )
         self.failUnlessEqual(userids, correct)
 
 
 class TestMembraneUserManagerManagement(base.MembraneUserTestCase):
 
-    layer = MembraneUserManagerLayer
+    layer = testing.MEMBRANE_USER_MANAGER_INTEGRATION_TESTING
 
     def testUserChangePassword(self):
         usermanager = IMembraneUserManagement(self.member)
@@ -331,8 +282,8 @@ class TestMembraneUserManagerManagement(base.MembraneUserTestCase):
         usermanager.doDeleteUser('testuser')
         self.failIf('testuser' in self.portal.objectIds())
         # login as the new user should fail now
-        self.logout()
-        self.assertRaises(AttributeError, self.login, 'testuser')
+        logout()
+        self.assertRaises(ValueError, login, self.portal, 'testuser')
 
     def testChangePassword(self):
         pmm = self.portal.acl_users.pmm
@@ -362,19 +313,5 @@ class TestMembraneUserManagerManagement(base.MembraneUserTestCase):
         pmm.doDeleteUser('testuser')
         self.failIf('testuser' in self.portal.objectIds())
         # login as the new user should fail now
-        self.logout()
-        self.assertRaises(AttributeError, self.login, 'testuser')
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestMembraneUserManagerBasics))
-    suite.addTest(makeSuite(TestMembraneUserManagerEnumeration))
-    suite.addTest(makeSuite(TestMembraneUserManagerAuthentication))
-    suite.addTest(makeSuite(TestMembraneUserManagerAuthenticationPermissions))
-    suite.addTest(makeSuite(TestUserManagerIntrospectionNoUsers))
-    suite.addTest(makeSuite(TestUserManagerIntrospectionOneUser))
-    suite.addTest(makeSuite(TestUserManagerIntrospectionTwoUsers))
-    suite.addTest(makeSuite(TestMembraneUserManagerManagement))
-    return suite
+        logout()
+        self.assertRaises(ValueError, login, self.portal, 'testuser')
