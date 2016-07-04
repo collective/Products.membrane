@@ -49,7 +49,7 @@ class IUserPropertiesProvider(IReferenceable, IBaseObject):
     """
 
 
-# Until Products.membrane 2.x we only had IPropertiesProvider.
+# Before Products.membrane 3.x we only had IPropertiesProvider.
 # For backwards compatibility we keep this name as alias.
 IPropertiesProvider = IUserPropertiesProvider
 
