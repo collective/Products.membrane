@@ -4,13 +4,29 @@ Changelog
 3.0 (unreleased)
 ----------------
 
+Breaking changes:
+
+- Split user and group groups interface.  A group that implemented
+  ``user.IUserGroupsProvider`` would get included when listing
+  members, which led to ``AttributeError: 'NoneType' object has no
+  attribute '__of__'``.  The new interface is
+  ``group.IGroupGroupsProvider``.  We look for this in our group
+  manager plugin in the ``getGroupsForPrincipal`` method.  If no
+  providers are found, we try the old way for backwards compatibility.
+  [maurits]
+
 - Split user properties and group properties interface.  A group that
   implemented IPropertiesProvider would get included when listing
   members, which led to ``AttributeError: 'NoneType' object has no
   attribute '__of__'``.  Renamed ``IPropertiesProvider`` to
   ``IUserPropertiesProvider`` but kept the old name as alias for
   backwards compatibility.  Added ``IGroupPropertiesProvider``.
+  You may need to reindex the ``membrane_tool`` catalog if you have problems.
   [maurits]
+
+- Dropped compatibility with Plone 4.2 and lower.  [maurits]
+
+New features:
 
 - Fixed tests on Plone 5.  Added Travis for continuous integration
   testing on Plone 4.3 and 5.0.  We only test with Python 2.7.
@@ -18,9 +34,9 @@ Changelog
 
 - Ported tests to plone.app.testing.  [maurits]
 
-- Fixed various pep8 and pyflakes errors and warnings.  [maurits]
+Bug fixes:
 
-- Dropped compatibility with Plone 4.2 and lower.  [maurits]
+- Fixed various pep8 and pyflakes errors and warnings.  [maurits]
 
 
 2.1.13 (2015-11-05)
