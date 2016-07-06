@@ -11,6 +11,10 @@
       type=".membrane_tool.IMembraneQueryableInterface" />
 
     <interface
+      interface=".group.IMembraneGroupGroups"
+      type=".membrane_tool.IMembraneQueryableInterface" />
+
+    <interface
       interface=".user.IMembraneUserObject"
       type=".membrane_tool.IMembraneQueryableInterface" />
 
