@@ -1,10 +1,17 @@
 Changelog
 =========
 
-2.1.14 (unreleased)
+2.1.15 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Rerelease 2.1.13 as 2.1.15.  I accidentally released 2.1.14 with
+  incompatible changes, which were meant to be released ad 3.0.  [maurits]
+
+
+2.1.14 (2016-07-06)
+-------------------
+
+- Accidental release of code for 3.0.  Don't use this version...  [maurits]
 
 
 2.1.13 (2015-11-05)
@@ -374,4 +381,3 @@ Changelog
   can only do "starts with" searches.  However, that's much better
   than returning () for every call that has "exact_match=False".
   [dpunktnpunkt]
-
