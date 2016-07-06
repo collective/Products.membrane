@@ -39,6 +39,7 @@ Requirements
 ============
 
 Since version 3.0: Plone 4.3 or 5.0.  We only test with Python 2.7.
+For older Plone versions, please use Products.membrane branch 2.1.x.
 
 If you create a membrane type based on Archetypes, then you must first install Archetypes, then membrane.
 This is needed so new users are properly indexed by the membrane tool.

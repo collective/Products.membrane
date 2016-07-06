@@ -24,7 +24,10 @@ Breaking changes:
   You may need to reindex the ``membrane_tool`` catalog if you have problems.
   [maurits]
 
-- Dropped compatibility with Plone 4.2 and lower.  [maurits]
+- Dropped compatibility with Plone 4.2 and lower.
+  For those Plone versions, please use Products.membrane branch 2.1.x.
+  Note that 2.1.x is fine for Plone 4.3 and 5.0 too, but you are missing the fixes done in the 3.0 release.
+  [maurits]
 
 New features:
 
