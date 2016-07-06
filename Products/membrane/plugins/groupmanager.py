@@ -74,12 +74,34 @@ class MembraneGroupManager(BasePlugin, Cacheable):
     #
     def getGroupsForPrincipal(self, principal, request=None):
         groups = {}
+        # 1. Find adapters from user to a provider giving a list of groups.
+        #    for this principal, when this principal is a user.
         providers = findMembraneUserAspect(
             self, user_ifaces.IMembraneUserGroups,
             exact_getUserId=principal.getId())
+        # 2. Find adapters from group to a provider giving a list of groups.
+        #    for this principal, when this principal is a user.
         providers.extend(findMembraneUserAspect(
-            self, user_ifaces.IMembraneUserGroups,
+            self, group_ifaces.IMembraneGroupGroups,
             exact_getGroupId=principal.getId()))
+        if not providers:
+            # This used to be number 2.
+            # We keep this for backwards compatibility.
+            # 3. Find adapters from user to a provider giving a list of groups.
+            #    for this principal, when this principal is a group.
+            providers.extend(findMembraneUserAspect(
+                self, user_ifaces.IMembraneUserGroups,
+                exact_getGroupId=principal.getId()))
+        # Note: we basically have a list of principals here, which is probably
+        # only one user or one group.  And we ask each of those to give us the
+        # groups for the principal that we got in the arguments.  So
+        # theoretically we could be asking user A to give us the groups of user
+        # B, which makes no sense.  But the normal case is that we simply ask
+        # user A to give us the groups of user A.  For adapters it is probably
+        # safe to assume that in the call a few lines below to
+        # provider.getGroupsForPrincipal(principal), provider and principal are
+        # the same object (except that one may be an adapter and the other a
+        # user object).  Anyway, we will keep the old way of doing this.
         for provider in providers:
             pgroups = dict.fromkeys(provider.getGroupsForPrincipal(principal))
             groups.update(pgroups)

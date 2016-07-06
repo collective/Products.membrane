@@ -19,6 +19,7 @@ from Products.membrane.interfaces.plugins import IMembraneUserFactoryPlugin  # n
 
 from Products.membrane.interfaces.group import IGroup  # noqa
 from Products.membrane.interfaces.group import IMembraneGroupProperties  # noqa
+from Products.membrane.interfaces.group import IMembraneGroupGroups  # noqa
 
 from Products.membrane.at.interfaces import IUserAuthProvider
 from Products.membrane.at.interfaces import IUserAuthentication

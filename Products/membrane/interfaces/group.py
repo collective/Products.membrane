@@ -3,6 +3,7 @@ Group interface
 """
 
 from Products.PlonePAS.interfaces.plugins import IMutablePropertiesPlugin
+from Products.PluggableAuthService.interfaces.plugins import IGroupsPlugin
 from zope.interface import Interface
 
 
@@ -32,4 +33,11 @@ class IGroup(Interface):
 class IMembraneGroupProperties(IGroup, IMutablePropertiesPlugin):
     """
     Used for objects that can provide group properties.
+    """
+
+
+class IMembraneGroupGroups(IGroup, IGroupsPlugin):
+    """
+    Used for objects that can provide group groups.
+    So: groups that belong to groups.
     """
