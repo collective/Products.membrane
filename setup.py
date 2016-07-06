@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '2.1.15.dev0'
+version = '3.0'
 readme = open('README.rst').read()
 history = open('changes.rst').read()
 
@@ -30,6 +30,7 @@ setup(name="Products.membrane",
           'Environment :: Web Environment',
           'Framework :: Plone',
           'Framework :: Plone :: 4.3',
+          'Framework :: Plone :: 5.0',
           'Intended Audience :: Other Audience',
           'Intended Audience :: System Administrators',
           'License :: OSI Approved :: GNU General Public License (GPL)',
