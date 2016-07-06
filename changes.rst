@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.15 (unreleased)
+2.1.15 (2016-07-06)
 -------------------
 
 - Rerelease 2.1.13 as 2.1.15.  I accidentally released 2.1.14 with
