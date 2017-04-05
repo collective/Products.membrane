@@ -27,6 +27,8 @@ from Products.membrane.utils import getCurrentUserAdder
 from Products.membrane.utils import findImplementations
 from Products.membrane.utils import findMembraneUserAspect
 
+from zope.site import hooks
+
 
 manage_addMembraneUserManagerForm = PageTemplateFile(
     '../www/MembraneUserManagerForm',
@@ -207,8 +209,18 @@ class MembraneUserManager(BasePlugin, Cacheable):
         but not interesting for us.  Actually, it may be interesting,
         but usually the login name and user id are the same.  An
         implementation might choose to do this differently.
+        If the user is managed by membrane, all user specific settings
+        (including the login_name) are handled there and cannot be updated
+        by this method.
+        If membrane is responsible for managing the user, we have to return
+        True to set the correct state for following updaters.
         """
-        pass
+        context = hooks.getSite()
+        mtool = getToolByName(context, 'membrane_tool')
+        if mtool:
+            members = mtool.unrestrictedSearchResults({'getUserId': user_id})
+            if len(members) == 1:
+                return True
 
     def updateEveryLoginName(self, quit_on_first_error=True):
         """Update login names of all users to their canonical value.
