@@ -4,7 +4,9 @@ Changelog
 3.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Set the return state of the updateUser method to True if membrane is responsible
+  for managing the user.
+  [agitator]
 
 
 3.0 (2016-07-06)
