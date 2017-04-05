@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.1 (unreleased)
+3.0.1 (2017-04-05)
 ------------------
 
 - Set the return state of the updateUser method to True if membrane is responsible
