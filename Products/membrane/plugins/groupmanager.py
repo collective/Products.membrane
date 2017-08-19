@@ -127,10 +127,10 @@ class MembraneGroupManager(BasePlugin, Cacheable):
         group_info = []
         plugin_id = self.getId()
 
-        if isinstance(id, str):
+        if isinstance(id, basestring):
             id = [id]
 
-        if isinstance(title, str):
+        if isinstance(title, basestring):
             title = [title]
 
         mbtool = getToolByName(self, TOOLNAME)
