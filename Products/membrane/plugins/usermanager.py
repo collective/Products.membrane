@@ -99,10 +99,10 @@ class MembraneUserManager(BasePlugin, Cacheable):
         plugin_id = self.getId()
         view_name = createViewName('enumerateUsers', id or login)
 
-        if isinstance(id, str):
+        if isinstance(id, basestring):
             id = [id]
 
-        if isinstance(login, str) and login:
+        if isinstance(login, basestring) and login:
             login = [login]
 
         mbtool = getToolByName(self, TOOLNAME)
