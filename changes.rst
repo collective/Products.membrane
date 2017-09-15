@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.2 (unreleased)
+3.0.2 (2017-09-15)
 ------------------
 
 - Fix user/group search for ``@@sharing``.
