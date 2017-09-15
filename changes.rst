@@ -4,7 +4,10 @@ Changelog
 3.0.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix user/group search for ``@@sharing``.
+  A unicode search string could get passed, where we expected a string.
+  [pysailor]
+
 
 
 3.0.1 (2017-04-05)
