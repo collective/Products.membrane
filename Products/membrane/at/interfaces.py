@@ -8,13 +8,10 @@ classes. This allows them to use the default implementattions for the
 membrane interfaces from Products.membrane.interfaces.user that
 are included in membrane.
 """
-from zope.interface import Interface
-
 from Products.Archetypes.interfaces import IBaseObject
 from Products.Archetypes.interfaces import IReferenceable
-
-# Keep this in case third party code imports it:
 from Products.membrane.interfaces import user as user_ifaces  # noqa
+from zope.interface import Interface
 
 
 class IUserAuthProvider(IReferenceable):

@@ -1,20 +1,18 @@
 # -*- coding: utf-8 -*-
-from zope.interface import Interface
-from zope.interface import implements
-from zope import component
-
 from Acquisition import aq_base
 from Acquisition import aq_inner
 from Acquisition import aq_parent
-
-from Products.CMFCore.utils import getToolByName
-
 from plone.indexer import indexer
-
-from Products.membrane.interfaces.user import IMembraneUserObject
-from Products.membrane.interfaces.group import IGroup
-from Products.membrane.interfaces import membrane_tool
+from Products.CMFCore.utils import getToolByName
 from Products.membrane.config import USE_COLLECTIVE_INDEXING
+from Products.membrane.interfaces import membrane_tool
+from Products.membrane.interfaces.group import IGroup
+from Products.membrane.interfaces.user import IMembraneUserObject
+from zope import component
+from zope.interface import implements
+from zope.interface import Interface
+
+
 if USE_COLLECTIVE_INDEXING:
     from collective.indexing.interfaces import IIndexQueueProcessor
 

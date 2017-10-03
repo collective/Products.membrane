@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from zope.interface import implements
 from Products.membrane.interfaces.user import IMembraneUserObject
+from zope.interface import implements
 
 
 class UserIdProvider(object):

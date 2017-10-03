@@ -18,6 +18,7 @@ from Products.membrane.config import TOOLNAME
 from Products.membrane.tests import dummy
 from zope.configuration import xmlconfig
 
+
 try:
     get_distribution('collective.indexing')
     HAS_INDEXING = True
@@ -38,6 +39,7 @@ def initialize(context):
     orig_initialize(context)
     examples.initialize(context)
     tests.initialize(context)
+
 
 # TODO We are patching the installation here, and should find a better way to
 # do this

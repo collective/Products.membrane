@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 from AccessControl import ClassSecurityInfo
-from zope.interface import implements
-
-from Products.membrane.interfaces.user import IMembraneUserObject
 from Products.membrane.at.interfaces import IUserAuthProvider
 from Products.membrane.at.relations import UserRelatedRelation
+from Products.membrane.interfaces.user import IMembraneUserObject
+from zope.interface import implements
 
 
 class UserRelated(object):

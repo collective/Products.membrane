@@ -1,16 +1,13 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from persistent.mapping import PersistentMapping
-
-from zope.annotation.interfaces import IAnnotations
-
 from Products.CMFCore.utils import getToolByName
-from Products.GenericSetup.ZCatalog.exportimport import ZCatalogXMLAdapter
 from Products.GenericSetup.utils import exportObjects
 from Products.GenericSetup.utils import importObjects
-
-from Products.membrane.interfaces import IMembraneTool
+from Products.GenericSetup.ZCatalog.exportimport import ZCatalogXMLAdapter
 from Products.membrane.config import QIM_ANNOT_KEY
+from Products.membrane.interfaces import IMembraneTool
+from zope.annotation.interfaces import IAnnotations
 
 
 class MembraneToolXMLAdapter(ZCatalogXMLAdapter):

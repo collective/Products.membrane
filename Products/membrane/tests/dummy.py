@@ -1,32 +1,30 @@
 # -*- coding: utf-8 -*-
 from AccessControl import ClassSecurityInfo
-
-from zope.interface import implements
-
-from Products.CMFCore.utils import getToolByName
-from Products.Archetypes.public import BaseSchema
-from Products.Archetypes.public import Schema
-from Products.Archetypes.public import BaseFolder
 from Products.Archetypes.public import BaseContent
-from Products.Archetypes.public import ReferenceField
-from Products.Archetypes.public import StringField
-from Products.Archetypes.public import LinesField
+from Products.Archetypes.public import BaseFolder
+from Products.Archetypes.public import BaseSchema
 from Products.Archetypes.public import BooleanField
-from Products.Archetypes.public import registerType
 from Products.Archetypes.public import DisplayList
-
-from Products.membrane.at.interfaces import IUserAuthProvider
-from Products.membrane.at.interfaces import IUserAuthentication
-from Products.membrane.at.interfaces import IUserPropertiesProvider
-from Products.membrane.at.interfaces import IGroupPropertiesProvider
-from Products.membrane.at.interfaces import ISchemataPropertiesProvider
-from Products.membrane.at.interfaces import IGroupsProvider
-from Products.membrane.at.interfaces import ISelectedGroupsProvider
+from Products.Archetypes.public import LinesField
+from Products.Archetypes.public import ReferenceField
+from Products.Archetypes.public import registerType
+from Products.Archetypes.public import Schema
+from Products.Archetypes.public import StringField
+from Products.CMFCore.utils import getToolByName
 from Products.membrane.at.interfaces import IGroupAwareRolesProvider
+from Products.membrane.at.interfaces import IGroupPropertiesProvider
+from Products.membrane.at.interfaces import IGroupsProvider
+from Products.membrane.at.interfaces import ISchemataPropertiesProvider
+from Products.membrane.at.interfaces import ISelectedGroupsProvider
+from Products.membrane.at.interfaces import IUserAuthentication
+from Products.membrane.at.interfaces import IUserAuthProvider
+from Products.membrane.at.interfaces import IUserPropertiesProvider
 from Products.membrane.at.interfaces import IUserRoles
-from Products.membrane.interfaces import user as user_ifaces
+from Products.membrane.config import PROJECTNAME
+from Products.membrane.config import TOOLNAME
 from Products.membrane.interfaces import group as group_ifaces
-from Products.membrane.config import PROJECTNAME, TOOLNAME
+from Products.membrane.interfaces import user as user_ifaces
+from zope.interface import implements
 
 
 GROUP_RELATIONSHIP = 'participatesInProject'
@@ -104,6 +102,7 @@ class TestGroup(BaseFolder):
         value = [r for throwaway, r in value]
         value.insert(0, ('', '<no reference>'))
         return DisplayList(value)
+
 
 registerType(TestGroup, PROJECTNAME)
 
@@ -184,6 +183,7 @@ class TestMember(BaseMember, BaseContent):
         user_ifaces.IMembraneUserManagement,
         user_ifaces.IMembraneUserDeleter)
 
+
 registerType(TestMember, PROJECTNAME)
 
 
@@ -206,6 +206,7 @@ class AlternativeTestMember(BaseMember, BaseContent):
         return [GROUP_RELATIONSHIP]
     security.declarePrivate('getGroupRelationships')
 
+
 registerType(AlternativeTestMember, PROJECTNAME)
 
 
@@ -220,6 +221,7 @@ class TestPropertyProvider(BaseContent):
         # We must implement IMembraneUserObject. We cheat a bit and do not
         # provide the right login.
         return None
+
 
 registerType(TestPropertyProvider, PROJECTNAME)
 
@@ -241,5 +243,6 @@ class TestAlternatePropertyProvider(BaseContent):
 
     def getUserPropertySchemata(self):
         return ('userinfo',)
+
 
 registerType(TestAlternatePropertyProvider, PROJECTNAME)

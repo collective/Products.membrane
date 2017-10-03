@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-from zope.interface import implements
-
 from Products.membrane.at.interfaces import IUserChanger
 from Products.membrane.interfaces.user import IMembraneUserChanger
+from zope.interface import implements
 
 
 class UserChanger(object):

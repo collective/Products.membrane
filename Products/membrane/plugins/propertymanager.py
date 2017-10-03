@@ -5,21 +5,17 @@
 from AccessControl import ClassSecurityInfo
 from App.class_init import default__class_init__ as InitializeClass
 from OFS.Cache import Cacheable
+from Products.membrane.interfaces import group as group_ifaces
+from Products.membrane.interfaces import user as user_ifaces
+from Products.membrane.utils import findMembraneUserAspect
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
-
-from zope.interface import implements
-
-from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
-from Products.PluggableAuthService.interfaces.plugins \
-    import IPropertiesPlugin
-from Products.PluggableAuthService.interfaces.propertysheets \
-    import IPropertySheet
-
 from Products.PlonePAS.interfaces.plugins import IMutablePropertiesPlugin
 from Products.PlonePAS.sheet import MutablePropertySheet
-from Products.membrane.interfaces import user as user_ifaces
-from Products.membrane.interfaces import group as group_ifaces
-from Products.membrane.utils import findMembraneUserAspect
+from Products.PluggableAuthService.interfaces.plugins import IPropertiesPlugin
+from Products.PluggableAuthService.interfaces.propertysheets import IPropertySheet
+from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
+from zope.interface import implements
+
 
 manage_addMembranePropertyManagerForm = PageTemplateFile(
     '../www/MembranePropertyManagerForm',
@@ -113,5 +109,6 @@ class MembranePropertyManager(BasePlugin, Cacheable):
         """
         pass
     security.declarePrivate('deleteUser')
+
 
 InitializeClass(MembranePropertyManager)

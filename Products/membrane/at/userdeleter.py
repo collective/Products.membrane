@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-from zope.interface import implements
-
 from Products.membrane.at.interfaces import IUserDeleter
 from Products.membrane.interfaces.user import IMembraneUserDeleter
+from zope.interface import implements
 
 
 class UserDeleter(object):

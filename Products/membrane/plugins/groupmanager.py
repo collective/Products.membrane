@@ -2,40 +2,32 @@
 # Copyright 2005 Plone Solutions
 # info@plonesolutions.com
 
-import logging
 from AccessControl import ClassSecurityInfo
+# XXX REMOVE WHEN REFACTORING
+from Acquisition import aq_base
 from App.class_init import default__class_init__ as InitializeClass
 from OFS.Cache import Cacheable
-from Products.PageTemplates.PageTemplateFile import PageTemplateFile
-from Products.ZCTextIndex.ZCTextIndex import ZCTextIndex
-
-from zope.annotation.interfaces import IAnnotations
-from zope.interface import implements
-
 from Products.CMFCore.utils import getToolByName
-
-from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
-from Products.PluggableAuthService.utils import createViewName
-from Products.PluggableAuthService.PluggableAuthService \
-    import _SWALLOWABLE_PLUGIN_EXCEPTIONS
-
-from Products.PluggableAuthService.interfaces.plugins \
-    import IGroupEnumerationPlugin
-from Products.PluggableAuthService.interfaces.plugins \
-    import IPropertiesPlugin
-from Products.PluggableAuthService.interfaces.plugins \
-    import IRolesPlugin
-
+from Products.membrane.config import QIM_ANNOT_KEY
+from Products.membrane.config import TOOLNAME
 from Products.membrane.interfaces import group as group_ifaces
 from Products.membrane.interfaces import user as user_ifaces
 from Products.membrane.interfaces.plugins import IMembraneGroupManagerPlugin
-from Products.membrane.config import QIM_ANNOT_KEY
-from Products.membrane.config import TOOLNAME
 from Products.membrane.utils import findMembraneUserAspect
-
-# XXX REMOVE WHEN REFACTORING
-from Acquisition import aq_base
+from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 from Products.PlonePAS.plugins.group import PloneGroup
+from Products.PluggableAuthService.interfaces.plugins import IGroupEnumerationPlugin
+from Products.PluggableAuthService.interfaces.plugins import IPropertiesPlugin
+from Products.PluggableAuthService.interfaces.plugins import IRolesPlugin
+from Products.PluggableAuthService.PluggableAuthService import _SWALLOWABLE_PLUGIN_EXCEPTIONS
+from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
+from Products.PluggableAuthService.utils import createViewName
+from Products.ZCTextIndex.ZCTextIndex import ZCTextIndex
+from zope.annotation.interfaces import IAnnotations
+from zope.interface import implements
+
+import logging
+
 
 manage_addMembraneGroupManagerForm = PageTemplateFile(
     '../www/MembraneGroupManagerForm', globals(),
@@ -347,5 +339,6 @@ class MembraneGroupManager(BasePlugin, Cacheable):
         return 0
     security.declarePrivate('_verifyGroup')
     # XXXXXXXXXXXXXXXXXXXXXXXXXX REMOVE TO HERE
+
 
 InitializeClass(MembraneGroupManager)

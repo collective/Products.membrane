@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 from AccessControl import ClassSecurityInfo
-from zope.interface import implements
-
 from Products.CMFCore.utils import getToolByName
-
-from Products.membrane.interfaces.user import IMembraneUserRoles
-from Products.membrane.interfaces import group as group_ifaces
 from Products.membrane.at.interfaces import IUserRoles
-from Products.membrane.config import TOOLNAME
 from Products.membrane.at.userrelated import UserRelated
+from Products.membrane.config import TOOLNAME
+from Products.membrane.interfaces import group as group_ifaces
+from Products.membrane.interfaces.user import IMembraneUserRoles
+from zope.interface import implements
 
 
 class Roles(UserRelated):

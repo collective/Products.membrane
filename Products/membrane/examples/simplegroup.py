@@ -1,19 +1,22 @@
 # -*- coding: utf-8 -*-
 from AccessControl import ClassSecurityInfo
-
-from zope.interface import implements
-
-from Products.CMFCore.utils import getToolByName
-from Products.Archetypes.public import BaseSchema, Schema, BaseFolder
-from Products.Archetypes.public import ReferenceField, ReferenceWidget
-from Products.Archetypes.public import LinesField, MultiSelectionWidget
-from Products.Archetypes.public import registerType
+from Products.Archetypes.public import BaseFolder
+from Products.Archetypes.public import BaseSchema
 from Products.Archetypes.public import DisplayList
-
+from Products.Archetypes.public import LinesField
+from Products.Archetypes.public import MultiSelectionWidget
+from Products.Archetypes.public import ReferenceField
+from Products.Archetypes.public import ReferenceWidget
+from Products.Archetypes.public import registerType
+from Products.Archetypes.public import Schema
+from Products.CMFCore.utils import getToolByName
+from Products.membrane.config import PROJECTNAME
+from Products.membrane.config import TOOLNAME
 from Products.membrane.interfaces import user as user_ifaces
 from Products.membrane.interfaces.group import IGroup
-from Products.membrane.config import PROJECTNAME, TOOLNAME
 from Products.membrane.utils import getFilteredValidRolesForPortal
+from zope.interface import implements
+
 
 SimpleSchema = BaseSchema + Schema((
 
@@ -110,5 +113,6 @@ class SimpleGroup(BaseFolder):
         return DisplayList(value)
 
     getRoleSet = getFilteredValidRolesForPortal
+
 
 registerType(SimpleGroup, PROJECTNAME)

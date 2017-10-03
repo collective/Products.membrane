@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
-from zope.component import getUtilitiesFor
-
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-
 from Products.membrane.interfaces import IUserAdder
+from zope.component import getUtilitiesFor
 
 
 class FormControllerView(BrowserView):

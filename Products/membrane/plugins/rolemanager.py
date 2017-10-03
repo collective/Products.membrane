@@ -5,14 +5,13 @@
 from AccessControl import ClassSecurityInfo
 from App.class_init import default__class_init__ as InitializeClass
 from OFS.Cache import Cacheable
+from Products.membrane.interfaces import user as user_ifaces
+from Products.membrane.interfaces.plugins import IMembraneRoleManagerPlugin
+from Products.membrane.utils import findMembraneUserAspect
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
-
+from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from zope.interface import implements
 
-from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
-from Products.membrane.interfaces.plugins import IMembraneRoleManagerPlugin
-from Products.membrane.interfaces import user as user_ifaces
-from Products.membrane.utils import findMembraneUserAspect
 
 manage_addMembraneRoleManagerForm = PageTemplateFile(
     '../www/MembraneRoleManagerForm', globals(),
@@ -58,5 +57,6 @@ class MembraneRoleManager(BasePlugin, Cacheable):
                 provider.getRolesForPrincipal(principal)))
         return tuple(roles.keys())
     security.declarePrivate('getRolesForPrincipal')
+
 
 InitializeClass(MembraneRoleManager)

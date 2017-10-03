@@ -1,20 +1,13 @@
 # -*- coding: utf-8 -*-
-from StringIO import StringIO
-
-from Products.CMFCore.utils import getToolByName
-
-from Products.PluggableAuthService.interfaces.plugins \
-    import IGroupsPlugin
-from Products.PluggableAuthService.interfaces.plugins \
-    import IPropertiesPlugin
-from Products.PluggableAuthService.interfaces.plugins \
-    import IUserFactoryPlugin
-
-from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
-
-from interfaces import IUserAdder
 from config import TOOLNAME
 from config import USE_COLLECTIVE_INDEXING
+from interfaces import IUserAdder
+from Products.CMFCore.utils import getToolByName
+from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
+from Products.PluggableAuthService.interfaces.plugins import IGroupsPlugin
+from Products.PluggableAuthService.interfaces.plugins import IPropertiesPlugin
+from Products.PluggableAuthService.interfaces.plugins import IUserFactoryPlugin
+from StringIO import StringIO
 
 
 def _doRegisterUserAdderUtility(context, step_name, profile_id,

@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
 from AccessControl import ClassSecurityInfo
 from App.class_init import InitializeClass
-from Products.PageTemplates.PageTemplateFile import PageTemplateFile
-
-from Products.PlonePAS.plugins.ufactory import PloneUserFactory, PloneUser
-
 from Products.CMFCore.utils import getToolByName
-
-from Products.membrane.interfaces.user import IMembraneUser
-from Products.membrane.interfaces.plugins import IMembraneUserFactoryPlugin
 from Products.membrane.config import TOOLNAME
-
+from Products.membrane.interfaces.plugins import IMembraneUserFactoryPlugin
+from Products.membrane.interfaces.user import IMembraneUser
+from Products.PageTemplates.PageTemplateFile import PageTemplateFile
+from Products.PlonePAS.plugins.ufactory import PloneUser
+from Products.PlonePAS.plugins.ufactory import PloneUserFactory
 from zope.interface import implements
+
 
 manage_addMembraneUserFactoryForm = PageTemplateFile(
     '../www/MembraneUserFactoryForm', globals(),
@@ -52,6 +50,7 @@ class MembraneUserFactory(PloneUserFactory):
             user_id = mbtool.getOriginalUserIdCase(user_id)
         return MembraneUser(user_id, name)
     security.declarePrivate('createUser')
+
 
 InitializeClass(MembraneUserFactory)
 

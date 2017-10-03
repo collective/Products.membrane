@@ -3,12 +3,11 @@
 # MembraneTestCase Membrane
 #
 
-from zope import interface
-from zope import component
-
-from Products.membrane.tests import base
 from Products.membrane.config import TOOLNAME
+from Products.membrane.tests import base
 from Products.membrane.utils import membraneCacheKey
+from zope import component
+from zope import interface
 
 
 def resolveInterface(dotted_name):

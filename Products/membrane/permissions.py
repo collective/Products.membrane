@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from Products.CMFCore import permissions as cmfcore_permissions
 
+
 # Add a new member
 ADD_PERMISSION = ADD_MEMBER_PERMISSION = cmfcore_permissions.AddPortalMember
 # Add a MemberDataContainer

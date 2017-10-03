@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-from Acquisition import aq_chain, aq_inner
 from AccessControl import ClassSecurityInfo
-from zope.interface import implements
-
-from Products.membrane.interfaces.user import IMembraneUserGroups
-from Products.membrane.interfaces.group import IGroup
+from Acquisition import aq_chain
+from Acquisition import aq_inner
 from Products.membrane.at.userrelated import UserRelated
+from Products.membrane.interfaces.group import IGroup
+from Products.membrane.interfaces.user import IMembraneUserGroups
+from zope.interface import implements
 
 
 class Groups(UserRelated):

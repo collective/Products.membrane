@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 from AccessControl.Permissions import add_user_folders
-
 from Products.CMFCore.utils import ToolInit
-
 from Products.membrane.config import PROJECTNAME
-from Products.membrane.plugins import usermanager, groupmanager, \
-    propertymanager, rolemanager, userfactory
-
+from Products.membrane.plugins import groupmanager
+from Products.membrane.plugins import propertymanager
+from Products.membrane.plugins import rolemanager
+from Products.membrane.plugins import userfactory
+from Products.membrane.plugins import usermanager
 from Products.PluggableAuthService import registerMultiPlugin
+
 
 registerMultiPlugin(usermanager.MembraneUserManager.meta_type)
 registerMultiPlugin(groupmanager.MembraneGroupManager.meta_type)

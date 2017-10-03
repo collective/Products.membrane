@@ -2,8 +2,9 @@
 #
 # MembraneTestCase Membrane
 #
-from zope.location.interfaces import ISite
 from Products.membrane.config import TOOLNAME
+from zope.location.interfaces import ISite
+
 import base
 
 

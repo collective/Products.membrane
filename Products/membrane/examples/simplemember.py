@@ -1,20 +1,23 @@
 # -*- coding: utf-8 -*-
 from AccessControl import ClassSecurityInfo
-
+from Products.Archetypes.public import BaseContent
+from Products.Archetypes.public import BaseSchema
+from Products.Archetypes.public import LinesField
+from Products.Archetypes.public import MultiSelectionWidget
+from Products.Archetypes.public import registerType
+from Products.Archetypes.public import Schema
+from Products.Archetypes.public import StringField
+from Products.Archetypes.public import StringWidget
+from Products.membrane.at.interfaces import IGroupAwareRolesProvider
+from Products.membrane.at.interfaces import IGroupsProvider
+from Products.membrane.at.interfaces import IPropertiesProvider
+from Products.membrane.at.interfaces import IUserAuthentication
+from Products.membrane.at.interfaces import IUserAuthProvider
+from Products.membrane.at.interfaces import IUserRoles
+from Products.membrane.config import PROJECTNAME
+from Products.membrane.utils import getFilteredValidRolesForPortal
 from zope.interface import implements
 
-from Products.Archetypes.public import BaseSchema, Schema, BaseContent, \
-    StringField, StringWidget, registerType, LinesField, \
-    MultiSelectionWidget
-
-from Products.membrane.config import PROJECTNAME
-from Products.membrane.at.interfaces import IUserAuthProvider
-from Products.membrane.at.interfaces import IUserAuthentication
-from Products.membrane.at.interfaces import IPropertiesProvider
-from Products.membrane.at.interfaces import IGroupsProvider
-from Products.membrane.at.interfaces import IUserRoles
-from Products.membrane.at.interfaces import IGroupAwareRolesProvider
-from Products.membrane.utils import getFilteredValidRolesForPortal
 
 SimpleSchema = BaseSchema + Schema((
     StringField('userName',

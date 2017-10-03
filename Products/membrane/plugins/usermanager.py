@@ -5,30 +5,26 @@
 # Copyright 2006 The Open Planning Project
 # robm <at> openplans -dot- org
 
-import copy
 from AccessControl import ClassSecurityInfo
 from App.class_init import default__class_init__ as InitializeClass
 from OFS.Cache import Cacheable
-from Products.PageTemplates.PageTemplateFile import PageTemplateFile
-from Products.ZCTextIndex.ZCTextIndex import ZCTextIndex
-
-from zope.interface import implements
-from zope.annotation.interfaces import IAnnotations
-
 from Products.CMFCore.utils import getToolByName
-
-from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
-from Products.PluggableAuthService.utils import createViewName
-
-from Products.membrane.config import TOOLNAME
 from Products.membrane.config import QIM_ANNOT_KEY
-from Products.membrane.interfaces.plugins import IMembraneUserManagerPlugin
+from Products.membrane.config import TOOLNAME
 from Products.membrane.interfaces import user as user_ifaces
-from Products.membrane.utils import getCurrentUserAdder
+from Products.membrane.interfaces.plugins import IMembraneUserManagerPlugin
 from Products.membrane.utils import findImplementations
 from Products.membrane.utils import findMembraneUserAspect
-
+from Products.membrane.utils import getCurrentUserAdder
+from Products.PageTemplates.PageTemplateFile import PageTemplateFile
+from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
+from Products.PluggableAuthService.utils import createViewName
+from Products.ZCTextIndex.ZCTextIndex import ZCTextIndex
+from zope.annotation.interfaces import IAnnotations
+from zope.interface import implements
 from zope.site import hooks
+
+import copy
 
 
 manage_addMembraneUserManagerForm = PageTemplateFile(
@@ -317,5 +313,6 @@ class MembraneUserManager(BasePlugin, Cacheable):
         deleters = findMembraneUserAspect(
             self, user_ifaces.IMembraneUserDeleter, exact_getUserId=user_id)
         return bool(deleters)
+
 
 InitializeClass(MembraneUserManager)

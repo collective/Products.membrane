@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from plone.app.testing import setRoles
 from plone.app.testing import login
+from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from Products.CMFPlone.utils import _createObjectByType

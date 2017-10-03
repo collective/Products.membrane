@@ -1,28 +1,22 @@
 # -*- coding: utf-8 -*-
-from zope.interface import implements
-from zope.annotation.interfaces import IAttributeAnnotatable
-from zope.event import notify
-
-from App.class_init import InitializeClass
 from AccessControl import ClassSecurityInfo
 from Acquisition import aq_base
+from App.class_init import InitializeClass
 from persistent.list import PersistentList
-
-from Products.ZCatalog.ZCatalog import ZCatalog
-
-from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.permissions import ManagePortal
-
+from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.CatalogTool import CatalogTool as BaseTool
-
-from Products.membrane.interfaces.membrane_tool import IMembraneTool
-from Products.membrane.interfaces import user as user_ifaces
-
 from Products.membrane import permissions
 from Products.membrane.config import TOOLNAME
 from Products.membrane.config import USE_COLLECTIVE_INDEXING
 from Products.membrane.events import MembraneTypeRegisteredEvent
 from Products.membrane.events import MembraneTypeUnregisteredEvent
+from Products.membrane.interfaces import user as user_ifaces
+from Products.membrane.interfaces.membrane_tool import IMembraneTool
+from Products.ZCatalog.ZCatalog import ZCatalog
+from zope.annotation.interfaces import IAttributeAnnotatable
+from zope.event import notify
+from zope.interface import implements
 
 
 class Record:

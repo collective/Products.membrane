@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
-import sys
-
 from AccessControl import ClassSecurityInfo
+from Products.membrane.at.userrelated import UserRelated
+from Products.membrane.interfaces.user import IMembraneUserProperties
+from Products.PlonePAS.sheet import MutablePropertySheet
 from zope.interface import implements
 
-from Products.PlonePAS.sheet import MutablePropertySheet
-
-from Products.membrane.interfaces.user import IMembraneUserProperties
-from Products.membrane.at.userrelated import UserRelated
+import sys
 
 
 class Properties(UserRelated):
