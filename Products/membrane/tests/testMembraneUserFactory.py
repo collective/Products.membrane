@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from plone.app.testing import login
 from Products.membrane.plugins.userfactory import MembraneUser
 from Products.membrane.tests import base

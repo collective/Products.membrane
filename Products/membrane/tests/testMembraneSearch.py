@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from Products.membrane.interfaces import IMembraneUserAuth
 from Products.membrane.tests import base
 from Products.membrane.tests import testMembraneUserManager

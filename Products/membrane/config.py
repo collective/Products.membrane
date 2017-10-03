@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 PROJECTNAME = 'membrane'
 TOOLNAME = 'membrane_tool'
 

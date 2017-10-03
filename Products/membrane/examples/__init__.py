@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 
 from Products.CMFCore.utils import ContentInit
 from Products.CMFCore.permissions import (

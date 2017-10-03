@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from pkg_resources import DistributionNotFound
 from pkg_resources import get_distribution
 from plone.app.testing import applyProfile

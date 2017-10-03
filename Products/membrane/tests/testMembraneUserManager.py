@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from plone.app.testing import login
 from plone.app.testing import logout
 from Products.CMFCore.utils import getToolByName

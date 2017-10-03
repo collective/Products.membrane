@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from StringIO import StringIO
 
 from Products.CMFCore.utils import getToolByName

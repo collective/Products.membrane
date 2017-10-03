@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Membrane interfaces"""
 
 from Products.membrane.interfaces.membrane_tool import IMembraneTool  # noqa

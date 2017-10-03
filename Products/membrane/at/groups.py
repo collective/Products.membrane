@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from Acquisition import aq_chain, aq_inner
 from AccessControl import ClassSecurityInfo
 from zope.interface import implements

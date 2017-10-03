@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Initialising code for Products.membrane.tests product.
 See also testing.zcml and the profile directory.

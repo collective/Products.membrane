@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Test the generic setup profile."""
 
 from base import MembraneTestCase

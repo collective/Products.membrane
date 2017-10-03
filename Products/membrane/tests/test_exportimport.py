@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Test the GS export import handlers."""
 
 from Acquisition import aq_base

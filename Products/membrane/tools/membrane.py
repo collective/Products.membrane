@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from zope.interface import implements
 from zope.annotation.interfaces import IAttributeAnnotatable
 from zope.event import notify
