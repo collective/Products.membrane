@@ -24,7 +24,7 @@ setup(
     install_requires=[
         "setuptools",
         "plone.indexer",
-        "Products.CMFPlone >= 4.3",
+        "Products.CMFPlone >= 5.1rc1",
     ],
     extras_require={
         'test': ['plone.app.testing'],
@@ -32,8 +32,7 @@ setup(
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Plone',
-        'Framework :: Plone :: 4.3',
-        'Framework :: Plone :: 5.0',
+        'Framework :: Plone :: 5.1',
         'Intended Audience :: Other Audience',
         'Intended Audience :: System Administrators',
         'License :: OSI Approved :: GNU General Public License (GPL)',

@@ -8,7 +8,6 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.CatalogTool import CatalogTool as BaseTool
 from Products.membrane import permissions
 from Products.membrane.config import TOOLNAME
-from Products.membrane.config import USE_COLLECTIVE_INDEXING
 from Products.membrane.events import MembraneTypeRegisteredEvent
 from Products.membrane.events import MembraneTypeUnregisteredEvent
 from Products.membrane.interfaces import user as user_ifaces
@@ -54,10 +53,14 @@ class MembraneTool(BaseTool):
         ZCatalog.__init__(self, self.getId())
         self.membrane_types = PersistentList()
 
+    def reindexObject(self, *args, **kwargs):
+        return super(MembraneTool, self)._reindexObject(*args, **kwargs)
+
+    def unindexObject(self, *args, **kwargs):
+        return super(MembraneTool, self)._unindexObject(*args, **kwargs)
+
     def attool(self):
-        if USE_COLLECTIVE_INDEXING:
-            return None
-        return getToolByName(self, 'archetype_tool', None)
+        return None  # Returned tool on CMFCore < 2.2.12 without c.indexing
 
     def registerMembraneType(self, portal_type):
         attool = self.attool()
