@@ -61,6 +61,7 @@ class MembraneTool(BaseTool):
     def attool(self):
         return None  # Returned tool on CMFCore < 2.2.12 without c.indexing
 
+    @security.protected(ManagePortal)
     def registerMembraneType(self, portal_type):
         attool = self.attool()
         if attool is not None:
@@ -74,8 +75,8 @@ class MembraneTool(BaseTool):
 
         # Trigger the status maps even if the type is already registered.
         notify(MembraneTypeRegisteredEvent(self, portal_type))
-    security.declareProtected(ManagePortal, 'registerMembraneType')
 
+    @security.protected(ManagePortal)
     def unregisterMembraneType(self, portal_type):
         attool = self.attool()
         if attool is not None:
@@ -87,8 +88,8 @@ class MembraneTool(BaseTool):
         elif portal_type in self.membrane_types:
             self.membrane_types.remove(portal_type)
             notify(MembraneTypeUnregisteredEvent(self, portal_type))
-    security.declareProtected(ManagePortal, 'unregisterMembraneType')
 
+    @security.protected(permissions.VIEW_PUBLIC_PERMISSION)
     def listMembraneTypes(self):
         attool = self.attool()
         if attool is not None:
@@ -100,9 +101,8 @@ class MembraneTool(BaseTool):
             return mtypes
         else:
             return self.membrane_types
-    security.declareProtected(permissions.VIEW_PUBLIC_PERMISSION,
-                              'listMembraneTypes')
 
+    @security.private
     def getUserObject(self, login=None, user_id=None, brain=False):
         """
         Return the authentication implementation (content item) for a
@@ -166,7 +166,6 @@ class MembraneTool(BaseTool):
 
         member = members[0]._unrestrictedGetObject()
         return member
-    security.declarePrivate('getUserObject')
 
     def getOriginalUserIdCase(self, userid):
         """

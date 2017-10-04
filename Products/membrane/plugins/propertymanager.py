@@ -68,6 +68,7 @@ class MembranePropertyManager(BasePlugin, Cacheable):
     #   IMutablePropertiesPlugin implementation
     #   IPropertiesPlugin implementation
     #
+    @security.private
     def getPropertiesForUser(self, user, request=None):
         """
         Retrieve all the IMembraneUserProperties property providers
@@ -90,8 +91,8 @@ class MembranePropertyManager(BasePlugin, Cacheable):
             del properties['id']
         return MutablePropertySheet(self.id,
                                     **properties)
-    security.declarePrivate('getPropertiesForUser')
 
+    @security.private
     def setPropertiesForUser(self, user, propertysheet):
         """
         Retrieve all of the IMembraneUserProperties property providers
@@ -100,14 +101,13 @@ class MembranePropertyManager(BasePlugin, Cacheable):
         prop_providers = self._getPropertyProviders(user)
         for mem_props in prop_providers:
             mem_props.setPropertiesForUser(user, propertysheet)
-    security.declarePrivate('setPropertiesForUser')
 
+    @security.private
     def deleteUser(self, user_id):
         """
         XXX: TODO
         """
         pass
-    security.declarePrivate('deleteUser')
 
 
 InitializeClass(MembranePropertyManager)

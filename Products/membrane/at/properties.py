@@ -21,6 +21,7 @@ class Properties(UserRelated):
 
     illegal_property_ids = ['id']
 
+    @security.private
     def _isPropertyField(self, field):
         """
         Returns 1 if field is a property field, to satisfy
@@ -29,11 +30,11 @@ class Properties(UserRelated):
         if hasattr(field, 'user_property') and field.user_property \
            and field.getName() not in self.illegal_property_ids:
             return 1
-    security.declarePrivate('_isPropertyField')
 
     #
     #   IMutablePropertiesPlugin implementation
     #
+    @security.private
     def getPropertiesForUser(self, user, request=None):
         """
         Find the fields that have true value for 'user_property' and
@@ -57,8 +58,8 @@ class Properties(UserRelated):
             properties[prop_name] = value
         return MutablePropertySheet(self.context.getId(),
                                     **properties)
-    security.declarePrivate('getPropertiesForUser')
 
+    @security.private
     def setPropertiesForUser(self, user, propertysheet):
         """
         Find any user property schema fields that match with properties
@@ -106,6 +107,7 @@ class SchemataProperties(UserRelated):
     #
     #   IPropertiesPlugin implementation
     #
+    @security.private
     def getPropertiesForUser(self, user, request=None):
         illegal_ids = ['id']
         properties = {}
@@ -120,8 +122,8 @@ class SchemataProperties(UserRelated):
                             value is not None and value or ''
         return MutablePropertySheet(self.context.getId(),
                                     **properties)
-    security.declarePrivate('getPropertiesForUser')
 
+    @security.private
     def setPropertiesForUser(self, user, propertysheet):
         """
         Find any schema fields from the user property schemata that

@@ -40,6 +40,7 @@ class MembraneUserFactory(PloneUserFactory):
         self.id = id
         self.title = title or self.meta_type
 
+    @security.private
     def createUser(self, user_id, name):
         mbtool = getToolByName(self, TOOLNAME)
         # don't create the user unless it's a membrane-based user
@@ -48,7 +49,6 @@ class MembraneUserFactory(PloneUserFactory):
         if not mbtool.case_sensitive_auth:
             user_id = mbtool.getOriginalUserIdCase(user_id)
         return MembraneUser(user_id, name)
-    security.declarePrivate('createUser')
 
 
 InitializeClass(MembraneUserFactory)
@@ -66,6 +66,7 @@ class MembraneUser(PloneUser):
     # This is also implemented by the wrapper
     # from memberdata...
     #
+    @security.private
     def getProperty(self, name, default=_marker):
         """getProperty(self, name) => return property value or
         raise AttributeError
@@ -77,15 +78,14 @@ class MembraneUser(PloneUser):
             raise AttributeError(name)
         else:
             return default
-    security.declarePrivate("getProperty")
 
+    @security.private
     def hasProperty(self, name):
         """hasProperty"""
         for sheet in self.getOrderedPropertySheets():
             if sheet.hasProperty(name):
                 True
         return False
-    security.declarePrivate("hasProperty")
 
 
 InitializeClass(MembraneUser)

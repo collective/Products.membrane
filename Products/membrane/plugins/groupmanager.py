@@ -64,6 +64,7 @@ class MembraneGroupManager(BasePlugin, Cacheable):
     #
     #   IGroupsPlugin implementation
     #
+    @security.private
     def getGroupsForPrincipal(self, principal, request=None):
         groups = {}
         # 1. Find adapters from user to a provider giving a list of groups.
@@ -98,11 +99,11 @@ class MembraneGroupManager(BasePlugin, Cacheable):
             pgroups = dict.fromkeys(provider.getGroupsForPrincipal(principal))
             groups.update(pgroups)
         return tuple(groups.keys())
-    security.declarePrivate('getGroupsForPrincipal')
 
     #
     #   IGroupEnumerationPlugin implementation
     #
+    @security.private
     def enumerateGroups(self,
                         id=None,
                         title=None,
@@ -188,7 +189,6 @@ class MembraneGroupManager(BasePlugin, Cacheable):
             group_info.append(info)
 
         return tuple(group_info)
-    security.declarePrivate('enumerateGroups')
 
     #
     #   IGroupsPlugin implementation
@@ -230,6 +230,7 @@ class MembraneGroupManager(BasePlugin, Cacheable):
     #################################
     # group wrapping mechanics
 
+    @security.private
     def _createGroup(self, plugins, group_id, name):
         """ Create group object. For users, this can be done with a
         plugin, but I don't care to define one for that now. Just uses
@@ -247,8 +248,8 @@ class MembraneGroupManager(BasePlugin, Cacheable):
         #        return user.__of__(self)
 
         return PloneGroup(group_id, name).__of__(self)
-    security.declarePrivate('_createGroup')
 
+    @security.private
     def _findGroup(self, plugins, group_id, title=None, request=None):
         """ group_id -> decorated_group
         This method based on PluggableAuthService._findGroup
@@ -293,8 +294,8 @@ class MembraneGroupManager(BasePlugin, Cacheable):
                     base_group, view_name=view_name, keywords=keywords)
 
         return group.__of__(self)
-    security.declarePrivate('_findGroup')
 
+    @security.private
     def _verifyGroup(self, plugins, group_id=None, title=None):
         """ group_id -> boolean
         This method based on PluggableAuthService._verifyUser
@@ -336,7 +337,6 @@ class MembraneGroupManager(BasePlugin, Cacheable):
                         exc_info=True)
 
         return 0
-    security.declarePrivate('_verifyGroup')
     # XXXXXXXXXXXXXXXXXXXXXXXXXX REMOVE TO HERE
 
 

@@ -46,6 +46,7 @@ class MembraneRoleManager(BasePlugin, Cacheable):
     #
     #   IRolesPlugin implementation
     #
+    @security.private
     def getRolesForPrincipal(self, principal, request=None):
         roles = {}
         providers = findMembraneUserAspect(
@@ -55,7 +56,6 @@ class MembraneRoleManager(BasePlugin, Cacheable):
             roles.update(dict.fromkeys(
                 provider.getRolesForPrincipal(principal)))
         return tuple(roles.keys())
-    security.declarePrivate('getRolesForPrincipal')
 
 
 InitializeClass(MembraneRoleManager)

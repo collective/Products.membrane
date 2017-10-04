@@ -19,6 +19,7 @@ class Groups(UserRelated):
     #
     #   IGroupsPlugin implementation
     #
+    @security.private
     def getGroupsForPrincipal(self, principal, request=None):
         groups = {}
         # Get all BRefs that implement IGroup - slightly expensive
@@ -31,7 +32,6 @@ class Groups(UserRelated):
             if group is not None:
                 groups[group.getGroupId()] = 1
         return tuple(groups.keys())
-    security.declarePrivate('getGroupsForPrincipal')
 
 
 @implementer(IMembraneUserGroups)
@@ -48,6 +48,7 @@ class SelectedGroups(UserRelated):
     #
     #   IGroupsPlugin implementation
     #
+    @security.private
     def getGroupsForPrincipal(self, principal, request=None):
         groups = {}
         for relationship in self.context.getGroupRelationships():
@@ -58,4 +59,3 @@ class SelectedGroups(UserRelated):
             if group is not None:
                 groups[group.getGroupId()] = 1
         return tuple(groups.keys())
-    security.declarePrivate('getGroupsForPrincipal')

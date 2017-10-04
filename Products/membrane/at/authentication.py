@@ -17,6 +17,7 @@ class Authentication(UserRelated):
     #
     #   IAuthenticationPlugin implementation
     #
+    @security.private
     def authenticateCredentials(self, credentials):
         login = credentials.get('login')
         password = credentials.get('password')
@@ -34,4 +35,3 @@ class Authentication(UserRelated):
             info = IMembraneUserObject(self.context, self)
             userid = info.getUserId()
             return userid, login
-    security.declarePrivate('authenticateCredentials')

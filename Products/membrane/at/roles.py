@@ -20,9 +20,9 @@ class Roles(UserRelated):
     #
     #   IRolesPlugin implementation
     #
+    @security.private
     def getRolesForPrincipal(self, principal, request=None):
         return IUserRoles(self.context).getRoles()
-    security.declarePrivate('getRolesForPrincipal')
 
 
 @implementer(IMembraneUserRoles)
@@ -37,6 +37,7 @@ class GroupAwareRoles(UserRelated):
     #
     #   IRolesPlugin implementation
     #
+    @security.private
     def getRolesForPrincipal(self, principal, request=None):
         roles = dict.fromkeys(IUserRoles(self.context).getRoles())
 
@@ -54,4 +55,3 @@ class GroupAwareRoles(UserRelated):
                 roles.update(dict.fromkeys(group.getRoles()))
 
         return roles.keys()
-    security.declarePrivate('getRolesForPrincipal')

@@ -203,14 +203,14 @@ class AlternativeTestMember(BaseMember, BaseContent):
     security = ClassSecurityInfo()
 
     # For IPropertiesPlugin implementation/Property mixin
+    @security.private
     def getUserPropertySchemata(self):
         return ['userinfo']
-    security.declarePrivate('getUserPropertySchematas')
 
     # For IGroupsPlugin implementation/Group mixin
+    @security.private
     def getGroupRelationships(self):
         return [GROUP_RELATIONSHIP]
-    security.declarePrivate('getGroupRelationships')
 
 
 registerType(AlternativeTestMember, PROJECTNAME)

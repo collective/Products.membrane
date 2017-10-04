@@ -22,6 +22,7 @@ class UserRelated(object):
     #
     #   IMembraneUserObject implementation
     #
+    @security.public
     def getUserId(self):
         """
         Return the user id
@@ -38,7 +39,6 @@ class UserRelated(object):
                 return IMembraneUserObject(user_provider).getUserId()
             except TypeError:
                 return None
-    security.declarePublic('getUserId')
 
     def getUserName(self):
         """Return the users login name. This delegates to the generated
