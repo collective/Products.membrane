@@ -6,9 +6,6 @@
            i18n_domain="membrane">
 
   <include package="Products.GenericSetup" file="meta.zcml" />
-  <include
-      zcml:condition="installed collective.indexing"
-      package="collective.indexing" />
   <include file="permissions.zcml" />
   <include package=".interfaces" />
   <include package=".browser" />
@@ -37,9 +34,8 @@
            />
 
   <utility
-      zcml:condition="installed collective.indexing"
       factory=".catalog.MembraneCatalogProcessor"
-      provides="collective.indexing.indexer.IPortalCatalogQueueProcessor"
+      provides="Products.CMFCore.interfaces.IPortalCatalogQueueProcessor"
       name="membrane"
       />
 

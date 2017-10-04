@@ -3,14 +3,14 @@ from OFS.SimpleItem import SimpleItem
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import _createObjectByType
 from Products.membrane.interfaces import IUserAdder
-from zope.interface import implements
+from zope.interface import implementer
 
 
+@implementer(IUserAdder)
 class UserAdder(SimpleItem):
     """
     UserAdder utility that knows how to add SimpleMembers.
     """
-    implements(IUserAdder)
 
     def addUser(self, login, password):
         """

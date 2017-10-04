@@ -20,11 +20,6 @@ from zope.configuration import xmlconfig
 
 
 try:
-    get_distribution('collective.indexing')
-    HAS_INDEXING = True
-except DistributionNotFound:
-    HAS_INDEXING = False
-try:
     get_distribution('Products.remember')
     HAS_REMEMBER = True
 except DistributionNotFound:
@@ -63,10 +58,6 @@ class MembraneProfilesLayer(PloneSandboxLayer):
             Products.membrane.tests,
             context=configurationContext)
         app.REQUEST['SESSION'] = Session()
-        if HAS_INDEXING:
-            import collective.indexing
-            z2.installProduct(app, 'collective.indexing')
-            self.loadZCML(package=collective.indexing)
         if HAS_REMEMBER:
             # We do not need this ourselves, but it is nice if we can at least
             # load it without breaking anything.
@@ -77,8 +68,7 @@ class MembraneProfilesLayer(PloneSandboxLayer):
             import plone.app.contenttypes
             self.loadZCML(package=plone.app.contenttypes)
             # We need to load Archetypes because our example and test profiles
-            # need this.  We could turn the types into dexterity types and
-            # depend on collective.indexing instead.
+            # need this.  We could turn the types into dexterity types
             import Products.Archetypes
             self.loadZCML(package=Products.Archetypes)
 
@@ -106,7 +96,6 @@ class MembraneProfilesLayer(PloneSandboxLayer):
         mbtool.registerMembraneType(dummy.TestGroup.portal_type)
 
     def tearDownZope(self, app):
-        z2.uninstallProduct(app, 'collective.indexing')
         z2.uninstallProduct(app, 'Products.membrane')
 
 

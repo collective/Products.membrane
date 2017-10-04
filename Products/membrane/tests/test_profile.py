@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Test the generic setup profile."""
 
-from base import MembraneTestCase
+from .base import MembraneTestCase
 from Products.CMFCore.utils import getToolByName
 
 

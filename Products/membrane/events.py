@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from Products.membrane.interfaces.events import IMembraneTypeRegisteredEvent
 from Products.membrane.interfaces.events import IMembraneTypeUnregisteredEvent
-from zope.interface import implements
+from zope.interface import implementer
 
 
 class MembraneTypeEvent(object):
@@ -14,15 +14,15 @@ class MembraneTypeEvent(object):
         self.portal_type = portal_type
 
 
+@implementer(IMembraneTypeRegisteredEvent)
 class MembraneTypeRegisteredEvent(MembraneTypeEvent):
     """
     A membrane type has been registered.
     """
-    implements(IMembraneTypeRegisteredEvent)
 
 
+@implementer(IMembraneTypeUnregisteredEvent)
 class MembraneTypeUnregisteredEvent(MembraneTypeEvent):
     """
     A membrane type has been registered.
     """
-    implements(IMembraneTypeUnregisteredEvent)

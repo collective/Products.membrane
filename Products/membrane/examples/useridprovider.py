@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 from Products.CMFCore.utils import getToolByName
 from Products.membrane.interfaces.user import IMembraneUserObject
-from zope.interface import implements
+from zope.interface import implementer
 
 
+@implementer(IMembraneUserObject)
 class UserIdProvider(object):
     """
     Adapts from SimpleMember to IMembraneUserObject.  Uses a massaged path to
     the member object instead of the UID.
     """
-    implements(IMembraneUserObject)
 
     def __init__(self, context):
         self.context = context

@@ -12,9 +12,9 @@ from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 from Products.PlonePAS.interfaces.plugins import IMutablePropertiesPlugin
 from Products.PlonePAS.sheet import MutablePropertySheet
 from Products.PluggableAuthService.interfaces.plugins import IPropertiesPlugin
-from Products.PluggableAuthService.interfaces.propertysheets import IPropertySheet
+from Products.PluggableAuthService.interfaces.propertysheets import IPropertySheet  # noqa
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
-from zope.interface import implements
+from zope.interface import implementer
 
 
 manage_addMembranePropertyManagerForm = PageTemplateFile(
@@ -36,6 +36,7 @@ def addMembranePropertyManager(dispatcher, id, title=None, REQUEST=None):
             % dispatcher.absolute_url())
 
 
+@implementer(IPropertiesPlugin, IMutablePropertiesPlugin)
 class MembranePropertyManager(BasePlugin, Cacheable):
     """ PAS plugin for managing properties on contentish users and groups
         in Plone.
@@ -44,8 +45,6 @@ class MembranePropertyManager(BasePlugin, Cacheable):
     meta_type = 'Membrane Property Manager'
 
     security = ClassSecurityInfo()
-
-    implements(IPropertiesPlugin, IMutablePropertiesPlugin)
 
     def __init__(self, id, title=None):
 
@@ -69,6 +68,7 @@ class MembranePropertyManager(BasePlugin, Cacheable):
     #   IMutablePropertiesPlugin implementation
     #   IPropertiesPlugin implementation
     #
+    @security.private
     def getPropertiesForUser(self, user, request=None):
         """
         Retrieve all the IMembraneUserProperties property providers
@@ -91,8 +91,8 @@ class MembranePropertyManager(BasePlugin, Cacheable):
             del properties['id']
         return MutablePropertySheet(self.id,
                                     **properties)
-    security.declarePrivate('getPropertiesForUser')
 
+    @security.private
     def setPropertiesForUser(self, user, propertysheet):
         """
         Retrieve all of the IMembraneUserProperties property providers
@@ -101,14 +101,13 @@ class MembranePropertyManager(BasePlugin, Cacheable):
         prop_providers = self._getPropertyProviders(user)
         for mem_props in prop_providers:
             mem_props.setPropertiesForUser(user, propertysheet)
-    security.declarePrivate('setPropertiesForUser')
 
+    @security.private
     def deleteUser(self, user_id):
         """
         XXX: TODO
         """
         pass
-    security.declarePrivate('deleteUser')
 
 
 InitializeClass(MembranePropertyManager)

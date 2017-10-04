@@ -24,7 +24,7 @@ from Products.membrane.config import PROJECTNAME
 from Products.membrane.config import TOOLNAME
 from Products.membrane.interfaces import group as group_ifaces
 from Products.membrane.interfaces import user as user_ifaces
-from zope.interface import implements
+from zope.interface import implementer
 
 
 GROUP_RELATIONSHIP = 'participatesInProject'
@@ -55,13 +55,12 @@ group['title'].user_property = True
 group['description'].user_property = True
 
 
+@implementer(group_ifaces.IGroup, IGroupPropertiesProvider)
 class TestGroup(BaseFolder):
     """A group archetype for testing"""
     schema = group
 
     security = ClassSecurityInfo()
-
-    implements(group_ifaces.IGroup, IGroupPropertiesProvider)
 
     def getGroupName(self):
         return self.getId()
@@ -174,48 +173,55 @@ class BaseMember:
         parent.manage_delObjects([self.getId()])
 
 
+@implementer(
+    IUserAuthProvider,
+    IUserAuthentication,
+    IUserPropertiesProvider,
+    IGroupsProvider,
+    IGroupAwareRolesProvider,
+    IUserRoles,
+    user_ifaces.IMembraneUserChanger,
+    user_ifaces.IMembraneUserManagement,
+    user_ifaces.IMembraneUserDeleter
+)
 class TestMember(BaseMember, BaseContent):
     """A member archetype for testing"""
-    implements(
-        IUserAuthProvider, IUserAuthentication, IUserPropertiesProvider,
-        IGroupsProvider, IGroupAwareRolesProvider, IUserRoles,
-        user_ifaces.IMembraneUserChanger,
-        user_ifaces.IMembraneUserManagement,
-        user_ifaces.IMembraneUserDeleter)
 
 
 registerType(TestMember, PROJECTNAME)
 
 
+@implementer(
+    IUserAuthProvider,
+    IUserAuthentication,
+    ISchemataPropertiesProvider,
+    ISelectedGroupsProvider
+)
 class AlternativeTestMember(BaseMember, BaseContent):
     """A member archetype for testing"""
 
     security = ClassSecurityInfo()
 
-    implements(
-        IUserAuthProvider, IUserAuthentication,
-        ISchemataPropertiesProvider, ISelectedGroupsProvider)
-
     # For IPropertiesPlugin implementation/Property mixin
+    @security.private
     def getUserPropertySchemata(self):
         return ['userinfo']
-    security.declarePrivate('getUserPropertySchematas')
 
     # For IGroupsPlugin implementation/Group mixin
+    @security.private
     def getGroupRelationships(self):
         return [GROUP_RELATIONSHIP]
-    security.declarePrivate('getGroupRelationships')
 
 
 registerType(AlternativeTestMember, PROJECTNAME)
 
 
+@implementer(IUserPropertiesProvider)
 class TestPropertyProvider(BaseContent):
     """Tests externally provided properties"""
     schema = extra
     _at_rename_after_creation = True
     security = ClassSecurityInfo()
-    implements(IUserPropertiesProvider)
 
     def getUserName(self):
         # We must implement IMembraneUserObject. We cheat a bit and do not
@@ -226,6 +232,7 @@ class TestPropertyProvider(BaseContent):
 registerType(TestPropertyProvider, PROJECTNAME)
 
 
+@implementer(ISchemataPropertiesProvider)
 class TestAlternatePropertyProvider(BaseContent):
     """
     Tests externally provided properties w/ properties coming from
@@ -234,7 +241,6 @@ class TestAlternatePropertyProvider(BaseContent):
     schema = extra
     _at_rename_after_creation = True
     security = ClassSecurityInfo()
-    implements(ISchemataPropertiesProvider)
 
     def getUserName(self):
         # We must implement IMembraneUserObject. We cheat a bit and do not

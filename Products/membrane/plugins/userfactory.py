@@ -8,7 +8,7 @@ from Products.membrane.interfaces.user import IMembraneUser
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 from Products.PlonePAS.plugins.ufactory import PloneUser
 from Products.PlonePAS.plugins.ufactory import PloneUserFactory
-from zope.interface import implements
+from zope.interface import implementer
 
 
 manage_addMembraneUserFactoryForm = PageTemplateFile(
@@ -30,17 +30,17 @@ def addMembraneUserFactory(dispatcher, id, title=None, REQUEST=None):
             % dispatcher.absolute_url())
 
 
+@implementer(IMembraneUserFactoryPlugin)
 class MembraneUserFactory(PloneUserFactory):
 
     security = ClassSecurityInfo()
     meta_type = 'Membrane User Factory'
 
-    implements(IMembraneUserFactoryPlugin)
-
     def __init__(self, id, title=''):
         self.id = id
         self.title = title or self.meta_type
 
+    @security.private
     def createUser(self, user_id, name):
         mbtool = getToolByName(self, TOOLNAME)
         # don't create the user unless it's a membrane-based user
@@ -49,7 +49,6 @@ class MembraneUserFactory(PloneUserFactory):
         if not mbtool.case_sensitive_auth:
             user_id = mbtool.getOriginalUserIdCase(user_id)
         return MembraneUser(user_id, name)
-    security.declarePrivate('createUser')
 
 
 InitializeClass(MembraneUserFactory)
@@ -57,17 +56,17 @@ InitializeClass(MembraneUserFactory)
 _marker = ['INVALID_VALUE']
 
 
+@implementer(IMembraneUser)
 class MembraneUser(PloneUser):
 
     security = ClassSecurityInfo()
-
-    implements(IMembraneUser)
 
     #
     # Implementing getProperty for convenience
     # This is also implemented by the wrapper
     # from memberdata...
     #
+    @security.private
     def getProperty(self, name, default=_marker):
         """getProperty(self, name) => return property value or
         raise AttributeError
@@ -79,15 +78,14 @@ class MembraneUser(PloneUser):
             raise AttributeError(name)
         else:
             return default
-    security.declarePrivate("getProperty")
 
+    @security.private
     def hasProperty(self, name):
         """hasProperty"""
         for sheet in self.getOrderedPropertySheets():
             if sheet.hasProperty(name):
                 True
         return False
-    security.declarePrivate("hasProperty")
 
 
 InitializeClass(MembraneUser)

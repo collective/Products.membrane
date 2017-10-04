@@ -6,9 +6,10 @@ from Products.membrane.at.userrelated import UserRelated
 from Products.membrane.config import TOOLNAME
 from Products.membrane.interfaces import group as group_ifaces
 from Products.membrane.interfaces.user import IMembraneUserRoles
-from zope.interface import implements
+from zope.interface import implementer
 
 
+@implementer(IMembraneUserRoles)
 class Roles(UserRelated):
     """
     Adapts from IRolesProvider to IMembraneUserRoles, simply returns
@@ -16,16 +17,15 @@ class Roles(UserRelated):
     """
     security = ClassSecurityInfo()
 
-    implements(IMembraneUserRoles)
-
     #
     #   IRolesPlugin implementation
     #
+    @security.private
     def getRolesForPrincipal(self, principal, request=None):
         return IUserRoles(self.context).getRoles()
-    security.declarePrivate('getRolesForPrincipal')
 
 
+@implementer(IMembraneUserRoles)
 class GroupAwareRoles(UserRelated):
     """
     Adapts from IGroupAwareRolesProvider to
@@ -34,11 +34,10 @@ class GroupAwareRoles(UserRelated):
     """
     security = ClassSecurityInfo()
 
-    implements(IMembraneUserRoles)
-
     #
     #   IRolesPlugin implementation
     #
+    @security.private
     def getRolesForPrincipal(self, principal, request=None):
         roles = dict.fromkeys(IUserRoles(self.context).getRoles())
 
@@ -56,4 +55,3 @@ class GroupAwareRoles(UserRelated):
                 roles.update(dict.fromkeys(group.getRoles()))
 
         return roles.keys()
-    security.declarePrivate('getRolesForPrincipal')

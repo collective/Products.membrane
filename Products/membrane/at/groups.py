@@ -5,9 +5,10 @@ from Acquisition import aq_inner
 from Products.membrane.at.userrelated import UserRelated
 from Products.membrane.interfaces.group import IGroup
 from Products.membrane.interfaces.user import IMembraneUserGroups
-from zope.interface import implements
+from zope.interface import implementer
 
 
+@implementer(IMembraneUserGroups)
 class Groups(UserRelated):
     """
     Adapts from IGroupsProvider to IMembraneUserGroups, gets groups
@@ -15,11 +16,10 @@ class Groups(UserRelated):
     """
     security = ClassSecurityInfo()
 
-    implements(IMembraneUserGroups)
-
     #
     #   IGroupsPlugin implementation
     #
+    @security.private
     def getGroupsForPrincipal(self, principal, request=None):
         groups = {}
         # Get all BRefs that implement IGroup - slightly expensive
@@ -32,9 +32,9 @@ class Groups(UserRelated):
             if group is not None:
                 groups[group.getGroupId()] = 1
         return tuple(groups.keys())
-    security.declarePrivate('getGroupsForPrincipal')
 
 
+@implementer(IMembraneUserGroups)
 class SelectedGroups(UserRelated):
     """
     Adapts from ISelectedGroupsProvider to IMembraneUserGroups; gets groups
@@ -42,14 +42,13 @@ class SelectedGroups(UserRelated):
     """
     security = ClassSecurityInfo()
 
-    implements(IMembraneUserGroups)
-
     def __init__(self, context):
         self.context = context
 
     #
     #   IGroupsPlugin implementation
     #
+    @security.private
     def getGroupsForPrincipal(self, principal, request=None):
         groups = {}
         for relationship in self.context.getGroupRelationships():
@@ -60,4 +59,3 @@ class SelectedGroups(UserRelated):
             if group is not None:
                 groups[group.getGroupId()] = 1
         return tuple(groups.keys())
-    security.declarePrivate('getGroupsForPrincipal')

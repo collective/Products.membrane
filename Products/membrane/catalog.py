@@ -1,20 +1,17 @@
 # -*- coding: utf-8 -*-
-from Acquisition import aq_base
 from Acquisition import aq_inner
 from Acquisition import aq_parent
 from plone.indexer import indexer
+from Products.CMFCore.indexing import PathProxy
+from Products.CMFCore.interfaces import IIndexQueueProcessor
 from Products.CMFCore.utils import getToolByName
-from Products.membrane.config import USE_COLLECTIVE_INDEXING
 from Products.membrane.interfaces import membrane_tool
 from Products.membrane.interfaces.group import IGroup
 from Products.membrane.interfaces.user import IMembraneUserObject
 from zope import component
-from zope.interface import implements
+from zope.interface import implementer
 from zope.interface import Interface
-
-
-if USE_COLLECTIVE_INDEXING:
-    from collective.indexing.interfaces import IIndexQueueProcessor
+from zope.proxy import getProxiedObject
 
 
 @indexer(Interface, membrane_tool.IMembraneTool)
@@ -62,6 +59,7 @@ def getParentPath(obj):
     return '/'.join(aq_parent(aq_inner(obj)).getPhysicalPath())
 
 
+@implementer(IIndexQueueProcessor)
 class MembraneCatalogProcessor(object):
     """Catalog processor to update user objects in the membrane tool.
 
@@ -70,9 +68,6 @@ class MembraneCatalogProcessor(object):
     providing :py:obj:`IMembraneUserObject` are also reflected
     in the `membrane_tool` catalog.
     """
-    if USE_COLLECTIVE_INDEXING:
-        implements(IIndexQueueProcessor)
-
     def index(self, obj, attributes=[]):
         if IMembraneUserObject(
                 obj, None) is None and IGroup(obj, None) is None:
@@ -83,7 +78,7 @@ class MembraneCatalogProcessor(object):
             if getattr(obj, 'portal_type') in mbtool.listMembraneTypes():
                 mbtool.indexObject(obj, attributes or [])
 
-    def reindex(self, obj, attributes=[]):
+    def reindex(self, obj, attributes=[], update_metadata=True):
         if IMembraneUserObject(
                 obj, None) is None and IGroup(obj, None) is None:
             return
@@ -94,9 +89,10 @@ class MembraneCatalogProcessor(object):
 
     def unindex(self, obj):
         wrapped_obj = obj
-        if aq_base(obj).__class__.__name__ == 'PathWrapper':
-            # Could be a PathWrapper object from collective.indexing.
-            obj = obj.context
+
+        if isinstance(obj, PathProxy):
+            # Could be a PathProxy object from CMFCore.indexing
+            obj = getProxiedObject(obj)
 
         if IMembraneUserObject(
                 obj, None) is None and IGroup(obj, None) is None:

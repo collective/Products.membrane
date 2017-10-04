@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 from Products.membrane.at.interfaces import IUserChanger
 from Products.membrane.interfaces.user import IMembraneUserChanger
-from zope.interface import implements
+from zope.interface import implementer
 
 
+@implementer(IMembraneUserChanger)
 class UserChanger(object):
     """
     provide a default adaptation from IUserChanger to IMembraneUserChanger
     """
-    implements(IMembraneUserChanger)
 
     def __init__(self, context):
         self.context = context

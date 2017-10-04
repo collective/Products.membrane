@@ -21,7 +21,7 @@ from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from Products.PluggableAuthService.utils import createViewName
 from Products.ZCTextIndex.ZCTextIndex import ZCTextIndex
 from zope.annotation.interfaces import IAnnotations
-from zope.interface import implements
+from zope.interface import implementer
 from zope.site import hooks
 
 import copy
@@ -46,14 +46,13 @@ def addMembraneUserManager(dispatcher, id, title=None, REQUEST=None):
             % dispatcher.absolute_url())
 
 
+@implementer(IMembraneUserManagerPlugin)
 class MembraneUserManager(BasePlugin, Cacheable):
     """ PAS plugin for managing contentish members in Plone.
     """
     meta_type = 'Membrane User Manager'
 
     security = ClassSecurityInfo()
-
-    implements(IMembraneUserManagerPlugin)
 
     def __init__(self, id, title=None):
         self._id = self.id = id
@@ -62,6 +61,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
     #
     #   IAuthenticationPlugin implementation
     #
+    @security.private
     def authenticateCredentials(self, credentials):
         """ See IAuthenticationPlugin.
 
@@ -83,11 +83,11 @@ class MembraneUserManager(BasePlugin, Cacheable):
             return None
 
         return auth.authenticateCredentials(credentials)
-    security.declarePrivate('authenticateCredentials')
 
     #
     #   IUserEnumerationPlugin implementation
     #
+    @security.private
     def enumerateUsers(self, id=None, login=None, exact_match=False,
                        sort_by=None, max_results=None, **kw):
         """ See IUserEnumerationPlugin.
@@ -197,7 +197,6 @@ class MembraneUserManager(BasePlugin, Cacheable):
             user_info, view_name=view_name, keywords=keywords)
 
         return tuple(user_info)
-    security.declarePrivate('enumerateUsers')
 
     def updateUser(self, user_id, login_name):
         """ Update the login name of the user with id user_id.
@@ -232,6 +231,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
     #
     #   IUserIntrospection implementation
     #
+    @security.private
     def getUserIds(self):
         """
         Return a list of user ids
@@ -239,8 +239,8 @@ class MembraneUserManager(BasePlugin, Cacheable):
         users = findImplementations(
             self, user_ifaces.IMembraneUserObject)
         return tuple([u.getUserId for u in users])
-    security.declarePrivate('getUserIds')
 
+    @security.private
     def getUserNames(self):
         """
         Return a list of usernames
@@ -248,8 +248,8 @@ class MembraneUserManager(BasePlugin, Cacheable):
         users = findImplementations(
             self, user_ifaces.IMembraneUserObject)
         return tuple([u.getUserName for u in users])
-    security.declarePrivate('getUserNames')
 
+    @security.private
     def getUsers(self):
         """
         Return a list of users
@@ -258,7 +258,6 @@ class MembraneUserManager(BasePlugin, Cacheable):
         """
         uf = getToolByName(self, 'acl_users')
         return tuple([uf.getUserById(x) for x in self.getUserIds()])
-    security.declarePrivate('getUsers')
 
     #
     # IUserManagement implementation

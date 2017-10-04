@@ -6,14 +6,14 @@ cache:
   - eggs
 env:
   matrix:
-    - PLONE_VERSION=4.3
-    - PLONE_VERSION=5.0
+    - PLONE_VERSION=5.1
 matrix:
   fast_finish: true
 install:
-- sed -ie "s#test-4.x#test-$PLONE_VERSION.x#" buildout.cfg
-- python bootstrap.py
-- bin/buildout annotate
-- bin/buildout
+- sed -ie "s#test-5.1.x#test-$PLONE_VERSION.x#" buildout.cfg
+- pip install -U pip
+- pip install -r https://raw.githubusercontent.com/plone/buildout.coredev/5.1/requirements.txt
+- buildout annotate
+- buildout
 script:
-- bin/test && bin/test-indexing
+- bin/test

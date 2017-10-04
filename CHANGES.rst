@@ -1,11 +1,22 @@
 Changelog
 =========
 
-3.0.3 (unreleased)
+4.0.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+**Breaking changes:**
 
+- Requires Plone 5.1 or newer.
+  [datakurre]
+
+Fixes:
+
+- Modernization and cleanup:
+  Use Decorators for ZCA and security.
+  Sort and cleanup imports.
+  Add utf8 headers.
+  Updated bootstrapping and test setup.
+  [jensens]
 
 3.0.2 (2017-09-15)
 ------------------
