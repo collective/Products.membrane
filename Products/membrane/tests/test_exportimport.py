@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Test the GS export import handlers."""
 
+from .base import MembraneTestCase
 from Acquisition import aq_base
-from base import MembraneTestCase
 from Products.CMFCore.utils import getToolByName
 
 
