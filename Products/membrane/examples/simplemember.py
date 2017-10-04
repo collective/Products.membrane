@@ -16,7 +16,7 @@ from Products.membrane.at.interfaces import IUserAuthProvider
 from Products.membrane.at.interfaces import IUserRoles
 from Products.membrane.config import PROJECTNAME
 from Products.membrane.utils import getFilteredValidRolesForPortal
-from zope.interface import implements
+from zope.interface import implementer
 
 
 SimpleSchema = BaseSchema + Schema((
@@ -50,15 +50,20 @@ SimpleSchema = BaseSchema + Schema((
 ))
 
 
+@implementer(
+    IUserAuthProvider,
+    IUserAuthentication,
+    IPropertiesProvider,
+    IGroupsProvider,
+    IGroupAwareRolesProvider,
+    IUserRoles
+)
 class SimpleMember(BaseContent):
     """A simple member archetype"""
     schema = SimpleSchema
     _at_rename_after_creation = True
 
     security = ClassSecurityInfo()
-
-    implements(IUserAuthProvider, IUserAuthentication, IPropertiesProvider,
-               IGroupsProvider, IGroupAwareRolesProvider, IUserRoles)
 
     getRoleSet = getFilteredValidRolesForPortal
 

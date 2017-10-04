@@ -14,7 +14,7 @@ from Products.PlonePAS.sheet import MutablePropertySheet
 from Products.PluggableAuthService.interfaces.plugins import IPropertiesPlugin
 from Products.PluggableAuthService.interfaces.propertysheets import IPropertySheet  # noqa
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
-from zope.interface import implements
+from zope.interface import implementer
 
 
 manage_addMembranePropertyManagerForm = PageTemplateFile(
@@ -36,6 +36,7 @@ def addMembranePropertyManager(dispatcher, id, title=None, REQUEST=None):
             % dispatcher.absolute_url())
 
 
+@implementer(IPropertiesPlugin, IMutablePropertiesPlugin)
 class MembranePropertyManager(BasePlugin, Cacheable):
     """ PAS plugin for managing properties on contentish users and groups
         in Plone.
@@ -44,8 +45,6 @@ class MembranePropertyManager(BasePlugin, Cacheable):
     meta_type = 'Membrane Property Manager'
 
     security = ClassSecurityInfo()
-
-    implements(IPropertiesPlugin, IMutablePropertiesPlugin)
 
     def __init__(self, id, title=None):
 

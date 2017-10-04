@@ -6,17 +6,16 @@ from Products.membrane.at.userrelated import UserRelated
 from Products.membrane.config import TOOLNAME
 from Products.membrane.interfaces import group as group_ifaces
 from Products.membrane.interfaces.user import IMembraneUserRoles
-from zope.interface import implements
+from zope.interface import implementer
 
 
+@implementer(IMembraneUserRoles)
 class Roles(UserRelated):
     """
     Adapts from IRolesProvider to IMembraneUserRoles, simply returns
     the roles from the context object.
     """
     security = ClassSecurityInfo()
-
-    implements(IMembraneUserRoles)
 
     #
     #   IRolesPlugin implementation
@@ -26,6 +25,7 @@ class Roles(UserRelated):
     security.declarePrivate('getRolesForPrincipal')
 
 
+@implementer(IMembraneUserRoles)
 class GroupAwareRoles(UserRelated):
     """
     Adapts from IGroupAwareRolesProvider to
@@ -33,8 +33,6 @@ class GroupAwareRoles(UserRelated):
     from any groups associated with the principal.
     """
     security = ClassSecurityInfo()
-
-    implements(IMembraneUserRoles)
 
     #
     #   IRolesPlugin implementation

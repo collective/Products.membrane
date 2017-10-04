@@ -2,7 +2,7 @@
 from setuptools import find_packages
 from setuptools import setup
 
-version = '3.0.3.dev0'
+version = '4.0.0.dev0'
 readme = open('README.rst').read()
 history = open('CHANGES.rst').read()
 
@@ -24,7 +24,7 @@ setup(
     install_requires=[
         "setuptools",
         "plone.indexer",
-        "Products.CMFPlone >= 5.1rc1",
+        "Products.CMFPlone>=5.1rc1",
     ],
     extras_require={
         'test': ['plone.app.testing'],

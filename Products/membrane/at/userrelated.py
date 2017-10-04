@@ -3,9 +3,10 @@ from AccessControl import ClassSecurityInfo
 from Products.membrane.at.interfaces import IUserAuthProvider
 from Products.membrane.at.relations import UserRelatedRelation
 from Products.membrane.interfaces.user import IMembraneUserObject
-from zope.interface import implements
+from zope.interface import implementer
 
 
+@implementer(IMembraneUserObject)
 class UserRelated(object):
     """
     Default implementation for extracting a user id from a piece of
@@ -14,8 +15,6 @@ class UserRelated(object):
     specific adapters.
     """
     security = ClassSecurityInfo()
-
-    implements(IMembraneUserObject)
 
     def __init__(self, context):
         self.context = context

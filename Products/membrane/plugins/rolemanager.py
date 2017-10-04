@@ -10,7 +10,7 @@ from Products.membrane.interfaces.plugins import IMembraneRoleManagerPlugin
 from Products.membrane.utils import findMembraneUserAspect
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
-from zope.interface import implements
+from zope.interface import implementer
 
 
 manage_addMembraneRoleManagerForm = PageTemplateFile(
@@ -31,14 +31,13 @@ def addMembraneRoleManager(dispatcher, id, title=None, REQUEST=None):
             % dispatcher.absolute_url())
 
 
+@implementer(IMembraneRoleManagerPlugin)
 class MembraneRoleManager(BasePlugin, Cacheable):
     """ PAS plugin for managing roles with Membrane.
     """
     meta_type = 'Membrane Role Manager'
 
     security = ClassSecurityInfo()
-
-    implements(IMembraneRoleManagerPlugin)
 
     def __init__(self, id, title=None):
         self._id = self.id = id

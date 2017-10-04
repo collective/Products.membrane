@@ -3,11 +3,12 @@ from AccessControl import ClassSecurityInfo
 from Products.membrane.at.userrelated import UserRelated
 from Products.membrane.interfaces.user import IMembraneUserProperties
 from Products.PlonePAS.sheet import MutablePropertySheet
-from zope.interface import implements
+from zope.interface import implementer
 
 import sys
 
 
+@implementer(IMembraneUserProperties)
 class Properties(UserRelated):
     """
     Adapts from IPropertiesProvider to IMembraneUserProperties,
@@ -17,8 +18,6 @@ class Properties(UserRelated):
     field name and property differ).
     """
     security = ClassSecurityInfo()
-
-    implements(IMembraneUserProperties)
 
     illegal_property_ids = ['id']
 
@@ -95,6 +94,7 @@ class Properties(UserRelated):
         pass
 
 
+@implementer(IMembraneUserProperties)
 class SchemataProperties(UserRelated):
     """
     Adapts from ISchemataPropertiesProvider to
@@ -102,8 +102,6 @@ class SchemataProperties(UserRelated):
     schematas
     """
     security = ClassSecurityInfo()
-
-    implements(IMembraneUserProperties)
 
     #
     #   IPropertiesPlugin implementation

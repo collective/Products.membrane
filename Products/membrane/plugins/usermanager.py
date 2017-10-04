@@ -21,7 +21,7 @@ from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from Products.PluggableAuthService.utils import createViewName
 from Products.ZCTextIndex.ZCTextIndex import ZCTextIndex
 from zope.annotation.interfaces import IAnnotations
-from zope.interface import implements
+from zope.interface import implementer
 from zope.site import hooks
 
 import copy
@@ -46,14 +46,13 @@ def addMembraneUserManager(dispatcher, id, title=None, REQUEST=None):
             % dispatcher.absolute_url())
 
 
+@implementer(IMembraneUserManagerPlugin)
 class MembraneUserManager(BasePlugin, Cacheable):
     """ PAS plugin for managing contentish members in Plone.
     """
     meta_type = 'Membrane User Manager'
 
     security = ClassSecurityInfo()
-
-    implements(IMembraneUserManagerPlugin)
 
     def __init__(self, id, title=None):
         self._id = self.id = id

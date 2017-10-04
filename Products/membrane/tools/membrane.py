@@ -15,10 +15,10 @@ from Products.membrane.interfaces.membrane_tool import IMembraneTool
 from Products.ZCatalog.ZCatalog import ZCatalog
 from zope.annotation.interfaces import IAttributeAnnotatable
 from zope.event import notify
-from zope.interface import implements
+from zope.interface import implementer
 
 
-class Record:
+class Record(object):
     """ A simple helper class for carrying the 'extra'-payload to
     index constructors.
     """
@@ -27,6 +27,7 @@ class Record:
         self.__dict__.update(kw)
 
 
+@implementer(IMembraneTool, IAttributeAnnotatable)
 class MembraneTool(BaseTool):
     """Tool for managing members."""
     id = TOOLNAME
@@ -39,8 +40,6 @@ class MembraneTool(BaseTool):
     case_sensitive_auth = True
 
     _catalog_count = None
-
-    implements(IMembraneTool, IAttributeAnnotatable)
 
     manage_options = (
         {'label': 'Types', 'action': 'manage_membranetypes'},

@@ -8,7 +8,7 @@ from Products.membrane.interfaces.user import IMembraneUser
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 from Products.PlonePAS.plugins.ufactory import PloneUser
 from Products.PlonePAS.plugins.ufactory import PloneUserFactory
-from zope.interface import implements
+from zope.interface import implementer
 
 
 manage_addMembraneUserFactoryForm = PageTemplateFile(
@@ -30,12 +30,11 @@ def addMembraneUserFactory(dispatcher, id, title=None, REQUEST=None):
             % dispatcher.absolute_url())
 
 
+@implementer(IMembraneUserFactoryPlugin)
 class MembraneUserFactory(PloneUserFactory):
 
     security = ClassSecurityInfo()
     meta_type = 'Membrane User Factory'
-
-    implements(IMembraneUserFactoryPlugin)
 
     def __init__(self, id, title=''):
         self.id = id
@@ -57,11 +56,10 @@ InitializeClass(MembraneUserFactory)
 _marker = ['INVALID_VALUE']
 
 
+@implementer(IMembraneUser)
 class MembraneUser(PloneUser):
 
     security = ClassSecurityInfo()
-
-    implements(IMembraneUser)
 
     #
     # Implementing getProperty for convenience

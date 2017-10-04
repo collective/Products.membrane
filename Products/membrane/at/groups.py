@@ -5,17 +5,16 @@ from Acquisition import aq_inner
 from Products.membrane.at.userrelated import UserRelated
 from Products.membrane.interfaces.group import IGroup
 from Products.membrane.interfaces.user import IMembraneUserGroups
-from zope.interface import implements
+from zope.interface import implementer
 
 
+@implementer(IMembraneUserGroups)
 class Groups(UserRelated):
     """
     Adapts from IGroupsProvider to IMembraneUserGroups, gets groups
     from acquisition and backrefs
     """
     security = ClassSecurityInfo()
-
-    implements(IMembraneUserGroups)
 
     #
     #   IGroupsPlugin implementation
@@ -35,14 +34,13 @@ class Groups(UserRelated):
     security.declarePrivate('getGroupsForPrincipal')
 
 
+@implementer(IMembraneUserGroups)
 class SelectedGroups(UserRelated):
     """
     Adapts from ISelectedGroupsProvider to IMembraneUserGroups; gets groups
     from acquisition and backrefs w/ a specific relationship.
     """
     security = ClassSecurityInfo()
-
-    implements(IMembraneUserGroups)
 
     def __init__(self, context):
         self.context = context

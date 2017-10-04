@@ -15,7 +15,7 @@ from Products.membrane.config import TOOLNAME
 from Products.membrane.interfaces import user as user_ifaces
 from Products.membrane.interfaces.group import IGroup
 from Products.membrane.utils import getFilteredValidRolesForPortal
-from zope.interface import implements
+from zope.interface import implementer
 
 
 SimpleSchema = BaseSchema + Schema((
@@ -61,12 +61,11 @@ Members of this group that are really from other groups''',
 ))
 
 
+@implementer(IGroup)
 class SimpleGroup(BaseFolder):
     """A simple group archetype"""
     schema = SimpleSchema
     _at_rename_after_creation = True
-
-    implements(IGroup)
 
     security = ClassSecurityInfo()
 

@@ -24,7 +24,7 @@ from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from Products.PluggableAuthService.utils import createViewName
 from Products.ZCTextIndex.ZCTextIndex import ZCTextIndex
 from zope.annotation.interfaces import IAnnotations
-from zope.interface import implements
+from zope.interface import implementer
 
 import logging
 
@@ -48,6 +48,7 @@ def addMembraneGroupManager(dispatcher, id, title=None, REQUEST=None):
             % dispatcher.absolute_url())
 
 
+@implementer(IMembraneGroupManagerPlugin)
 class MembraneGroupManager(BasePlugin, Cacheable):
     """
     PAS plugin for managing contentish groups in Plone.
@@ -55,8 +56,6 @@ class MembraneGroupManager(BasePlugin, Cacheable):
     meta_type = 'Membrane Group Manager'
 
     security = ClassSecurityInfo()
-
-    implements(IMembraneGroupManagerPlugin)
 
     def __init__(self, id, title=None):
         self._id = self.id = id
