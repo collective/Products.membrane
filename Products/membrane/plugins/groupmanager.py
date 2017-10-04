@@ -16,10 +16,10 @@ from Products.membrane.interfaces.plugins import IMembraneGroupManagerPlugin
 from Products.membrane.utils import findMembraneUserAspect
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 from Products.PlonePAS.plugins.group import PloneGroup
-from Products.PluggableAuthService.interfaces.plugins import IGroupEnumerationPlugin
+from Products.PluggableAuthService.interfaces.plugins import IGroupEnumerationPlugin  # noqa
 from Products.PluggableAuthService.interfaces.plugins import IPropertiesPlugin
 from Products.PluggableAuthService.interfaces.plugins import IRolesPlugin
-from Products.PluggableAuthService.PluggableAuthService import _SWALLOWABLE_PLUGIN_EXCEPTIONS
+from Products.PluggableAuthService.PluggableAuthService import _SWALLOWABLE_PLUGIN_EXCEPTIONS  # noqa
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from Products.PluggableAuthService.utils import createViewName
 from Products.ZCTextIndex.ZCTextIndex import ZCTextIndex
