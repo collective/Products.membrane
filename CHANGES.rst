@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Plone 5.2 / Zope 4 compatibility.
+  [thet]
 
 
 4.0 (2017-10-05)

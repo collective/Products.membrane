@@ -25,6 +25,7 @@ setup(
         "setuptools",
         "plone.indexer",
         "Products.CMFPlone>=5.1rc1",
+        "Products.PlonePAS>=5.0.1",
     ],
     extras_require={
         'test': ['plone.app.testing'],
