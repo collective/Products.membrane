@@ -38,6 +38,7 @@ membrane.
 Requirements
 ============
 
+Since version 5.0: Plone 5.2.
 Since version 4.0: Plone 5.1.
 Version 3.0: Plone 4.3 or 5.0.  We only test with Python 2.7.
 For older Plone versions, please use Products.membrane branch 2.1.x.
