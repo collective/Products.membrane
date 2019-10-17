@@ -10,11 +10,11 @@
   <include package=".interfaces" />
   <include package=".browser" />
   <include package=".exportimport" />
-  <include package=".examples" />
-  <include
-      package=".at"
-      zcml:condition="installed Products.Archetypes"
-      />
+
+  <configure zcml:condition="installed Products.Archetypes">
+    <include package=".examples" />
+    <include package=".at" />
+  </configure>
 
   <adapter factory=".catalog.object_implements"
            name="object_implements"
