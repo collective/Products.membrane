@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from AccessControl import ClassSecurityInfo
-from App.class_init import InitializeClass
+from AccessControl.class_init import InitializeClass
 from Products.CMFCore.utils import getToolByName
 from Products.membrane.config import TOOLNAME
 from Products.membrane.interfaces.plugins import IMembraneUserFactoryPlugin

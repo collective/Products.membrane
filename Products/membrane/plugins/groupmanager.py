@@ -5,7 +5,7 @@
 from AccessControl import ClassSecurityInfo
 # XXX REMOVE WHEN REFACTORING
 from Acquisition import aq_base
-from App.class_init import default__class_init__ as InitializeClass
+from AccessControl.class_init import InitializeClass
 from OFS.Cache import Cacheable
 from Products.CMFCore.utils import getToolByName
 from Products.membrane.config import QIM_ANNOT_KEY

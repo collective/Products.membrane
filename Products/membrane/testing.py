@@ -9,7 +9,7 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing.layers import IntegrationTesting
-from plone.testing import z2
+from plone.testing import zope as zope_testing
 from Products import membrane
 from Products.CMFPlone.utils import _createObjectByType
 from Products.membrane import examples
@@ -52,7 +52,7 @@ class MembraneProfilesLayer(PloneSandboxLayer):
     def setUpZope(self, app, configurationContext):
         import Products.membrane
         self.loadZCML(package=Products.membrane)
-        z2.installProduct(app, 'Products.membrane')
+        zope_testing.installProduct(app, 'Products.membrane')
         xmlconfig.file(
             'testing.zcml',
             Products.membrane.tests,
@@ -62,7 +62,7 @@ class MembraneProfilesLayer(PloneSandboxLayer):
             # We do not need this ourselves, but it is nice if we can at least
             # load it without breaking anything.
             import Products.remember
-            z2.installProduct(app, 'Products.remember')
+            zope_testing.installProduct(app, 'Products.remember')
             self.loadZCML(package=Products.remember)
         if MAJOR_PLONE_VERSION >= 5:
             import plone.app.contenttypes
@@ -96,7 +96,7 @@ class MembraneProfilesLayer(PloneSandboxLayer):
         mbtool.registerMembraneType(dummy.TestGroup.portal_type)
 
     def tearDownZope(self, app):
-        z2.uninstallProduct(app, 'Products.membrane')
+        zope_testing.uninstallProduct(app, 'Products.membrane')
 
 
 def addUser(obj, username='testuser', title='full name'):
