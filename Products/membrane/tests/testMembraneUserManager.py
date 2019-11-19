@@ -55,10 +55,10 @@ class TestMembraneUserManagerEnumeration(base.MembraneUserTestCase):
         self.assertTrue('Title' in mbtool.indexes())
         self.assertFalse('title' in query_index_map)
         self.failUnlessEqual(
-            len(self.portal.acl_users.pmm.enumerateUsers(title='')), 0)
+            len(self.portal.acl_users.pmm.enumerateUsers(title='full name')), 0)
         query_index_map['title'] = 'Title'
         self.failUnlessEqual(
-            len(self.portal.acl_users.pmm.enumerateUsers(title='')), 1)
+            len(self.portal.acl_users.pmm.enumerateUsers(title='full name')), 1)
 
     def testEnumerateUsersByLoginNonexisting(self):
         enumusers = self.portal.acl_users.pmm.enumerateUsers
