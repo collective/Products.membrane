@@ -58,9 +58,15 @@ def findMembraneUserAspect(context, iface, **query):
     To get the brains instead of the interface implementation
     use :py:func:`findImplementations` instead.
     """
-    return filter(None,
-                  [iface(brain._unrestrictedGetObject(), None)
-                   for brain in findImplementations(context, iface, **query)])
+    return list(
+        filter(
+            None,
+            [
+                iface(brain._unrestrictedGetObject(), None)
+                for brain in findImplementations(context, iface, **query)
+            ]
+        )
+    )
 
 
 def findImplementations(context, iface, **query):
