@@ -20,5 +20,4 @@ from Products.membrane.interfaces.user import IMembraneUserManagement  # noqa
 from Products.membrane.interfaces.user import IMembraneUserObject  # noqa
 from Products.membrane.interfaces.user import IMembraneUserProperties  # noqa
 from Products.membrane.interfaces.user import IMembraneUserRoles  # noqa
-from utilities import IUserAdder  # noqa
-from zope.deprecation import deprecated
+from Products.membrane.interfaces.utilities import IUserAdder  # noqa

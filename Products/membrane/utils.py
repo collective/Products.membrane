@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from Acquisition.interfaces import IAcquirer
-from config import FILTERED_ROLES
-from config import TOOLNAME
-from interfaces import IUserAdder
 from Products.CMFCore.utils import getToolByName
+from Products.membrane.config import FILTERED_ROLES
+from Products.membrane.config import TOOLNAME
+from Products.membrane.interfaces import IUserAdder
 
 
 def getAllWFStatesForType(context, portal_type):

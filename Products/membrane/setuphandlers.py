@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from config import TOOLNAME
-from interfaces import IUserAdder
 from Products.CMFCore.utils import getToolByName
+from Products.membrane.config import TOOLNAME
+from Products.membrane.interfaces import IUserAdder
 from Products.PlonePAS.setuphandlers import activatePluginInterfaces
 from Products.PluggableAuthService.interfaces.plugins import IGroupsPlugin
 from Products.PluggableAuthService.interfaces.plugins import IPropertiesPlugin
