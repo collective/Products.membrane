@@ -25,6 +25,7 @@ from zope.interface import implementer
 from zope.component.hooks import getSite
 
 import copy
+import six
 
 
 manage_addMembraneUserManagerForm = PageTemplateFile(
@@ -96,10 +97,10 @@ class MembraneUserManager(BasePlugin, Cacheable):
         plugin_id = self.getId()
         view_name = createViewName('enumerateUsers', id or login)
 
-        if isinstance(id, basestring):
+        if isinstance(id, six.string_types):
             id = [id]
 
-        if isinstance(login, basestring) and login:
+        if isinstance(login, six.string_types) and login:
             login = [login]
 
         mbtool = getToolByName(self, TOOLNAME)
