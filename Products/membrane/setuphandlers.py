@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
-from io import StringIO
+from six import StringIO
 from Products.CMFCore.utils import getToolByName
 from Products.membrane.config import TOOLNAME
 from Products.membrane.interfaces import IUserAdder
