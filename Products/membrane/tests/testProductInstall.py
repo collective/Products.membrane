@@ -3,9 +3,8 @@
 # MembraneTestCase Membrane
 #
 from Products.membrane.config import TOOLNAME
+from Products.membrane.tests import base
 from zope.location.interfaces import ISite
-
-import base
 
 
 class TestProductInstall(base.MembraneTestCase):

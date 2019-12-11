@@ -15,9 +15,13 @@ from Products.CMFPlone.utils import _createObjectByType
 from Products.membrane import examples
 from Products.membrane import tests
 from Products.membrane.config import TOOLNAME
-from Products.membrane.tests import dummy
 from zope.configuration import xmlconfig
 
+import six
+if six.PY2:
+    from Products.membrane.tests import dummy
+else:
+    dummy = None
 
 try:
     get_distribution('Products.remember')
@@ -25,8 +29,6 @@ try:
 except DistributionNotFound:
     HAS_REMEMBER = False
 
-PLONE_VERSION = get_distribution('Products.CMFPlone').version
-MAJOR_PLONE_VERSION = int(PLONE_VERSION[0])
 orig_initialize = membrane.initialize
 
 
@@ -64,19 +66,20 @@ class MembraneProfilesLayer(PloneSandboxLayer):
             import Products.remember
             zope_testing.installProduct(app, 'Products.remember')
             self.loadZCML(package=Products.remember)
-        if MAJOR_PLONE_VERSION >= 5:
-            import plone.app.contenttypes
-            self.loadZCML(package=plone.app.contenttypes)
+
+        import plone.app.contenttypes
+        self.loadZCML(package=plone.app.contenttypes)
+        if six.PY2:
             # We need to load Archetypes because our example and test profiles
             # need this.  We could turn the types into dexterity types
             import Products.Archetypes
             self.loadZCML(package=Products.Archetypes)
 
     def setUpPloneSite(self, portal):
-        if MAJOR_PLONE_VERSION >= 5:
-            applyProfile(portal, 'plone.app.contenttypes:default')
+        applyProfile(portal, 'plone.app.contenttypes:default')
         applyProfile(portal, 'Products.membrane:default')
-        applyProfile(portal, 'Products.membrane.tests:test')
+        if six.PY2:
+            applyProfile(portal, 'Products.membrane.tests:test')
         setRoles(portal, TEST_USER_ID, ['Manager'])
         login(portal, TEST_USER_NAME)
         portal.acl_users.userFolderAddUser('admin',
@@ -91,9 +94,10 @@ class MembraneProfilesLayer(PloneSandboxLayer):
         logout()
 
         mbtool = getattr(portal, TOOLNAME)
-        mbtool.registerMembraneType(dummy.TestMember.portal_type)
-        mbtool.registerMembraneType(dummy.AlternativeTestMember.portal_type)
-        mbtool.registerMembraneType(dummy.TestGroup.portal_type)
+        if six.PY2:
+            mbtool.registerMembraneType(dummy.TestMember.portal_type)
+            mbtool.registerMembraneType(dummy.AlternativeTestMember.portal_type)
+            mbtool.registerMembraneType(dummy.TestGroup.portal_type)
 
     def tearDownZope(self, app):
         zope_testing.uninstallProduct(app, 'Products.membrane')
@@ -114,8 +118,7 @@ def addUser(obj, username='testuser', title='full name'):
 class AddUserLayer(MembraneProfilesLayer):
 
     def setUpPloneSite(self, portal):
-        if MAJOR_PLONE_VERSION >= 5:
-            applyProfile(portal, 'plone.app.contenttypes:default')
+        applyProfile(portal, 'plone.app.contenttypes:default')
         applyProfile(portal, 'Products.membrane:default')
         applyProfile(portal, 'Products.membrane.tests:test')
         setRoles(portal, TEST_USER_ID, ['Manager'])
@@ -127,8 +130,7 @@ class AddUserLayer(MembraneProfilesLayer):
 class MembraneUserManagerLayer(AddUserLayer):
 
     def setUpPloneSite(self, portal):
-        if MAJOR_PLONE_VERSION >= 5:
-            applyProfile(portal, 'plone.app.contenttypes:default')
+        applyProfile(portal, 'plone.app.contenttypes:default')
         applyProfile(portal, 'Products.membrane:default')
         applyProfile(portal, 'Products.membrane.tests:test')
         setRoles(portal, TEST_USER_ID, ['Manager'])
@@ -142,8 +144,7 @@ class MembraneUserManagerLayer(AddUserLayer):
 class MembraneUserManagerTwoUsersLayer(MembraneUserManagerLayer):
 
     def setUpPloneSite(self, portal):
-        if MAJOR_PLONE_VERSION >= 5:
-            applyProfile(portal, 'plone.app.contenttypes:default')
+        applyProfile(portal, 'plone.app.contenttypes:default')
         applyProfile(portal, 'Products.membrane:default')
         applyProfile(portal, 'Products.membrane.tests:test')
         setRoles(portal, TEST_USER_ID, ['Manager'])

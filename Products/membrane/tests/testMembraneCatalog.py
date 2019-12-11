@@ -7,6 +7,9 @@ from Products.membrane.catalog import MembraneCatalogProcessor
 from Products.membrane.config import TOOLNAME
 from Products.membrane.tests import base
 
+import six
+import unittest
+
 
 class TestMembraneCatalogProcessor(base.MembraneTestCase):
 
@@ -14,6 +17,7 @@ class TestMembraneCatalogProcessor(base.MembraneTestCase):
         super(TestMembraneCatalogProcessor, self).setUp()
         self.mbtool = getattr(self.portal, TOOLNAME)
 
+    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testWrappedObject(self):
         mt = self.mbtool
         self.addUser(username='testuser')

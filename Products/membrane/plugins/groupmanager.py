@@ -206,7 +206,7 @@ class MembraneGroupManager(BasePlugin, Cacheable):
         return self._findGroup(plugins, group_id, title)
 
     def getGroups(self):
-        return map(self.getGroupById, self.getGroupIds())
+        return list(map(self.getGroupById, self.getGroupIds()))
 
     def getGroupIds(self):
         mbtool = getToolByName(self, TOOLNAME)

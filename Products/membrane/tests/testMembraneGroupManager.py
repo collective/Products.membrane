@@ -8,9 +8,12 @@ from Products.membrane.interfaces import IMembraneUserAuth
 from Products.membrane.interfaces import IMembraneUserGroups
 from Products.membrane.tests import base
 from Products.membrane.tests.utils import sortTuple
-from Products.PluggableAuthService.tests.conformance import IGroupEnumerationPlugin_conformance  # noqa
-from Products.PluggableAuthService.tests.conformance import IGroupsPlugin_conformance  # noqa
+from Products.PluggableAuthService.tests.conformance import \
+    IGroupEnumerationPlugin_conformance  # noqa
+from Products.PluggableAuthService.tests.conformance import \
+    IGroupsPlugin_conformance  # noqa
 
+import six
 import unittest
 
 
@@ -53,9 +56,10 @@ class TestMembraneGroupManager(base.MembraneTestCase,
     def setUp(self):
         super(TestMembraneGroupManager, self).setUp()
         self.portal.pmm = self._makeOne('pmm')
-        self.createGroupAndUsers()
 
+    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testGroupMembership(self):
+        self.createGroupAndUsers()
         group = self.portal.testgroup
         member = group.testuser  # We need acquisition to be correct
         mem_auth = IMembraneUserAuth(member)
@@ -91,9 +95,10 @@ class TestMembraneGroupManagerSelectedGroups(base.MembraneTestCase,
     def setUp(self):
         super(TestMembraneGroupManagerSelectedGroups, self).setUp()
         self.portal.pmm = self._makeOne('pmm')
-        self.createGroupAndUsers()
 
+    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testGroupMembership(self):
+        self.createGroupAndUsers()
         group = self.portal.testgroup
         member = group.testuser  # We need acquisition to be correct
         mem_auth = IMembraneUserAuth(member)
@@ -121,16 +126,22 @@ class TestMembraneGroupManagerEnumeration(base.MembraneTestCase,
         self.portal.pmm = self._makeOne('pmm')
         self.createGroupAndUsers()
 
+    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testEnumerateGroupsNoArgs(self):
+        self.createGroupAndUsers()
         self.failUnlessEqual(len(self.portal.pmm.enumerateGroups()), 1)
 
+    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testEnumerateGroupsByTitleNonexisting(self):
+        self.createGroupAndUsers()
         enumgrps = self.portal.pmm.enumerateGroups
         self.failUnlessEqual(enumgrps(title='nonexisting'), ())
         self.failUnlessEqual(
             enumgrps(title='nonexisting', exact_match=True), ())
 
+    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testEnumerateGroupsByTitle(self):
+        self.createGroupAndUsers()
         enumgrps = self.portal.pmm.enumerateGroups
         self.failUnlessEqual(len(enumgrps(title=self.group.Title(),
                                           exact_match=True)), 1)
@@ -147,12 +158,16 @@ class TestMembraneGroupManagerEnumeration(base.MembraneTestCase,
         self.failUnlessEqual(len(enumgrps(title=self.group.Title(),
                                           exact_match=True, max_results=0)), 0)
 
+    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testEnumerateGroupsByIdNonexisting(self):
+        self.createGroupAndUsers()
         enumgrps = self.portal.pmm.enumerateGroups
         self.failUnlessEqual(enumgrps(id='nonexisting'), ())
         self.failUnlessEqual(enumgrps(id='nonexisting', exact_match=True), ())
 
+    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testEnumerateGroupsById(self):
+        self.createGroupAndUsers()
         enumgrps = self.portal.pmm.enumerateGroups
         self.failUnlessEqual(len(enumgrps(id=self.group.getGroupName(),
                                           exact_match=True)), 1)
@@ -169,7 +184,9 @@ class TestMembraneGroupManagerEnumeration(base.MembraneTestCase,
         self.failUnlessEqual(len(enumgrps(id=self.group.getGroupName(),
                                           exact_match=True, max_results=0)), 0)
 
+    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testEnumerateGroupsWithSimilarIds(self):
+        self.createGroupAndUsers()
         """ ensure that enumerating groups while exact_match==True returns only
             exact matches for a given id
         """
@@ -200,6 +217,7 @@ class TestMembraneGroupIntrospection(base.MembraneTestCase,
     def testGetGroupIdsNoGroups(self):
         self.failIf(self.portal.pmm.getGroupIds())
 
+    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testGetGroupIds(self):
         self.addGroup(self.portal)
         groupids = self.portal.pmm.getGroupIds()
@@ -213,10 +231,12 @@ class TestMembraneGroupIntrospection(base.MembraneTestCase,
                              sortTuple((self.group.getGroupId(),
                                         group2.getGroupId())))
 
+    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testGroupMembersNoMembers(self):
         self.addGroup(self.portal)
         self.failIf(self.portal.pmm.getGroupMembers(self.group.getGroupId()))
 
+    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testGroupMembers(self):
         self.createGroupAndUsers()
         pmm = self.portal.pmm
@@ -227,6 +247,7 @@ class TestMembraneGroupIntrospection(base.MembraneTestCase,
         g = self.portal.pmm.getGroupById('nonexisting')
         self.failIf(g)
 
+    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testGetGroupById(self):
         from Products.PlonePAS.plugins.group import PloneGroup
         self.createGroupAndUsers()
@@ -237,6 +258,7 @@ class TestMembraneGroupIntrospection(base.MembraneTestCase,
     def testGetGroupsNoGroups(self):
         self.failIf(self.portal.pmm.getGroups())
 
+    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testGetGroups(self):
         self.createGroupAndUsers()
         groups = self.portal.pmm.getGroups()
