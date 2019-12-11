@@ -47,6 +47,7 @@ class TestMembraneUserManagerEnumeration(base.MembraneUserTestCase):
         self.failUnlessEqual(
             len(self.portal.acl_users.pmm.enumerateUsers()), 1)
 
+    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testEnumerateUsersExtraIndexes(self):
         # You can add keyword arguments for known indexes.
         from Products.membrane.config import QIM_ANNOT_KEY
