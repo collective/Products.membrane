@@ -17,8 +17,8 @@ jobs:
 matrix:
   fast_finish: true
 install:
-- sed -ie "s#test-5.1.x#test-$PLONE_VERSION.x#" buildout.cfg
-- sed -ie "s#test-5.1.x#test-$PLONE_VERSION.x#" requirements.txt
+- sed -ie "s#test-5.2.x#test-$PLONE_VERSION.x#" buildout.cfg
+- sed -ie "s#test-5.2.x#test-$PLONE_VERSION.x#" requirements.txt
 - pip install -U pip
 - pip install -r requirements.txt
 - buildout annotate
