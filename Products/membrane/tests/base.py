@@ -8,6 +8,7 @@ from Products.membrane.testing import addUser
 from Products.membrane.testing import MEMBRANE_ADD_USER_INTEGRATION_TESTING
 from Products.membrane.testing import MEMBRANE_PROFILES_INTEGRATION_TESTING
 
+import six
 import unittest
 
 
@@ -39,6 +40,7 @@ class MembraneUserTestCase(MembraneTestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
-        self.member = self.portal.testuser
+        if six.PY2:
+            self.member = self.portal.testuser
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         login(self.portal, TEST_USER_NAME)

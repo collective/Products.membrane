@@ -124,7 +124,6 @@ class TestMembraneGroupManagerEnumeration(base.MembraneTestCase,
     def setUp(self):
         super(TestMembraneGroupManagerEnumeration, self).setUp()
         self.portal.pmm = self._makeOne('pmm')
-        self.createGroupAndUsers()
 
     @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testEnumerateGroupsNoArgs(self):

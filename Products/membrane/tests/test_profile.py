@@ -4,10 +4,14 @@
 from .base import MembraneTestCase
 from Products.CMFCore.utils import getToolByName
 
+import six
+import unittest
+
 
 class TestProfile(MembraneTestCase):
     """Test the generic setup profile."""
 
+    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def test_archetypetool(self):
         """
         Check interaction with archetypetool.xml

@@ -132,10 +132,12 @@ class MembraneUserManagerLayer(AddUserLayer):
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'plone.app.contenttypes:default')
         applyProfile(portal, 'Products.membrane:default')
-        applyProfile(portal, 'Products.membrane.tests:test')
+        if six.PY2:
+            applyProfile(portal, 'Products.membrane.tests:test')
         setRoles(portal, TEST_USER_ID, ['Manager'])
         login(portal, TEST_USER_NAME)
-        addUser(portal)
+        if six.PY2:
+            addUser(portal)
         from Products.membrane.plugins.usermanager import MembraneUserManager
         portal.acl_users.pmm = MembraneUserManager(id='pmm')
         logout()
@@ -146,18 +148,21 @@ class MembraneUserManagerTwoUsersLayer(MembraneUserManagerLayer):
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'plone.app.contenttypes:default')
         applyProfile(portal, 'Products.membrane:default')
-        applyProfile(portal, 'Products.membrane.tests:test')
+        if six.PY2:
+            applyProfile(portal, 'Products.membrane.tests:test')
         setRoles(portal, TEST_USER_ID, ['Manager'])
         login(portal, TEST_USER_NAME)
-        addUser(portal)
+        if six.PY2:
+            addUser(portal)
         from Products.membrane.plugins.usermanager import MembraneUserManager
         portal.acl_users.pmm = MembraneUserManager(id='pmm')
-        member = _createObjectByType('TestMember', portal,
-                                     'testuser2')
-        member.setUserName('testuser2')
-        member.setPassword('testpassword2')
-        member.setTitle('full name 2')
-        member.reindexObject()
+        if six.PY2:
+            member = _createObjectByType('TestMember', portal,
+                                        'testuser2')
+            member.setUserName('testuser2')
+            member.setPassword('testpassword2')
+            member.setTitle('full name 2')
+            member.reindexObject()
         logout()
 
 
