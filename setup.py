@@ -26,7 +26,7 @@ setup(
         "setuptools",
         "six",
         "plone.indexer",
-        "Products.CMFPlone>=5.1rc1",
+        "Products.CMFPlone>=5.2rc1",
         "Products.PlonePAS>=5.0.1",
     ],
     extras_require={
@@ -36,7 +36,6 @@ setup(
         'Environment :: Web Environment',
         'Framework :: Plone',
         'Framework :: Plone :: Addon',
-        'Framework :: Plone :: 5.1',
         'Framework :: Plone :: 5.2',
         'Framework :: Zope :: 2',
         'Framework :: Zope :: 4',
@@ -47,5 +46,6 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.7',
     ],
 )
