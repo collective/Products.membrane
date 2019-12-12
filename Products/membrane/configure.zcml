@@ -10,6 +10,7 @@
   <include package=".interfaces" />
   <include package=".browser" />
   <include package=".exportimport" />
+  <include package=".upgrades" />
 
   <configure zcml:condition="installed Products.Archetypes">
     <include package=".examples" />
@@ -78,5 +79,6 @@
       handler="Products.membrane.migrations.from_2_0_to_2_0_1"
       />
 
+  <!-- New upgrade steps should be placed in the upgrades folder -->
 
 </configure>
