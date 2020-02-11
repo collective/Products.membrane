@@ -5,7 +5,6 @@
 from Products.membrane.tests import base
 
 import six
-import unittest
 
 
 class MembraneRoleManagerTestBase:
@@ -24,26 +23,25 @@ class TestMembraneRoleManagerPlugin(base.MembraneTestCase,
 
     def setUp(self):
         super(TestMembraneRoleManagerPlugin, self).setUp()
-        if six.PY2:
-            self.addUser(self.portal)
+        self.addUser(self.portal)
 
     def getUser(self):
         username = self.member.getUserName()
         return self.portal.acl_users.getUser(username)
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testDefaultRoles(self):
-        roles = self.member.getField('roles_').default
+        if six.PY2:
+            roles = self.member.getField('roles_').default
+        else:
+            roles = self.member.roles_
         self.failUnless(set(roles) < set(self.getUser().getRoles()))
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testRolesStayCurrent(self):
+        self.assertSetEqual(set(self.getUser().getRoles()), {"Member", "Authenticated"})
         roles = ('Member', 'Reviewer')
-        self.failIf(set(roles) < set(self.getUser().getRoles()))
         self.member.setRoles(roles)
-        self.failUnless(set(roles) < set(self.getUser().getRoles()))
+        self.assertSetEqual(set(self.getUser().getRoles()), {"Authenticated"} | set(roles))
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testRolesFromGroup(self):
         self.addGroup()
         role = 'Manager'

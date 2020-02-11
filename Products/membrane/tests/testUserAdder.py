@@ -9,7 +9,6 @@ from Products.membrane.tests import base
 from Products.membrane.utils import getCurrentUserAdder
 
 import six
-import unittest
 
 
 class TestUserAdder(base.MembraneTestCase):
@@ -20,16 +19,18 @@ class TestUserAdder(base.MembraneTestCase):
 
     def setUp(self):
         super(TestUserAdder, self).setUp()
+        from Products.PluggableAuthService.interfaces.plugins import \
+            IUserAdderPlugin
+        setup_tool = self.portal.portal_setup
         if six.PY2:
-            from Products.PluggableAuthService.interfaces.plugins import \
-                IUserAdderPlugin
-            setup_tool = self.portal.portal_setup
             setup_tool.runAllImportStepsFromProfile(
                 'profile-Products.membrane:examples')
-            plugins = self.portal.acl_users.plugins
-            plugins.movePluginsUp(IUserAdderPlugin, ['membrane_users'])
+        else:
+            setup_tool.runAllImportStepsFromProfile(
+                'profile-Products.membrane.tests:test')
+        plugins = self.portal.acl_users.plugins
+        plugins.movePluginsUp(IUserAdderPlugin, ['membrane_users'])
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testUserFolderCreatesUser(self):
         uf = self.portal.acl_users
         userid = 'test_utility'
@@ -41,7 +42,6 @@ class TestUserAdder(base.MembraneTestCase):
         req = self.portal.REQUEST
         self.failIf(uf.authenticate(userid, pwd, req) is None)
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testAcquisition(self):
         plugin = self.portal.acl_users.membrane_users
         adder = getCurrentUserAdder(plugin)

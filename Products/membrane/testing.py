@@ -15,13 +15,11 @@ from Products.CMFPlone.utils import _createObjectByType
 from Products.membrane import examples
 from Products.membrane import tests
 from Products.membrane.config import TOOLNAME
+from Products.membrane.tests import dummy
 from zope.configuration import xmlconfig
 
 import six
-if six.PY2:
-    from Products.membrane.tests import dummy
-else:
-    dummy = None
+
 
 try:
     get_distribution('Products.remember')
@@ -78,8 +76,7 @@ class MembraneProfilesLayer(PloneSandboxLayer):
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'plone.app.contenttypes:default')
         applyProfile(portal, 'Products.membrane:default')
-        if six.PY2:
-            applyProfile(portal, 'Products.membrane.tests:test')
+        applyProfile(portal, 'Products.membrane.tests:test')
         setRoles(portal, TEST_USER_ID, ['Manager'])
         login(portal, TEST_USER_NAME)
         portal.acl_users.userFolderAddUser('admin',
@@ -94,10 +91,9 @@ class MembraneProfilesLayer(PloneSandboxLayer):
         logout()
 
         mbtool = getattr(portal, TOOLNAME)
-        if six.PY2:
-            mbtool.registerMembraneType(dummy.TestMember.portal_type)
-            mbtool.registerMembraneType(dummy.AlternativeTestMember.portal_type)
-            mbtool.registerMembraneType(dummy.TestGroup.portal_type)
+        mbtool.registerMembraneType(dummy.TestMember.portal_type)
+        mbtool.registerMembraneType(dummy.AlternativeTestMember.portal_type)
+        mbtool.registerMembraneType(dummy.TestGroup.portal_type)
 
     def tearDownZope(self, app):
         zope_testing.uninstallProduct(app, 'Products.membrane')
@@ -132,12 +128,10 @@ class MembraneUserManagerLayer(AddUserLayer):
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'plone.app.contenttypes:default')
         applyProfile(portal, 'Products.membrane:default')
-        if six.PY2:
-            applyProfile(portal, 'Products.membrane.tests:test')
+        applyProfile(portal, 'Products.membrane.tests:test')
         setRoles(portal, TEST_USER_ID, ['Manager'])
         login(portal, TEST_USER_NAME)
-        if six.PY2:
-            addUser(portal)
+        addUser(portal)
         from Products.membrane.plugins.usermanager import MembraneUserManager
         portal.acl_users.pmm = MembraneUserManager(id='pmm')
         logout()
@@ -148,21 +142,17 @@ class MembraneUserManagerTwoUsersLayer(MembraneUserManagerLayer):
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'plone.app.contenttypes:default')
         applyProfile(portal, 'Products.membrane:default')
-        if six.PY2:
-            applyProfile(portal, 'Products.membrane.tests:test')
+        applyProfile(portal, 'Products.membrane.tests:test')
         setRoles(portal, TEST_USER_ID, ['Manager'])
         login(portal, TEST_USER_NAME)
-        if six.PY2:
-            addUser(portal)
+        addUser(portal)
         from Products.membrane.plugins.usermanager import MembraneUserManager
         portal.acl_users.pmm = MembraneUserManager(id='pmm')
-        if six.PY2:
-            member = _createObjectByType('TestMember', portal,
-                                        'testuser2')
-            member.setUserName('testuser2')
-            member.setPassword('testpassword2')
-            member.setTitle('full name 2')
-            member.reindexObject()
+        member = _createObjectByType('TestMember', portal, 'testuser2')
+        member.setUserName('testuser2')
+        member.setPassword('testpassword2')
+        member.setTitle('full name 2')
+        member.reindexObject()
         logout()
 
 

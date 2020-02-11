@@ -178,7 +178,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
 
         members = mbtool.unrestrictedSearchResults(**query)
 
-        if max_results is not None and max_results is not '':
+        if max_results is not None and max_results != '':
             members = members[:int(max_results)]
 
         for m in members:

@@ -10,13 +10,8 @@ from Products.membrane.plugins.usermanager import MembraneUserManager
 from Products.membrane.tests import base
 from Products.membrane.tests.utils import sortTuple
 from Products.PlonePAS.interfaces.capabilities import IPasswordSetCapability
-from Products.PluggableAuthService.tests.conformance import \
-    IAuthenticationPlugin_conformance  # noqa
-from Products.PluggableAuthService.tests.conformance import \
-    IUserEnumerationPlugin_conformance  # noqa
-
-import six
-import unittest
+from Products.PluggableAuthService.tests.conformance import IAuthenticationPlugin_conformance  # noqa: E501
+from Products.PluggableAuthService.tests.conformance import IUserEnumerationPlugin_conformance  # noqa: E501
 
 
 class MembraneUserManagerTestBase:
@@ -40,14 +35,12 @@ class TestMembraneUserManagerEnumeration(base.MembraneUserTestCase):
 
     layer = testing.MEMBRANE_USER_MANAGER_INTEGRATION_TESTING
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testEnumerateUsersNoArgs(self):
         # If we do not pass any criteria to enumerateUsers, we get all
         # users.
         self.failUnlessEqual(
             len(self.portal.acl_users.pmm.enumerateUsers()), 1)
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testEnumerateUsersExtraIndexes(self):
         # You can add keyword arguments for known indexes.
         from Products.membrane.config import QIM_ANNOT_KEY
@@ -62,10 +55,12 @@ class TestMembraneUserManagerEnumeration(base.MembraneUserTestCase):
         self.assertTrue('Title' in mbtool.indexes())
         self.assertFalse('title' in query_index_map)
         self.failUnlessEqual(
-            len(self.portal.acl_users.pmm.enumerateUsers(title='full name')), 0)
+            len(self.portal.acl_users.pmm.enumerateUsers(title='full name')), 0
+        )
         query_index_map['title'] = 'Title'
         self.failUnlessEqual(
-            len(self.portal.acl_users.pmm.enumerateUsers(title='full name')), 1)
+            len(self.portal.acl_users.pmm.enumerateUsers(title='full name')), 1
+        )
 
     def testEnumerateUsersByLoginNonexisting(self):
         enumusers = self.portal.acl_users.pmm.enumerateUsers
@@ -73,7 +68,6 @@ class TestMembraneUserManagerEnumeration(base.MembraneUserTestCase):
         self.failUnlessEqual(
             enumusers(login='nonexisting', exact_match=True), ())
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testEnumerateUsersByLogin(self):
         username = self.member.getUserName()
         enumusers = self.portal.acl_users.pmm.enumerateUsers
@@ -97,7 +91,6 @@ class TestMembraneUserManagerEnumeration(base.MembraneUserTestCase):
         self.failUnlessEqual(enumusers(id='nonexisting'), ())
         self.failUnlessEqual(enumusers(id='nonexisting', exact_match=True), ())
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testEnumerateUsersByUserId(self):
         userid = IMembraneUserAuth(self.member).getUserId()
         enumusers = self.portal.acl_users.pmm.enumerateUsers
@@ -113,7 +106,6 @@ class TestMembraneUserManagerEnumeration(base.MembraneUserTestCase):
         self.failUnlessEqual(len(enumusers(
             id=userid, exact_match=True, max_results=0)), 0)
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testEnumerateUsersExactMatchCaseInsensitive(self):
         enumusers = self.portal.acl_users.pmm.enumerateUsers
         member1 = _createObjectByType('TestMember', self.portal, 'Ann')
@@ -131,7 +123,6 @@ class TestMembraneUserManagerEnumeration(base.MembraneUserTestCase):
         queryMember2 = enumusers(id=member2_id, exact_match=True)[0]
         self.failUnlessEqual(queryMember2['id'], member2.getUserName())
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def test_listMembers(self):
         memship = self.portal.portal_membership
         self.assertEqual(len(memship.listMembers()), 2)
@@ -146,7 +137,6 @@ class TestMembraneUserManagerAuthentication(base.MembraneUserTestCase):
 
     layer = testing.MEMBRANE_USER_MANAGER_INTEGRATION_TESTING
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testAuthenticateOnMember(self):
         credentials = {'login': 'norealuser', 'password': 'norealpassword'}
         userauth = IMembraneUserAuth(self.member)
@@ -158,7 +148,6 @@ class TestMembraneUserManagerAuthentication(base.MembraneUserTestCase):
         self.failUnlessEqual(authcred(credentials),
                              (userauth.getUserId(), self.member.getUserName()))
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testAuthenticate(self):
         credentials = {'login': 'norealuser', 'password': 'norealpassword'}
         authcred = self.portal.acl_users.pmm.authenticateCredentials
@@ -170,11 +159,9 @@ class TestMembraneUserManagerAuthentication(base.MembraneUserTestCase):
                  self.member.getUserName())
         self.failUnlessEqual(authcred(credentials), right)
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testLogin(self):
         login(self.portal, IMembraneUserAuth(self.member).getUserId())
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testLoginCaseSensitive(self):
         member2 = _createObjectByType('TestMember', self.portal,
                                       'TestUser')  # different case
@@ -201,10 +188,8 @@ class TestMembraneUserManagerAuthenticationPermissions(
     def setUp(self):
         super(TestMembraneUserManagerAuthenticationPermissions, self).setUp()
         self.portal.portal_workflow.setDefaultChain('plone_workflow')
-        if six.PY2:
-            self.portal.portal_workflow.doActionFor(self.member, 'hide')
+        self.portal.portal_workflow.doActionFor(self.member, 'hide')
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testAuthenticate(self):
         logout()
         credentials = {'login': 'norealuser', 'password': 'norealpassword'}
@@ -217,7 +202,6 @@ class TestMembraneUserManagerAuthenticationPermissions(
                              (IMembraneUserAuth(self.member).getUserId(),
                               self.member.getUserName()))
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testLogin(self):
         logout()
         login(self.portal, IMembraneUserAuth(self.member).getUserId())
@@ -243,17 +227,14 @@ class TestUserManagerIntrospectionOneUser(base.MembraneUserTestCase):
 
     layer = testing.MEMBRANE_USER_MANAGER_INTEGRATION_TESTING
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testGetUserIdsOneUser(self):
         self.failUnlessEqual(self.portal.acl_users.pmm.getUserIds(),
                              (IMembraneUserAuth(self.member).getUserId(),))
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def getUserNamesOneUser(self):
         self.failUnlessEqual(self.portal.acl_users.pmm.getUserNames(),
                              (self.member.getUserName(),))
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testGetUsersOneUser(self):
         users = self.portal.acl_users.pmm.getUsers()
         self.failUnlessEqual([x.getId() for x in users],
@@ -266,10 +247,8 @@ class TestUserManagerIntrospectionTwoUsers(base.MembraneUserTestCase):
 
     def setUp(self):
         super(TestUserManagerIntrospectionTwoUsers, self).setUp()
-        if six.PY2:
-            self.member2 = self.portal.testuser2
+        self.member2 = self.portal.testuser2
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testGetUserIds(self):
         userids = sortTuple(self.portal.acl_users.pmm.getUserIds())
         correct = sortTuple(
@@ -278,7 +257,6 @@ class TestUserManagerIntrospectionTwoUsers(base.MembraneUserTestCase):
         )
         self.failUnlessEqual(userids, correct)
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testGetUsers(self):
         userids = sortTuple(self.portal.acl_users.pmm.getUserIds())
         correct = sortTuple(
@@ -292,7 +270,6 @@ class TestMembraneUserManagerManagement(base.MembraneUserTestCase):
 
     layer = testing.MEMBRANE_USER_MANAGER_INTEGRATION_TESTING
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testUserChangePassword(self):
         usermanager = IMembraneUserManagement(self.member)
         userauth = IMembraneUserAuth(self.member)
@@ -306,13 +283,11 @@ class TestMembraneUserManagerManagement(base.MembraneUserTestCase):
         self.failUnlessEqual(authcred(credentials),
                              (userauth.getUserId(), self.member.getUserName()))
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testUserChangeOtherData(self):
         usermanager = IMembraneUserManagement(self.member)
         usermanager.doChangeUser('testuser', 'pass2', mobilePhone='555-1212')
         self.failUnlessEqual(self.member.getMobilePhone(), '555-1212')
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testUserDeleteUser(self):
         usermanager = IMembraneUserManagement(self.member)
         self.failUnless('testuser' in self.portal.objectIds())
@@ -322,7 +297,6 @@ class TestMembraneUserManagerManagement(base.MembraneUserTestCase):
         logout()
         self.assertRaises(ValueError, login, self.portal, 'testuser')
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testChangePassword(self):
         pmm = self.portal.acl_users.pmm
         userauth = IMembraneUserAuth(self.member)
@@ -340,13 +314,11 @@ class TestMembraneUserManagerManagement(base.MembraneUserTestCase):
         self.failUnless(
             IPasswordSetCapability.providedBy(self.portal.acl_users.pmm))
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testChangeOtherData(self):
         pmm = self.portal.acl_users.pmm
         pmm.doChangeUser('testuser', 'pass2', mobilePhone='555-1212')
         self.failUnlessEqual(self.member.getMobilePhone(), '555-1212')
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testDeleteUser(self):
         pmm = self.portal.acl_users.pmm
         self.failUnless('testuser' in self.portal.objectIds())

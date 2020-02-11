@@ -16,7 +16,6 @@ def initialize(context):
     from Products.CMFCore.permissions import AddPortalContent
     from Products.CMFCore.utils import ContentInit
     from Products.membrane.config import PROJECTNAME
-    from Products.membrane.tests import dummy  # noqa
 
     content_types, constructors, ftis = process_types(
         listTypes(PROJECTNAME), PROJECTNAME)
