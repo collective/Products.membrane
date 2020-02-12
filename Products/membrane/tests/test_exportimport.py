@@ -6,7 +6,6 @@ from Acquisition import aq_base
 from Products.CMFCore.utils import getToolByName
 
 import six
-import unittest
 
 
 class TestMembraneToolExportImport(MembraneTestCase):
@@ -15,18 +14,20 @@ class TestMembraneToolExportImport(MembraneTestCase):
     def setUp(self):
         super(TestMembraneToolExportImport, self).setUp()
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def test_useradder(self):
         """
         Simple check to see if the user_adder value is correctly set
         by the GS profile.
         """
         setup_tool = self.portal.portal_setup
-        setup_tool.runAllImportStepsFromProfile(
-            'profile-Products.membrane:examples')
+        if six.PY2:
+            setup_tool.runAllImportStepsFromProfile(
+                'profile-Products.membrane:examples')
+        else:
+            setup_tool.runAllImportStepsFromProfile(
+                'profile-Products.membrane.tests:test')
         plugins = self.portal.acl_users.plugins
-        from Products.PluggableAuthService.interfaces.plugins import \
-            IUserAdderPlugin
+        from Products.PluggableAuthService.interfaces.plugins import IUserAdderPlugin  # noqa: E501
         plugins.movePluginsUp(IUserAdderPlugin, ['membrane_users'])
         mbtool = getToolByName(self.portal, 'membrane_tool')
         user_adder = getattr(aq_base(mbtool), 'user_adder', None)

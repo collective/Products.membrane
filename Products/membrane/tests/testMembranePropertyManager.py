@@ -65,29 +65,24 @@ class TestMembranePropertyManager(base.MembraneTestCase,
     def setUp(self):
         super(TestMembranePropertyManager, self).setUp()
         self.portal.pmm = self._makeOne('pmm')
-        if six.PY2:
-            self.addUser()
+        self.addUser()
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testGetPropertiesForUserOnUser(self):
         mem_props = IMembraneUserProperties(self.member)
         properties = mem_props.getPropertiesForUser(None)
 
         self.failUnless(properties.hasProperty('fullname'))
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testGetPropertiesForUserFromPropertyManager(self):
         properties = self.portal.pmm.getPropertiesForUser(User(self.member))
         self.failIf(properties.hasProperty('id'))
         self.failUnless(properties.hasProperty('mobilePhone'))
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testGetMappedPropertyForUserFromPropertyManager(self):
         # The 'title' field should be mapped to the 'fullname' property
         properties = self.portal.pmm.getPropertiesForUser(User(self.member))
         self.failUnless(properties.hasProperty('fullname'))
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testGetPropertiesForGroupFromPropertyManager(self):
         self.addGroup()
         group = self.portal.testgroup
@@ -99,7 +94,6 @@ class TestMembranePropertyManager(base.MembraneTestCase,
         self.failUnlessEqual(
             properties.getProperty('description'), 'A test group')
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testGetPropertiesForUser(self):
         userid = IMembraneUserAuth(self.member).getUserId()
         user = self.portal.acl_users.getUserById(userid)
@@ -132,14 +126,14 @@ class TestMembranePropertyManager(base.MembraneTestCase,
         member = mtool.getMemberById(userid)
         self.failUnlessEqual(member.getProperty('extraProperty'), value)
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testSetPropertiesForUser(self):
         fullname = 'null fame'
         userid = IMembraneUserAuth(self.member).getUserId()
         user = self.portal.acl_users.getUserById(userid)
         sheets = user.getOrderedPropertySheets()
-        sheets[0].setProperty(user, 'fullname', fullname)
-        sheets[0].setProperty(user, 'ext_editor', True)
+        sheet = tuple(sheets)[0]
+        sheet.setProperty(user, 'fullname', fullname)
+        sheet.setProperty(user, 'ext_editor', True)
         mbtool = getattr(self.portal, TOOLNAME)
         member = mbtool.getUserObject(user.getUserName())
         self.assertEqual(member.Title(), fullname)
@@ -164,22 +158,18 @@ class TestMembraneSchemataPropertyManager(base.MembraneTestCase,
     def setUp(self):
         super(TestMembraneSchemataPropertyManager, self).setUp()
         self.portal.pmm = self._makeOne('pmm')
-        if six.PY2:
-            self.addUser()
+        self.addUser()
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testGetPropertiesForUserOnUser(self):
         mem_props = IMembraneUserProperties(self.member)
         properties = mem_props.getPropertiesForUser(None)
         self.failUnless(properties.hasProperty('homePhone'))
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testGetPropertiesForUserFromPropertyManager(self):
         properties = self.portal.pmm.getPropertiesForUser(User(self.member))
         self.failIf(properties.hasProperty('id'))
         self.failUnless(properties.hasProperty('homePhone'))
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testGetPropertiesForUser(self):
         userid = IMembraneUserAuth(self.member).getUserId()
         user = self.portal.acl_users.getUserById(userid)
@@ -218,13 +208,12 @@ class TestMembraneSchemataPropertyManager(base.MembraneTestCase,
                              rightvalue)
         self.failIf(member.hasProperty('extraProperty'))
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testSetPropertiesForUser(self):
         homePhone = 'phome hone"'
         userid = IMembraneUserAuth(self.member).getUserId()
         user = self.portal.acl_users.getUserById(userid)
         sheets = user.getOrderedPropertySheets()
-        sheets[0].setProperty(user, 'homePhone', homePhone)
+        tuple(sheets)[0].setProperty(user, 'homePhone', homePhone)
         mbtool = getattr(self.portal, TOOLNAME)
         member = mbtool.getUserObject(user.getUserName())
         self.assertEqual(member.getHomePhone(), homePhone)

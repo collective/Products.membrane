@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<archetypetool>
+  <catalogmap>
+    <type portal_type="Member">
+      <catalog value="portal_catalog"/>
+      <catalog value="membrane_tool"/>
+    </type>
+  </catalogmap>
+</archetypetool>

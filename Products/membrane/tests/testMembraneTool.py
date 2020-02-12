@@ -9,9 +9,6 @@ from Products.membrane.utils import membraneCacheKey
 from zope import component
 from zope import interface
 
-import six
-import unittest
-
 
 def resolveInterface(dotted_name):
     parts = dotted_name.split('.')
@@ -30,7 +27,6 @@ class TestMembraneTool(base.MembraneTestCase):
         super(TestMembraneTool, self).setUp()
         self.mbtool = getattr(self.portal, TOOLNAME)
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testMembraneTypeRegistration(self):
         mt = self.mbtool
         pt = 'TestMember'
@@ -57,7 +53,6 @@ class TestMembraneTool(base.MembraneTestCase):
             except TypeError:
                 self.fail("Can't adapt to %s" % iid)
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testGetUserObjectForEmptyString(self):
         # see http://plone.org/products/membrane/issues/7
         mt = self.mbtool
@@ -66,7 +61,6 @@ class TestMembraneTool(base.MembraneTestCase):
         mt.getUserObject('')
         # test passes if above call doesn't raise AssertionError
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testCaseSensitivityIsHonored(self):
         mt = self.mbtool
         self.addUser()
@@ -77,7 +71,6 @@ class TestMembraneTool(base.MembraneTestCase):
         self.failIf(mt.getUserObject('TESTUSER') is None)
         self.failIf(mt.getUserObject('testuser') is None)
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testGetOriginalUserIdCase(self):
         mt = self.mbtool
         self.addUser()
@@ -85,7 +78,6 @@ class TestMembraneTool(base.MembraneTestCase):
         orig_id = mt.getOriginalUserIdCase(case_test)
         self.failUnless(orig_id == case_test.lower())
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testCatalogCounter(self):
         mt = self.mbtool
         self.assertEqual(mt.getCounter(), 0)
@@ -99,7 +91,6 @@ class TestMembraneTool(base.MembraneTestCase):
         self.portal.manage_delObjects('testuser2')
         self.failUnless(mt.getCounter() > last)
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testCacheKey(self):
         def method():
             return 42
