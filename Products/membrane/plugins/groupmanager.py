@@ -5,7 +5,7 @@
 from AccessControl import ClassSecurityInfo
 # XXX REMOVE WHEN REFACTORING
 from Acquisition import aq_base
-from App.class_init import default__class_init__ as InitializeClass
+from AccessControl.class_init import InitializeClass
 from OFS.Cache import Cacheable
 from Products.CMFCore.utils import getToolByName
 from Products.membrane.config import QIM_ANNOT_KEY
@@ -27,6 +27,7 @@ from zope.annotation.interfaces import IAnnotations
 from zope.interface import implementer
 
 import logging
+import six
 
 
 manage_addMembraneGroupManagerForm = PageTemplateFile(
@@ -120,10 +121,10 @@ class MembraneGroupManager(BasePlugin, Cacheable):
         group_info = []
         plugin_id = self.getId()
 
-        if isinstance(id, basestring):
+        if isinstance(id, six.string_types):
             id = [id]
 
-        if isinstance(title, basestring):
+        if isinstance(title, six.string_types):
             title = [title]
 
         mbtool = getToolByName(self, TOOLNAME)
@@ -205,7 +206,7 @@ class MembraneGroupManager(BasePlugin, Cacheable):
         return self._findGroup(plugins, group_id, title)
 
     def getGroups(self):
-        return map(self.getGroupById, self.getGroupIds())
+        return list(map(self.getGroupById, self.getGroupIds()))
 
     def getGroupIds(self):
         mbtool = getToolByName(self, TOOLNAME)

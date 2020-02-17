@@ -3,7 +3,7 @@
 # info@plonesolutions.com
 
 from AccessControl import ClassSecurityInfo
-from App.class_init import default__class_init__ as InitializeClass
+from AccessControl.class_init import InitializeClass
 from OFS.Cache import Cacheable
 from Products.membrane.interfaces import group as group_ifaces
 from Products.membrane.interfaces import user as user_ifaces

@@ -9,7 +9,7 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing.layers import IntegrationTesting
-from plone.testing import z2
+from plone.testing import zope as zope_testing
 from Products import membrane
 from Products.CMFPlone.utils import _createObjectByType
 from Products.membrane import examples
@@ -18,6 +18,8 @@ from Products.membrane.config import TOOLNAME
 from Products.membrane.tests import dummy
 from zope.configuration import xmlconfig
 
+import six
+
 
 try:
     get_distribution('Products.remember')
@@ -25,8 +27,6 @@ try:
 except DistributionNotFound:
     HAS_REMEMBER = False
 
-PLONE_VERSION = get_distribution('Products.CMFPlone').version
-MAJOR_PLONE_VERSION = int(PLONE_VERSION[0])
 orig_initialize = membrane.initialize
 
 
@@ -52,7 +52,7 @@ class MembraneProfilesLayer(PloneSandboxLayer):
     def setUpZope(self, app, configurationContext):
         import Products.membrane
         self.loadZCML(package=Products.membrane)
-        z2.installProduct(app, 'Products.membrane')
+        zope_testing.installProduct(app, 'Products.membrane')
         xmlconfig.file(
             'testing.zcml',
             Products.membrane.tests,
@@ -62,19 +62,19 @@ class MembraneProfilesLayer(PloneSandboxLayer):
             # We do not need this ourselves, but it is nice if we can at least
             # load it without breaking anything.
             import Products.remember
-            z2.installProduct(app, 'Products.remember')
+            zope_testing.installProduct(app, 'Products.remember')
             self.loadZCML(package=Products.remember)
-        if MAJOR_PLONE_VERSION >= 5:
-            import plone.app.contenttypes
-            self.loadZCML(package=plone.app.contenttypes)
+
+        import plone.app.contenttypes
+        self.loadZCML(package=plone.app.contenttypes)
+        if six.PY2:
             # We need to load Archetypes because our example and test profiles
             # need this.  We could turn the types into dexterity types
             import Products.Archetypes
             self.loadZCML(package=Products.Archetypes)
 
     def setUpPloneSite(self, portal):
-        if MAJOR_PLONE_VERSION >= 5:
-            applyProfile(portal, 'plone.app.contenttypes:default')
+        applyProfile(portal, 'plone.app.contenttypes:default')
         applyProfile(portal, 'Products.membrane:default')
         applyProfile(portal, 'Products.membrane.tests:test')
         setRoles(portal, TEST_USER_ID, ['Manager'])
@@ -96,7 +96,7 @@ class MembraneProfilesLayer(PloneSandboxLayer):
         mbtool.registerMembraneType(dummy.TestGroup.portal_type)
 
     def tearDownZope(self, app):
-        z2.uninstallProduct(app, 'Products.membrane')
+        zope_testing.uninstallProduct(app, 'Products.membrane')
 
 
 def addUser(obj, username='testuser', title='full name'):
@@ -114,8 +114,7 @@ def addUser(obj, username='testuser', title='full name'):
 class AddUserLayer(MembraneProfilesLayer):
 
     def setUpPloneSite(self, portal):
-        if MAJOR_PLONE_VERSION >= 5:
-            applyProfile(portal, 'plone.app.contenttypes:default')
+        applyProfile(portal, 'plone.app.contenttypes:default')
         applyProfile(portal, 'Products.membrane:default')
         applyProfile(portal, 'Products.membrane.tests:test')
         setRoles(portal, TEST_USER_ID, ['Manager'])
@@ -127,8 +126,7 @@ class AddUserLayer(MembraneProfilesLayer):
 class MembraneUserManagerLayer(AddUserLayer):
 
     def setUpPloneSite(self, portal):
-        if MAJOR_PLONE_VERSION >= 5:
-            applyProfile(portal, 'plone.app.contenttypes:default')
+        applyProfile(portal, 'plone.app.contenttypes:default')
         applyProfile(portal, 'Products.membrane:default')
         applyProfile(portal, 'Products.membrane.tests:test')
         setRoles(portal, TEST_USER_ID, ['Manager'])
@@ -142,8 +140,7 @@ class MembraneUserManagerLayer(AddUserLayer):
 class MembraneUserManagerTwoUsersLayer(MembraneUserManagerLayer):
 
     def setUpPloneSite(self, portal):
-        if MAJOR_PLONE_VERSION >= 5:
-            applyProfile(portal, 'plone.app.contenttypes:default')
+        applyProfile(portal, 'plone.app.contenttypes:default')
         applyProfile(portal, 'Products.membrane:default')
         applyProfile(portal, 'Products.membrane.tests:test')
         setRoles(portal, TEST_USER_ID, ['Manager'])
@@ -151,8 +148,7 @@ class MembraneUserManagerTwoUsersLayer(MembraneUserManagerLayer):
         addUser(portal)
         from Products.membrane.plugins.usermanager import MembraneUserManager
         portal.acl_users.pmm = MembraneUserManager(id='pmm')
-        member = _createObjectByType('TestMember', portal,
-                                     'testuser2')
+        member = _createObjectByType('TestMember', portal, 'testuser2')
         member.setUserName('testuser2')
         member.setPassword('testpassword2')
         member.setTitle('full name 2')

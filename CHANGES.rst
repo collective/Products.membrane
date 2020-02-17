@@ -1,12 +1,13 @@
 Changelog
 =========
 
-4.0.1 (unreleased)
+5.0 (unreleased)
 ------------------
 
 Breaking changes:
 
-- *add item here*
+- Requires Plone 5.2 or newer.
+  [ale-rt]
 
 New features:
 
@@ -14,7 +15,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Plone 5.2 / Zope 4 compatibility.
+  [thet]
 
 
 4.0 (2017-10-05)

@@ -6,7 +6,7 @@
 # robm <at> openplans -dot- org
 
 from AccessControl import ClassSecurityInfo
-from App.class_init import default__class_init__ as InitializeClass
+from AccessControl.class_init import InitializeClass
 from OFS.Cache import Cacheable
 from Products.CMFCore.utils import getToolByName
 from Products.membrane.config import QIM_ANNOT_KEY
@@ -22,9 +22,10 @@ from Products.PluggableAuthService.utils import createViewName
 from Products.ZCTextIndex.ZCTextIndex import ZCTextIndex
 from zope.annotation.interfaces import IAnnotations
 from zope.interface import implementer
-from zope.site import hooks
+from zope.component.hooks import getSite
 
 import copy
+import six
 
 
 manage_addMembraneUserManagerForm = PageTemplateFile(
@@ -96,10 +97,10 @@ class MembraneUserManager(BasePlugin, Cacheable):
         plugin_id = self.getId()
         view_name = createViewName('enumerateUsers', id or login)
 
-        if isinstance(id, basestring):
+        if isinstance(id, six.string_types):
             id = [id]
 
-        if isinstance(login, basestring) and login:
+        if isinstance(login, six.string_types) and login:
             login = [login]
 
         mbtool = getToolByName(self, TOOLNAME)
@@ -177,7 +178,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
 
         members = mbtool.unrestrictedSearchResults(**query)
 
-        if max_results is not None and max_results is not '':
+        if max_results is not None and max_results != '':
             members = members[:int(max_results)]
 
         for m in members:
@@ -211,7 +212,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
         If membrane is responsible for managing the user, we have to return
         True to set the correct state for following updaters.
         """
-        context = hooks.getSite()
+        context = getSite()
         mtool = getToolByName(context, 'membrane_tool')
         if mtool:
             members = mtool.unrestrictedSearchResults({'getUserId': user_id})

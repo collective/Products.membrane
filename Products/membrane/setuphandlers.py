@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
-from config import TOOLNAME
-from interfaces import IUserAdder
+from __future__ import print_function
+from six import StringIO
 from Products.CMFCore.utils import getToolByName
-from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
+from Products.membrane.config import TOOLNAME
+from Products.membrane.interfaces import IUserAdder
+from Products.PlonePAS.setuphandlers import activatePluginInterfaces
 from Products.PluggableAuthService.interfaces.plugins import IGroupsPlugin
 from Products.PluggableAuthService.interfaces.plugins import IPropertiesPlugin
 from Products.PluggableAuthService.interfaces.plugins import IUserFactoryPlugin
-from StringIO import StringIO
 
 
 def _doRegisterUserAdderUtility(context, step_name, profile_id,
@@ -44,30 +45,30 @@ def _setupPlugins(portal, out):
 
     if 'membrane_users' not in existing:
         membrane.addMembraneUserManager('membrane_users')
-        print >> out, "Added User Manager."
+        print("Added User Manager.", file=out)
         activatePluginInterfaces(portal, 'membrane_users', out)
 
     if 'membrane_groups' not in existing:
         membrane.addMembraneGroupManager('membrane_groups')
-        print >> out, "Added Group Manager."
+        print("Added Group Manager.", file=out)
         activatePluginInterfaces(portal, 'membrane_groups', out)
         plugins.movePluginsUp(IGroupsPlugin, ['membrane_groups'])
 
     if 'membrane_roles' not in existing:
         membrane.addMembraneRoleManager('membrane_roles')
-        print >> out, "Added Role Manager."
+        print("Added Role Manager.", file=out)
         activatePluginInterfaces(portal, 'membrane_roles', out)
 
     if 'membrane_properties' not in existing:
         membrane.addMembranePropertyManager('membrane_properties')
-        print >> out, "Added Property Manager."
+        print("Added Property Manager.", file=out)
         activatePluginInterfaces(portal, 'membrane_properties', out)
         plugins.movePluginsUp(IPropertiesPlugin, ['membrane_properties'])
         plugins.movePluginsUp(IPropertiesPlugin, ['membrane_properties'])
 
     if 'membrane_user_factory' not in existing:
         membrane.addMembraneUserFactory('membrane_user_factory')
-        print >> out, "Added User Factory."
+        print("Added User Factory.", file=out)
         activatePluginInterfaces(portal, 'membrane_user_factory', out)
         plugins.movePluginsUp(IUserFactoryPlugin, ['membrane_user_factory'])
 

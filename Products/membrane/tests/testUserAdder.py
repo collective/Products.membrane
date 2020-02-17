@@ -5,9 +5,10 @@ from plone.app.testing import login
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
+from Products.membrane.tests import base
 from Products.membrane.utils import getCurrentUserAdder
 
-import base
+import six
 
 
 class TestUserAdder(base.MembraneTestCase):
@@ -20,10 +21,13 @@ class TestUserAdder(base.MembraneTestCase):
         super(TestUserAdder, self).setUp()
         from Products.PluggableAuthService.interfaces.plugins import \
             IUserAdderPlugin
-
         setup_tool = self.portal.portal_setup
-        setup_tool.runAllImportStepsFromProfile(
-            'profile-Products.membrane:examples')
+        if six.PY2:
+            setup_tool.runAllImportStepsFromProfile(
+                'profile-Products.membrane:examples')
+        else:
+            setup_tool.runAllImportStepsFromProfile(
+                'profile-Products.membrane.tests:test')
         plugins = self.portal.acl_users.plugins
         plugins.movePluginsUp(IUserAdderPlugin, ['membrane_users'])
 

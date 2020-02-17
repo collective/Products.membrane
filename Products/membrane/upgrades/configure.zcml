@@ -1,0 +1,21 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="membrane"
+    >
+
+  <genericsetup:upgradeSteps
+      destination="2.0"
+      profile="Products.membrane:default"
+      source="1.2"
+      >
+
+    <genericsetup:upgradeStep
+        title="Update lexicon in the membrane catalog indexes"
+        description="Adopt the plone_lexicon like the standard catalog"
+        handler=".to_2_0.update_lexicon"
+        />
+
+  </genericsetup:upgradeSteps>
+
+</configure>

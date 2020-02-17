@@ -4,6 +4,8 @@
 from .base import MembraneTestCase
 from Products.CMFCore.utils import getToolByName
 
+import six
+
 
 class TestProfile(MembraneTestCase):
     """Test the generic setup profile."""
@@ -22,6 +24,8 @@ class TestProfile(MembraneTestCase):
         unpredictable this test exposes the bug.
 
         """
+        if not six.PY2:
+            return
         attool = getToolByName(self.portal, 'archetype_tool')
         catalog_map = getattr(attool, 'catalog_map', {})
         if 'TestMember' not in catalog_map:

@@ -2,16 +2,14 @@
 #
 # MembraneTestCase Membrane
 #
-
-from .dummy import TestAlternatePropertyProvider
-from .dummy import TestPropertyProvider
 from Products.CMFPlone.utils import _createObjectByType
-from Products.membrane.at.relations import UserRelatedRelation
 from Products.membrane.config import TOOLNAME
 from Products.membrane.interfaces import IMembraneUserAuth
 from Products.membrane.interfaces import IMembraneUserProperties
+from Products.membrane.tests import base
 
-import base
+import six
+import unittest
 
 
 class MembranePropertyManagerTestBase:
@@ -107,11 +105,14 @@ class TestMembranePropertyManager(base.MembraneTestCase,
         self.failUnlessEqual(member.getProperty('fullname'), 'full name')
         self.failUnlessEqual(member.getProperty('ext_editor'), False)
 
+    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testGetPropertiesFromExternalProvider(self):
         value = 'foo'
         mbtool = getattr(self.portal, TOOLNAME)
+        from .dummy import TestPropertyProvider
         self._initExternalProvider(mbtool, TestPropertyProvider.portal_type)
         self.prop_provider.setExtraProperty(value)
+        from Products.membrane.at.relations import UserRelatedRelation
         self.member.addReference(self.prop_provider,
                                  relationship=UserRelatedRelation.relationship)
         self.prop_provider.reindexObject()
@@ -130,8 +131,9 @@ class TestMembranePropertyManager(base.MembraneTestCase,
         userid = IMembraneUserAuth(self.member).getUserId()
         user = self.portal.acl_users.getUserById(userid)
         sheets = user.getOrderedPropertySheets()
-        sheets[0].setProperty(user, 'fullname', fullname)
-        sheets[0].setProperty(user, 'ext_editor', True)
+        sheet = tuple(sheets)[0]
+        sheet.setProperty(user, 'fullname', fullname)
+        sheet.setProperty(user, 'ext_editor', True)
         mbtool = getattr(self.portal, TOOLNAME)
         member = mbtool.getUserObject(user.getUserName())
         self.assertEqual(member.Title(), fullname)
@@ -177,14 +179,17 @@ class TestMembraneSchemataPropertyManager(base.MembraneTestCase,
         member = self.portal.portal_membership.getMemberById(userid)
         self.failUnlessEqual(member.getProperty('homePhone'), '555-1212')
 
+    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
     def testGetPropertiesFromExternalProvider(self):
         wrongvalue = 'foo'
         rightvalue = 'bar'
         mbtool = getattr(self.portal, TOOLNAME)
+        from .dummy import TestAlternatePropertyProvider
         self._initExternalProvider(mbtool,
                                    TestAlternatePropertyProvider.portal_type)
         self.prop_provider.setExtraProperty(wrongvalue)
         self.prop_provider.setExtraPropertyFromSchemata(rightvalue)
+        from Products.membrane.at.relations import UserRelatedRelation
         self.member.addReference(self.prop_provider,
                                  relationship=UserRelatedRelation.relationship)
         self.prop_provider.reindexObject()
@@ -208,7 +213,7 @@ class TestMembraneSchemataPropertyManager(base.MembraneTestCase,
         userid = IMembraneUserAuth(self.member).getUserId()
         user = self.portal.acl_users.getUserById(userid)
         sheets = user.getOrderedPropertySheets()
-        sheets[0].setProperty(user, 'homePhone', homePhone)
+        tuple(sheets)[0].setProperty(user, 'homePhone', homePhone)
         mbtool = getattr(self.portal, TOOLNAME)
         member = mbtool.getUserObject(user.getUserName())
         self.assertEqual(member.getHomePhone(), homePhone)

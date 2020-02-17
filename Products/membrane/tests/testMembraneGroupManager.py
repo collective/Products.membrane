@@ -8,8 +8,8 @@ from Products.membrane.interfaces import IMembraneUserAuth
 from Products.membrane.interfaces import IMembraneUserGroups
 from Products.membrane.tests import base
 from Products.membrane.tests.utils import sortTuple
-from Products.PluggableAuthService.tests.conformance import IGroupEnumerationPlugin_conformance  # noqa
-from Products.PluggableAuthService.tests.conformance import IGroupsPlugin_conformance  # noqa
+from Products.PluggableAuthService.tests.conformance import IGroupEnumerationPlugin_conformance  # noqa: E501
+from Products.PluggableAuthService.tests.conformance import IGroupsPlugin_conformance  # noqa: E501
 
 import unittest
 
@@ -53,9 +53,9 @@ class TestMembraneGroupManager(base.MembraneTestCase,
     def setUp(self):
         super(TestMembraneGroupManager, self).setUp()
         self.portal.pmm = self._makeOne('pmm')
-        self.createGroupAndUsers()
 
     def testGroupMembership(self):
+        self.createGroupAndUsers()
         group = self.portal.testgroup
         member = group.testuser  # We need acquisition to be correct
         mem_auth = IMembraneUserAuth(member)
@@ -91,9 +91,9 @@ class TestMembraneGroupManagerSelectedGroups(base.MembraneTestCase,
     def setUp(self):
         super(TestMembraneGroupManagerSelectedGroups, self).setUp()
         self.portal.pmm = self._makeOne('pmm')
-        self.createGroupAndUsers()
 
     def testGroupMembership(self):
+        self.createGroupAndUsers()
         group = self.portal.testgroup
         member = group.testuser  # We need acquisition to be correct
         mem_auth = IMembraneUserAuth(member)
@@ -119,18 +119,20 @@ class TestMembraneGroupManagerEnumeration(base.MembraneTestCase,
     def setUp(self):
         super(TestMembraneGroupManagerEnumeration, self).setUp()
         self.portal.pmm = self._makeOne('pmm')
-        self.createGroupAndUsers()
 
     def testEnumerateGroupsNoArgs(self):
+        self.createGroupAndUsers()
         self.failUnlessEqual(len(self.portal.pmm.enumerateGroups()), 1)
 
     def testEnumerateGroupsByTitleNonexisting(self):
+        self.createGroupAndUsers()
         enumgrps = self.portal.pmm.enumerateGroups
         self.failUnlessEqual(enumgrps(title='nonexisting'), ())
         self.failUnlessEqual(
             enumgrps(title='nonexisting', exact_match=True), ())
 
     def testEnumerateGroupsByTitle(self):
+        self.createGroupAndUsers()
         enumgrps = self.portal.pmm.enumerateGroups
         self.failUnlessEqual(len(enumgrps(title=self.group.Title(),
                                           exact_match=True)), 1)
@@ -148,11 +150,13 @@ class TestMembraneGroupManagerEnumeration(base.MembraneTestCase,
                                           exact_match=True, max_results=0)), 0)
 
     def testEnumerateGroupsByIdNonexisting(self):
+        self.createGroupAndUsers()
         enumgrps = self.portal.pmm.enumerateGroups
         self.failUnlessEqual(enumgrps(id='nonexisting'), ())
         self.failUnlessEqual(enumgrps(id='nonexisting', exact_match=True), ())
 
     def testEnumerateGroupsById(self):
+        self.createGroupAndUsers()
         enumgrps = self.portal.pmm.enumerateGroups
         self.failUnlessEqual(len(enumgrps(id=self.group.getGroupName(),
                                           exact_match=True)), 1)
@@ -170,6 +174,7 @@ class TestMembraneGroupManagerEnumeration(base.MembraneTestCase,
                                           exact_match=True, max_results=0)), 0)
 
     def testEnumerateGroupsWithSimilarIds(self):
+        self.createGroupAndUsers()
         """ ensure that enumerating groups while exact_match==True returns only
             exact matches for a given id
         """

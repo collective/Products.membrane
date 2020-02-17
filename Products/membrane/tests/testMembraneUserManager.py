@@ -10,8 +10,8 @@ from Products.membrane.plugins.usermanager import MembraneUserManager
 from Products.membrane.tests import base
 from Products.membrane.tests.utils import sortTuple
 from Products.PlonePAS.interfaces.capabilities import IPasswordSetCapability
-from Products.PluggableAuthService.tests.conformance import IAuthenticationPlugin_conformance  # noqa
-from Products.PluggableAuthService.tests.conformance import IUserEnumerationPlugin_conformance  # noqa
+from Products.PluggableAuthService.tests.conformance import IAuthenticationPlugin_conformance  # noqa: E501
+from Products.PluggableAuthService.tests.conformance import IUserEnumerationPlugin_conformance  # noqa: E501
 
 
 class MembraneUserManagerTestBase:
@@ -55,10 +55,12 @@ class TestMembraneUserManagerEnumeration(base.MembraneUserTestCase):
         self.assertTrue('Title' in mbtool.indexes())
         self.assertFalse('title' in query_index_map)
         self.failUnlessEqual(
-            len(self.portal.acl_users.pmm.enumerateUsers(title='')), 0)
+            len(self.portal.acl_users.pmm.enumerateUsers(title='full name')), 0
+        )
         query_index_map['title'] = 'Title'
         self.failUnlessEqual(
-            len(self.portal.acl_users.pmm.enumerateUsers(title='')), 1)
+            len(self.portal.acl_users.pmm.enumerateUsers(title='full name')), 1
+        )
 
     def testEnumerateUsersByLoginNonexisting(self):
         enumusers = self.portal.acl_users.pmm.enumerateUsers

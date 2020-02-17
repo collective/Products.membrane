@@ -13,16 +13,21 @@
     <element name="Unicode Whitespace splitter" group="Word Splitter" />
   </object>
 
+  <object name="plone_lexicon" meta_type="ZCTextIndex Lexicon">
+    <element name="Unicode Whitespace splitter" group="Word Splitter"/>
+    <element name="Unicode Ignoring Accents Case Normalizer" group="Case Normalizer"/>
+  </object>
+
   <index name="Title" meta_type="ZCTextIndex">
     <indexed_attr value="Title"/>
     <extra name="index_type" value="Cosine Measure"/>
-    <extra name="lexicon_id" value="normalizerlexicon"/>
+    <extra name="lexicon_id" value="plone_lexicon"/>
   </index>
 
   <index name="getUserName" meta_type="ZCTextIndex">
     <indexed_attr value="getUserName"/>
     <extra name="index_type" value="Cosine Measure"/>
-    <extra name="lexicon_id" value="lexicon"/>
+    <extra name="lexicon_id" value="plone_lexicon"/>
   </index>
 
   <index name="exact_getUserName" meta_type="FieldIndex">
@@ -32,7 +37,7 @@
   <index name="getUserId" meta_type="ZCTextIndex">
     <indexed_attr value="getUserId"/>
     <extra name="index_type" value="Cosine Measure"/>
-    <extra name="lexicon_id" value="lexicon"/>
+    <extra name="lexicon_id" value="plone_lexicon"/>
   </index>
 
   <index name="exact_getUserId" meta_type="FieldIndex">
@@ -42,7 +47,7 @@
   <index name="getGroupId" meta_type="ZCTextIndex">
     <indexed_attr value="getGroupId"/>
     <extra name="index_type" value="Cosine Measure"/>
-    <extra name="lexicon_id" value="lexicon"/>
+    <extra name="lexicon_id" value="plone_lexicon"/>
   </index>
 
   <index name="exact_getGroupId" meta_type="FieldIndex">
@@ -60,7 +65,7 @@
   <index name="SearchableText" meta_type="ZCTextIndex">
     <indexed_attr value="SearchableText"/>
     <extra name="index_type" value="Okapi BM25 Rank"/>
-    <extra name="lexicon_id" value="normalizerlexicon"/>
+    <extra name="lexicon_id" value="plone_lexicon"/>
   </index>
 
   <index name="created" meta_type="DateIndex">

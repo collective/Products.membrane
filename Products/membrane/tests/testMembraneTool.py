@@ -110,3 +110,21 @@ class TestMembraneTool(base.MembraneTestCase):
         last = membraneCacheKey(method, adapter)
         self.portal.manage_delObjects('testuser2')
         self.failUnless(membraneCacheKey(method, adapter) > last)
+
+    def testManageMembraneTypes(self):
+        view = self.mbtool.restrictedTraverse("manage_membranetypes")
+        html = view()
+        self.assertIn("Membrane types", html)
+        self.assertIn("User Adder utility", html)
+
+        self.assertIn("<option>Document</option>", html)
+        self.assertIn("<option>Event</option>", html)
+        self.assertIn("<option>Folder</option>", html)
+
+        view.request.set("membrane_types", ["Document", "Folder"])
+        view.request.set("submitted", "1")
+        html = view()
+
+        self.assertIn("<option selected=\"selected\">Document</option>", html)
+        self.assertIn("<option>Event</option>", html)
+        self.assertIn("<option selected=\"selected\">Folder</option>", html)
