@@ -1,4 +1,6 @@
 global-exclude *.pyc
+global-exclude __pycache__
 graft docs
 graft Products
 include *.rst
+include *.txt
