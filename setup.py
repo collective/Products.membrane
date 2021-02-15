@@ -3,7 +3,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 
-version = '5.0.0a2.dev0'
+version = '5.0.0.dev0'
 readme = open('README.rst').read()
 history = open('CHANGES.rst').read()
 
@@ -37,7 +37,6 @@ setup(
         'Framework :: Plone',
         'Framework :: Plone :: Addon',
         'Framework :: Plone :: 5.2',
-        'Framework :: Zope :: 2',
         'Framework :: Zope :: 4',
         'Framework :: Zope',
         'Intended Audience :: Other Audience',
@@ -48,5 +47,6 @@ setup(
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
     ],
 )

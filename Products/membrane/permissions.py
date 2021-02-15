@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 from Products.CMFCore import permissions as cmfcore_permissions
 
+try:
+    from AccessControl.Permission import addPermission
+except ImportError:
+    addPermission = cmfcore_permissions.setDefaultRoles
 
 # Add a new member
 ADD_PERMISSION = ADD_MEMBER_PERMISSION = cmfcore_permissions.AddPortalMember
@@ -30,4 +34,4 @@ VIEW_OTHER_PERMISSION = EDIT_PROPERTIES_PERMISSION
 # Enable password mailing
 MAIL_PASSWORD_PERMISSION = cmfcore_permissions.MailForgottenPassword
 
-cmfcore_permissions.setDefaultRoles(REGISTER_PERMISSION, ('Manager',))
+addPermission(REGISTER_PERMISSION, ('Manager',))
