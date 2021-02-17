@@ -1,10 +1,10 @@
 Changelog
 =========
 
-5.0.0a2 (unreleased)
---------------------
+5.0.0 (unreleased)
+------------------
 
-- Nothing changed yet.
+- Remove a deprecation warning (fixes #21) [ale-rt]
 
 
 5.0.0a1 (2020-02-19)
