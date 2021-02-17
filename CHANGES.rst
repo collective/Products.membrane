@@ -1,7 +1,7 @@
 Changelog
 =========
 
-5.0.0 (unreleased)
+5.0.0 (2021-02-17)
 ------------------
 
 - Remove a deprecation warning (fixes #21) [ale-rt]
