@@ -16,10 +16,6 @@ Plone membership-handling. We have tried to make it as simple as
 possible, so that grasping and extending it is simple. Hopefully,
 simplicity should also make it easier to make sure it is secure.
 
-For announcement, help, or to keep up with development discussions,
-see the poorly named "remember" list:
-
-http://www.openplans.org/projects/remember/lists/remember/
 
 Vision
 ======
