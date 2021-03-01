@@ -42,7 +42,7 @@ def getCurrentUserAdder(context):
     else:
         adders = sm.getUtilitiesFor(IUserAdder)
         try:
-            name, adder = adders.next()
+            name, adder = next(adders)
         except StopIteration:
             adder = None
 
