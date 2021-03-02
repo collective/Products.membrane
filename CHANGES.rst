@@ -1,7 +1,7 @@
 Changelog
 =========
 
-5.0.1 (unreleased)
+5.0.1 (2021-03-02)
 ------------------
 
 - fixes the main membrane_tool template in ZMI
