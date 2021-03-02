@@ -1,41 +1,54 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-      lang="en"
-      i18n:domain="membrane">
+  lang="en"
+  i18n:domain="membrane">
 <body>
 
+<h1 tal:replace="structure here/manage_page_header">Header</h1>
+
 <span tal:replace="structure here/manage_tabs" />
+<main class="container-fluid">
+<h2 i18n:translate="">MembraneTool configuration</h2>
 
-<div>
-  <h3 i18n:translate="">Specify membrane types</h3>
+  <div class="form-group row">
 
-  <form action="" method="POST"
-        tal:attributes="action request/ACTUAL_URL">
+    <form action=""
+          method="POST"
+          class="zmi-dtml zmi-edit"
+          tal:attributes="action request/ACTUAL_URL">
 
-    <input type="hidden" name="submitted" value="1" />
+      <input type="hidden" name="submitted" value="1" />
 
-    <h4>Membrane types:</h4>
-    <select name="membrane_types:list" multiple="multiple" size="10"
-            tal:define="membrane_types here/listMembraneTypes">
-      <option tal:repeat="portal_type here/portal_types/listContentTypes"
-              tal:attributes="selected python:portal_type in membrane_types"
-              tal:content="portal_type" />
-    </select>
+      <div class="input-group" >
 
-    <h4>User Adder utility:</h4>
-    <select name="user_adder"
-            tal:define="available_adders view/availableAdders">
-      <option tal:repeat="adder available_adders"
-              tal:attributes="selected python:here.user_adder==adder"
-              tal:content="adder" />
-    </select>
+        <label for="membrane_types">Membrane types:</label>
+        <select name="membrane_types:list"
+                id="membrane_types"
+                multiple="multiple"
+                size="10"
+                tal:define="membrane_types here/listMembraneTypes">
+          <option tal:repeat="portal_type here/portal_types/listContentTypes"
+                  tal:attributes="selected python:portal_type in membrane_types"
+                  tal:content="portal_type" />
+        </select>
+      </div>
+      <div class="input-group" >
 
-    <br /><br />
+        <label for="user_adder">User Adder utility:</label>
 
-    <input type="submit" value="submit" />
-
-  </form>
-
-</div>
-
+        <select name="user_adder"
+                id="user_adder"
+                tal:define="available_adders view/availableAdders">
+          <option tal:repeat="adder available_adders"
+                  tal:attributes="selected python:here.user_adder==adder"
+                  tal:content="adder" />
+        </select>
+      </div>
+      <br /><br />
+      <div class="zmi-controls">
+        <input  class="btn btn-outline-secondary" type="submit" value="submit" />
+      </div>
+    </form>
+  </div>
+</main>
 </body>
 </html>
