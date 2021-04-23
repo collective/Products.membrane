@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from AccessControl import ClassSecurityInfo
+from AccessControl.class_init import InitializeClass
 from Acquisition import aq_base
-from App.class_init import InitializeClass
 from persistent.list import PersistentList
 from Products.CMFCore.permissions import ManagePortal
 from Products.CMFCore.utils import getToolByName
