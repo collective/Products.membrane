@@ -4,7 +4,7 @@ Changelog
 5.0.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add uninstall profile (fixes #20) [petschki]
 
 
 5.0.2 (2021-04-23)

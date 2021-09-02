@@ -1,13 +1,26 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
-from six import StringIO
+
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.interfaces import INonInstallable
 from Products.membrane.config import TOOLNAME
 from Products.membrane.interfaces import IUserAdder
 from Products.PlonePAS.setuphandlers import activatePluginInterfaces
 from Products.PluggableAuthService.interfaces.plugins import IGroupsPlugin
 from Products.PluggableAuthService.interfaces.plugins import IPropertiesPlugin
 from Products.PluggableAuthService.interfaces.plugins import IUserFactoryPlugin
+from six import StringIO
+from zope.interface import implementer
+
+
+@implementer(INonInstallable)
+class HiddenProfiles(object):
+
+    def getNonInstallableProfiles(self):
+        """Hide uninstall profile from site-creation and quickinstaller."""
+        return [
+            'Products.membrane:uninstall',
+        ]
 
 
 def _doRegisterUserAdderUtility(context, step_name, profile_id,

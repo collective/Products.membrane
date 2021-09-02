@@ -53,6 +53,20 @@
       />
 
   <genericsetup:registerProfile
+      name="uninstall"
+      title="Membrane: content-based users and groups (uninstall)"
+      description=""
+      directory="profiles/uninstall"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      />
+
+  <utility
+      factory=".setuphandlers.HiddenProfiles"
+      name="Products.membrane-hiddenprofiles"
+      />
+
+  <genericsetup:registerProfile
       name="examples"
       title="Example content types for Membrane (Deprecated)"
       description="Uses Archetypes which are deprecated, use dexterity.membrane for a more modern implementation"
