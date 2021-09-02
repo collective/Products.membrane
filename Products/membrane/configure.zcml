@@ -59,6 +59,7 @@
       directory="profiles/uninstall"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      post_handler=".setuphandlers.uninstall"
       />
 
   <utility

@@ -10,6 +10,7 @@ from Products.PluggableAuthService.interfaces.plugins import IGroupsPlugin
 from Products.PluggableAuthService.interfaces.plugins import IPropertiesPlugin
 from Products.PluggableAuthService.interfaces.plugins import IUserFactoryPlugin
 from six import StringIO
+from zope.component.hooks import getSite
 from zope.interface import implementer
 
 
@@ -26,7 +27,7 @@ class HiddenProfiles(object):
 def _doRegisterUserAdderUtility(context, step_name, profile_id,
                                 utility_name, utility):
     """ registers utility for adding ExampleMembers """
-    portal = context.getSite()
+    portal = getSite()
 
     sm = portal.getSiteManager()
     logger = context.getLogger(step_name)
@@ -91,8 +92,39 @@ def setupPlugins(context):
     if context.readDataFile('membrane-setup-plugins.txt') is None:
         return
 
-    portal = context.getSite()
+    portal = getSite()
     out = StringIO()
     _setupPlugins(portal, out)
     logger = context.getLogger("plugins")
     logger.info(out.getvalue())
+
+
+def _removePlugins(portal):
+    """
+    uninstall the membrane PAS plug-ins.
+    """
+    uf = getToolByName(portal, 'acl_users')
+    existing = uf.objectIds()
+
+    if 'membrane' in existing:
+        uf.manage_delObjects(['membrane', ])
+
+    if 'membrane_users' in existing:
+        uf.manage_delObjects(['membrane_users', ])
+
+    if 'membrane_groups' in existing:
+        uf.manage_delObjects(['membrane_groups', ])
+
+    if 'membrane_roles' in existing:
+        uf.manage_delObjects(['membrane_roles', ])
+
+    if 'membrane_properties' in existing:
+        uf.manage_delObjects(['membrane_properties', ])
+
+    if 'membrane_user_factory' in existing:
+        uf.manage_delObjects(['membrane_user_factory', ])
+
+
+def uninstall(context):
+    portal = getSite()
+    _removePlugins(portal)
