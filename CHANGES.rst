@@ -1,7 +1,7 @@
 Changelog
 =========
 
-5.0.3 (unreleased)
+5.0.3 (2021-12-06)
 ------------------
 
 - Add uninstall profile (fixes #20) [petschki]
