@@ -3,7 +3,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 
-version = '5.0.3'
+version = '5.0.4.dev0'
 readme = open('README.rst').read()
 history = open('CHANGES.rst').read()
 
