@@ -1,10 +1,11 @@
 Changelog
 =========
 
-5.0.4 (unreleased)
+6.0.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Remove mentions to Products.remember which is unsopported since years
+  [ale-rt]
 
 
 5.0.3 (2021-12-06)

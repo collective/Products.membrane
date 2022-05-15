@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from pkg_resources import DistributionNotFound
-from pkg_resources import get_distribution
 from plone.app.testing import applyProfile
 from plone.app.testing import login
 from plone.app.testing import logout
@@ -20,12 +18,6 @@ from zope.configuration import xmlconfig
 
 import six
 
-
-try:
-    get_distribution('Products.remember')
-    HAS_REMEMBER = True
-except DistributionNotFound:
-    HAS_REMEMBER = False
 
 orig_initialize = membrane.initialize
 
@@ -58,12 +50,6 @@ class MembraneProfilesLayer(PloneSandboxLayer):
             Products.membrane.tests,
             context=configurationContext)
         app.REQUEST['SESSION'] = Session()
-        if HAS_REMEMBER:
-            # We do not need this ourselves, but it is nice if we can at least
-            # load it without breaking anything.
-            import Products.remember
-            zope_testing.installProduct(app, 'Products.remember')
-            self.loadZCML(package=Products.remember)
 
         import plone.app.contenttypes
         self.loadZCML(package=plone.app.contenttypes)
