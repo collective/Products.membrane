@@ -142,7 +142,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
             if exact_match:
                 query['exact_getUserName'] = login
             else:
-                query['getUserName'] = ['%s*' % l for l in login]
+                query['getUserName'] = ['%s*' % _login for _login in login]
 
         elif id:
             if exact_match:

@@ -79,7 +79,7 @@ class Properties(UserRelated):
                     mutator = field.getMutator(self.context)
                     if mutator is not None:  # skip ComputedFields
                         mutator(value)
-                except:  # XXX: investigate which exceptions we care about
+                except Exception:  # XXX: investigate which exceptions we care about
                     # relatively safe b/c we're still raising the exception
                     e, m = sys.exc_info()[0:2]
                     msg = """
@@ -140,7 +140,7 @@ class SchemataProperties(UserRelated):
                         value = properties[fieldname]
                     try:
                         field.getMutator(self.context)(value)
-                    except:  # XXX: investigate which exceptions we care about
+                    except Exception:  # XXX: investigate which exceptions we care about
                         # relatively safe b/c we're still raising the exception
                         e, m = sys.exc_info()[0:2]
                         msg = """
