@@ -11,25 +11,24 @@ from zope import interface
 
 
 def resolveInterface(dotted_name):
-    parts = dotted_name.split('.')
-    m_name = '.'.join(parts[:-1])
+    parts = dotted_name.split(".")
+    m_name = ".".join(parts[:-1])
     k_name = parts[-1]
     module = __import__(m_name, globals(), locals(), [k_name])
     klass = getattr(module, k_name)
     if not issubclass(klass, interface.Interface):
-        raise ValueError('%r is not a valid Interface.' % dotted_name)
+        raise ValueError("%r is not a valid Interface." % dotted_name)
     return klass
 
 
 class TestMembraneTool(base.MembraneTestCase):
-
     def setUp(self):
         super(TestMembraneTool, self).setUp()
         self.mbtool = getattr(self.portal, TOOLNAME)
 
     def testMembraneTypeRegistration(self):
         mt = self.mbtool
-        pt = 'TestMember'
+        pt = "TestMember"
         self.failUnless(pt in mt.listMembraneTypes())
         mt.unregisterMembraneType(pt)
         self.failIf(pt in mt.listMembraneTypes())
@@ -38,6 +37,7 @@ class TestMembraneTool(base.MembraneTestCase):
 
     def testObjectImplements(self):
         from Products.membrane.catalog import object_implements
+
         # Some adapters are registered too broadly and don't actually
         # succeed, some of those fail with TypeError and cause this
         # test to fail.  Use lookup() to retrieve the factory without
@@ -57,24 +57,24 @@ class TestMembraneTool(base.MembraneTestCase):
         # see http://plone.org/products/membrane/issues/7
         mt = self.mbtool
         self.addUser()
-        self.addUser(username='testuser2')
-        mt.getUserObject('')
+        self.addUser(username="testuser2")
+        mt.getUserObject("")
         # test passes if above call doesn't raise AssertionError
 
     def testCaseSensitivityIsHonored(self):
         mt = self.mbtool
         self.addUser()
-        self.failUnless(mt.getUserObject('TESTUSER') is None)
-        self.failIf(mt.getUserObject('testuser') is None)
+        self.failUnless(mt.getUserObject("TESTUSER") is None)
+        self.failIf(mt.getUserObject("testuser") is None)
 
         mt.case_sensitive_auth = False
-        self.failIf(mt.getUserObject('TESTUSER') is None)
-        self.failIf(mt.getUserObject('testuser') is None)
+        self.failIf(mt.getUserObject("TESTUSER") is None)
+        self.failIf(mt.getUserObject("testuser") is None)
 
     def testGetOriginalUserIdCase(self):
         mt = self.mbtool
         self.addUser()
-        case_test = 'TeStUsEr'
+        case_test = "TeStUsEr"
         orig_id = mt.getOriginalUserIdCase(case_test)
         self.failUnless(orig_id == case_test.lower())
 
@@ -85,10 +85,10 @@ class TestMembraneTool(base.MembraneTestCase):
         self.addUser()
         self.failUnless(mt.getCounter() > last)
         last = mt.getCounter()
-        self.addUser(username='testuser2')
+        self.addUser(username="testuser2")
         self.failUnless(mt.getCounter() > last)
         last = mt.getCounter()
-        self.portal.manage_delObjects('testuser2')
+        self.portal.manage_delObjects("testuser2")
         self.failUnless(mt.getCounter() > last)
 
     def testCacheKey(self):
@@ -97,18 +97,19 @@ class TestMembraneTool(base.MembraneTestCase):
 
         class MockAdapter:
             pass
+
         adapter = MockAdapter()
         adapter.context = self.mbtool
-        path = '/'.join(self.mbtool.getPhysicalPath())
+        path = "/".join(self.mbtool.getPhysicalPath())
         self.assertEqual(membraneCacheKey(method, adapter), (path, 0))
         last = membraneCacheKey(method, adapter)
         self.addUser()
         self.failUnless(membraneCacheKey(method, adapter) > last)
         last = membraneCacheKey(method, adapter)
-        self.addUser(username='testuser2')
+        self.addUser(username="testuser2")
         self.failUnless(membraneCacheKey(method, adapter) > last)
         last = membraneCacheKey(method, adapter)
-        self.portal.manage_delObjects('testuser2')
+        self.portal.manage_delObjects("testuser2")
         self.failUnless(membraneCacheKey(method, adapter) > last)
 
     def testManageMembraneTypes(self):
@@ -125,6 +126,6 @@ class TestMembraneTool(base.MembraneTestCase):
         view.request.set("submitted", "1")
         html = view()
 
-        self.assertIn("<option selected=\"selected\">Document</option>", html)
+        self.assertIn('<option selected="selected">Document</option>', html)
         self.assertIn("<option>Event</option>", html)
-        self.assertIn("<option selected=\"selected\">Folder</option>", html)
+        self.assertIn('<option selected="selected">Folder</option>', html)

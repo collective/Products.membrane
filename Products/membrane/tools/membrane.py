@@ -19,7 +19,7 @@ from zope.interface import implementer
 
 
 class Record(object):
-    """ A simple helper class for carrying the 'extra'-payload to
+    """A simple helper class for carrying the 'extra'-payload to
     index constructors.
     """
 
@@ -30,19 +30,20 @@ class Record(object):
 @implementer(IMembraneTool, IAttributeAnnotatable)
 class MembraneTool(BaseTool):
     """Tool for managing members."""
+
     id = TOOLNAME
-    toolicon = 'tool.gif'
+    toolicon = "tool.gif"
 
-    meta_type = 'MembraneTool'
+    meta_type = "MembraneTool"
 
-    user_adder = ''
+    user_adder = ""
     case_sensitive_auth = True
 
     _catalog_count = None
 
     manage_options = (
-        {'label': 'Types', 'action': 'manage_membranetypes'},
-        {'label': 'Status Map', 'action': 'manage_statusmap'},
+        {"label": "Types", "action": "manage_membranetypes"},
+        {"label": "Status Map", "action": "manage_statusmap"},
     ) + BaseTool.manage_options
 
     security = ClassSecurityInfo()
@@ -64,8 +65,7 @@ class MembraneTool(BaseTool):
     def registerMembraneType(self, portal_type):
         attool = self.attool()
         if attool is not None:
-            catalogs = [x.getId() for x in
-                        attool.getCatalogsByType(portal_type)]
+            catalogs = [x.getId() for x in attool.getCatalogsByType(portal_type)]
             if TOOLNAME not in catalogs:
                 catalogs.append(TOOLNAME)
                 attool.setCatalogsByType(portal_type, catalogs)
@@ -79,8 +79,7 @@ class MembraneTool(BaseTool):
     def unregisterMembraneType(self, portal_type):
         attool = self.attool()
         if attool is not None:
-            catalogs = [x.getId() for x in
-                        attool.getCatalogsByType(portal_type)]
+            catalogs = [x.getId() for x in attool.getCatalogsByType(portal_type)]
             if TOOLNAME in catalogs:
                 catalogs.remove(TOOLNAME)
                 attool.setCatalogsByType(portal_type, catalogs)
@@ -93,7 +92,7 @@ class MembraneTool(BaseTool):
         attool = self.attool()
         if attool is not None:
             mtypes = []
-            catalog_map = getattr(aq_base(attool), 'catalog_map', {})
+            catalog_map = getattr(aq_base(attool), "catalog_map", {})
             for t, c in catalog_map.items():
                 if self.getId() in c:
                     mtypes.append(t)
@@ -109,14 +108,16 @@ class MembraneTool(BaseTool):
         """
         query = {}
         if user_id:
-            if self.case_sensitive_auth and \
-                    ('exact_getUserId' in self._catalog.indexes):
+            if self.case_sensitive_auth and (
+                "exact_getUserId" in self._catalog.indexes
+            ):
                 query["exact_getUserId"] = user_id
             else:
                 query["getUserId"] = user_id
         elif login:
-            if self.case_sensitive_auth and \
-                    ('exact_getUserName' in self._catalog.indexes):
+            if self.case_sensitive_auth and (
+                "exact_getUserName" in self._catalog.indexes
+            ):
                 query["exact_getUserName"] = login
             else:
                 query["getUserName"] = login
@@ -124,19 +125,16 @@ class MembraneTool(BaseTool):
         if not query:  # No user_id or login name given
             return None
 
-        query["object_implements"
-              ] = user_ifaces.IMembraneUserAuth.__identifier__
+        query["object_implements"] = user_ifaces.IMembraneUserAuth.__identifier__
         uSR = self.unrestrictedSearchResults
         members = uSR(**query)
 
         # filter out inadvertent ZCTextIndex matches by only keeping
         # records with the same number of characters
         if "getUserName" in query:
-            members = [mem for mem in members
-                       if len(mem.getUserName) == len(login)]
+            members = [mem for mem in members if len(mem.getUserName) == len(login)]
         if "getUserId" in query:
-            members = [mem for mem in members
-                       if len(mem.getUserId) == len(user_id)]
+            members = [mem for mem in members if len(mem.getUserId) == len(user_id)]
 
         if not members:
             return None
@@ -148,18 +146,17 @@ class MembraneTool(BaseTool):
             # one has a path that is not inside this Plone site, then
             # we assume this is what's happened and we clear out the
             # bogus entry.
-            site = getToolByName(self, 'portal_url').getPortalObject()
-            site_path = '/'.join(site.getPhysicalPath())
-            bogus = [b.getPath() for b in members
-                     if site_path not in b.getPath()]
+            site = getToolByName(self, "portal_url").getPortalObject()
+            site_path = "/".join(site.getPhysicalPath())
+            bogus = [b.getPath() for b in members if site_path not in b.getPath()]
             if len(bogus) == 1:
                 # yup, clear it out and move on
                 self._catalog.uncatalogObject(bogus[0])
                 members = uSR(**query)
 
-        assert len(members) == 1, (
-            'more than one member found for "%s"'
-            % (login or user_id))
+        assert len(members) == 1, 'more than one member found for "%s"' % (
+            login or user_id
+        )
         if brain:
             return members[0]
 
@@ -170,17 +167,17 @@ class MembraneTool(BaseTool):
         """
         Used to get the original case spelling of a given user id.
         """
-        if userid == '':
+        if userid == "":
             return None
         uSR = self.unrestrictedSearchResults
-        query = {'getUserId': userid,
-                 'object_implements':
-                 user_ifaces.IMembraneUserAuth.__identifier__}
+        query = {
+            "getUserId": userid,
+            "object_implements": user_ifaces.IMembraneUserAuth.__identifier__,
+        }
         members = uSR(**query)
         # filter out inadvertent ZCTextIndex matches by only keeping
         # records with the same number of characters
-        members = [mem for mem in members
-                   if len(mem.getUserId) == len(userid)]
+        members = [mem for mem in members if len(mem.getUserId) == len(userid)]
 
         if not members:
             return None

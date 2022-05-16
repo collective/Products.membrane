@@ -28,29 +28,31 @@ import copy
 
 
 manage_addMembraneUserManagerForm = PageTemplateFile(
-    '../www/MembraneUserManagerForm',
-    globals(), __name__='manage_addMembraneUserManagerForm')
+    "../www/MembraneUserManagerForm",
+    globals(),
+    __name__="manage_addMembraneUserManagerForm",
+)
 
 
 def addMembraneUserManager(dispatcher, id, title=None, REQUEST=None):
-    """ Add a MembraneUserManager to a Pluggable Auth Service. """
+    """Add a MembraneUserManager to a Pluggable Auth Service."""
 
     pmm = MembraneUserManager(id, title)
     dispatcher._setObject(pmm.getId(), pmm)
 
     if REQUEST is not None:
-        REQUEST['RESPONSE'].redirect(
-            '%s/manage_workspace'
-            '?manage_tabs_message='
-            'MembraneUserManager+added.'
-            % dispatcher.absolute_url())
+        REQUEST["RESPONSE"].redirect(
+            "%s/manage_workspace"
+            "?manage_tabs_message="
+            "MembraneUserManager+added." % dispatcher.absolute_url()
+        )
 
 
 @implementer(IMembraneUserManagerPlugin)
 class MembraneUserManager(BasePlugin, Cacheable):
-    """ PAS plugin for managing contentish members in Plone.
-    """
-    meta_type = 'Membrane User Manager'
+    """PAS plugin for managing contentish members in Plone."""
+
+    meta_type = "Membrane User Manager"
 
     security = ClassSecurityInfo()
 
@@ -63,12 +65,12 @@ class MembraneUserManager(BasePlugin, Cacheable):
     #
     @security.private
     def authenticateCredentials(self, credentials):
-        """ See IAuthenticationPlugin.
+        """See IAuthenticationPlugin.
 
         o We expect the credentials to be those returned by
           ILoginPasswordExtractionPlugin.
         """
-        login = credentials.get('login')
+        login = credentials.get("login")
 
         # We can't depend on security when authenticating the user,
         # or we'll get stuck in loops
@@ -88,13 +90,19 @@ class MembraneUserManager(BasePlugin, Cacheable):
     #   IUserEnumerationPlugin implementation
     #
     @security.private
-    def enumerateUsers(self, id=None, login=None, exact_match=False,
-                       sort_by=None, max_results=None, **kw):
-        """ See IUserEnumerationPlugin.
-        """
+    def enumerateUsers(
+        self,
+        id=None,
+        login=None,
+        exact_match=False,
+        sort_by=None,
+        max_results=None,
+        **kw
+    ):
+        """See IUserEnumerationPlugin."""
         user_info = []
         plugin_id = self.getId()
-        view_name = createViewName('enumerateUsers', id or login)
+        view_name = createViewName("enumerateUsers", id or login)
 
         if isinstance(id, str):
             id = [id]
@@ -119,19 +127,23 @@ class MembraneUserManager(BasePlugin, Cacheable):
                                 # split, glob, join
                                 sep = search_term.strip().split()
                                 sep = ["%s*" % val for val in sep]
-                                search_term = ' '.join(sep)
+                                search_term = " ".join(sep)
                         query[index_name] = search_term
 
         # Look in the cache first...
         keywords = copy.deepcopy(kw)
-        keywords.update({'id': id,
-                         'login': login,
-                         'exact_match': exact_match,
-                         'sort_by': sort_by,
-                         'max_results': max_results}
-                        )
-        cached_info = self.ZCacheable_get(view_name=view_name,
-                                          keywords=keywords, default=None)
+        keywords.update(
+            {
+                "id": id,
+                "login": login,
+                "exact_match": exact_match,
+                "sort_by": sort_by,
+                "max_results": max_results,
+            }
+        )
+        cached_info = self.ZCacheable_get(
+            view_name=view_name, keywords=keywords, default=None
+        )
         if cached_info is not None:
             return tuple(cached_info)
 
@@ -139,20 +151,20 @@ class MembraneUserManager(BasePlugin, Cacheable):
         #       so we use 'starts with'.
         if login:
             if exact_match:
-                query['exact_getUserName'] = login
+                query["exact_getUserName"] = login
             else:
-                query['getUserName'] = ['%s*' % _login for _login in login]
+                query["getUserName"] = ["%s*" % _login for _login in login]
 
         elif id:
             if exact_match:
-                query['exact_getUserId'] = id
+                query["exact_getUserId"] = id
             else:
-                query['getUserId'] = ['%s*' % i for i in id]
+                query["getUserId"] = ["%s*" % i for i in id]
 
-        elif keywords.get('fullname'):
+        elif keywords.get("fullname"):
             # Controlpanel searches with keyword argument ``fullname``.
             # Title is a ZCTextIndex, we don't need to look for exact_match.
-            query['Title'] = keywords['fullname']
+            query["Title"] = keywords["fullname"]
 
         if not query and (id or login or kw):
             # The query is empty, even though we did explicitly search
@@ -167,18 +179,17 @@ class MembraneUserManager(BasePlugin, Cacheable):
             # anyway, which is good in that case.
             return []
         if sort_by is not None:
-            if sort_by == 'login':
-                query['sort_on'] = 'getUserName'
-            if sort_by == 'id':
-                query['sort_on'] = 'getUserId'
+            if sort_by == "login":
+                query["sort_on"] = "getUserName"
+            if sort_by == "id":
+                query["sort_on"] = "getUserId"
 
-        query['object_implements'
-              ] = user_ifaces.IMembraneUserObject.__identifier__
+        query["object_implements"] = user_ifaces.IMembraneUserObject.__identifier__
 
         members = mbtool.unrestrictedSearchResults(**query)
 
-        if max_results is not None and max_results != '':
-            members = members[:int(max_results)]
+        if max_results is not None and max_results != "":
+            members = members[: int(max_results)]
 
         for m in members:
             obj = m._unrestrictedGetObject()
@@ -186,20 +197,21 @@ class MembraneUserManager(BasePlugin, Cacheable):
             if member is None:
                 continue
 
-            info = dict(id=member.getUserId(),
-                        login=member.getUserName(),
-                        pluginid=plugin_id,
-                        editurl="%s/edit" % obj.absolute_url())
+            info = dict(
+                id=member.getUserId(),
+                login=member.getUserName(),
+                pluginid=plugin_id,
+                editurl="%s/edit" % obj.absolute_url(),
+            )
             user_info.append(info)
 
         # Put the computed value into the cache
-        self.ZCacheable_set(
-            user_info, view_name=view_name, keywords=keywords)
+        self.ZCacheable_set(user_info, view_name=view_name, keywords=keywords)
 
         return tuple(user_info)
 
     def updateUser(self, user_id, login_name):
-        """ Update the login name of the user with id user_id.
+        """Update the login name of the user with id user_id.
 
         This is a new part of the IUserEnumerationPlugin interface,
         but not interesting for us.  Actually, it may be interesting,
@@ -212,9 +224,9 @@ class MembraneUserManager(BasePlugin, Cacheable):
         True to set the correct state for following updaters.
         """
         context = getSite()
-        mtool = getToolByName(context, 'membrane_tool')
+        mtool = getToolByName(context, "membrane_tool")
         if mtool:
-            members = mtool.unrestrictedSearchResults({'getUserId': user_id})
+            members = mtool.unrestrictedSearchResults({"getUserId": user_id})
             if len(members) == 1:
                 return True
 
@@ -236,8 +248,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
         """
         Return a list of user ids
         """
-        users = findImplementations(
-            self, user_ifaces.IMembraneUserObject)
+        users = findImplementations(self, user_ifaces.IMembraneUserObject)
         return tuple([u.getUserId for u in users])
 
     @security.private
@@ -245,8 +256,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
         """
         Return a list of usernames
         """
-        users = findImplementations(
-            self, user_ifaces.IMembraneUserObject)
+        users = findImplementations(self, user_ifaces.IMembraneUserObject)
         return tuple([u.getUserName for u in users])
 
     @security.private
@@ -256,7 +266,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
 
         XXX DON'T USE THIS, it will kill performance
         """
-        uf = getToolByName(self, 'acl_users')
+        uf = getToolByName(self, "acl_users")
         return tuple([uf.getUserById(x) for x in self.getUserIds()])
 
     #
@@ -265,23 +275,23 @@ class MembraneUserManager(BasePlugin, Cacheable):
     #
     def doChangeUser(self, user_id, password, **kwargs):
         changers = findMembraneUserAspect(
-            self, user_ifaces.IMembraneUserChanger, exact_getUserId=user_id)
+            self, user_ifaces.IMembraneUserChanger, exact_getUserId=user_id
+        )
         if changers:
             changers[0].doChangeUser(user_id, password, **kwargs)
         else:
             raise RuntimeError(
-                'No IMembraneUserChanger adapter found for user id: %s'
-                % user_id)
+                "No IMembraneUserChanger adapter found for user id: %s" % user_id
+            )
 
     def doDeleteUser(self, login):  # XXX: is it really login, or user_id?
         deleters = findMembraneUserAspect(
-            self, user_ifaces.IMembraneUserDeleter, getUserName=login)
+            self, user_ifaces.IMembraneUserDeleter, getUserName=login
+        )
         if deleters:
             deleters[0].doDeleteUser(login)
         else:
-            raise KeyError(
-                'No IMembraneUserDeleter adapter found for user: %s' %
-                login)
+            raise KeyError("No IMembraneUserDeleter adapter found for user: %s" % login)
 
     def doAddUser(self, login, password):
         """
@@ -301,7 +311,8 @@ class MembraneUserManager(BasePlugin, Cacheable):
         We can verify this by checking if we can adapt to an IUserChanger
         """
         changers = findMembraneUserAspect(
-            self, user_ifaces.IMembraneUserChanger, exact_getUserId=user_id)
+            self, user_ifaces.IMembraneUserChanger, exact_getUserId=user_id
+        )
         return bool(changers)
 
     def allowDeletePrincipal(self, user_id):
@@ -310,7 +321,8 @@ class MembraneUserManager(BasePlugin, Cacheable):
         to an IMembraneUserDeleter
         """
         deleters = findMembraneUserAspect(
-            self, user_ifaces.IMembraneUserDeleter, exact_getUserId=user_id)
+            self, user_ifaces.IMembraneUserDeleter, exact_getUserId=user_id
+        )
         return bool(deleters)
 
 

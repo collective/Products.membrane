@@ -21,10 +21,12 @@ def object_implements(obj):
     supported membrane behaviours for an object..
     """
     return tuple(
-        id_ for id_, iface in
-        component.getUtilitiesFor(
-            membrane_tool.IMembraneQueryableInterface)
-        if iface(obj, None) is not None)
+        id_
+        for id_, iface in component.getUtilitiesFor(
+            membrane_tool.IMembraneQueryableInterface
+        )
+        if iface(obj, None) is not None
+    )
 
 
 @indexer(Interface, membrane_tool.IMembraneTool)
@@ -56,7 +58,7 @@ def getParentPath(obj):
     """
     Returns the physical path of the parent object.
     """
-    return '/'.join(aq_parent(aq_inner(obj)).getPhysicalPath())
+    return "/".join(aq_parent(aq_inner(obj)).getPhysicalPath())
 
 
 @implementer(IIndexQueueProcessor)
@@ -68,23 +70,22 @@ class MembraneCatalogProcessor(object):
     providing :py:obj:`IMembraneUserObject` are also reflected
     in the `membrane_tool` catalog.
     """
+
     def index(self, obj, attributes=[]):
-        if IMembraneUserObject(
-                obj, None) is None and IGroup(obj, None) is None:
+        if IMembraneUserObject(obj, None) is None and IGroup(obj, None) is None:
             return
         mbtool = getToolByName(obj, "membrane_tool", None)
         if mbtool is not None:
             # Verify that the portal_type is part of the catalog map
-            if getattr(obj, 'portal_type') in mbtool.listMembraneTypes():
+            if getattr(obj, "portal_type") in mbtool.listMembraneTypes():
                 mbtool.indexObject(obj, attributes or [])
 
     def reindex(self, obj, attributes=[], update_metadata=True):
-        if IMembraneUserObject(
-                obj, None) is None and IGroup(obj, None) is None:
+        if IMembraneUserObject(obj, None) is None and IGroup(obj, None) is None:
             return
-        mbtool = getToolByName(obj, 'membrane_tool', None)
+        mbtool = getToolByName(obj, "membrane_tool", None)
         if mbtool is not None:
-            if getattr(obj, 'portal_type') in mbtool.listMembraneTypes():
+            if getattr(obj, "portal_type") in mbtool.listMembraneTypes():
                 mbtool.reindexObject(obj, attributes or [])
 
     def unindex(self, obj):
@@ -94,12 +95,11 @@ class MembraneCatalogProcessor(object):
             # Could be a PathProxy object from CMFCore.indexing
             obj = getProxiedObject(obj)
 
-        if IMembraneUserObject(
-                obj, None) is None and IGroup(obj, None) is None:
+        if IMembraneUserObject(obj, None) is None and IGroup(obj, None) is None:
             return
-        mbtool = getToolByName(obj, 'membrane_tool', None)
+        mbtool = getToolByName(obj, "membrane_tool", None)
         if mbtool is not None:
-            if getattr(obj, 'portal_type') in mbtool.listMembraneTypes():
+            if getattr(obj, "portal_type") in mbtool.listMembraneTypes():
                 mbtool.unindexObject(wrapped_obj)
 
     def begin(self):

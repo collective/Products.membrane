@@ -25,14 +25,18 @@ from zope.interface import provider
 @provider(IFormFieldProvider)
 class ITestMember(model.Schema):
     roles_ = schema.List(
-        value_type=schema.TextLine(default="",),
+        value_type=schema.TextLine(
+            default="",
+        ),
         title="Roles",
         required=False,
         default=["Member"],
     )
 
     groups = schema.List(
-        value_type=schema.TextLine(default="",),
+        value_type=schema.TextLine(
+            default="",
+        ),
         title="Groups",
         required=False,
         default=[],
@@ -51,8 +55,7 @@ class ITestMember(model.Schema):
     IMembraneUserRoles,
 )
 class TestMember(Item):
-    """ Pass
-    """
+    """Pass"""
 
     portal_type = "TestMember"
     ext_editor = False
@@ -140,8 +143,7 @@ class TestMember(Item):
 
 
 class AlternativeTestMember(TestMember):
-    """ Pass
-    """
+    """Pass"""
 
     portal_type = "AlternativeTestMember"
 
@@ -164,14 +166,18 @@ class AlternativeTestMember(TestMember):
 @provider(IFormFieldProvider)
 class ITestGroup(model.Schema):
     roles_ = schema.List(
-        value_type=schema.TextLine(default="",),
+        value_type=schema.TextLine(
+            default="",
+        ),
         title="Roles",
         required=False,
         default=["Member"],
     )
 
     members_ = schema.List(
-        value_type=schema.TextLine(default="",),
+        value_type=schema.TextLine(
+            default="",
+        ),
         title="Members",
         required=False,
         default=[],
@@ -179,11 +185,13 @@ class ITestGroup(model.Schema):
 
 
 @implementer(
-    ITestGroup, IGroup, IMembraneGroupProperties, IMembraneGroupGroups,
+    ITestGroup,
+    IGroup,
+    IMembraneGroupProperties,
+    IMembraneGroupGroups,
 )
 class TestGroup(Container):
-    """ Pass
-    """
+    """Pass"""
 
     portal_type = "TestGroup"
 
@@ -198,7 +206,9 @@ class TestGroup(Container):
 
     def getPropertiesForUser(self, user, request=None):
         return MutablePropertySheet(
-            self.getId(), title=self.Title(), description=self.Description(),
+            self.getId(),
+            title=self.Title(),
+            description=self.Description(),
         )
 
     def addReference(self, value):
@@ -227,8 +237,7 @@ class TestGroup(Container):
 
 
 class IUserPropertiesProvider(Interface):
-    """
-    """
+    """ """
 
 
 @implementer(IUserPropertiesProvider)

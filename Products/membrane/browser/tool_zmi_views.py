@@ -15,7 +15,7 @@ class FormControllerView(BrowserView):
     """
 
     def __call__(self):
-        if not self.request.get('submitted'):
+        if not self.request.get("submitted"):
             return self.template()
         errors = self._validate()
         if errors:
@@ -43,20 +43,21 @@ class MembraneTypesView(FormControllerView):
     """
     ZMI page for managing the membrane types.
     """
-    template = ZopeTwoPageTemplateFile('membrane_types.pt')
+
+    template = ZopeTwoPageTemplateFile("membrane_types.pt")
 
     def _control(self):
         """
         Specify the membrane types.
         """
-        new_mem_types = set(self.request.get('membrane_types', []))
+        new_mem_types = set(self.request.get("membrane_types", []))
         old_mem_types = set(self.context.listMembraneTypes())
         for portal_type in old_mem_types.difference(new_mem_types):
             self.context.unregisterMembraneType(portal_type)
         for portal_type in new_mem_types.difference(old_mem_types):
             self.context.registerMembraneType(portal_type)
 
-        user_adder = self.request.get('user_adder', self.context.user_adder)
+        user_adder = self.request.get("user_adder", self.context.user_adder)
         self.context.user_adder = user_adder
 
     def availableAdders(self):

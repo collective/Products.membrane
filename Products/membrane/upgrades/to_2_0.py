@@ -15,7 +15,10 @@ def update_lexicon(context):
     mbtool = getToolByName(context, "membrane_tool")
     if "plone_lexicon" not in mbtool:
         mbtool.plone_lexicon = PLexicon(
-            "plone_lexicon", "", Splitter(), I18NNormalizer(),
+            "plone_lexicon",
+            "",
+            Splitter(),
+            I18NNormalizer(),
         )
     for index_id in (
         "getGroupId",

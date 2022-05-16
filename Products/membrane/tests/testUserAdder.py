@@ -17,18 +17,18 @@ class TestUserAdder(base.MembraneTestCase):
 
     def setUp(self):
         super(TestUserAdder, self).setUp()
-        from Products.PluggableAuthService.interfaces.plugins import \
-            IUserAdderPlugin
+        from Products.PluggableAuthService.interfaces.plugins import IUserAdderPlugin
+
         setup_tool = self.portal.portal_setup
-        setup_tool.runAllImportStepsFromProfile('profile-Products.membrane.tests:test')
+        setup_tool.runAllImportStepsFromProfile("profile-Products.membrane.tests:test")
         plugins = self.portal.acl_users.plugins
-        plugins.movePluginsUp(IUserAdderPlugin, ['membrane_users'])
+        plugins.movePluginsUp(IUserAdderPlugin, ["membrane_users"])
 
     def testUserFolderCreatesUser(self):
         uf = self.portal.acl_users
-        userid = 'test_utility'
-        pwd = 'secret'
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        userid = "test_utility"
+        pwd = "secret"
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
         login(self.portal, TEST_USER_NAME)
         uf._doAddUser(userid, pwd, [], [])
         self.failUnless(userid in self.portal.objectIds())
@@ -39,6 +39,6 @@ class TestUserAdder(base.MembraneTestCase):
         plugin = self.portal.acl_users.membrane_users
         adder = getCurrentUserAdder(plugin)
         # We should have request
-        self.failIf(getattr(aq_inner(adder), 'REQUEST', None) is None)
+        self.failIf(getattr(aq_inner(adder), "REQUEST", None) is None)
         # Our parent should be the plugin
         self.failUnless(aq_parent(adder) is plugin)

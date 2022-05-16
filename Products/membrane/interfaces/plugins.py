@@ -20,9 +20,14 @@ from Products.PluggableAuthService.interfaces.plugins import IUserEnumerationPlu
 from Products.PluggableAuthService.interfaces.plugins import IUserFactoryPlugin
 
 
-class IMembraneUserManagerPlugin(IAuthenticationPlugin, IUserEnumerationPlugin,
-                                 IUserIntrospection, IUserManagement,
-                                 IPasswordSetCapability, IDeleteCapability):
+class IMembraneUserManagerPlugin(
+    IAuthenticationPlugin,
+    IUserEnumerationPlugin,
+    IUserIntrospection,
+    IUserManagement,
+    IPasswordSetCapability,
+    IDeleteCapability,
+):
     """
     Marks membrane user manager plugin.
     """
@@ -34,8 +39,9 @@ class IMembraneUserFactoryPlugin(IUserFactoryPlugin):
     """
 
 
-class IMembraneGroupManagerPlugin(IGroupsPlugin, IGroupEnumerationPlugin,
-                                  IGroupIntrospection):
+class IMembraneGroupManagerPlugin(
+    IGroupsPlugin, IGroupEnumerationPlugin, IGroupIntrospection
+):
     """
     Marks membrane group manager plugin.
     """
