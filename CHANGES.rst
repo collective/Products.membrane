@@ -4,6 +4,9 @@ Changelog
 6.0.0 (unreleased)
 ------------------
 
+- Remove support for Python2 and Archetypes
+  [ale-rt]
+
 - Remove mentions to Products.remember which is unsopported since years
   [ale-rt]
 

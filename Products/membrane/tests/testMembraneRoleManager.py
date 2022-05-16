@@ -40,7 +40,9 @@ class TestMembraneRoleManagerPlugin(base.MembraneTestCase,
         self.assertSetEqual(set(self.getUser().getRoles()), {"Member", "Authenticated"})
         roles = ('Member', 'Reviewer')
         self.member.setRoles(roles)
-        self.assertSetEqual(set(self.getUser().getRoles()), {"Authenticated"} | set(roles))
+        self.assertSetEqual(
+            set(self.getUser().getRoles()), {"Authenticated"} | set(roles)
+        )
 
     def testRolesFromGroup(self):
         self.addGroup()

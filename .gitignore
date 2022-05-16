@@ -3,11 +3,13 @@
 *.pyo
 .installed.cfg
 .mr.developer.cfg
+/.coverage
 /bin/
 /build/
 /develop-eggs/
 /dist/
 /eggs/
+/htmlcov/
 /include/
 /lib/
 /local/
