@@ -4,44 +4,16 @@
            xmlns:zcml="http://namespaces.zope.org/zcml"
            i18n_domain="remember">
 
+  <genericsetup:registerProfile
+      name="test"
+      title="Testing extension profile for Membrane"
+      description=""
+      directory="dx/profile"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      />
 
-  <configure zcml:condition="installed Products.Archetypes">
-    <!-- Avoid deprecation warnings for manage_afterAdd and friends. -->
-    <five:deprecatedManageAddDelete
-        class=".at.dummy.TestGroup" />
-    <five:deprecatedManageAddDelete
-        class=".at.dummy.TestMember" />
-    <five:deprecatedManageAddDelete
-        class=".at.dummy.AlternativeTestMember" />
-    <five:deprecatedManageAddDelete
-        class=".at.dummy.TestPropertyProvider" />
-    <five:deprecatedManageAddDelete
-        class=".at.dummy.TestAlternatePropertyProvider" />
+  <include package=".dx"/>
 
-    <genericsetup:registerProfile
-        name="test"
-        title="Testing extension profile for Membrane"
-        description=""
-        directory="at/profile"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        />
-
-  </configure>
-
-  <configure zcml:condition="not-installed Products.Archetypes">
-
-    <genericsetup:registerProfile
-        name="test"
-        title="Testing extension profile for Membrane"
-        description=""
-        directory="dx/profile"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        />
-
-    <include package=".dx"/>
-
-  </configure>
 
 </configure>

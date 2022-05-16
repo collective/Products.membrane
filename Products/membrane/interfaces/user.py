@@ -40,7 +40,7 @@ class IMembraneUserObject(Interface):
     def getUserId():
         """
         Return the unique identifier for the user that this piece of
-        content relates to. Historically the Archetype UID of an
+        content relates to. Historically the UID of an
         object is used as userid.
         """
 

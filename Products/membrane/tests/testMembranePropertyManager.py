@@ -8,9 +8,6 @@ from Products.membrane.interfaces import IMembraneUserAuth
 from Products.membrane.interfaces import IMembraneUserProperties
 from Products.membrane.tests import base
 
-import six
-import unittest
-
 
 class MembranePropertyManagerTestBase:
 
@@ -105,27 +102,6 @@ class TestMembranePropertyManager(base.MembraneTestCase,
         self.failUnlessEqual(member.getProperty('fullname'), 'full name')
         self.failUnlessEqual(member.getProperty('ext_editor'), False)
 
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
-    def testGetPropertiesFromExternalProvider(self):
-        value = 'foo'
-        mbtool = getattr(self.portal, TOOLNAME)
-        from .dummy import TestPropertyProvider
-        self._initExternalProvider(mbtool, TestPropertyProvider.portal_type)
-        self.prop_provider.setExtraProperty(value)
-        from Products.membrane.at.relations import UserRelatedRelation
-        self.member.addReference(self.prop_provider,
-                                 relationship=UserRelatedRelation.relationship)
-        self.prop_provider.reindexObject()
-
-        userid = IMembraneUserAuth(self.member).getUserId()
-        user = self.portal.acl_users.getUserById(userid)
-        sheets = user.getOrderedPropertySheets()
-        self.failUnless([x.getProperty('extraProperty') for x in sheets
-                         if x.getProperty('extraProperty') == value])
-        mtool = self.portal.portal_membership
-        member = mtool.getMemberById(userid)
-        self.failUnlessEqual(member.getProperty('extraProperty'), value)
-
     def testSetPropertiesForUser(self):
         fullname = 'null fame'
         userid = IMembraneUserAuth(self.member).getUserId()
@@ -178,35 +154,6 @@ class TestMembraneSchemataPropertyManager(base.MembraneTestCase,
                          if x.getProperty('homePhone') == '555-1212'])
         member = self.portal.portal_membership.getMemberById(userid)
         self.failUnlessEqual(member.getProperty('homePhone'), '555-1212')
-
-    @unittest.skipUnless(six.PY2, "Archetypes not supported on Python3")
-    def testGetPropertiesFromExternalProvider(self):
-        wrongvalue = 'foo'
-        rightvalue = 'bar'
-        mbtool = getattr(self.portal, TOOLNAME)
-        from .dummy import TestAlternatePropertyProvider
-        self._initExternalProvider(mbtool,
-                                   TestAlternatePropertyProvider.portal_type)
-        self.prop_provider.setExtraProperty(wrongvalue)
-        self.prop_provider.setExtraPropertyFromSchemata(rightvalue)
-        from Products.membrane.at.relations import UserRelatedRelation
-        self.member.addReference(self.prop_provider,
-                                 relationship=UserRelatedRelation.relationship)
-        self.prop_provider.reindexObject()
-
-        userid = IMembraneUserAuth(self.member).getUserId()
-        user = self.portal.acl_users.getUserById(userid)
-        sheets = user.getOrderedPropertySheets()
-        self.failUnless([x.getProperty('extraPropertyFromSchemata')
-                         for x in sheets
-                         if x.getProperty('extraPropertyFromSchemata')
-                         == rightvalue])
-
-        mtool = self.portal.portal_membership
-        member = mtool.getMemberById(userid)
-        self.failUnlessEqual(member.getProperty('extraPropertyFromSchemata'),
-                             rightvalue)
-        self.failIf(member.hasProperty('extraProperty'))
 
     def testSetPropertiesForUser(self):
         homePhone = 'phome hone"'

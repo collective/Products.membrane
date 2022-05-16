@@ -27,7 +27,6 @@ from zope.annotation.interfaces import IAnnotations
 from zope.interface import implementer
 
 import logging
-import six
 
 
 manage_addMembraneGroupManagerForm = PageTemplateFile(
@@ -121,10 +120,10 @@ class MembraneGroupManager(BasePlugin, Cacheable):
         group_info = []
         plugin_id = self.getId()
 
-        if isinstance(id, six.string_types):
+        if isinstance(id, str):
             id = [id]
 
-        if isinstance(title, six.string_types):
+        if isinstance(title, str):
             title = [title]
 
         mbtool = getToolByName(self, TOOLNAME)

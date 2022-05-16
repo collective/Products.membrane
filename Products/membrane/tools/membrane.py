@@ -34,7 +34,6 @@ class MembraneTool(BaseTool):
     toolicon = 'tool.gif'
 
     meta_type = 'MembraneTool'
-    archetype_name = 'MembraneTool'
 
     user_adder = ''
     case_sensitive_auth = True
