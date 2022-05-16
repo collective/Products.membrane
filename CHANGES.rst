@@ -4,6 +4,9 @@ Changelog
 6.0.0 (unreleased)
 ------------------
 
+- Support Plone 6.0
+  [ale-rt]
+
 - Remove support for Python2 and Archetypes
   [ale-rt]
 
