@@ -3,10 +3,10 @@
 # info@plonesolutions.com
 
 from AccessControl import ClassSecurityInfo
+from AccessControl.class_init import InitializeClass
 
 # XXX REMOVE WHEN REFACTORING
 from Acquisition import aq_base
-from AccessControl.class_init import InitializeClass
 from OFS.Cache import Cacheable
 from Products.CMFCore.utils import getToolByName
 from Products.membrane.config import QIM_ANNOT_KEY
@@ -17,14 +17,12 @@ from Products.membrane.interfaces.plugins import IMembraneGroupManagerPlugin
 from Products.membrane.utils import findMembraneUserAspect
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 from Products.PlonePAS.plugins.group import PloneGroup
-from Products.PluggableAuthService.interfaces.plugins import (
-    IGroupEnumerationPlugin,
-)  # noqa
+from Products.PluggableAuthService.interfaces.plugins import IGroupEnumerationPlugin
 from Products.PluggableAuthService.interfaces.plugins import IPropertiesPlugin
 from Products.PluggableAuthService.interfaces.plugins import IRolesPlugin
 from Products.PluggableAuthService.PluggableAuthService import (
     _SWALLOWABLE_PLUGIN_EXCEPTIONS,
-)  # noqa
+)
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from Products.PluggableAuthService.utils import createViewName
 from Products.ZCTextIndex.ZCTextIndex import ZCTextIndex

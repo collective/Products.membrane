@@ -21,8 +21,8 @@ from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from Products.PluggableAuthService.utils import createViewName
 from Products.ZCTextIndex.ZCTextIndex import ZCTextIndex
 from zope.annotation.interfaces import IAnnotations
-from zope.interface import implementer
 from zope.component.hooks import getSite
+from zope.interface import implementer
 
 import copy
 

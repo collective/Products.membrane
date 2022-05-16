@@ -10,10 +10,8 @@ from Products.membrane.tests import base
 from Products.membrane.tests.utils import sortTuple
 from Products.PluggableAuthService.tests.conformance import (
     IGroupEnumerationPlugin_conformance,
-)  # noqa: E501
-from Products.PluggableAuthService.tests.conformance import (
-    IGroupsPlugin_conformance,
-)  # noqa: E501
+)
+from Products.PluggableAuthService.tests.conformance import IGroupsPlugin_conformance
 
 import unittest
 

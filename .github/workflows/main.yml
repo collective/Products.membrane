@@ -15,11 +15,15 @@ jobs:
           - ["Py3.6-Plone5.2", "3.6", "5.2"]
           - ["Py3.7-Plone5.2", "3.7", "5.2"]
           - ["Py3.8-Plone5.2", "3.8", "5.2"]
+          - ["Py3.8-Plone6.0", "3.8", "6.0"]
+          - ["Py3.9-Plone5.2", "3.9", "6.0"]
+          - ["Py3.10-Plone5.2", "3.10", "6.0"]
     runs-on: ubuntu-latest
     name: ${{ matrix.config[0] }}
     steps:
       - uses: actions/checkout@v2
       - uses: psf/black@stable
+      - uses: jamescurtin/isort-action@master
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -39,7 +43,7 @@ jobs:
           pip install virtualenv
           virtualenv -p `which python` .
           bin/pip install -r requirements-${{ matrix.config[2] }}.txt
-          bin/buildout -c .github.cfg
+          bin/buildout -c .github-${{ matrix.config[2] }}.cfg
       - name: Test
         run: |
           bin/code-analysis
