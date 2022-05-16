@@ -3,9 +3,9 @@
 Membrane tool interface
 """
 
-from zope.interface import interfaces as iinterfaces
 from zope.interface import Attribute
 from zope.interface import Interface
+from zope.interface import interfaces as iinterfaces
 
 
 class IMembraneTool(Interface):

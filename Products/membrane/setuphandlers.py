@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 
+from io import StringIO
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import INonInstallable
 from Products.membrane.config import TOOLNAME
@@ -9,7 +10,6 @@ from Products.PlonePAS.setuphandlers import activatePluginInterfaces
 from Products.PluggableAuthService.interfaces.plugins import IGroupsPlugin
 from Products.PluggableAuthService.interfaces.plugins import IPropertiesPlugin
 from Products.PluggableAuthService.interfaces.plugins import IUserFactoryPlugin
-from io import StringIO
 from zope.component.hooks import getSite
 from zope.interface import implementer
 
