@@ -10,12 +10,12 @@ from Products.membrane.plugins.usermanager import MembraneUserManager
 from Products.membrane.tests import base
 from Products.membrane.tests.utils import sortTuple
 from Products.PlonePAS.interfaces.capabilities import IPasswordSetCapability
-from Products.PluggableAuthService.tests.conformance import (
+from Products.PluggableAuthService.tests.conformance import (  # noqa: E501
     IAuthenticationPlugin_conformance,
-)  # noqa: E501
-from Products.PluggableAuthService.tests.conformance import (
+)
+from Products.PluggableAuthService.tests.conformance import (  # noqa: E501
     IUserEnumerationPlugin_conformance,
-)  # noqa: E501
+)
 
 
 class MembraneUserManagerTestBase:
@@ -47,9 +47,9 @@ class TestMembraneUserManagerEnumeration(base.MembraneUserTestCase):
 
     def testEnumerateUsersExtraIndexes(self):
         # You can add keyword arguments for known indexes.
+        from persistent.mapping import PersistentMapping
         from Products.membrane.config import QIM_ANNOT_KEY
         from Products.membrane.config import TOOLNAME
-        from persistent.mapping import PersistentMapping
         from zope.annotation.interfaces import IAnnotations
 
         mbtool = getToolByName(self.portal, TOOLNAME)

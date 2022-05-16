@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from Products.CMFCore import permissions as cmfcore_permissions
 
+
 try:
     from AccessControl.Permission import addPermission
 except ImportError:
