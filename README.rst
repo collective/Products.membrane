@@ -11,6 +11,9 @@ easy to adapt to different deployment scenarios. It is not meant to
 be configured through-the-web-only, but to be adapted by filesystem
 code.
 
+
+The canonical implementation of such a content type type for Plone is ``dexterity.membrane``.
+
 membrane tries to take a step backwards and re-think some of the
 Plone membership-handling. We have tried to make it as simple as
 possible, so that grasping and extending it is simple. Hopefully,
@@ -30,7 +33,6 @@ policy, or more exotic setups in corporate intranets. This means that to get
 the default Plone behaviour you will need something else in addition to
 membrane.
 
-
 Requirements
 ============
 
@@ -38,14 +40,6 @@ Since version 5.0: Plone 5.2.
 Since version 4.0: Plone 5.1.
 Version 3.0: Plone 4.3 or 5.0.  We only test with Python 2.7.
 For older Plone versions, please use Products.membrane branch 2.1.x.
-
-If you create a membrane type based on Archetypes, then you must first install Archetypes, then membrane.
-This is needed so new users are properly indexed by the membrane tool.
-The canonical implementation of such a membrane type for Plone is ``Products.remember``.
-
-If you create a membrane type based on dexterity on Plone 4 or Plone 5.0, then you must add ``collective.indexing`` to the eggs of your Plone instance. On Plone 5.1 you should no longer add ``collective.indexing`` to the eggs.
-The canonical implementation of such a membrane type for Plone is ``dexterity.membrane``.
-
 
 WARNING!!
 =========
