@@ -12,11 +12,6 @@
   <include package=".exportimport" />
   <include package=".upgrades" />
 
-  <configure zcml:condition="installed Products.Archetypes">
-    <include package=".examples" />
-    <include package=".at" />
-  </configure>
-
   <adapter factory=".catalog.object_implements"
            name="object_implements"
            />
@@ -65,16 +60,6 @@
   <utility
       factory=".setuphandlers.HiddenProfiles"
       name="Products.membrane-hiddenprofiles"
-      />
-
-  <genericsetup:registerProfile
-      name="examples"
-      title="Example content types for Membrane (Deprecated)"
-      description="Uses Archetypes which are deprecated, use dexterity.membrane for a more modern implementation"
-      directory="profiles/examples"
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-      zcml:condition="installed Products.Archetypes"
       />
 
   <genericsetup:upgradeStep

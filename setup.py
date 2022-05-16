@@ -24,7 +24,6 @@ setup(
     zip_safe=False,
     install_requires=[
         "setuptools",
-        "six",
         "plone.indexer",
         "Products.CMFPlone>=5.2rc1",
         "Products.PlonePAS>=5.0.1",

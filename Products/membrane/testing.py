@@ -10,13 +10,9 @@ from plone.app.testing.layers import IntegrationTesting
 from plone.testing import zope as zope_testing
 from Products import membrane
 from Products.CMFPlone.utils import _createObjectByType
-from Products.membrane import examples
-from Products.membrane import tests
 from Products.membrane.config import TOOLNAME
 from Products.membrane.tests import dummy
 from zope.configuration import xmlconfig
-
-import six
 
 
 orig_initialize = membrane.initialize
@@ -24,8 +20,6 @@ orig_initialize = membrane.initialize
 
 def initialize(context):
     orig_initialize(context)
-    examples.initialize(context)
-    tests.initialize(context)
 
 
 # TODO We are patching the installation here, and should find a better way to
@@ -53,11 +47,6 @@ class MembraneProfilesLayer(PloneSandboxLayer):
 
         import plone.app.contenttypes
         self.loadZCML(package=plone.app.contenttypes)
-        if six.PY2:
-            # We need to load Archetypes because our example and test profiles
-            # need this.  We could turn the types into dexterity types
-            import Products.Archetypes
-            self.loadZCML(package=Products.Archetypes)
 
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'plone.app.contenttypes:default')

@@ -4,8 +4,6 @@
 #
 from Products.membrane.tests import base
 
-import six
-
 
 class MembraneRoleManagerTestBase:
 
@@ -30,10 +28,7 @@ class TestMembraneRoleManagerPlugin(base.MembraneTestCase,
         return self.portal.acl_users.getUser(username)
 
     def testDefaultRoles(self):
-        if six.PY2:
-            roles = self.member.getField('roles_').default
-        else:
-            roles = self.member.roles_
+        roles = self.member.roles_
         self.failUnless(set(roles) < set(self.getUser().getRoles()))
 
     def testRolesStayCurrent(self):

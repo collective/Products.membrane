@@ -9,7 +9,7 @@ from Products.PlonePAS.setuphandlers import activatePluginInterfaces
 from Products.PluggableAuthService.interfaces.plugins import IGroupsPlugin
 from Products.PluggableAuthService.interfaces.plugins import IPropertiesPlugin
 from Products.PluggableAuthService.interfaces.plugins import IUserFactoryPlugin
-from six import StringIO
+from io import StringIO
 from zope.component.hooks import getSite
 from zope.interface import implementer
 
