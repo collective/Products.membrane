@@ -16,17 +16,17 @@ class MembraneTestCase(unittest.TestCase):
     layer = MEMBRANE_PROFILES_INTEGRATION_TESTING
 
     def setUp(self):
-        self.portal = self.layer['portal']
+        self.portal = self.layer["portal"]
 
     def addGroup(self, obj=None):
         if obj is None:
             obj = self.portal
-        self.group = _createObjectByType('TestGroup', obj, 'testgroup')
-        self.group.setTitle('Test group')
-        self.group.setDescription('A test group')
+        self.group = _createObjectByType("TestGroup", obj, "testgroup")
+        self.group.setTitle("Test group")
+        self.group.setDescription("A test group")
         self.group.reindexObject()
 
-    def addUser(self, obj=None, username='testuser', title='full name'):
+    def addUser(self, obj=None, username="testuser", title="full name"):
         if obj is None:
             obj = self.portal
         self.member = addUser(obj, username, title)
@@ -38,7 +38,7 @@ class MembraneUserTestCase(MembraneTestCase):
     layer = MEMBRANE_ADD_USER_INTEGRATION_TESTING
 
     def setUp(self):
-        self.portal = self.layer['portal']
+        self.portal = self.layer["portal"]
         self.member = self.portal.testuser
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
         login(self.portal, TEST_USER_NAME)

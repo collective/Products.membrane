@@ -12,37 +12,41 @@ from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 from Products.PlonePAS.interfaces.plugins import IMutablePropertiesPlugin
 from Products.PlonePAS.sheet import MutablePropertySheet
 from Products.PluggableAuthService.interfaces.plugins import IPropertiesPlugin
-from Products.PluggableAuthService.interfaces.propertysheets import IPropertySheet  # noqa
+from Products.PluggableAuthService.interfaces.propertysheets import (
+    IPropertySheet,
+)  # noqa
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from zope.interface import implementer
 
 
 manage_addMembranePropertyManagerForm = PageTemplateFile(
-    '../www/MembranePropertyManagerForm',
-    globals(), __name__='manage_addMembranePropertyManagerForm')
+    "../www/MembranePropertyManagerForm",
+    globals(),
+    __name__="manage_addMembranePropertyManagerForm",
+)
 
 
 def addMembranePropertyManager(dispatcher, id, title=None, REQUEST=None):
-    """ Add a MembranePropertyManager to a Pluggable Auth Service. """
+    """Add a MembranePropertyManager to a Pluggable Auth Service."""
 
     pmm = MembranePropertyManager(id, title)
     dispatcher._setObject(pmm.getId(), pmm)
 
     if REQUEST is not None:
-        REQUEST['RESPONSE'].redirect(
-            '%s/manage_workspace'
-            '?manage_tabs_message='
-            'MembranePropertyManager+added.'
-            % dispatcher.absolute_url())
+        REQUEST["RESPONSE"].redirect(
+            "%s/manage_workspace"
+            "?manage_tabs_message="
+            "MembranePropertyManager+added." % dispatcher.absolute_url()
+        )
 
 
 @implementer(IPropertiesPlugin, IMutablePropertiesPlugin)
 class MembranePropertyManager(BasePlugin, Cacheable):
-    """ PAS plugin for managing properties on contentish users and groups
-        in Plone.
+    """PAS plugin for managing properties on contentish users and groups
+    in Plone.
     """
 
-    meta_type = 'Membrane Property Manager'
+    meta_type = "Membrane Property Manager"
 
     security = ClassSecurityInfo()
 
@@ -52,7 +56,7 @@ class MembranePropertyManager(BasePlugin, Cacheable):
         self.title = title
 
     def _getPropertyProviders(self, user):
-        isGroup = getattr(user, 'isGroup', lambda: None)()
+        isGroup = getattr(user, "isGroup", lambda: None)()
         if isGroup:
             query = dict(exact_getGroupId=user.getId())
             iface = group_ifaces.IMembraneGroupProperties
@@ -60,8 +64,7 @@ class MembranePropertyManager(BasePlugin, Cacheable):
             query = dict(exact_getUserId=user.getId())
             iface = user_ifaces.IMembraneUserProperties
 
-        for pp in findMembraneUserAspect(
-                self, iface, **query):
+        for pp in findMembraneUserAspect(self, iface, **query):
             yield pp
 
     #
@@ -86,11 +89,10 @@ class MembranePropertyManager(BasePlugin, Cacheable):
                     items = psheet.items()
                 for prop, value in items:
                     properties[prop] = value
-        if 'id' in properties:
+        if "id" in properties:
             # When instantiating sheet(id, **props) is used - two ids is bad
-            del properties['id']
-        return MutablePropertySheet(self.id,
-                                    **properties)
+            del properties["id"]
+        return MutablePropertySheet(self.id, **properties)
 
     @security.private
     def setPropertiesForUser(self, user, propertysheet):

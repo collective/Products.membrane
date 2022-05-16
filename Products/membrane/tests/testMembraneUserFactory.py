@@ -5,25 +5,21 @@ from Products.membrane.tests import base
 
 
 class MembraneUserFactoryTestBase:
-
     def _getTargetClass(self):
 
-        from Products.membrane.plugins.userfactory \
-            import MembraneUserFactory
+        from Products.membrane.plugins.userfactory import MembraneUserFactory
 
         return MembraneUserFactory
 
-    def _makeOne(self, id='test', *args, **kw):
+    def _makeOne(self, id="test", *args, **kw):
 
         return self._getTargetClass()(id=id, *args, **kw)
 
 
-class TestMembraneUserFactory(base.MembraneTestCase,
-                              MembraneUserFactoryTestBase):
-
+class TestMembraneUserFactory(base.MembraneTestCase, MembraneUserFactoryTestBase):
     def setUp(self):
         super(TestMembraneUserFactory, self).setUp()
-        self.portal.pmm = self._makeOne('pmm')
+        self.portal.pmm = self._makeOne("pmm")
         self.addUser()
 
     def testUserCreation(self):

@@ -3,6 +3,7 @@
 # info@plonesolutions.com
 
 from AccessControl import ClassSecurityInfo
+
 # XXX REMOVE WHEN REFACTORING
 from Acquisition import aq_base
 from AccessControl.class_init import InitializeClass
@@ -16,10 +17,14 @@ from Products.membrane.interfaces.plugins import IMembraneGroupManagerPlugin
 from Products.membrane.utils import findMembraneUserAspect
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 from Products.PlonePAS.plugins.group import PloneGroup
-from Products.PluggableAuthService.interfaces.plugins import IGroupEnumerationPlugin  # noqa
+from Products.PluggableAuthService.interfaces.plugins import (
+    IGroupEnumerationPlugin,
+)  # noqa
 from Products.PluggableAuthService.interfaces.plugins import IPropertiesPlugin
 from Products.PluggableAuthService.interfaces.plugins import IRolesPlugin
-from Products.PluggableAuthService.PluggableAuthService import _SWALLOWABLE_PLUGIN_EXCEPTIONS  # noqa
+from Products.PluggableAuthService.PluggableAuthService import (
+    _SWALLOWABLE_PLUGIN_EXCEPTIONS,
+)  # noqa
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from Products.PluggableAuthService.utils import createViewName
 from Products.ZCTextIndex.ZCTextIndex import ZCTextIndex
@@ -30,22 +35,24 @@ import logging
 
 
 manage_addMembraneGroupManagerForm = PageTemplateFile(
-    '../www/MembraneGroupManagerForm', globals(),
-    __name__='manage_addMembraneGroupManagerForm')
+    "../www/MembraneGroupManagerForm",
+    globals(),
+    __name__="manage_addMembraneGroupManagerForm",
+)
 
 
 def addMembraneGroupManager(dispatcher, id, title=None, REQUEST=None):
-    """ Add a MembraneGroupManager to a Pluggable Auth Service. """
+    """Add a MembraneGroupManager to a Pluggable Auth Service."""
 
     pmm = MembraneGroupManager(id, title)
     dispatcher._setObject(pmm.getId(), pmm)
 
     if REQUEST is not None:
-        REQUEST['RESPONSE'].redirect(
-            '%s/manage_workspace'
-            '?manage_tabs_message='
-            'MembraneGroupManager+added.'
-            % dispatcher.absolute_url())
+        REQUEST["RESPONSE"].redirect(
+            "%s/manage_workspace"
+            "?manage_tabs_message="
+            "MembraneGroupManager+added." % dispatcher.absolute_url()
+        )
 
 
 @implementer(IMembraneGroupManagerPlugin)
@@ -53,7 +60,8 @@ class MembraneGroupManager(BasePlugin, Cacheable):
     """
     PAS plugin for managing contentish groups in Plone.
     """
-    meta_type = 'Membrane Group Manager'
+
+    meta_type = "Membrane Group Manager"
 
     security = ClassSecurityInfo()
 
@@ -70,21 +78,29 @@ class MembraneGroupManager(BasePlugin, Cacheable):
         # 1. Find adapters from user to a provider giving a list of groups.
         #    for this principal, when this principal is a user.
         providers = findMembraneUserAspect(
-            self, user_ifaces.IMembraneUserGroups,
-            exact_getUserId=principal.getId())
+            self, user_ifaces.IMembraneUserGroups, exact_getUserId=principal.getId()
+        )
         # 2. Find adapters from group to a provider giving a list of groups.
         #    for this principal, when this principal is a user.
-        providers.extend(findMembraneUserAspect(
-            self, group_ifaces.IMembraneGroupGroups,
-            exact_getGroupId=principal.getId()))
+        providers.extend(
+            findMembraneUserAspect(
+                self,
+                group_ifaces.IMembraneGroupGroups,
+                exact_getGroupId=principal.getId(),
+            )
+        )
         if not providers:
             # This used to be number 2.
             # We keep this for backwards compatibility.
             # 3. Find adapters from user to a provider giving a list of groups.
             #    for this principal, when this principal is a group.
-            providers.extend(findMembraneUserAspect(
-                self, user_ifaces.IMembraneUserGroups,
-                exact_getGroupId=principal.getId()))
+            providers.extend(
+                findMembraneUserAspect(
+                    self,
+                    user_ifaces.IMembraneUserGroups,
+                    exact_getGroupId=principal.getId(),
+                )
+            )
         # Note: we basically have a list of principals here, which is probably
         # only one user or one group.  And we ask each of those to give us the
         # groups for the principal that we got in the arguments.  So
@@ -104,14 +120,15 @@ class MembraneGroupManager(BasePlugin, Cacheable):
     #   IGroupEnumerationPlugin implementation
     #
     @security.private
-    def enumerateGroups(self,
-                        id=None,
-                        title=None,
-                        exact_match=False,
-                        sort_by=None,
-                        max_results=None,
-                        **kw
-                        ):
+    def enumerateGroups(
+        self,
+        id=None,
+        title=None,
+        exact_match=False,
+        sort_by=None,
+        max_results=None,
+        **kw
+    ):
         """
         See IGroupEnumerationPlugin.
         Quite similar to enumerateUsers, but searches for groups
@@ -131,13 +148,12 @@ class MembraneGroupManager(BasePlugin, Cacheable):
 
         if id:
             if exact_match:
-                query['exact_getGroupId'] = id
+                query["exact_getGroupId"] = id
             else:
-                query['getGroupId'] = ['%s*' % i for i in id if i]
+                query["getGroupId"] = ["%s*" % i for i in id if i]
 
         elif title:
-            query['Title'] = exact_match and title or \
-                ['%s*' % t for t in title if t]
+            query["Title"] = exact_match and title or ["%s*" % t for t in title if t]
 
         # allow arbitrary indexes to be passed in to the catalog query
         query_index_map = IAnnotations(mbtool).get(QIM_ANNOT_KEY)
@@ -153,18 +169,17 @@ class MembraneGroupManager(BasePlugin, Cacheable):
                                 # split, glob, join
                                 sep = search_term.strip().split()
                                 sep = ["%s*" % val for val in sep]
-                                search_term = ' '.join(sep)
+                                search_term = " ".join(sep)
 
                         query[index_name] = search_term
 
         if sort_by is not None:
-            if sort_by == 'title':
-                query['sort_on'] = 'Title'
-            if sort_by == 'id':
-                query['sort_on'] = 'getGroupId'
+            if sort_by == "title":
+                query["sort_on"] = "Title"
+            if sort_by == "id":
+                query["sort_on"] = "getGroupId"
 
-        query['object_implements'
-              ] = group_ifaces.IGroup.__identifier__
+        query["object_implements"] = group_ifaces.IGroup.__identifier__
 
         groups = mbtool.unrestrictedSearchResults(**query)
 
@@ -180,11 +195,12 @@ class MembraneGroupManager(BasePlugin, Cacheable):
             i += 1
             # XXX WE NEED TO ASK THE GROUP ITSELF WHERE ITS EDIT
             # SCREENS ARE
-            info = {'id': group.getGroupId(),
-                    'pluginid': plugin_id,
-                    'properties_url': '%s/base_edit' % obj.absolute_url(),
-                    'members_url': '%s/base_edit' % obj.absolute_url(),
-                    }
+            info = {
+                "id": group.getGroupId(),
+                "pluginid": plugin_id,
+                "properties_url": "%s/base_edit" % obj.absolute_url(),
+                "members_url": "%s/base_edit" % obj.absolute_url(),
+            }
 
             group_info.append(info)
 
@@ -194,7 +210,7 @@ class MembraneGroupManager(BasePlugin, Cacheable):
     #   IGroupsPlugin implementation
     #
     def getGroupById(self, group_id, default=None):
-        plugins = self.acl_users._getOb('plugins')
+        plugins = self.acl_users._getOb("plugins")
 
         group_id = self._verifyGroup(plugins, group_id=group_id)
         title = None
@@ -210,13 +226,15 @@ class MembraneGroupManager(BasePlugin, Cacheable):
     def getGroupIds(self):
         mbtool = getToolByName(self, TOOLNAME)
         groups = mbtool.unrestrictedSearchResults(
-            object_implements=group_ifaces.IGroup.__identifier__)
+            object_implements=group_ifaces.IGroup.__identifier__
+        )
         return tuple([g.getGroupId for g in groups])
 
     def getGroupMembers(self, group_id):
         groupmembers = {}
-        groups = findMembraneUserAspect(self, group_ifaces.IGroup,
-                                        exact_getGroupId=group_id)
+        groups = findMembraneUserAspect(
+            self, group_ifaces.IGroup, exact_getGroupId=group_id
+        )
         for group in groups:
             groupmembers.update(dict.fromkeys(group.getGroupMembers()))
         return tuple(groupmembers.keys())
@@ -232,7 +250,7 @@ class MembraneGroupManager(BasePlugin, Cacheable):
 
     @security.private
     def _createGroup(self, plugins, group_id, name):
-        """ Create group object. For users, this can be done with a
+        """Create group object. For users, this can be done with a
         plugin, but I don't care to define one for that now. Just uses
         PloneGroup.  But, the code's still here, just commented out.
         This method based on PluggableAuthervice._createUser
@@ -251,15 +269,16 @@ class MembraneGroupManager(BasePlugin, Cacheable):
 
     @security.private
     def _findGroup(self, plugins, group_id, title=None, request=None):
-        """ group_id -> decorated_group
+        """group_id -> decorated_group
         This method based on PluggableAuthService._findGroup
         """
 
         # See if the group can be retrieved from the cache
-        view_name = '_findGroup-%s' % group_id
-        keywords = {'group_id': group_id, 'title': title}
+        view_name = "_findGroup-%s" % group_id
+        keywords = {"group_id": group_id, "title": title}
         group = self.ZCacheable_get(
-            view_name=view_name, keywords=keywords, default=None)
+            view_name=view_name, keywords=keywords, default=None
+        )
 
         if group is None:
 
@@ -273,7 +292,8 @@ class MembraneGroupManager(BasePlugin, Cacheable):
                     group.addPropertysheet(propfinder_id, data)
 
             groups = self.acl_users._getGroupsForPrincipal(
-                group, request, plugins=plugins)
+                group, request, plugins=plugins
+            )
             group._addGroups(groups)
 
             rolemakers = plugins.listPlugins(IRolesPlugin)
@@ -285,34 +305,34 @@ class MembraneGroupManager(BasePlugin, Cacheable):
                 if roles:
                     group._addRoles(roles)
 
-            group._addRoles(['Authenticated'])
+            group._addRoles(["Authenticated"])
 
             # Cache the group if caching is enabled
             base_group = aq_base(group)
-            if getattr(base_group, '_p_jar', None) is None:
-                self.ZCacheable_set(
-                    base_group, view_name=view_name, keywords=keywords)
+            if getattr(base_group, "_p_jar", None) is None:
+                self.ZCacheable_set(base_group, view_name=view_name, keywords=keywords)
 
         return group.__of__(self)
 
     @security.private
     def _verifyGroup(self, plugins, group_id=None, title=None):
-        """ group_id -> boolean
+        """group_id -> boolean
         This method based on PluggableAuthService._verifyUser
         """
         criteria = {}
 
         if group_id is not None:
-            criteria['id'] = group_id
-            criteria['exact_match'] = True
+            criteria["id"] = group_id
+            criteria["exact_match"] = True
 
         if title is not None:
-            criteria['title'] = title
+            criteria["title"] = title
 
         if criteria:
-            view_name = createViewName('_verifyGroup', group_id or title)
+            view_name = createViewName("_verifyGroup", group_id or title)
             cached_info = self.ZCacheable_get(
-                view_name=view_name, keywords=criteria, default=None)
+                view_name=view_name, keywords=criteria, default=None
+            )
 
             if cached_info is not None:
                 return cached_info
@@ -324,19 +344,19 @@ class MembraneGroupManager(BasePlugin, Cacheable):
                     info = enumerator.enumerateGroups(**criteria)
 
                     if info:
-                        id = info[0]['id']
+                        id = info[0]["id"]
                         # Put the computed value into the cache
-                        self.ZCacheable_set(
-                            id, view_name=view_name, keywords=criteria)
+                        self.ZCacheable_set(id, view_name=view_name, keywords=criteria)
                         return id
 
                 except _SWALLOWABLE_PLUGIN_EXCEPTIONS:
-                    logger = logging.getLogger('membrane')
+                    logger = logging.getLogger("membrane")
                     logger.debug(
-                        'GroupEnumerationPlugin %s error' % enumerator_id,
-                        exc_info=True)
+                        "GroupEnumerationPlugin %s error" % enumerator_id, exc_info=True
+                    )
 
         return 0
+
     # XXXXXXXXXXXXXXXXXXXXXXXXXX REMOVE TO HERE
 
 

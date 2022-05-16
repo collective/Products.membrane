@@ -18,10 +18,11 @@ class TestMembraneToolExportImport(MembraneTestCase):
         by the GS profile.
         """
         setup_tool = self.portal.portal_setup
-        setup_tool.runAllImportStepsFromProfile('profile-Products.membrane.tests:test')
+        setup_tool.runAllImportStepsFromProfile("profile-Products.membrane.tests:test")
         plugins = self.portal.acl_users.plugins
         from Products.PluggableAuthService.interfaces.plugins import IUserAdderPlugin
-        plugins.movePluginsUp(IUserAdderPlugin, ['membrane_users'])
-        mbtool = getToolByName(self.portal, 'membrane_tool')
-        user_adder = getattr(aq_base(mbtool), 'user_adder', None)
+
+        plugins.movePluginsUp(IUserAdderPlugin, ["membrane_users"])
+        mbtool = getToolByName(self.portal, "membrane_tool")
+        user_adder = getattr(aq_base(mbtool), "user_adder", None)
         self.assertEqual(user_adder, "membrane_example")

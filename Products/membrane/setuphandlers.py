@@ -16,80 +16,73 @@ from zope.interface import implementer
 
 @implementer(INonInstallable)
 class HiddenProfiles(object):
-
     def getNonInstallableProfiles(self):
         """Hide uninstall profile from site-creation and quickinstaller."""
         return [
-            'Products.membrane:uninstall',
+            "Products.membrane:uninstall",
         ]
 
 
-def _doRegisterUserAdderUtility(context, step_name, profile_id,
-                                utility_name, utility):
-    """ registers utility for adding ExampleMembers """
+def _doRegisterUserAdderUtility(context, step_name, profile_id, utility_name, utility):
+    """registers utility for adding ExampleMembers"""
     portal = getSite()
 
     sm = portal.getSiteManager()
     logger = context.getLogger(step_name)
     if sm.queryUtility(IUserAdder, name=utility_name) is None:
-        sm.registerUtility(
-            provided=IUserAdder,
-            component=utility,
-            name=utility_name)
-        logger.info("Registered IUserAdder utility: %s" %
-                    utility_name)
+        sm.registerUtility(provided=IUserAdder, component=utility, name=utility_name)
+        logger.info("Registered IUserAdder utility: %s" % utility_name)
         mbtool = getToolByName(portal, TOOLNAME)
         if not mbtool.user_adder:
             # we become the default if one isn't already specified
             mbtool.user_adder = utility_name
     else:
-        logger.info("IUserAdder utility '%s' already registered" %
-                    utility_name)
+        logger.info("IUserAdder utility '%s' already registered" % utility_name)
 
 
 def _setupPlugins(portal, out):
     """
     Install and prioritize the membrane PAS plug-ins.
     """
-    uf = getToolByName(portal, 'acl_users')
+    uf = getToolByName(portal, "acl_users")
     plugins = uf.plugins
 
-    membrane = uf.manage_addProduct['membrane']
+    membrane = uf.manage_addProduct["membrane"]
     existing = uf.objectIds()
 
-    if 'membrane_users' not in existing:
-        membrane.addMembraneUserManager('membrane_users')
+    if "membrane_users" not in existing:
+        membrane.addMembraneUserManager("membrane_users")
         print("Added User Manager.", file=out)
-        activatePluginInterfaces(portal, 'membrane_users', out)
+        activatePluginInterfaces(portal, "membrane_users", out)
 
-    if 'membrane_groups' not in existing:
-        membrane.addMembraneGroupManager('membrane_groups')
+    if "membrane_groups" not in existing:
+        membrane.addMembraneGroupManager("membrane_groups")
         print("Added Group Manager.", file=out)
-        activatePluginInterfaces(portal, 'membrane_groups', out)
-        plugins.movePluginsUp(IGroupsPlugin, ['membrane_groups'])
+        activatePluginInterfaces(portal, "membrane_groups", out)
+        plugins.movePluginsUp(IGroupsPlugin, ["membrane_groups"])
 
-    if 'membrane_roles' not in existing:
-        membrane.addMembraneRoleManager('membrane_roles')
+    if "membrane_roles" not in existing:
+        membrane.addMembraneRoleManager("membrane_roles")
         print("Added Role Manager.", file=out)
-        activatePluginInterfaces(portal, 'membrane_roles', out)
+        activatePluginInterfaces(portal, "membrane_roles", out)
 
-    if 'membrane_properties' not in existing:
-        membrane.addMembranePropertyManager('membrane_properties')
+    if "membrane_properties" not in existing:
+        membrane.addMembranePropertyManager("membrane_properties")
         print("Added Property Manager.", file=out)
-        activatePluginInterfaces(portal, 'membrane_properties', out)
-        plugins.movePluginsUp(IPropertiesPlugin, ['membrane_properties'])
-        plugins.movePluginsUp(IPropertiesPlugin, ['membrane_properties'])
+        activatePluginInterfaces(portal, "membrane_properties", out)
+        plugins.movePluginsUp(IPropertiesPlugin, ["membrane_properties"])
+        plugins.movePluginsUp(IPropertiesPlugin, ["membrane_properties"])
 
-    if 'membrane_user_factory' not in existing:
-        membrane.addMembraneUserFactory('membrane_user_factory')
+    if "membrane_user_factory" not in existing:
+        membrane.addMembraneUserFactory("membrane_user_factory")
         print("Added User Factory.", file=out)
-        activatePluginInterfaces(portal, 'membrane_user_factory', out)
-        plugins.movePluginsUp(IUserFactoryPlugin, ['membrane_user_factory'])
+        activatePluginInterfaces(portal, "membrane_user_factory", out)
+        plugins.movePluginsUp(IUserFactoryPlugin, ["membrane_user_factory"])
 
 
 def setupPlugins(context):
-    """ initialize membrane plugins """
-    if context.readDataFile('membrane-setup-plugins.txt') is None:
+    """initialize membrane plugins"""
+    if context.readDataFile("membrane-setup-plugins.txt") is None:
         return
 
     portal = getSite()
@@ -103,26 +96,50 @@ def _removePlugins(portal):
     """
     uninstall the membrane PAS plug-ins.
     """
-    uf = getToolByName(portal, 'acl_users')
+    uf = getToolByName(portal, "acl_users")
     existing = uf.objectIds()
 
-    if 'membrane' in existing:
-        uf.manage_delObjects(['membrane', ])
+    if "membrane" in existing:
+        uf.manage_delObjects(
+            [
+                "membrane",
+            ]
+        )
 
-    if 'membrane_users' in existing:
-        uf.manage_delObjects(['membrane_users', ])
+    if "membrane_users" in existing:
+        uf.manage_delObjects(
+            [
+                "membrane_users",
+            ]
+        )
 
-    if 'membrane_groups' in existing:
-        uf.manage_delObjects(['membrane_groups', ])
+    if "membrane_groups" in existing:
+        uf.manage_delObjects(
+            [
+                "membrane_groups",
+            ]
+        )
 
-    if 'membrane_roles' in existing:
-        uf.manage_delObjects(['membrane_roles', ])
+    if "membrane_roles" in existing:
+        uf.manage_delObjects(
+            [
+                "membrane_roles",
+            ]
+        )
 
-    if 'membrane_properties' in existing:
-        uf.manage_delObjects(['membrane_properties', ])
+    if "membrane_properties" in existing:
+        uf.manage_delObjects(
+            [
+                "membrane_properties",
+            ]
+        )
 
-    if 'membrane_user_factory' in existing:
-        uf.manage_delObjects(['membrane_user_factory', ])
+    if "membrane_user_factory" in existing:
+        uf.manage_delObjects(
+            [
+                "membrane_user_factory",
+            ]
+        )
 
 
 def uninstall(context):

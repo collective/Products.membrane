@@ -28,41 +28,33 @@ membrane.initialize = initialize
 
 
 class Session(dict):
-
     def set(self, key, value):
         self[key] = value
 
 
 class MembraneProfilesLayer(PloneSandboxLayer):
-
     def setUpZope(self, app, configurationContext):
         import Products.membrane
+
         self.loadZCML(package=Products.membrane)
-        zope_testing.installProduct(app, 'Products.membrane')
+        zope_testing.installProduct(app, "Products.membrane")
         xmlconfig.file(
-            'testing.zcml',
-            Products.membrane.tests,
-            context=configurationContext)
-        app.REQUEST['SESSION'] = Session()
+            "testing.zcml", Products.membrane.tests, context=configurationContext
+        )
+        app.REQUEST["SESSION"] = Session()
 
         import plone.app.contenttypes
+
         self.loadZCML(package=plone.app.contenttypes)
 
     def setUpPloneSite(self, portal):
-        applyProfile(portal, 'plone.app.contenttypes:default')
-        applyProfile(portal, 'Products.membrane:default')
-        applyProfile(portal, 'Products.membrane.tests:test')
-        setRoles(portal, TEST_USER_ID, ['Manager'])
+        applyProfile(portal, "plone.app.contenttypes:default")
+        applyProfile(portal, "Products.membrane:default")
+        applyProfile(portal, "Products.membrane.tests:test")
+        setRoles(portal, TEST_USER_ID, ["Manager"])
         login(portal, TEST_USER_NAME)
-        portal.acl_users.userFolderAddUser('admin',
-                                           'secret',
-                                           ['Manager'],
-                                           [])
-        portal.invokeFactory(
-            "Folder",
-            id="test-folder",
-            title=u"Test Folder"
-        )
+        portal.acl_users.userFolderAddUser("admin", "secret", ["Manager"], [])
+        portal.invokeFactory("Folder", id="test-folder", title="Test Folder")
         logout()
 
         mbtool = getattr(portal, TOOLNAME)
@@ -71,62 +63,61 @@ class MembraneProfilesLayer(PloneSandboxLayer):
         mbtool.registerMembraneType(dummy.TestGroup.portal_type)
 
     def tearDownZope(self, app):
-        zope_testing.uninstallProduct(app, 'Products.membrane')
+        zope_testing.uninstallProduct(app, "Products.membrane")
 
 
-def addUser(obj, username='testuser', title='full name'):
-    member = _createObjectByType('TestMember', obj, username)
+def addUser(obj, username="testuser", title="full name"):
+    member = _createObjectByType("TestMember", obj, username)
     member.setUserName(username)
-    member.setPassword('testpassword')
+    member.setPassword("testpassword")
     # Title is mapped to the user property fullname using
     # user_property='fullname'
     member.setTitle(title)
-    member.setMobilePhone('555-1212')
+    member.setMobilePhone("555-1212")
     member.reindexObject()
     return member
 
 
 class AddUserLayer(MembraneProfilesLayer):
-
     def setUpPloneSite(self, portal):
-        applyProfile(portal, 'plone.app.contenttypes:default')
-        applyProfile(portal, 'Products.membrane:default')
-        applyProfile(portal, 'Products.membrane.tests:test')
-        setRoles(portal, TEST_USER_ID, ['Manager'])
+        applyProfile(portal, "plone.app.contenttypes:default")
+        applyProfile(portal, "Products.membrane:default")
+        applyProfile(portal, "Products.membrane.tests:test")
+        setRoles(portal, TEST_USER_ID, ["Manager"])
         login(portal, TEST_USER_NAME)
         addUser(portal)
         logout()
 
 
 class MembraneUserManagerLayer(AddUserLayer):
-
     def setUpPloneSite(self, portal):
-        applyProfile(portal, 'plone.app.contenttypes:default')
-        applyProfile(portal, 'Products.membrane:default')
-        applyProfile(portal, 'Products.membrane.tests:test')
-        setRoles(portal, TEST_USER_ID, ['Manager'])
+        applyProfile(portal, "plone.app.contenttypes:default")
+        applyProfile(portal, "Products.membrane:default")
+        applyProfile(portal, "Products.membrane.tests:test")
+        setRoles(portal, TEST_USER_ID, ["Manager"])
         login(portal, TEST_USER_NAME)
         addUser(portal)
         from Products.membrane.plugins.usermanager import MembraneUserManager
-        portal.acl_users.pmm = MembraneUserManager(id='pmm')
+
+        portal.acl_users.pmm = MembraneUserManager(id="pmm")
         logout()
 
 
 class MembraneUserManagerTwoUsersLayer(MembraneUserManagerLayer):
-
     def setUpPloneSite(self, portal):
-        applyProfile(portal, 'plone.app.contenttypes:default')
-        applyProfile(portal, 'Products.membrane:default')
-        applyProfile(portal, 'Products.membrane.tests:test')
-        setRoles(portal, TEST_USER_ID, ['Manager'])
+        applyProfile(portal, "plone.app.contenttypes:default")
+        applyProfile(portal, "Products.membrane:default")
+        applyProfile(portal, "Products.membrane.tests:test")
+        setRoles(portal, TEST_USER_ID, ["Manager"])
         login(portal, TEST_USER_NAME)
         addUser(portal)
         from Products.membrane.plugins.usermanager import MembraneUserManager
-        portal.acl_users.pmm = MembraneUserManager(id='pmm')
-        member = _createObjectByType('TestMember', portal, 'testuser2')
-        member.setUserName('testuser2')
-        member.setPassword('testpassword2')
-        member.setTitle('full name 2')
+
+        portal.acl_users.pmm = MembraneUserManager(id="pmm")
+        member = _createObjectByType("TestMember", portal, "testuser2")
+        member.setUserName("testuser2")
+        member.setPassword("testpassword2")
+        member.setTitle("full name 2")
         member.reindexObject()
         logout()
 
@@ -137,14 +128,15 @@ MEMBRANE_USER_MANAGER_FIXTURE = MembraneUserManagerLayer()
 MEMBRANE_USER_MANAGER_TWO_USERS_FIXTURE = MembraneUserManagerTwoUsersLayer()
 
 MEMBRANE_PROFILES_INTEGRATION_TESTING = IntegrationTesting(
-    bases=(MEMBRANE_PROFILES_FIXTURE,),
-    name="MembraneProfilesLayer:Integration")
+    bases=(MEMBRANE_PROFILES_FIXTURE,), name="MembraneProfilesLayer:Integration"
+)
 MEMBRANE_ADD_USER_INTEGRATION_TESTING = IntegrationTesting(
-    bases=(MEMBRANE_ADD_USER_FIXTURE,),
-    name="MembraneAddUserLayer:Integration")
+    bases=(MEMBRANE_ADD_USER_FIXTURE,), name="MembraneAddUserLayer:Integration"
+)
 MEMBRANE_USER_MANAGER_INTEGRATION_TESTING = IntegrationTesting(
-    bases=(MEMBRANE_USER_MANAGER_FIXTURE,),
-    name="MembraneUserManagerLayer:Integration")
+    bases=(MEMBRANE_USER_MANAGER_FIXTURE,), name="MembraneUserManagerLayer:Integration"
+)
 MEMBRANE_USER_MANAGER_TWO_USERS_INTEGRATION_TESTING = IntegrationTesting(
     bases=(MEMBRANE_USER_MANAGER_TWO_USERS_FIXTURE,),
-    name="MembraneUserManagerTwoUsersLayer:Integration")
+    name="MembraneUserManagerTwoUsersLayer:Integration",
+)

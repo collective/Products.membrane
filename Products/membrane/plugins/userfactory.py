@@ -12,31 +12,33 @@ from zope.interface import implementer
 
 
 manage_addMembraneUserFactoryForm = PageTemplateFile(
-    '../www/MembraneUserFactoryForm', globals(),
-    __name__='manage_addMembraneUserFactoryForm')
+    "../www/MembraneUserFactoryForm",
+    globals(),
+    __name__="manage_addMembraneUserFactoryForm",
+)
 
 
 def addMembraneUserFactory(dispatcher, id, title=None, REQUEST=None):
-    """ Add a MembraneUserFactory to a Pluggable Auth Service. """
+    """Add a MembraneUserFactory to a Pluggable Auth Service."""
 
     pmm = MembraneUserFactory(id, title)
     dispatcher._setObject(pmm.getId(), pmm)
 
     if REQUEST is not None:
-        REQUEST['RESPONSE'].redirect(
-            '%s/manage_workspace'
-            '?manage_tabs_message='
-            'MembraneUserFactory+added.'
-            % dispatcher.absolute_url())
+        REQUEST["RESPONSE"].redirect(
+            "%s/manage_workspace"
+            "?manage_tabs_message="
+            "MembraneUserFactory+added." % dispatcher.absolute_url()
+        )
 
 
 @implementer(IMembraneUserFactoryPlugin)
 class MembraneUserFactory(PloneUserFactory):
 
     security = ClassSecurityInfo()
-    meta_type = 'Membrane User Factory'
+    meta_type = "Membrane User Factory"
 
-    def __init__(self, id, title=''):
+    def __init__(self, id, title=""):
         self.id = id
         self.title = title or self.meta_type
 
@@ -53,7 +55,7 @@ class MembraneUserFactory(PloneUserFactory):
 
 InitializeClass(MembraneUserFactory)
 
-_marker = ['INVALID_VALUE']
+_marker = ["INVALID_VALUE"]
 
 
 @implementer(IMembraneUser)

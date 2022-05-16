@@ -16,6 +16,7 @@ class UserAdder(SimpleItem):
         """
         Adds a Test object at the root of the Plone site.
         """
-        portal = getToolByName(self, 'portal_url').getPortalObject()
-        _createObjectByType('TestMember', portal, login, password=password,
-                            username=login)
+        portal = getToolByName(self, "portal_url").getPortalObject()
+        _createObjectByType(
+            "TestMember", portal, login, password=password, username=login
+        )

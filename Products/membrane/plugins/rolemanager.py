@@ -14,28 +14,30 @@ from zope.interface import implementer
 
 
 manage_addMembraneRoleManagerForm = PageTemplateFile(
-    '../www/MembraneRoleManagerForm', globals(),
-    __name__='manage_addMembraneRoleManager')
+    "../www/MembraneRoleManagerForm",
+    globals(),
+    __name__="manage_addMembraneRoleManager",
+)
 
 
 def addMembraneRoleManager(dispatcher, id, title=None, REQUEST=None):
-    """ Add a MembraneRoleManager to a Pluggable Auth Service. """
+    """Add a MembraneRoleManager to a Pluggable Auth Service."""
     pmm = MembraneRoleManager(id, title)
     dispatcher._setObject(pmm.getId(), pmm)
 
     if REQUEST is not None:
-        REQUEST['RESPONSE'].redirect(
-            '%s/manage_workspace'
-            '?manage_tabs_message='
-            'MembraneRoleManager+added.'
-            % dispatcher.absolute_url())
+        REQUEST["RESPONSE"].redirect(
+            "%s/manage_workspace"
+            "?manage_tabs_message="
+            "MembraneRoleManager+added." % dispatcher.absolute_url()
+        )
 
 
 @implementer(IMembraneRoleManagerPlugin)
 class MembraneRoleManager(BasePlugin, Cacheable):
-    """ PAS plugin for managing roles with Membrane.
-    """
-    meta_type = 'Membrane Role Manager'
+    """PAS plugin for managing roles with Membrane."""
+
+    meta_type = "Membrane Role Manager"
 
     security = ClassSecurityInfo()
 
@@ -50,11 +52,10 @@ class MembraneRoleManager(BasePlugin, Cacheable):
     def getRolesForPrincipal(self, principal, request=None):
         roles = {}
         providers = findMembraneUserAspect(
-            self, user_ifaces.IMembraneUserRoles,
-            exact_getUserId=principal.getId())
+            self, user_ifaces.IMembraneUserRoles, exact_getUserId=principal.getId()
+        )
         for provider in providers:
-            roles.update(dict.fromkeys(
-                provider.getRolesForPrincipal(principal)))
+            roles.update(dict.fromkeys(provider.getRolesForPrincipal(principal)))
         return tuple(roles.keys())
 
 

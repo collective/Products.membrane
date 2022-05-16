@@ -8,7 +8,7 @@ from Products.membrane.interfaces import IUserAdder
 
 
 def getAllWFStatesForType(context, portal_type):
-    wftool = getToolByName(context, 'portal_workflow')
+    wftool = getToolByName(context, "portal_workflow")
     chain = wftool.getChainForPortalType(portal_type)
     states = []
     for wfid in chain:
@@ -18,7 +18,7 @@ def getAllWFStatesForType(context, portal_type):
 
 
 def getFilteredValidRolesForPortal(context):
-    portal = getToolByName(context, 'portal_url').getPortalObject()
+    portal = getToolByName(context, "portal_url").getPortalObject()
     roles = dict.fromkeys(portal.validRoles())
     for filtered_role in FILTERED_ROLES:
         roles.pop(filtered_role, None)
@@ -30,7 +30,7 @@ def getCurrentUserAdder(context):
     Returns the appropriate IUserAdder utility, or None if it can't be
     retrieved.
     """
-    portal = getToolByName(context, 'portal_url').getPortalObject()
+    portal = getToolByName(context, "portal_url").getPortalObject()
     mbtool = getToolByName(context, TOOLNAME)
 
     sm = portal.getSiteManager()
@@ -64,7 +64,7 @@ def findMembraneUserAspect(context, iface, **query):
             [
                 iface(brain._unrestrictedGetObject(), None)
                 for brain in findImplementations(context, iface, **query)
-            ]
+            ],
         )
     )
 
@@ -78,12 +78,12 @@ def findImplementations(context, iface, **query):
     Use :py:func:`findMembraneUserAspect` if you want to get the object that
     implements the interface (which can be an adapter).
     """
-    return getToolByName(
-        context, TOOLNAME).unrestrictedSearchResults(
-            object_implements=iface.__identifier__, **query)
+    return getToolByName(context, TOOLNAME).unrestrictedSearchResults(
+        object_implements=iface.__identifier__, **query
+    )
 
 
 # convenience cache key for use in adapters (i.e. views) and tools
 def membraneCacheKey(method, self, *args, **kw):
     mbtool = getToolByName(self.context, TOOLNAME)
-    return '/'.join(mbtool.getPhysicalPath()), mbtool.getCounter()
+    return "/".join(mbtool.getPhysicalPath()), mbtool.getCounter()

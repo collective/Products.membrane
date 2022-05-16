@@ -7,6 +7,7 @@ class IMembraneTypeEvent(Interface):
     """
     Base interface for membrane type related events.
     """
+
     tool = Attribute("Tool")
     portal_type = Attribute("Portal Type")
 

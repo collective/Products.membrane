@@ -22,45 +22,55 @@ def initialize(context):
     context.registerClass(
         usermanager.MembraneUserManager,
         permission=add_user_folders,
-        constructors=(usermanager.manage_addMembraneUserManagerForm,
-                      usermanager.addMembraneUserManager),
-        visibility=None
+        constructors=(
+            usermanager.manage_addMembraneUserManagerForm,
+            usermanager.addMembraneUserManager,
+        ),
+        visibility=None,
     )
 
     context.registerClass(
         groupmanager.MembraneGroupManager,
         permission=add_user_folders,
-        constructors=(groupmanager.manage_addMembraneGroupManagerForm,
-                      groupmanager.addMembraneGroupManager),
-        visibility=None
+        constructors=(
+            groupmanager.manage_addMembraneGroupManagerForm,
+            groupmanager.addMembraneGroupManager,
+        ),
+        visibility=None,
     )
 
     context.registerClass(
         propertymanager.MembranePropertyManager,
         permission=add_user_folders,
-        constructors=(propertymanager.manage_addMembranePropertyManagerForm,
-                      propertymanager.addMembranePropertyManager),
-        visibility=None
+        constructors=(
+            propertymanager.manage_addMembranePropertyManagerForm,
+            propertymanager.addMembranePropertyManager,
+        ),
+        visibility=None,
     )
 
     context.registerClass(
         rolemanager.MembraneRoleManager,
         permission=add_user_folders,
-        constructors=(rolemanager.manage_addMembraneRoleManagerForm,
-                      rolemanager.addMembraneRoleManager),
-        visibility=None
+        constructors=(
+            rolemanager.manage_addMembraneRoleManagerForm,
+            rolemanager.addMembraneRoleManager,
+        ),
+        visibility=None,
     )
 
     context.registerClass(
         userfactory.MembraneUserFactory,
         permission=add_user_folders,
-        constructors=(userfactory.manage_addMembraneUserFactoryForm,
-                      userfactory.addMembraneUserFactory),
-        visibility=None
+        constructors=(
+            userfactory.manage_addMembraneUserFactoryForm,
+            userfactory.addMembraneUserFactory,
+        ),
+        visibility=None,
     )
 
     from Products.membrane.tools import membrane
-    ToolInit(PROJECTNAME + ' Tool',
-             tools=(membrane.MembraneTool, ),
-             icon='tool.gif'
-             ).initialize(context)
+
+    ToolInit(
+        PROJECTNAME + " Tool", tools=(membrane.MembraneTool,), icon="tool.gif"
+    ).initialize(context)

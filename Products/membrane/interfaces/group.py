@@ -9,7 +9,6 @@ from zope.interface import Interface
 
 
 class IGroup(Interface):
-
     def getGroupId():
         """
         return the group id

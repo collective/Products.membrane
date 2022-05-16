@@ -9,19 +9,21 @@ from zope.interface import Interface
 
 
 class IMembraneTool(Interface):
-    '''This tool interacts with a customized ZCatalog.
-    '''
-    id = Attribute('id', 'Must be set to "membrane_tool"')
-    user_adder = Attribute('user_adder',
-                           'Name of the IUserAdder utility to use when '
-                           'adding new users.')
-    case_sensitive_auth = Attribute('case_sensitive_logins',
-                                    'Boolean value specifying whether '
-                                    'or not auth provider lookup should be '
-                                    'case sensitive.')
+    """This tool interacts with a customized ZCatalog."""
 
-# XXX membrane type logic should be ripped out - the membrane interfaces
-# can be checked directly.
+    id = Attribute("id", 'Must be set to "membrane_tool"')
+    user_adder = Attribute(
+        "user_adder", "Name of the IUserAdder utility to use when " "adding new users."
+    )
+    case_sensitive_auth = Attribute(
+        "case_sensitive_logins",
+        "Boolean value specifying whether "
+        "or not auth provider lookup should be "
+        "case sensitive.",
+    )
+
+    # XXX membrane type logic should be ripped out - the membrane interfaces
+    # can be checked directly.
     def registerMembraneType(portal_type):
         """Register a member type, by manipulating AT catalog multiplex
         registry"""
