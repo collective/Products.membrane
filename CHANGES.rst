@@ -7,7 +7,7 @@ Changelog
 - Support Plone 6.0
   [ale-rt]
 
-- Remove support for Python2 and Archetypes
+- Remove support for Python2 and Archetypes, remove deprecated code
   [ale-rt]
 
 - Remove mentions to Products.remember which is unsopported since years
