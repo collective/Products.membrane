@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.membrane.interfaces import IUserAdder

@@ -1,4 +1,3 @@
-# coding=utf-8
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.content import Container
 from plone.dexterity.content import Item

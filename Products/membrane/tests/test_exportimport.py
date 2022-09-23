@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Test the GS export import handlers."""
 
 from .base import MembraneTestCase
@@ -10,7 +9,7 @@ class TestMembraneToolExportImport(MembraneTestCase):
     """Test membrane_tool import / export handlers."""
 
     def setUp(self):
-        super(TestMembraneToolExportImport, self).setUp()
+        super().setUp()
 
     def test_useradder(self):
         """

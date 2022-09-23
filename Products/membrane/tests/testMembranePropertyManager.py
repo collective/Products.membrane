@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # MembraneTestCase Membrane
 #
@@ -57,7 +56,7 @@ class TestMembranePropertyManager(
     base.MembraneTestCase, MembranePropertyManagerTestBase
 ):
     def setUp(self):
-        super(TestMembranePropertyManager, self).setUp()
+        super().setUp()
         self.portal.pmm = self._makeOne("pmm")
         self.addUser()
 
@@ -65,33 +64,33 @@ class TestMembranePropertyManager(
         mem_props = IMembraneUserProperties(self.member)
         properties = mem_props.getPropertiesForUser(None)
 
-        self.failUnless(properties.hasProperty("fullname"))
+        self.assertTrue(properties.hasProperty("fullname"))
 
     def testGetPropertiesForUserFromPropertyManager(self):
         properties = self.portal.pmm.getPropertiesForUser(User(self.member))
-        self.failIf(properties.hasProperty("id"))
-        self.failUnless(properties.hasProperty("mobilePhone"))
+        self.assertFalse(properties.hasProperty("id"))
+        self.assertTrue(properties.hasProperty("mobilePhone"))
 
     def testGetMappedPropertyForUserFromPropertyManager(self):
         # The 'title' field should be mapped to the 'fullname' property
         properties = self.portal.pmm.getPropertiesForUser(User(self.member))
-        self.failUnless(properties.hasProperty("fullname"))
+        self.assertTrue(properties.hasProperty("fullname"))
 
     def testGetPropertiesForGroupFromPropertyManager(self):
         self.addGroup()
         group = self.portal.testgroup
         properties = self.portal.pmm.getPropertiesForUser(Group(group))
-        self.failIf(properties.hasProperty("id"))
-        self.failUnless(properties.hasProperty("title"))
-        self.failUnless(properties.hasProperty("description"))
-        self.failUnlessEqual(properties.getProperty("title"), "Test group")
-        self.failUnlessEqual(properties.getProperty("description"), "A test group")
+        self.assertFalse(properties.hasProperty("id"))
+        self.assertTrue(properties.hasProperty("title"))
+        self.assertTrue(properties.hasProperty("description"))
+        self.assertEqual(properties.getProperty("title"), "Test group")
+        self.assertEqual(properties.getProperty("description"), "A test group")
 
     def testGetPropertiesForUser(self):
         userid = IMembraneUserAuth(self.member).getUserId()
         user = self.portal.acl_users.getUserById(userid)
         sheets = user.getOrderedPropertySheets()
-        self.failUnless(
+        self.assertTrue(
             [
                 x.getProperty("fullname")
                 for x in sheets
@@ -100,8 +99,8 @@ class TestMembranePropertyManager(
         )
         mtool = self.portal.portal_membership
         member = mtool.getMemberById(userid)
-        self.failUnlessEqual(member.getProperty("fullname"), "full name")
-        self.failUnlessEqual(member.getProperty("ext_editor"), False)
+        self.assertEqual(member.getProperty("fullname"), "full name")
+        self.assertEqual(member.getProperty("ext_editor"), False)
 
     def testSetPropertiesForUser(self):
         fullname = "null fame"
@@ -132,25 +131,25 @@ class TestMembraneSchemataPropertyManager(
         self.member.reindexObject()
 
     def setUp(self):
-        super(TestMembraneSchemataPropertyManager, self).setUp()
+        super().setUp()
         self.portal.pmm = self._makeOne("pmm")
         self.addUser()
 
     def testGetPropertiesForUserOnUser(self):
         mem_props = IMembraneUserProperties(self.member)
         properties = mem_props.getPropertiesForUser(None)
-        self.failUnless(properties.hasProperty("homePhone"))
+        self.assertTrue(properties.hasProperty("homePhone"))
 
     def testGetPropertiesForUserFromPropertyManager(self):
         properties = self.portal.pmm.getPropertiesForUser(User(self.member))
-        self.failIf(properties.hasProperty("id"))
-        self.failUnless(properties.hasProperty("homePhone"))
+        self.assertFalse(properties.hasProperty("id"))
+        self.assertTrue(properties.hasProperty("homePhone"))
 
     def testGetPropertiesForUser(self):
         userid = IMembraneUserAuth(self.member).getUserId()
         user = self.portal.acl_users.getUserById(userid)
         sheets = user.getOrderedPropertySheets()
-        self.failUnless(
+        self.assertTrue(
             [
                 x.getProperty("homePhone")
                 for x in sheets
@@ -158,7 +157,7 @@ class TestMembraneSchemataPropertyManager(
             ]
         )
         member = self.portal.portal_membership.getMemberById(userid)
-        self.failUnlessEqual(member.getProperty("homePhone"), "555-1212")
+        self.assertEqual(member.getProperty("homePhone"), "555-1212")
 
     def testSetPropertiesForUser(self):
         homePhone = 'phome hone"'

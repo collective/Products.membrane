@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2005 Plone Solutions
 # info@plonesolutions.com
 
@@ -64,8 +63,7 @@ class MembranePropertyManager(BasePlugin, Cacheable):
             query = dict(exact_getUserId=user.getId())
             iface = user_ifaces.IMembraneUserProperties
 
-        for pp in findMembraneUserAspect(self, iface, **query):
-            yield pp
+        yield from findMembraneUserAspect(self, iface, **query)
 
     #
     #   IMutablePropertiesPlugin implementation
