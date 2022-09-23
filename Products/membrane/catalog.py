@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 from Acquisition import aq_parent
 from plone.indexer import indexer
@@ -62,7 +61,7 @@ def getParentPath(obj):
 
 
 @implementer(IIndexQueueProcessor)
-class MembraneCatalogProcessor(object):
+class MembraneCatalogProcessor:
     """Catalog processor to update user objects in the membrane tool.
 
     This index queue processor acts as a utility that is used by

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # MembraneTestCase Membrane
 #
@@ -17,7 +16,7 @@ class MembraneRoleManagerTestBase:
 
 class TestMembraneRoleManagerPlugin(base.MembraneTestCase, MembraneRoleManagerTestBase):
     def setUp(self):
-        super(TestMembraneRoleManagerPlugin, self).setUp()
+        super().setUp()
         self.addUser(self.portal)
 
     def getUser(self):
@@ -26,7 +25,7 @@ class TestMembraneRoleManagerPlugin(base.MembraneTestCase, MembraneRoleManagerTe
 
     def testDefaultRoles(self):
         roles = self.member.roles_
-        self.failUnless(set(roles) < set(self.getUser().getRoles()))
+        self.assertTrue(set(roles) < set(self.getUser().getRoles()))
 
     def testRolesStayCurrent(self):
         self.assertSetEqual(set(self.getUser().getRoles()), {"Member", "Authenticated"})
@@ -39,7 +38,7 @@ class TestMembraneRoleManagerPlugin(base.MembraneTestCase, MembraneRoleManagerTe
     def testRolesFromGroup(self):
         self.addGroup()
         role = "Manager"
-        self.failIf(role in self.getUser().getRoles())
+        self.assertFalse(role in self.getUser().getRoles())
         self.group.addReference(self.member)
         self.group.setRoles((role,))
-        self.failUnless(role in self.getUser().getRoles())
+        self.assertTrue(role in self.getUser().getRoles())

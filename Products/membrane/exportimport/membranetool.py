@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from persistent.mapping import PersistentMapping
 from Products.CMFCore.utils import getToolByName

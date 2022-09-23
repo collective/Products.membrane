@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Membrane interfaces"""
 
 from Products.membrane.interfaces.events import IMembraneTypeRegisteredEvent  # noqa

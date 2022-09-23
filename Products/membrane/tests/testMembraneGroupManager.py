@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # MembraneTestCase Membrane
 #
@@ -50,7 +49,7 @@ class TestMembraneGroupManagerBasics(
 
 class TestMembraneGroupManager(base.MembraneTestCase, MembraneGroupManagerTestBase):
     def setUp(self):
-        super(TestMembraneGroupManager, self).setUp()
+        super().setUp()
         self.portal.pmm = self._makeOne("pmm")
 
     def testGroupMembership(self):
@@ -62,16 +61,14 @@ class TestMembraneGroupManager(base.MembraneTestCase, MembraneGroupManagerTestBa
         member2 = self.member2
         mem2_auth = IMembraneUserAuth(member2)
         mem2_grps = IMembraneUserGroups(member2)
-        self.failUnlessEqual(group.getGroupMembers(), (mem_auth.getUserId(),))
-        self.failUnlessEqual(mem_grps.getGroupsForPrincipal(mem_grps), (group.getId(),))
+        self.assertEqual(group.getGroupMembers(), (mem_auth.getUserId(),))
+        self.assertEqual(mem_grps.getGroupsForPrincipal(mem_grps), (group.getId(),))
         self.group.setMembers([member2.UID()])
-        self.failUnlessEqual(
+        self.assertEqual(
             sortTuple(group.getGroupMembers()),
             sortTuple([mem2_auth.getUserId(), mem_auth.getUserId()]),
         )
-        self.failUnlessEqual(
-            mem2_grps.getGroupsForPrincipal(mem2_grps), (group.getId(),)
-        )
+        self.assertEqual(mem2_grps.getGroupsForPrincipal(mem2_grps), (group.getId(),))
 
 
 class TestMembraneGroupManagerSelectedGroups(
@@ -87,7 +84,7 @@ class TestMembraneGroupManagerSelectedGroups(
         self.member.reindexObject()
 
     def setUp(self):
-        super(TestMembraneGroupManagerSelectedGroups, self).setUp()
+        super().setUp()
         self.portal.pmm = self._makeOne("pmm")
 
     def testGroupMembership(self):
@@ -99,42 +96,38 @@ class TestMembraneGroupManagerSelectedGroups(
         member2 = self.member2
         mem2_auth = IMembraneUserAuth(member2)
         mem2_grps = IMembraneUserGroups(member2)
-        self.failUnlessEqual(group.getGroupMembers(), (mem_auth.getUserId(),))
-        self.failUnlessEqual(mem_grps.getGroupsForPrincipal(mem_grps), (group.getId(),))
+        self.assertEqual(group.getGroupMembers(), (mem_auth.getUserId(),))
+        self.assertEqual(mem_grps.getGroupsForPrincipal(mem_grps), (group.getId(),))
         self.group.setMembers([member2.UID()])
-        self.failUnlessEqual(
+        self.assertEqual(
             sortTuple(group.getGroupMembers()),
             sortTuple([mem2_auth.getUserId(), mem_auth.getUserId()]),
         )
-        self.failUnlessEqual(
-            mem2_grps.getGroupsForPrincipal(mem2_grps), (group.getId(),)
-        )
+        self.assertEqual(mem2_grps.getGroupsForPrincipal(mem2_grps), (group.getId(),))
 
 
 class TestMembraneGroupManagerEnumeration(
     base.MembraneTestCase, MembraneGroupManagerTestBase
 ):
     def setUp(self):
-        super(TestMembraneGroupManagerEnumeration, self).setUp()
+        super().setUp()
         self.portal.pmm = self._makeOne("pmm")
 
     def testEnumerateGroupsNoArgs(self):
         self.createGroupAndUsers()
-        self.failUnlessEqual(len(self.portal.pmm.enumerateGroups()), 1)
+        self.assertEqual(len(self.portal.pmm.enumerateGroups()), 1)
 
     def testEnumerateGroupsByTitleNonexisting(self):
         self.createGroupAndUsers()
         enumgrps = self.portal.pmm.enumerateGroups
-        self.failUnlessEqual(enumgrps(title="nonexisting"), ())
-        self.failUnlessEqual(enumgrps(title="nonexisting", exact_match=True), ())
+        self.assertEqual(enumgrps(title="nonexisting"), ())
+        self.assertEqual(enumgrps(title="nonexisting", exact_match=True), ())
 
     def testEnumerateGroupsByTitle(self):
         self.createGroupAndUsers()
         enumgrps = self.portal.pmm.enumerateGroups
-        self.failUnlessEqual(
-            len(enumgrps(title=self.group.Title(), exact_match=True)), 1
-        )
-        self.failUnlessEqual(
+        self.assertEqual(len(enumgrps(title=self.group.Title(), exact_match=True)), 1)
+        self.assertEqual(
             len(
                 enumgrps(
                     title=self.group.Title()[: len(self.group.Title()) - 1],
@@ -143,33 +136,33 @@ class TestMembraneGroupManagerEnumeration(
             ),
             1,
         )
-        self.failUnlessEqual(
+        self.assertEqual(
             len(enumgrps(title=self.group.Title(), exact_match=True, sort_on="title")),
             1,
         )
-        self.failUnlessEqual(
+        self.assertEqual(
             len(enumgrps(title=self.group.Title(), exact_match=True, sort_on="id")), 1
         )
-        self.failUnlessEqual(
+        self.assertEqual(
             len(enumgrps(title=self.group.Title(), exact_match=True, max_results=1)), 1
         )
-        self.failUnlessEqual(
+        self.assertEqual(
             len(enumgrps(title=self.group.Title(), exact_match=True, max_results=0)), 0
         )
 
     def testEnumerateGroupsByIdNonexisting(self):
         self.createGroupAndUsers()
         enumgrps = self.portal.pmm.enumerateGroups
-        self.failUnlessEqual(enumgrps(id="nonexisting"), ())
-        self.failUnlessEqual(enumgrps(id="nonexisting", exact_match=True), ())
+        self.assertEqual(enumgrps(id="nonexisting"), ())
+        self.assertEqual(enumgrps(id="nonexisting", exact_match=True), ())
 
     def testEnumerateGroupsById(self):
         self.createGroupAndUsers()
         enumgrps = self.portal.pmm.enumerateGroups
-        self.failUnlessEqual(
+        self.assertEqual(
             len(enumgrps(id=self.group.getGroupName(), exact_match=True)), 1
         )
-        self.failUnlessEqual(
+        self.assertEqual(
             len(
                 enumgrps(
                     id=self.group.getGroupName()[: len(self.group.getGroupName()) - 1],
@@ -178,7 +171,7 @@ class TestMembraneGroupManagerEnumeration(
             ),
             1,
         )
-        self.failUnlessEqual(
+        self.assertEqual(
             len(
                 enumgrps(
                     id=self.group.getGroupName(), exact_match=True, sort_on="title"
@@ -186,17 +179,17 @@ class TestMembraneGroupManagerEnumeration(
             ),
             1,
         )
-        self.failUnlessEqual(
+        self.assertEqual(
             len(enumgrps(id=self.group.getGroupName(), exact_match=True, sort_on="id")),
             1,
         )
-        self.failUnlessEqual(
+        self.assertEqual(
             len(
                 enumgrps(id=self.group.getGroupName(), exact_match=True, max_results=1)
             ),
             1,
         )
-        self.failUnlessEqual(
+        self.assertEqual(
             len(
                 enumgrps(id=self.group.getGroupName(), exact_match=True, max_results=0)
             ),
@@ -216,10 +209,10 @@ class TestMembraneGroupManagerEnumeration(
 
         enumgrps = self.portal.pmm.enumerateGroups
         # only an exact match should be found when exact_match==True
-        self.failUnlessEqual(
+        self.assertEqual(
             len(enumgrps(id=self.group.getGroupName(), exact_match=True)), 1
         )
-        self.failUnlessEqual(
+        self.assertEqual(
             len(enumgrps(id=self.group.getGroupName(), exact_match=False)), 2
         )
 
@@ -231,55 +224,53 @@ class TestMembraneGroupIntrospection(
     # Test IGroupIntrospection
 
     def setUp(self):
-        super(TestMembraneGroupIntrospection, self).setUp()
+        super().setUp()
         self.portal.pmm = self._makeOne("pmm")
 
     def testGetGroupIdsNoGroups(self):
-        self.failIf(self.portal.pmm.getGroupIds())
+        self.assertFalse(self.portal.pmm.getGroupIds())
 
     def testGetGroupIds(self):
         self.addGroup(self.portal)
         groupids = self.portal.pmm.getGroupIds()
-        self.failUnlessEqual(groupids, (self.group.getGroupId(),))
+        self.assertEqual(groupids, (self.group.getGroupId(),))
 
         group2 = _createObjectByType("TestGroup", self.portal, "testgroup2")
         group2.setTitle("Test group 2")
         group2.reindexObject()
         groupids = self.portal.pmm.getGroupIds()
-        self.failUnlessEqual(
+        self.assertEqual(
             sortTuple(groupids),
             sortTuple((self.group.getGroupId(), group2.getGroupId())),
         )
 
     def testGroupMembersNoMembers(self):
         self.addGroup(self.portal)
-        self.failIf(self.portal.pmm.getGroupMembers(self.group.getGroupId()))
+        self.assertFalse(self.portal.pmm.getGroupMembers(self.group.getGroupId()))
 
     def testGroupMembers(self):
         self.createGroupAndUsers()
         pmm = self.portal.pmm
-        self.failUnlessEqual(
-            pmm.getGroupMembers(self.group.getGroupId()), (self.userid,)
-        )
+        self.assertEqual(pmm.getGroupMembers(self.group.getGroupId()), (self.userid,))
 
     def testGetGroupByIdNoGroup(self):
         g = self.portal.pmm.getGroupById("nonexisting")
-        self.failIf(g)
+        self.assertFalse(g)
 
     def testGetGroupById(self):
         from Products.PlonePAS.plugins.group import PloneGroup
 
         self.createGroupAndUsers()
         group = self.portal.pmm.getGroupById(self.group.getGroupId())
-        self.failUnless(group)
-        self.failUnless(isinstance(group, PloneGroup))
+        self.assertTrue(group)
+        self.assertTrue(isinstance(group, PloneGroup))
 
     def testGetGroupsNoGroups(self):
-        self.failIf(self.portal.pmm.getGroups())
+        self.assertFalse(self.portal.pmm.getGroups())
 
     def testGetGroups(self):
         self.createGroupAndUsers()
         groups = self.portal.pmm.getGroups()
-        self.failUnless(groups)
-        self.failUnlessEqual(len(groups), 1)
-        self.failUnlessEqual(groups[0].getId(), self.group.getGroupId())
+        self.assertTrue(groups)
+        self.assertEqual(len(groups), 1)
+        self.assertEqual(groups[0].getId(), self.group.getGroupId())

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # MembraneTestCase Membrane
 #
@@ -13,7 +12,7 @@ class TestProductInstall(base.MembraneTestCase):
         setup_tool.runAllImportStepsFromProfile("profile-Products.membrane.tests:test")
         typeslist = ["TestMember", "TestGroup"]
         for t in typeslist:
-            self.failUnless(
+            self.assertTrue(
                 t in self.portal.portal_types.objectIds(),
                 "%s content type not installed" % t,
             )
@@ -21,13 +20,13 @@ class TestProductInstall(base.MembraneTestCase):
     def testTestTypesInstall(self):
         typeslist = ["TestMember", "AlternativeTestMember", "TestGroup"]
         for t in typeslist:
-            self.failUnless(
+            self.assertTrue(
                 t in self.portal.portal_types.objectIds(),
                 "%s content type not installed" % t,
             )
 
     def testToolInstall(self):
-        self.failUnless(TOOLNAME in self.portal.objectIds())
+        self.assertTrue(TOOLNAME in self.portal.objectIds())
 
     def testSiteManagerInstall(self):
-        self.failUnless(ISite.providedBy(self.portal))
+        self.assertTrue(ISite.providedBy(self.portal))

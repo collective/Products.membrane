@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # MembraneTestCase Membrane
 #
@@ -10,7 +9,7 @@ from Products.membrane.tests import base
 
 class TestMembraneCatalogProcessor(base.MembraneTestCase):
     def setUp(self):
-        super(TestMembraneCatalogProcessor, self).setUp()
+        super().setUp()
         self.mbtool = getattr(self.portal, TOOLNAME)
 
     def testWrappedObject(self):

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from AccessControl import ClassSecurityInfo
 from AccessControl.class_init import InitializeClass
 from Acquisition import aq_base
@@ -18,7 +17,7 @@ from zope.event import notify
 from zope.interface import implementer
 
 
-class Record(object):
+class Record:
     """A simple helper class for carrying the 'extra'-payload to
     index constructors.
     """
@@ -53,10 +52,10 @@ class MembraneTool(BaseTool):
         self.membrane_types = PersistentList()
 
     def reindexObject(self, *args, **kwargs):
-        return super(MembraneTool, self)._reindexObject(*args, **kwargs)
+        return super()._reindexObject(*args, **kwargs)
 
     def unindexObject(self, *args, **kwargs):
-        return super(MembraneTool, self)._unindexObject(*args, **kwargs)
+        return super()._unindexObject(*args, **kwargs)
 
     def attool(self):
         return None  # Returned tool on CMFCore < 2.2.12 without c.indexing

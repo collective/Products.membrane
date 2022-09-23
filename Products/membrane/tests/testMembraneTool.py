@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # MembraneTestCase Membrane
 #
@@ -23,17 +22,17 @@ def resolveInterface(dotted_name):
 
 class TestMembraneTool(base.MembraneTestCase):
     def setUp(self):
-        super(TestMembraneTool, self).setUp()
+        super().setUp()
         self.mbtool = getattr(self.portal, TOOLNAME)
 
     def testMembraneTypeRegistration(self):
         mt = self.mbtool
         pt = "TestMember"
-        self.failUnless(pt in mt.listMembraneTypes())
+        self.assertTrue(pt in mt.listMembraneTypes())
         mt.unregisterMembraneType(pt)
-        self.failIf(pt in mt.listMembraneTypes())
+        self.assertFalse(pt in mt.listMembraneTypes())
         mt.registerMembraneType(pt)
-        self.failUnless(pt in mt.listMembraneTypes())
+        self.assertTrue(pt in mt.listMembraneTypes())
 
     def testObjectImplements(self):
         from Products.membrane.catalog import object_implements
@@ -64,32 +63,32 @@ class TestMembraneTool(base.MembraneTestCase):
     def testCaseSensitivityIsHonored(self):
         mt = self.mbtool
         self.addUser()
-        self.failUnless(mt.getUserObject("TESTUSER") is None)
-        self.failIf(mt.getUserObject("testuser") is None)
+        self.assertTrue(mt.getUserObject("TESTUSER") is None)
+        self.assertFalse(mt.getUserObject("testuser") is None)
 
         mt.case_sensitive_auth = False
-        self.failIf(mt.getUserObject("TESTUSER") is None)
-        self.failIf(mt.getUserObject("testuser") is None)
+        self.assertFalse(mt.getUserObject("TESTUSER") is None)
+        self.assertFalse(mt.getUserObject("testuser") is None)
 
     def testGetOriginalUserIdCase(self):
         mt = self.mbtool
         self.addUser()
         case_test = "TeStUsEr"
         orig_id = mt.getOriginalUserIdCase(case_test)
-        self.failUnless(orig_id == case_test.lower())
+        self.assertTrue(orig_id == case_test.lower())
 
     def testCatalogCounter(self):
         mt = self.mbtool
         self.assertEqual(mt.getCounter(), 0)
         last = mt.getCounter()
         self.addUser()
-        self.failUnless(mt.getCounter() > last)
+        self.assertTrue(mt.getCounter() > last)
         last = mt.getCounter()
         self.addUser(username="testuser2")
-        self.failUnless(mt.getCounter() > last)
+        self.assertTrue(mt.getCounter() > last)
         last = mt.getCounter()
         self.portal.manage_delObjects("testuser2")
-        self.failUnless(mt.getCounter() > last)
+        self.assertTrue(mt.getCounter() > last)
 
     def testCacheKey(self):
         def method():
@@ -104,13 +103,13 @@ class TestMembraneTool(base.MembraneTestCase):
         self.assertEqual(membraneCacheKey(method, adapter), (path, 0))
         last = membraneCacheKey(method, adapter)
         self.addUser()
-        self.failUnless(membraneCacheKey(method, adapter) > last)
+        self.assertTrue(membraneCacheKey(method, adapter) > last)
         last = membraneCacheKey(method, adapter)
         self.addUser(username="testuser2")
-        self.failUnless(membraneCacheKey(method, adapter) > last)
+        self.assertTrue(membraneCacheKey(method, adapter) > last)
         last = membraneCacheKey(method, adapter)
         self.portal.manage_delObjects("testuser2")
-        self.failUnless(membraneCacheKey(method, adapter) > last)
+        self.assertTrue(membraneCacheKey(method, adapter) > last)
 
     def testManageMembraneTypes(self):
         view = self.mbtool.restrictedTraverse("manage_membranetypes")

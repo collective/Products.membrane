@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 from Acquisition import aq_parent
 from plone.app.testing import login
@@ -16,7 +15,7 @@ class TestUserAdder(base.MembraneTestCase):
     """
 
     def setUp(self):
-        super(TestUserAdder, self).setUp()
+        super().setUp()
         from Products.PluggableAuthService.interfaces.plugins import IUserAdderPlugin
 
         setup_tool = self.portal.portal_setup
@@ -31,14 +30,14 @@ class TestUserAdder(base.MembraneTestCase):
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
         login(self.portal, TEST_USER_NAME)
         uf._doAddUser(userid, pwd, [], [])
-        self.failUnless(userid in self.portal.objectIds())
+        self.assertTrue(userid in self.portal.objectIds())
         req = self.portal.REQUEST
-        self.failIf(uf.authenticate(userid, pwd, req) is None)
+        self.assertFalse(uf.authenticate(userid, pwd, req) is None)
 
     def testAcquisition(self):
         plugin = self.portal.acl_users.membrane_users
         adder = getCurrentUserAdder(plugin)
         # We should have request
-        self.failIf(getattr(aq_inner(adder), "REQUEST", None) is None)
+        self.assertFalse(getattr(aq_inner(adder), "REQUEST", None) is None)
         # Our parent should be the plugin
-        self.failUnless(aq_parent(adder) is plugin)
+        self.assertTrue(aq_parent(adder) is plugin)

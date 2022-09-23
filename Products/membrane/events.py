@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
 from Products.membrane.interfaces.events import IMembraneTypeRegisteredEvent
 from Products.membrane.interfaces.events import IMembraneTypeUnregisteredEvent
 from zope.interface import implementer
 
 
-class MembraneTypeEvent(object):
+class MembraneTypeEvent:
     """
     Base class for membrane type related events.
     """
