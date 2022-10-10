@@ -1,7 +1,7 @@
 Changelog
 =========
 
-6.0.0 (unreleased)
+6.0.0 (2022-10-10)
 ------------------
 
 - Support Plone 6.0
