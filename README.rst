@@ -36,7 +36,8 @@ membrane.
 Requirements
 ============
 
-Since version 6.0: Plone 5.2, Python3 only. Support for Archetypes was removed.
+Since version 7.0: Python3.8 or newer.
+Since version 6.0: Plone 5.2 or newer, Python3 only. Support for Archetypes was removed.
 Since version 5.0: Plone 5.2.
 Since version 4.0: Plone 5.1.
 Version 3.0: Plone 4.3 or 5.0.  We only test with Python 2.7.

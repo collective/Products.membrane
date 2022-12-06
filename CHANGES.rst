@@ -1,10 +1,12 @@
 Changelog
 =========
 
-6.0.1 (unreleased)
+7.0.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Remove support for Python 3.6 and 3.7.
+  Added support for Python 3.11.
+  [ale-rt]
 
 
 6.0.0 (2022-10-10)
