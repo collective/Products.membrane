@@ -8,6 +8,10 @@ Changelog
   Added support for Python 3.11.
   [ale-rt]
 
+- Provide `email` property in `enumerateUsers` if possible.
+  This is needed for `@@login-help` to recover the username of a member.
+  [petschki]
+
 
 6.0.0 (2022-10-10)
 ------------------

@@ -201,6 +201,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
                 login=member.getUserName(),
                 pluginid=plugin_id,
                 editurl="%s/edit" % obj.absolute_url(),
+                email=getattr(member.context, "email", None),
             )
             user_info.append(info)
 
