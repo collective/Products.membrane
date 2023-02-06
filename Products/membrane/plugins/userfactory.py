@@ -33,7 +33,6 @@ def addMembraneUserFactory(dispatcher, id, title=None, REQUEST=None):
 
 @implementer(IMembraneUserFactoryPlugin)
 class MembraneUserFactory(PloneUserFactory):
-
     security = ClassSecurityInfo()
     meta_type = "Membrane User Factory"
 
@@ -59,7 +58,6 @@ _marker = ["INVALID_VALUE"]
 
 @implementer(IMembraneUser)
 class MembraneUser(PloneUser):
-
     security = ClassSecurityInfo()
 
     #

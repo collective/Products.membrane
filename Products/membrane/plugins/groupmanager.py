@@ -278,12 +278,10 @@ class MembraneGroupManager(BasePlugin, Cacheable):
         )
 
         if group is None:
-
             group = self._createGroup(plugins, group_id, title)
 
             propfinders = plugins.listPlugins(IPropertiesPlugin)
             for propfinder_id, propfinder in propfinders:
-
                 data = propfinder.getPropertiesForUser(group, request)
                 if data:
                     group.addPropertysheet(propfinder_id, data)
@@ -296,7 +294,6 @@ class MembraneGroupManager(BasePlugin, Cacheable):
             rolemakers = plugins.listPlugins(IRolesPlugin)
 
             for rolemaker_id, rolemaker in rolemakers:
-
                 roles = rolemaker.getRolesForPrincipal(group, request)
 
                 if roles:
