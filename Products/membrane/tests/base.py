@@ -11,7 +11,6 @@ import unittest
 
 
 class MembraneTestCase(unittest.TestCase):
-
     layer = MEMBRANE_PROFILES_INTEGRATION_TESTING
 
     def setUp(self):
@@ -33,7 +32,6 @@ class MembraneTestCase(unittest.TestCase):
 
 
 class MembraneUserTestCase(MembraneTestCase):
-
     layer = MEMBRANE_ADD_USER_INTEGRATION_TESTING
 
     def setUp(self):

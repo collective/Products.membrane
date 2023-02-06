@@ -5,13 +5,11 @@ from Products.membrane.tests import base
 
 class MembraneUserFactoryTestBase:
     def _getTargetClass(self):
-
         from Products.membrane.plugins.userfactory import MembraneUserFactory
 
         return MembraneUserFactory
 
     def _makeOne(self, id="test", *args, **kw):
-
         return self._getTargetClass()(id=id, *args, **kw)
 
 

@@ -50,7 +50,6 @@ class MembranePropertyManager(BasePlugin, Cacheable):
     security = ClassSecurityInfo()
 
     def __init__(self, id, title=None):
-
         self._id = self.id = id
         self.title = title
 

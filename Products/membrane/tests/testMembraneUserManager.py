@@ -36,7 +36,6 @@ class TestMembraneUserManagerBasics(
 
 
 class TestMembraneUserManagerEnumeration(base.MembraneUserTestCase):
-
     layer = testing.MEMBRANE_USER_MANAGER_INTEGRATION_TESTING
 
     def testEnumerateUsersNoArgs(self):
@@ -139,7 +138,6 @@ class TestMembraneUserManagerEnumeration(base.MembraneUserTestCase):
 
 
 class TestMembraneUserManagerAuthentication(base.MembraneUserTestCase):
-
     layer = testing.MEMBRANE_USER_MANAGER_INTEGRATION_TESTING
 
     def testAuthenticateOnMember(self):
@@ -231,7 +229,6 @@ class TestUserManagerIntrospectionNoUsers(base.MembraneTestCase):
 
 
 class TestUserManagerIntrospectionOneUser(base.MembraneUserTestCase):
-
     layer = testing.MEMBRANE_USER_MANAGER_INTEGRATION_TESTING
 
     def testGetUserIdsOneUser(self):
@@ -253,7 +250,6 @@ class TestUserManagerIntrospectionOneUser(base.MembraneUserTestCase):
 
 
 class TestUserManagerIntrospectionTwoUsers(base.MembraneUserTestCase):
-
     layer = testing.MEMBRANE_USER_MANAGER_TWO_USERS_INTEGRATION_TESTING
 
     def setUp(self):
@@ -282,7 +278,6 @@ class TestUserManagerIntrospectionTwoUsers(base.MembraneUserTestCase):
 
 
 class TestMembraneUserManagerManagement(base.MembraneUserTestCase):
-
     layer = testing.MEMBRANE_USER_MANAGER_INTEGRATION_TESTING
 
     def testUserChangePassword(self):

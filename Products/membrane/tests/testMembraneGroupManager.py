@@ -17,13 +17,11 @@ import unittest
 
 class MembraneGroupManagerTestBase:
     def _getTargetClass(self):
-
         from Products.membrane.plugins.groupmanager import MembraneGroupManager
 
         return MembraneGroupManager
 
     def _makeOne(self, id="test", *args, **kw):
-
         return self._getTargetClass()(id=id, *args, **kw)
 
     def createGroupAndUsers(self):
@@ -220,7 +218,6 @@ class TestMembraneGroupManagerEnumeration(
 class TestMembraneGroupIntrospection(
     base.MembraneTestCase, MembraneGroupManagerTestBase
 ):
-
     # Test IGroupIntrospection
 
     def setUp(self):
