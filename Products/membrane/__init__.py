@@ -17,7 +17,6 @@ registerMultiPlugin(userfactory.MembraneUserFactory.meta_type)
 
 
 def initialize(context):
-
     context.registerClass(
         usermanager.MembraneUserManager,
         permission=add_user_folders,
