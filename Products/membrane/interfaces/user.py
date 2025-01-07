@@ -11,6 +11,7 @@ called on the user object.
 Content objects may either implement these interfaces directly, or be adaptable
 to them.
 """
+
 from Products.PlonePAS.interfaces.plugins import IMutablePropertiesPlugin
 from Products.PlonePAS.interfaces.plugins import IUserManagement
 from Products.PluggableAuthService.interfaces.authservice import IPropertiedUser
