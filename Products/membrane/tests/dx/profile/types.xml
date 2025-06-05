@@ -1,13 +1,20 @@
-<?xml version="1.0"?>
-<object name="portal_types" meta_type="Plone Types Tool">
-  <object name="TestMember"
-          meta_type="Dexterity FTI" />
-  <object name="AlternativeTestMember"
-          meta_type="Dexterity FTI" />
-  <object name="TestGroup"
-          meta_type="Dexterity FTI" />
-  <object name="TestPropertyProvider"
-          meta_type="Dexterity FTI" />
-  <object name="TestAlternatePropertyProvider"
-          meta_type="Dexterity FTI" />
+<?xml version="1.0" encoding="utf-8"?>
+<object meta_type="Plone Types Tool"
+        name="portal_types"
+>
+  <object meta_type="Dexterity FTI"
+          name="TestMember"
+  />
+  <object meta_type="Dexterity FTI"
+          name="AlternativeTestMember"
+  />
+  <object meta_type="Dexterity FTI"
+          name="TestGroup"
+  />
+  <object meta_type="Dexterity FTI"
+          name="TestPropertyProvider"
+  />
+  <object meta_type="Dexterity FTI"
+          name="TestAlternatePropertyProvider"
+  />
 </object>

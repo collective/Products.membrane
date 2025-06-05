@@ -1,124 +1,201 @@
-<?xml version="1.0"?>
-<object name="membrane_tool" meta_type="MembraneTool">
+<?xml version="1.0" encoding="utf-8"?>
+<object meta_type="MembraneTool"
+        name="membrane_tool"
+>
 
-  <object name="lexicon" meta_type="ZCTextIndex Lexicon">
+  <object meta_type="ZCTextIndex Lexicon"
+          name="lexicon"
+  >
     <!--element name="Case Normalizer" group="Case Normalizer" /-->
     <!--element name=" Don't remove stop words" group="Stop Words" /-->
-    <element name="Unicode Whitespace splitter" group="Word Splitter" />
+    <element group="Word Splitter"
+             name="Unicode Whitespace splitter"
+    />
   </object>
 
-  <object name="normalizerlexicon" meta_type="ZCTextIndex Lexicon">
-    <element name="Case Normalizer" group="Case Normalizer" />
+  <object meta_type="ZCTextIndex Lexicon"
+          name="normalizerlexicon"
+  >
+    <element group="Case Normalizer"
+             name="Case Normalizer"
+    />
     <!--element name=" Don't remove stop words" group="Stop Words" /-->
-    <element name="Unicode Whitespace splitter" group="Word Splitter" />
+    <element group="Word Splitter"
+             name="Unicode Whitespace splitter"
+    />
   </object>
 
-  <object name="plone_lexicon" meta_type="ZCTextIndex Lexicon">
-    <element name="Unicode Whitespace splitter" group="Word Splitter"/>
-    <element name="Unicode Ignoring Accents Case Normalizer" group="Case Normalizer"/>
+  <object meta_type="ZCTextIndex Lexicon"
+          name="plone_lexicon"
+  >
+    <element group="Word Splitter"
+             name="Unicode Whitespace splitter"
+    />
+    <element group="Case Normalizer"
+             name="Unicode Ignoring Accents Case Normalizer"
+    />
   </object>
 
-  <index name="Title" meta_type="ZCTextIndex">
-    <indexed_attr value="Title"/>
-    <extra name="index_type" value="Cosine Measure"/>
-    <extra name="lexicon_id" value="plone_lexicon"/>
+  <index meta_type="ZCTextIndex"
+         name="Title"
+  >
+    <indexed_attr value="Title" />
+    <extra name="index_type"
+           value="Cosine Measure"
+    />
+    <extra name="lexicon_id"
+           value="plone_lexicon"
+    />
   </index>
 
-  <index name="getUserName" meta_type="ZCTextIndex">
-    <indexed_attr value="getUserName"/>
-    <extra name="index_type" value="Cosine Measure"/>
-    <extra name="lexicon_id" value="plone_lexicon"/>
+  <index meta_type="ZCTextIndex"
+         name="getUserName"
+  >
+    <indexed_attr value="getUserName" />
+    <extra name="index_type"
+           value="Cosine Measure"
+    />
+    <extra name="lexicon_id"
+           value="plone_lexicon"
+    />
   </index>
 
-  <index name="exact_getUserName" meta_type="FieldIndex">
-    <indexed_attr value="getUserName"/>
+  <index meta_type="FieldIndex"
+         name="exact_getUserName"
+  >
+    <indexed_attr value="getUserName" />
   </index>
 
-  <index name="getUserId" meta_type="ZCTextIndex">
-    <indexed_attr value="getUserId"/>
-    <extra name="index_type" value="Cosine Measure"/>
-    <extra name="lexicon_id" value="plone_lexicon"/>
+  <index meta_type="ZCTextIndex"
+         name="getUserId"
+  >
+    <indexed_attr value="getUserId" />
+    <extra name="index_type"
+           value="Cosine Measure"
+    />
+    <extra name="lexicon_id"
+           value="plone_lexicon"
+    />
   </index>
 
-  <index name="exact_getUserId" meta_type="FieldIndex">
-    <indexed_attr value="getUserId"/>
+  <index meta_type="FieldIndex"
+         name="exact_getUserId"
+  >
+    <indexed_attr value="getUserId" />
   </index>
 
-  <index name="getGroupId" meta_type="ZCTextIndex">
-    <indexed_attr value="getGroupId"/>
-    <extra name="index_type" value="Cosine Measure"/>
-    <extra name="lexicon_id" value="plone_lexicon"/>
+  <index meta_type="ZCTextIndex"
+         name="getGroupId"
+  >
+    <indexed_attr value="getGroupId" />
+    <extra name="index_type"
+           value="Cosine Measure"
+    />
+    <extra name="lexicon_id"
+           value="plone_lexicon"
+    />
   </index>
 
-  <index name="exact_getGroupId" meta_type="FieldIndex">
-    <indexed_attr value="getGroupId"/>
+  <index meta_type="FieldIndex"
+         name="exact_getGroupId"
+  >
+    <indexed_attr value="getGroupId" />
   </index>
 
-  <index name="UID" meta_type="FieldIndex">
-    <indexed_attr value="UID"/>
+  <index meta_type="FieldIndex"
+         name="UID"
+  >
+    <indexed_attr value="UID" />
   </index>
 
-  <index name="object_implements" meta_type="KeywordIndex">
-    <indexed_attr value="object_implements"/>
+  <index meta_type="KeywordIndex"
+         name="object_implements"
+  >
+    <indexed_attr value="object_implements" />
   </index>
 
-  <index name="SearchableText" meta_type="ZCTextIndex">
-    <indexed_attr value="SearchableText"/>
-    <extra name="index_type" value="Okapi BM25 Rank"/>
-    <extra name="lexicon_id" value="plone_lexicon"/>
+  <index meta_type="ZCTextIndex"
+         name="SearchableText"
+  >
+    <indexed_attr value="SearchableText" />
+    <extra name="index_type"
+           value="Okapi BM25 Rank"
+    />
+    <extra name="lexicon_id"
+           value="plone_lexicon"
+    />
   </index>
 
-  <index name="created" meta_type="DateIndex">
+  <index meta_type="DateIndex"
+         name="created"
+  >
     <property name="index_naive_time_as_local">True</property>
   </index>
 
-  <index name="modified" meta_type="DateIndex">
+  <index meta_type="DateIndex"
+         name="modified"
+  >
     <property name="index_naive_time_as_local">True</property>
   </index>
 
-  <index name="allowedRolesAndUsers" meta_type="KeywordIndex">
-    <indexed_attr value="allowedRolesAndUsers"/>
+  <index meta_type="KeywordIndex"
+         name="allowedRolesAndUsers"
+  >
+    <indexed_attr value="allowedRolesAndUsers" />
   </index>
 
-  <index name="review_state" meta_type="FieldIndex">
-    <indexed_attr value="review_state"/>
+  <index meta_type="FieldIndex"
+         name="review_state"
+  >
+    <indexed_attr value="review_state" />
   </index>
 
-  <index name="meta_type" meta_type="FieldIndex">
-    <indexed_attr value="meta_type"/>
+  <index meta_type="FieldIndex"
+         name="meta_type"
+  >
+    <indexed_attr value="meta_type" />
   </index>
 
-  <index name="getId" meta_type="FieldIndex">
-    <indexed_attr value="getId"/>
+  <index meta_type="FieldIndex"
+         name="getId"
+  >
+    <indexed_attr value="getId" />
   </index>
 
-  <index name="path" meta_type="ExtendedPathIndex"/>
+  <index meta_type="ExtendedPathIndex"
+         name="path"
+  />
 
-  <index name="portal_type" meta_type="FieldIndex">
-    <indexed_attr value="portal_type"/>
+  <index meta_type="FieldIndex"
+         name="portal_type"
+  >
+    <indexed_attr value="portal_type" />
   </index>
 
-  <index name="startendrange" meta_type="DateRangeIndex"
-         since_field="start" until_field="end"/>
+  <index meta_type="DateRangeIndex"
+         name="startendrange"
+         since_field="start"
+         until_field="end"
+  />
 
-  <column value="UID"/>
-  <column value="getUserName"/>
-  <column value="getUserId"/>
-  <column value="getGroupId"/>
-  <column value="Title"/>
-  <column value="review_state"/>
-  <column value="getIcon"/>
-  <column value="created"/>
-  <column value="effective"/>
-  <column value="expires"/>
-  <column value="modified"/>
-  <column value="CreationDate"/>
-  <column value="EffectiveDate"/>
-  <column value="ExpiresDate"/>
-  <column value="ModificationDate"/>
-  <column value="portal_type"/>
-  <column value="getId"/>
-  <column value="exact_getGroupId"/>
-  <column value="parent_path"/>
+  <column value="UID" />
+  <column value="getUserName" />
+  <column value="getUserId" />
+  <column value="getGroupId" />
+  <column value="Title" />
+  <column value="review_state" />
+  <column value="getIcon" />
+  <column value="created" />
+  <column value="effective" />
+  <column value="expires" />
+  <column value="modified" />
+  <column value="CreationDate" />
+  <column value="EffectiveDate" />
+  <column value="ExpiresDate" />
+  <column value="ModificationDate" />
+  <column value="portal_type" />
+  <column value="getId" />
+  <column value="exact_getGroupId" />
+  <column value="parent_path" />
 
 </object>

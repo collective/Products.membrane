@@ -1,5 +1,6 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <tool-setup>
-  <required tool_id="membrane_tool"
-  	    class="Products.membrane.tools.membrane.MembraneTool"/>
+  <required class="Products.membrane.tools.membrane.MembraneTool"
+            tool_id="membrane_tool"
+  />
 </tool-setup>

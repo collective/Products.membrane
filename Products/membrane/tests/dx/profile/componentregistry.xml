@@ -1,10 +1,10 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <componentregistry>
-  <adapters/>
+  <adapters />
   <utilities>
-    <utility
-       interface="Products.membrane.interfaces.IUserAdder"
-       factory="Products.membrane.tests.dx.utilities.UserAdder"
-       name="membrane_example" />
+    <utility factory="Products.membrane.tests.dx.utilities.UserAdder"
+             interface="Products.membrane.interfaces.IUserAdder"
+             name="membrane_example"
+    />
   </utilities>
 </componentregistry>
