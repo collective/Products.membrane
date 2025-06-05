@@ -33,15 +33,28 @@ policy, or more exotic setups in corporate intranets. This means that to get
 the default Plone behaviour you will need something else in addition to
 membrane.
 
-Requirements
-============
+Compatibility matrix
+====================
 
-Since version 7.0: Python3.8 or newer.
-Since version 6.0: Plone 5.2 or newer, Python3 only. Support for Archetypes was removed.
-Since version 5.0: Plone 5.2.
-Since version 4.0: Plone 5.1.
-Version 3.0: Plone 4.3 or 5.0.  We only test with Python 2.7.
-For older Plone versions, please use Products.membrane branch 2.1.x.
+You should choose the proper version of membrane for your Plone and Python
+version based on the following compatibility matrix.
+
++----------+----------+---------------+------------------------------------+
+| Membrane | Plone    | Python        | Notes                              |
++==========+==========+===============+====================================+
+| 7.x      | 6.0, 6.1 | 3.9 - 3.12    |                                    |
++----------+----------+---------------+------------------------------------+
+| 6.x      | 5.2, 6.0 | 3.6 - 3.11    | Support for Archetypes was removed |
++----------+----------+---------------+------------------------------------+
+| 5.x      | 5.2      | 2.7, 3.6-3.8  |                                    |
++----------+----------+---------------+------------------------------------+
+| 4.x      | 5.1      | 2.7           |                                    |
++----------+----------+---------------+------------------------------------+
+| 3.x      | 4.3, 5.0 | 2.7           |                                    |
++----------+----------+---------------+------------------------------------+
+| 2.x      | <= 4.3   | 2.4, 2.6, 2.7 |                                    |
++----------+----------+---------------+------------------------------------+
+
 
 WARNING!!
 =========
