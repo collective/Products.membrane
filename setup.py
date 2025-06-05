@@ -24,12 +24,12 @@ setup(
     python_requires=">=3.9",
     install_requires=[
         "setuptools",
-        "plone.indexer",
-        "Products.CMFPlone>=5.2rc1",
-        "Products.PlonePAS>=5.0.1",
+        "Products.CMFPlone",
     ],
     extras_require={
-        "test": ["plone.app.testing"],
+        "test": [
+            "plone.app.testing",
+        ],
     },
     classifiers=[
         "Development Status :: 5 - Production/Stable",
