@@ -70,10 +70,12 @@ repos:
     hooks:
     -   id: check-python-versions
         args: ['--only', 'setup.py,pyproject.toml']
--   repo: https://github.com/collective/i18ndude
-    rev: "6.2.1"
-    hooks:
-    -   id: i18ndude
+
+## FIXME: reenable when there is will to fix the errors
+#-   repo: https://github.com/collective/i18ndude
+#    rev: "6.2.1"
+#    hooks:
+#    -   id: i18ndude
 
 
 ##
