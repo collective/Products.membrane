@@ -124,7 +124,7 @@ class MembraneGroupManager(BasePlugin, Cacheable):
         exact_match=False,
         sort_by=None,
         max_results=None,
-        **kw
+        **kw,
     ):
         """
         See IGroupEnumerationPlugin.

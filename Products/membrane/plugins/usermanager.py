@@ -96,7 +96,7 @@ class MembraneUserManager(BasePlugin, Cacheable):
         exact_match=False,
         sort_by=None,
         max_results=None,
-        **kw
+        **kw,
     ):
         """See IUserEnumerationPlugin."""
         user_info = []
