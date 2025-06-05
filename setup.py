@@ -21,6 +21,7 @@ setup(
     include_package_data=True,
     platforms="Any",
     zip_safe=False,
+    python_requires=">=3.9",
     install_requires=[
         "setuptools",
         "plone.indexer",
@@ -31,6 +32,7 @@ setup(
         "test": ["plone.app.testing"],
     },
     classifiers=[
+        "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
         "Framework :: Plone",
         "Framework :: Plone :: Addon",
