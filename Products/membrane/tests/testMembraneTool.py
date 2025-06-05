@@ -114,6 +114,10 @@ class TestMembraneTool(base.MembraneTestCase):
     def testManageMembraneTypes(self):
         view = self.mbtool.restrictedTraverse("manage_membranetypes")
         html = view()
+
+        # normalize the html for testing across different Plone versions
+        html = html.replace("<option >", "<option>")
+
         self.assertIn("Membrane types", html)
         self.assertIn("User Adder utility", html)
 
@@ -124,6 +128,11 @@ class TestMembraneTool(base.MembraneTestCase):
         view.request.set("membrane_types", ["Document", "Folder"])
         view.request.set("submitted", "1")
         html = view()
+
+        # normalize the html for testing across different Plone versions
+        html = html.replace("<option >", "<option>").replace(
+            '<option selected="selected" >', '<option selected="selected">'
+        )
 
         self.assertIn('<option selected="selected">Document</option>', html)
         self.assertIn("<option>Event</option>", html)
