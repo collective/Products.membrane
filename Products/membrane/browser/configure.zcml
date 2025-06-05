@@ -1,10 +1,14 @@
-<configure xmlns="http://namespaces.zope.org/zope"
-           xmlns:browser="http://namespaces.zope.org/browser">
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    >
 
-  <browser:page for="..interfaces.IMembraneTool"
-                name="manage_membranetypes"
-                class=".tool_zmi_views.MembraneTypesView"
-                permission="membrane.ManageUsers"
-                template="membrane_types.pt" />
+  <browser:page
+      name="manage_membranetypes"
+      for="..interfaces.IMembraneTool"
+      class=".tool_zmi_views.MembraneTypesView"
+      template="membrane_types.pt"
+      permission="membrane.ManageUsers"
+      />
 
 </configure>

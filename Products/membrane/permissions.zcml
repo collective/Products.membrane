@@ -1,7 +1,11 @@
-<configure xmlns="http://namespaces.zope.org/zope"
-           i18n_domain="membrane">
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="membrane"
+    >
 
-  <permission id="membrane.ManageUsers"
-              title="Manage users" />
+  <permission
+      id="membrane.ManageUsers"
+      title="Manage users"
+      />
 
 </configure>
