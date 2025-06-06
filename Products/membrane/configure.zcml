@@ -11,6 +11,12 @@
       package="Products.GenericSetup"
       file="meta.zcml"
       />
+
+  <five:registerPackage
+      package="."
+      initialize=".initialize"
+      />
+
   <include file="permissions.zcml" />
   <include package=".interfaces" />
   <include package=".browser" />
