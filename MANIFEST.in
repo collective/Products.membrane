@@ -4,3 +4,6 @@ graft docs
 graft Products
 include *.rst
 include *.txt
+exclude .coveragerc
+exclude *.cfg
+prune news

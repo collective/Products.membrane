@@ -5,13 +5,13 @@ from plone.app.testing import TEST_USER_NAME
 from Products.CMFPlone.utils import _createObjectByType
 from Products.membrane.testing import addUser
 from Products.membrane.testing import MEMBRANE_ADD_USER_INTEGRATION_TESTING
-from Products.membrane.testing import MEMBRANE_PROFILES_INTEGRATION_TESTING
+from Products.membrane.testing import MEMBRANE_INTEGRATION_TESTING
 
 import unittest
 
 
 class MembraneTestCase(unittest.TestCase):
-    layer = MEMBRANE_PROFILES_INTEGRATION_TESTING
+    layer = MEMBRANE_INTEGRATION_TESTING
 
     def setUp(self):
         self.portal = self.layer["portal"]

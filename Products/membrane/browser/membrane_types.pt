@@ -1,54 +1,77 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-  lang="en"
-  i18n:domain="membrane">
-<body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      lang="en"
+      xml:lang="en"
+      i18n:domain="membrane"
+>
+  <body>
 
-<h1 tal:replace="structure here/manage_page_header">Header</h1>
+    <h1 tal:replace="structure here/manage_page_header">Header</h1>
 
-<span tal:replace="structure here/manage_tabs" />
-<main class="container-fluid">
-<h2 i18n:translate="">MembraneTool configuration</h2>
+    <span tal:replace="structure here/manage_tabs"></span>
+    <main class="container-fluid">
+      <h2 i18n:translate="">MembraneTool configuration</h2>
 
-  <div class="form-group row">
+      <div class="form-group row">
 
-    <form action=""
-          method="POST"
-          class="zmi-dtml zmi-edit"
-          tal:attributes="action request/ACTUAL_URL">
+        <form class="zmi-dtml zmi-edit"
+              action=""
+              method="POST"
+              tal:attributes="
+                action request/ACTUAL_URL;
+              "
+        >
 
-      <input type="hidden" name="submitted" value="1" />
+          <input name="submitted"
+                 type="hidden"
+                 value="1"
+          />
 
-      <div class="input-group" >
+          <div class="input-group">
 
-        <label for="membrane_types">Membrane types:</label>
-        <select name="membrane_types:list"
-                id="membrane_types"
-                multiple="multiple"
-                size="10"
-                tal:define="membrane_types here/listMembraneTypes">
-          <option tal:repeat="portal_type here/portal_types/listContentTypes"
-                  tal:attributes="selected python:portal_type in membrane_types"
-                  tal:content="portal_type" />
-        </select>
+            <label for="membrane_types">Membrane types:</label>
+            <select id="membrane_types"
+                    multiple="multiple"
+                    name="membrane_types:list"
+                    size="10"
+                    tal:define="
+                      membrane_types here/listMembraneTypes;
+                    "
+            >
+              <option tal:repeat="portal_type here/portal_types/listContentTypes"
+                      tal:content="portal_type"
+                      tal:attributes="
+                        selected python:portal_type in membrane_types;
+                      "
+              ></option>
+            </select>
+          </div>
+          <div class="input-group">
+
+            <label for="user_adder">User Adder utility:</label>
+
+            <select id="user_adder"
+                    name="user_adder"
+                    tal:define="
+                      available_adders view/availableAdders;
+                    "
+            >
+              <option tal:repeat="adder available_adders"
+                      tal:content="adder"
+                      tal:attributes="
+                        selected python:here.user_adder==adder;
+                      "
+              ></option>
+            </select>
+          </div>
+          <br /><br />
+          <div class="zmi-controls">
+            <input class="btn btn-outline-secondary"
+                   type="submit"
+                   value="submit"
+            />
+          </div>
+        </form>
       </div>
-      <div class="input-group" >
-
-        <label for="user_adder">User Adder utility:</label>
-
-        <select name="user_adder"
-                id="user_adder"
-                tal:define="available_adders view/availableAdders">
-          <option tal:repeat="adder available_adders"
-                  tal:attributes="selected python:here.user_adder==adder"
-                  tal:content="adder" />
-        </select>
-      </div>
-      <br /><br />
-      <div class="zmi-controls">
-        <input  class="btn btn-outline-secondary" type="submit" value="submit" />
-      </div>
-    </form>
-  </div>
-</main>
-</body>
+    </main>
+  </body>
 </html>

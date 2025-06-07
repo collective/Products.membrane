@@ -46,7 +46,7 @@ class IMembraneTool(Interface):
         casing of the same userid.  Facilitates consistent behaviour
         in sites that allow case-insensitive logins.
         """
-        # XXX: user ids are essentialy binary strings, so this does not
+        # XXX: user ids are essentially binary strings, so this does not
         # make any sense. Should this be related to login names??
 
 

@@ -5,9 +5,9 @@
     >
 
   <genericsetup:upgradeSteps
-      destination="2.0"
       profile="Products.membrane:default"
       source="1.2"
+      destination="2.0"
       >
 
     <genericsetup:upgradeStep

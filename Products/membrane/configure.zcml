@@ -1,36 +1,52 @@
-<configure xmlns="http://namespaces.zope.org/zope"
-           xmlns:five="http://namespaces.zope.org/five"
-           xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-           xmlns:zcml="http://namespaces.zope.org/zcml"
-           xmlns:i18n="http://namespaces.zope.org/i18n"
-           i18n_domain="membrane">
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="membrane"
+    >
 
-  <include package="Products.GenericSetup" file="meta.zcml" />
+  <include
+      package="Products.GenericSetup"
+      file="meta.zcml"
+      />
+
+  <five:registerPackage
+      package="."
+      initialize=".initialize"
+      />
+
   <include file="permissions.zcml" />
   <include package=".interfaces" />
   <include package=".browser" />
   <include package=".exportimport" />
   <include package=".upgrades" />
 
-  <adapter factory=".catalog.object_implements"
-           name="object_implements"
-           />
+  <adapter
+      factory=".catalog.object_implements"
+      name="object_implements"
+      />
 
-  <adapter factory=".catalog.getUserName"
-           name="getUserName"
-           />
+  <adapter
+      factory=".catalog.getUserName"
+      name="getUserName"
+      />
 
-  <adapter factory=".catalog.getUserId"
-           name="getUserId"
-           />
+  <adapter
+      factory=".catalog.getUserId"
+      name="getUserId"
+      />
 
-  <adapter factory=".catalog.getGroupId"
-           name="getGroupId"
-           />
+  <adapter
+      factory=".catalog.getGroupId"
+      name="getGroupId"
+      />
 
-  <adapter factory=".catalog.getParentPath"
-           name="getParentPath"
-           />
+  <adapter
+      factory=".catalog.getParentPath"
+      name="getParentPath"
+      />
 
   <utility
       factory=".catalog.MembraneCatalogProcessor"
@@ -42,18 +58,18 @@
       name="default"
       title="Membrane: content-based users and groups"
       description=""
-      directory="profiles/default"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      directory="profiles/default"
       />
 
   <genericsetup:registerProfile
       name="uninstall"
       title="Membrane: content-based users and groups (uninstall)"
       description=""
-      directory="profiles/uninstall"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      directory="profiles/uninstall"
       post_handler=".setuphandlers.uninstall"
       />
 

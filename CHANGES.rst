@@ -377,7 +377,7 @@ Bug fixes:
   removes the dependency on Archetypes.
   [wichert]
 
-- Use `plone.indexer`_ to manager indexable attribuets.
+- Use `plone.indexer`_ to manager indexable attributes.
   [wichert]
 
 - Update GenericSetup import handler to gracefully handle sites without a

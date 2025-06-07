@@ -11,8 +11,8 @@
 # All configuration values have a default value; values that are commented
 # out serve to show the default value.
 
-import os
-import sys
+import os  # noqa: F401
+import sys  # noqa: F401
 
 
 # If your extensions are in another directory, add it here. If the
