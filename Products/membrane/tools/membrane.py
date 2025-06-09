@@ -1,5 +1,6 @@
 from AccessControl import ClassSecurityInfo
 from AccessControl.class_init import InitializeClass
+from AccessControl.Permissions import manage_zcatalog_entries as ManageZCatalogEntries
 from Acquisition import aq_base
 from persistent.list import PersistentList
 from Products.CMFCore.permissions import ManagePortal
@@ -10,7 +11,9 @@ from Products.membrane.config import TOOLNAME
 from Products.membrane.events import MembraneTypeRegisteredEvent
 from Products.membrane.events import MembraneTypeUnregisteredEvent
 from Products.membrane.interfaces import user as user_ifaces
+from Products.membrane.interfaces.group import IGroup
 from Products.membrane.interfaces.membrane_tool import IMembraneTool
+from Products.membrane.interfaces.user import IMembraneUserObject
 from Products.ZCatalog.ZCatalog import ZCatalog
 from zope.annotation.interfaces import IAttributeAnnotatable
 from zope.event import notify
@@ -50,6 +53,20 @@ class MembraneTool(BaseTool):
     def __init__(self, *args, **kwargs):
         ZCatalog.__init__(self, self.getId())
         self.membrane_types = PersistentList()
+
+    @security.protected(ManageZCatalogEntries)
+    def catalog_object(
+        self, obj, uid=None, idxs=None, update_metadata=1, pghandler=None
+    ):
+        if IMembraneUserObject(obj, None) is None and IGroup(obj, None) is None:
+            return
+        return super().catalog_object(
+            obj,
+            uid=uid,
+            idxs=idxs,
+            update_metadata=update_metadata,
+            pghandler=pghandler,
+        )
 
     def reindexObject(self, *args, **kwargs):
         return super()._reindexObject(*args, **kwargs)
