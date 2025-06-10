@@ -1,0 +1,1 @@
+Clearing and rebuilding the membrane catalog caused non membrane objects to be included in the catalog
