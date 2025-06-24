@@ -1,3 +1,19 @@
+7.0.0 (2025-06-24)
+------------------
+
+Bug fixes:
+
+
+- Clearing and rebuilding the membrane catalog caused non membrane objects to be included in the catalog (#47)
+
+
+Internal:
+
+
+- Update configuration files.
+  [plone devs]
+
+
 Changelog
 =========
 
