@@ -22,13 +22,22 @@ setup(
     zip_safe=False,
     python_requires=">=3.9",
     install_requires=[
-        "setuptools",
+        "plone.indexer",
+        "Products.CMFCore",
         "Products.CMFPlone",
+        "Products.PlonePAS",
+        "Products.PluggableAuthService",
+        "Products.ZCatalog",
+        "Zope",
     ],
     extras_require={
         "test": [
             "plone.app.testing",
             "plone.app.contenttypes[test]",
+            "plone.autoform",
+            "plone.dexterity",
+            "plone.supermodel",
+            "plone.testing",
         ],
     },
     classifiers=[
