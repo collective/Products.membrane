@@ -4,3 +4,8 @@
 [meta]
 template = "default"
 commit-id = "2.10.0"
+
+[pyproject]
+dependencies_mappings = [
+    "'Products.ZCatalog' = ['Products.ZCTextIndex']",
+]
