@@ -17,7 +17,6 @@ from Products.PluggableAuthService.interfaces.propertysheets import (  # noqa
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from zope.interface import implementer
 
-
 manage_addMembranePropertyManagerForm = PageTemplateFile(
     "../www/MembranePropertyManagerForm",
     globals(),

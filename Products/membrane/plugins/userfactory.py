@@ -9,7 +9,6 @@ from Products.PlonePAS.plugins.ufactory import PloneUser
 from Products.PlonePAS.plugins.ufactory import PloneUserFactory
 from zope.interface import implementer
 
-
 manage_addMembraneUserFactoryForm = PageTemplateFile(
     "../www/MembraneUserFactoryForm",
     globals(),

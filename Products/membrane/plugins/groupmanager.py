@@ -30,7 +30,6 @@ from zope.interface import implementer
 
 import logging
 
-
 manage_addMembraneGroupManagerForm = PageTemplateFile(
     "../www/MembraneGroupManagerForm",
     globals(),

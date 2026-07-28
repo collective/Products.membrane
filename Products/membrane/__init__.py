@@ -8,7 +8,6 @@ from Products.membrane.plugins import userfactory
 from Products.membrane.plugins import usermanager
 from Products.PluggableAuthService import registerMultiPlugin
 
-
 registerMultiPlugin(usermanager.MembraneUserManager.meta_type)
 registerMultiPlugin(groupmanager.MembraneGroupManager.meta_type)
 registerMultiPlugin(propertymanager.MembranePropertyManager.meta_type)

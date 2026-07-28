@@ -6,7 +6,6 @@ from Products.CMFPlone.UnicodeSplitter.splitter import Splitter
 from Products.ZCTextIndex.interfaces import IZCTextIndex
 from Products.ZCTextIndex.ZCTextIndex import PLexicon
 
-
 logger = getLogger(__name__)
 
 
