@@ -5,6 +5,9 @@
 template = "default"
 commit-id = "2.10.0"
 
+[tox]
+test_matrix = {"6.2" = ["*"]}
+
 [pyproject]
 dependencies_mappings = [
     "'Products.ZCatalog' = ['Products.ZCTextIndex']",
