@@ -2,7 +2,7 @@ from pathlib import Path
 from setuptools import find_packages
 from setuptools import setup
 
-version = "7.0.1.dev0"
+version = "8.0.0.dev0"
 readme = (Path(".") / "README.rst").read_text()
 history = (Path(".") / "CHANGES.rst").read_text()
 
