@@ -1,22 +1,25 @@
+from pathlib import Path
 from setuptools import find_packages
 from setuptools import setup
 
 version = "7.0.1.dev0"
-readme = open("README.rst").read()
-history = open("CHANGES.rst").read()
+readme = (Path(".") / "README.rst").read_text()
+history = (Path(".") / "CHANGES.rst").read_text()
 
 setup(
     name="Products.membrane",
     version=version,
     description="Content-based users and groups for Plone",
     long_description=readme + "\n" + history,
+    long_description_content_type="text/x-rst",
     keywords="plone membrane member content remember",
     author="Rob Miller",
     author_email="robm@openplans.org",
     url="https://github.com/collective/Products.membrane",
     license="GPL",
-    packages=find_packages(exclude=["ez_setup"]),
+    packages=find_packages("src"),
     namespace_packages=["Products"],
+    package_dir={"": "src"},
     include_package_data=True,
     platforms="Any",
     zip_safe=False,
