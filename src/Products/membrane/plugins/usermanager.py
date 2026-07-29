@@ -25,7 +25,6 @@ from zope.interface import implementer
 
 import copy
 
-
 manage_addMembraneUserManagerForm = PageTemplateFile(
     "../www/MembraneUserManagerForm",
     globals(),

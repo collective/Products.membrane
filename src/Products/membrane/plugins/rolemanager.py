@@ -11,7 +11,6 @@ from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from zope.interface import implementer
 
-
 manage_addMembraneRoleManagerForm = PageTemplateFile(
     "../www/MembraneRoleManagerForm",
     globals(),
