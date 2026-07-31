@@ -31,13 +31,6 @@ Internal:
 - Update configuration files.
   [plone devs]
 
-
-Changelog
-=========
-
-7.0.0 (unreleased)
-------------------
-
 - Remove support for Python 3.6 and 3.7.
   Added support for Python 3.12.
   [ale-rt]
