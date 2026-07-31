@@ -1,3 +1,21 @@
+8.0.0 (2026-07-31)
+------------------
+
+Breaking changes:
+
+
+- Replace ``pkg_resources`` namespace with PEP 420 native namespace.
+  Support only Plone 6.2 and Python 3.10+. (#3928)
+
+
+Internal:
+
+
+- Move distribution to src layout [gforcada]
+- Update configuration files.
+  [plone devs]
+
+
 7.0.0 (2025-06-24)
 ------------------
 
