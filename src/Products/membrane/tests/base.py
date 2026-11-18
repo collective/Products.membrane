@@ -2,7 +2,7 @@ from plone.app.testing import login
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
-from Products.CMFPlone.utils import _createObjectByType
+from plone.base.utils import unrestricted_construct_instance
 from Products.membrane.testing import addUser
 from Products.membrane.testing import MEMBRANE_ADD_USER_INTEGRATION_TESTING
 from Products.membrane.testing import MEMBRANE_INTEGRATION_TESTING
@@ -19,7 +19,7 @@ class MembraneTestCase(unittest.TestCase):
     def addGroup(self, obj=None):
         if obj is None:
             obj = self.portal
-        self.group = _createObjectByType("TestGroup", obj, "testgroup")
+        self.group = unrestricted_construct_instance("TestGroup", obj, "testgroup")
         self.group.setTitle("Test group")
         self.group.setDescription("A test group")
         self.group.reindexObject()

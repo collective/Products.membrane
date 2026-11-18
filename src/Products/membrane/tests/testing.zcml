@@ -11,7 +11,7 @@
       title="Testing extension profile for Membrane"
       description=""
       provides="Products.GenericSetup.interfaces.EXTENSION"
-      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      for="plone.base.interfaces.IPloneSiteRoot"
       directory="dx/profile"
       />
 
