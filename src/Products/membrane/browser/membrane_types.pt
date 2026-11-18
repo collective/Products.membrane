@@ -28,7 +28,9 @@
 
           <div class="input-group">
 
-            <label for="membrane_types">Membrane types:</label>
+            <label for="membrane_types"
+                   i18n:translate=""
+            >Membrane types:</label>
             <select id="membrane_types"
                     multiple="multiple"
                     name="membrane_types:list"
@@ -47,7 +49,9 @@
           </div>
           <div class="input-group">
 
-            <label for="user_adder">User Adder utility:</label>
+            <label for="user_adder"
+                   i18n:translate=""
+            >User Adder utility:</label>
 
             <select id="user_adder"
                     name="user_adder"
@@ -68,6 +72,7 @@
             <input class="btn btn-outline-secondary"
                    type="submit"
                    value="submit"
+                   i18n:attributes="value"
             />
           </div>
         </form>
