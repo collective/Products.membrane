@@ -6,11 +6,16 @@
     tal:replace="structure here/manage_form_title"
 >Form Title</h2>
 
-<p class="form-help">
+<p class="form-help"
+   i18n:domain="membrane"
+   i18n:translate=""
+>
   Membrane Group Managers use AT based content objects.
 </p>
 
-<form action="addMembraneGroupManager">
+<form action="addMembraneGroupManager"
+      i18n:domain="membrane"
+>
   <table border="0"
          cellpadding="2"
          cellspacing="0"
@@ -19,7 +24,9 @@
       <td align="left"
           valign="top"
       >
-        <div class="form-label">
+        <div class="form-label"
+             i18n:translate=""
+        >
     Id
         </div>
       </td>
@@ -36,7 +43,9 @@
       <td align="left"
           valign="top"
       >
-        <div class="form-optional">
+        <div class="form-optional"
+             i18n:translate=""
+        >
     Title
         </div>
       </td>
@@ -53,7 +62,9 @@
       <td align="left"
           valign="top"
       >
-        <div class="form-optional">
+        <div class="form-optional"
+             i18n:translate=""
+        >
     Delegate user folder path
         </div>
       </td>
@@ -79,6 +90,7 @@
                  name="submit"
                  type="submit"
                  value=" Add "
+                 i18n:attributes="value"
           />
         </div>
       </td>
