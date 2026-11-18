@@ -1,3 +1,22 @@
+9.0.0 (2026-11-18)
+------------------
+
+Breaking changes:
+
+
+- Drop support for Python 3.10.
+  @ale-rt
+
+
+Internal:
+
+
+- Remove some deprecation warnings.
+  @ale-rt
+- Update configuration files.
+  [plone devs]
+
+
 8.0.0 (2026-07-31)
 ------------------
 
