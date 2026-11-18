@@ -1,6 +1,6 @@
 from OFS.SimpleItem import SimpleItem
+from plone.base.utils import unrestricted_construct_instance
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.utils import _createObjectByType
 from Products.membrane.interfaces import IUserAdder
 from zope.interface import implementer
 
@@ -16,6 +16,6 @@ class UserAdder(SimpleItem):
         Adds a Test object at the root of the Plone site.
         """
         portal = getToolByName(self, "portal_url").getPortalObject()
-        _createObjectByType(
+        unrestricted_construct_instance(
             "TestMember", portal, login, password=password, username=login
         )

@@ -1,7 +1,7 @@
 from plone.app.testing import login
 from plone.app.testing import logout
+from plone.base.utils import unrestricted_construct_instance
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.utils import _createObjectByType
 from Products.membrane import testing
 from Products.membrane.interfaces import IMembraneUserAuth
 from Products.membrane.interfaces import IMembraneUserManagement
@@ -112,12 +112,12 @@ class TestMembraneUserManagerEnumeration(base.MembraneUserTestCase):
 
     def testEnumerateUsersExactMatchCaseInsensitive(self):
         enumusers = self.portal.acl_users.pmm.enumerateUsers
-        member1 = _createObjectByType("TestMember", self.portal, "Ann")
+        member1 = unrestricted_construct_instance("TestMember", self.portal, "Ann")
         member1.setUserName("Ann")
         member1.setPassword("password")
         member1.reindexObject()
         member1_id = IMembraneUserAuth(member1).getUserId()
-        member2 = _createObjectByType("TestMember", self.portal, "ann")
+        member2 = unrestricted_construct_instance("TestMember", self.portal, "ann")
         member2.setUserName("ann")
         member2.setPassword("password")
         member2.reindexObject()
@@ -166,7 +166,7 @@ class TestMembraneUserManagerAuthentication(base.MembraneUserTestCase):
         login(self.portal, IMembraneUserAuth(self.member).getUserId())
 
     def testLoginCaseSensitive(self):
-        member2 = _createObjectByType(
+        member2 = unrestricted_construct_instance(
             "TestMember", self.portal, "TestUser"
         )  # different case
         member2.setUserName("TestUser")

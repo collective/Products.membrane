@@ -7,8 +7,8 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing.layers import IntegrationTesting
+from plone.base.utils import unrestricted_construct_instance
 from plone.testing import zope as zope_testing
-from Products.CMFPlone.utils import _createObjectByType
 from Products.membrane.config import TOOLNAME
 from Products.membrane.tests import dummy
 
@@ -83,7 +83,7 @@ MEMBRANE_TESTING_FIXTURE = MembraneTestingLayer()
 
 
 def addUser(obj, username="testuser", title="full name"):
-    member = _createObjectByType("TestMember", obj, username)
+    member = unrestricted_construct_instance("TestMember", obj, username)
     member.setUserName(username)
     member.setPassword("testpassword")
     # Title is mapped to the user property fullname using

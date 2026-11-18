@@ -1,7 +1,7 @@
 #
 # MembraneTestCase Membrane
 #
-from Products.CMFPlone.utils import _createObjectByType
+from plone.base.utils import unrestricted_construct_instance
 from Products.membrane.config import TOOLNAME
 from Products.membrane.interfaces import IMembraneUserAuth
 from Products.membrane.interfaces import IMembraneUserProperties
@@ -19,7 +19,7 @@ class MembranePropertyManagerTestBase:
 
     def _initExternalProvider(self, mbtool, portal_type):
         mbtool.registerMembraneType(portal_type)
-        self.prop_provider = _createObjectByType(
+        self.prop_provider = unrestricted_construct_instance(
             portal_type, self.portal, "test_prop_provider"
         )
 
@@ -122,7 +122,9 @@ class TestMembraneSchemataPropertyManager(
     def addUser(self, obj=None):
         if obj is None:
             obj = self.portal
-        self.member = _createObjectByType("AlternativeTestMember", obj, "testuser")
+        self.member = unrestricted_construct_instance(
+            "AlternativeTestMember", obj, "testuser"
+        )
         self.member.setUserName("testuser")
         self.member.setPassword("testpassword")
         self.member.setTitle("full name")

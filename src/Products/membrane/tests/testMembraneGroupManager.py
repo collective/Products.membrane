@@ -2,7 +2,7 @@
 # MembraneTestCase Membrane
 #
 
-from Products.CMFPlone.utils import _createObjectByType
+from plone.base.utils import unrestricted_construct_instance
 from Products.membrane.interfaces import IMembraneUserAuth
 from Products.membrane.interfaces import IMembraneUserGroups
 from Products.membrane.tests import base
@@ -28,7 +28,9 @@ class MembraneGroupManagerTestBase:
         self.addGroup(self.portal)
         self.addUser(self.group)
 
-        self.member2 = _createObjectByType("TestMember", self.portal, "testmember")
+        self.member2 = unrestricted_construct_instance(
+            "TestMember", self.portal, "testmember"
+        )
         self.member2.setUserName("testmember")
         self.member2.setPassword("testpassword")
         self.member2.setTitle("Member 2")
@@ -75,7 +77,9 @@ class TestMembraneGroupManagerSelectedGroups(
     def addUser(self, obj=None):
         if obj is None:
             obj = self.portal
-        self.member = _createObjectByType("AlternativeTestMember", obj, "testuser")
+        self.member = unrestricted_construct_instance(
+            "AlternativeTestMember", obj, "testuser"
+        )
         self.member.setUserName("testuser")
         self.member.setPassword("testpassword")
         self.member.setTitle("full name")
@@ -200,7 +204,9 @@ class TestMembraneGroupManagerEnumeration(
             exact matches for a given id
         """
         # add a new group with a similar id
-        self.newgroup = _createObjectByType("TestGroup", self.portal, "testgroup-2")
+        self.newgroup = unrestricted_construct_instance(
+            "TestGroup", self.portal, "testgroup-2"
+        )
         self.newgroup.setTitle("New Test group")
         self.newgroup.setDescription("A test group")
         self.newgroup.reindexObject()
@@ -232,7 +238,7 @@ class TestMembraneGroupIntrospection(
         groupids = self.portal.pmm.getGroupIds()
         self.assertEqual(groupids, (self.group.getGroupId(),))
 
-        group2 = _createObjectByType("TestGroup", self.portal, "testgroup2")
+        group2 = unrestricted_construct_instance("TestGroup", self.portal, "testgroup2")
         group2.setTitle("Test group 2")
         group2.reindexObject()
         groupids = self.portal.pmm.getGroupIds()

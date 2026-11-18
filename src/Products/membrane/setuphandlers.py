@@ -1,6 +1,6 @@
 from io import StringIO
+from plone.base.interfaces import INonInstallable
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces import INonInstallable
 from Products.membrane.config import TOOLNAME
 from Products.membrane.interfaces import IUserAdder
 from Products.PlonePAS.setuphandlers import activatePluginInterfaces

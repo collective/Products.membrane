@@ -21,6 +21,7 @@ setup(
     zip_safe=False,
     python_requires=">=3.11",
     install_requires=[
+        "plone.base",
         "plone.indexer",
         "Products.CMFCore",
         "Products.CMFPlone",
